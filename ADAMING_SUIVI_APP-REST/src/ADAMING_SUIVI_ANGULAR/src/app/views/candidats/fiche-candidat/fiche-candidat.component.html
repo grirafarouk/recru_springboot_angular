@@ -1,0 +1,147 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4">
+              <h5>Information</h5>
+            </div>
+            <div class="col-2"><label>Nom: </label><span class="field">{{currentCandidat.nom}}</span></div>
+            <div class="col-2"><label>Prénom: </label><span class="field">{{currentCandidat.prenom}}</span></div>
+            <div class="col-2"><label>Age: </label><span class="field">{{currentCandidat.age}}</span></div>
+            <div class="col-2"><label>Tél: </label><span class="field">{{currentCandidat.numeroTel | mask:
+                '00-00-00-00-00'}}</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-6">
+              <div *ngIf="pdfSource!=undefined">
+                <object style="margin-top: 20px" [data]="pdfSource" height="450px" width="100%">
+                  <param name="view" value="fitH" />
+
+                </object>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="civilite">Civilité</label>
+                    <select  required #civilite="ngModel" name="civilite"
+                      [(ngModel)]="currentCandidat.civilite" class="form-control" id="civilite">
+                      <option value="M">M</option>
+                      <option value="Mme">Mme</option>
+                    </select> </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" class="form-control" name="nom" [(ngModel)]="currentCandidat.nom" id="nom">
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="form-col-form-label" for="prenom">Prenom</label>
+                    <input type="text" class="form-control" name="prenom" [(ngModel)]="currentCandidat.prenom" id="prenom">
+
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" [(ngModel)]="currentCandidat.email" id="email">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <input type="text" class="form-control" mask='00-00-00-00-00' name="telephone" [(ngModel)]="currentCandidat.numeroTel"
+                      id="telephone">
+
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="origineCV">Origine CV</label>
+                    <select [(ngModel)]="currentCandidat.origine.id" name="origineCV" 
+                      class="form-control" id="origineCV">
+                      <option value="undefined">-selectionner-</option>
+                      <option *ngFor="let origine of origines" [value]="origine.id">{{origine.libelle}}</option>
+                    </select>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="profil">Profil </label>
+                    <select [(ngModel)]="currentCandidat.technologie.id" name="technologie" 
+                      class="form-control" id="profil">
+                      <option value="undefined">-selectionner-</option>
+                      <option *ngFor="let tech of technologies" [value]="tech.id">{{tech.libelle}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="codePostal">Code postal</label>
+                    <ng-select aria-required=""   id="codePostal" [items]="codePostals"
+                      (search)="codePostaleOnSearch($event)" [ngModel]="currentCandidat?.codePostal" (ngModelChange)="currentCandidat.codePostal = $event"
+                      name="codePostal">
+                      <ng-option *ngFor="let codeP of codePostals"  [value]="codeP">{{codeP.code}}
+                        {{codeP.ville}}</ng-option>
+
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Region</label>
+                    <p class="form-control-static">{{currentCandidat?.codePostal?.region}}</p>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Ville</label>
+                    <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+
+        <div class="row align-items-center">
+          <div class="col-md-4 col-form-label">
+
+          </div>
+          <div class="col-2">
+            <button type="button" [disabled]="file==undefined" (click)="downloadPDF()" class="btn btn-block btn-primary">Télécharger Cv</button>
+          </div>
+          <div class="col-2">
+            <button type="button" class="btn btn-block btn-primary">Evaluer Candidat</button>
+          </div>
+          <div class="col-2">
+            <button type="button" class="btn btn-block btn-primary">Sauvegarder</button>
+          </div>
+          <div class="col-2">
+            <button type="submit" class="btn btn-block btn-primary">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

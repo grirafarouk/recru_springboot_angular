@@ -1,0 +1,9 @@
+.competences {
+    border: 2px solid blue;
+    border-radius: 12px;
+    padding: 0px;
+}
+label{
+    color: rgb(84, 110, 122);
+    font-size: 15px
+}

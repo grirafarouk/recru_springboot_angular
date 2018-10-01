@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.fr.adaming</groupId>
+	<artifactId>ADAMING_SUIVI_APP</artifactId>
+	<version>${snapshot-version}</version>
+	<packaging>pom</packaging>
+
+	<name>ADAMING_SUIVI_APP</name>
+	<url>http://www.adaming.fr</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<snapshot-version>1.4.26</snapshot-version>
+	<!-- 	<spring.version>3.1.1.RELEASE</spring.version> -->
+		<spring.version>4.2.1.RELEASE</spring.version>
+		<guava.version>14.0.1</guava.version>
+	</properties>
+
+	<build>
+
+ 
+   
+  
+
+		<plugins>
+		 <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+    </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+			<plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.6</version>
+       <!--  <configuration>
+         <filters>
+            <filter>src/main/resources/MessageResource.properties</filter>
+          </filters>
+          
+          <webResources>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<filtering>true</filtering>
+					<includes>
+						<include>**/error.xhtml</include>
+						<include>**/errorSessionExpiree.xhtml</include>
+						
+					</includes>
+			</resource>
+		</webResources>
+		
+        </configuration> -->
+      </plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<modules>
+		<module>ADAMING_SUIVI_APP-Common</module>
+		<module>ADAMING_SUIVI_APP-Persistence</module>
+		<module>ADAMING_SUIVI_APP-Business</module>
+		<module>ADAMING_SUIVI_APP-REST</module>
+		<!-- <module>ADAMING_SUIVI_APP-Presentation</module>
+		<module>ADAMING_SUIVI_APP-Web</module> -->
+	</modules>
+	
+	
+</project>

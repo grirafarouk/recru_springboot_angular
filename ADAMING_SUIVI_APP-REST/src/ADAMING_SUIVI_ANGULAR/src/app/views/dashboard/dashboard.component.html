@@ -1,0 +1,134 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card" style="height: 95% !important;">
+          <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">CV en attente de traitement</label>
+          </div>
+          <div class="card-body" >
+              <canvas baseChart class="chart"
+              [data]="pieChartData"
+              [labels]="pieChartLabels"
+              [colors]="ChartColors"
+              [chartType]="pieChartType"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Nombre de CV à relancer par chargé de recrutement</label>
+            </div>
+          <div class="card-body">
+            <table class="table table-bordered table-striped" >
+              <thead>
+                <tr>
+                  <th>Chargé recrutement</th>
+                  <th>Nombre CV à relancer</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let charge of ReportingChargeRelance| paginate: { itemsPerPage:5, currentPage: p }">
+                  <td>{{charge.nomCharge}}</td>
+                  <td>{{charge.nombreCvRelance}}</td>
+                  <td style="width: 10%">     
+                    <a class="btn btn-default" [routerLink]="['/ficheCVRelance', charge.idUser]">
+                          <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
+                        </a>         
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="panel-footer panel-default pager">
+              <pagination-controls (pageChange)="p =$event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Sessions de formation</label>
+          </div>
+          <div class="card-body" >
+            <table class="table table-bordered table-striped table-sm " style="font-size: 0.6rem !important;">
+              <thead>
+                <tr>
+                  <th>Nom de la formation</th>
+                  <th>Lieu de la formation</th>
+                  <th>Type de formation</th>
+                  <th>Date Démarrage</th>
+                  <th>Candidat validé par C.R.</th>
+                  <th>Candidat ayant accepté la formation</th>
+                  <th>Nombre de place</th>
+                  <th>Taux d'acceptation</th>
+                  <th>Taux de remplissage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let session of Sessionreporting| paginate: { itemsPerPage:5, currentPage: p }">
+                  <td >{{session.nom_Formation}}</td>
+                  <td>{{session.lieu_Formation}}</td>
+                  <td>{{session.type_Formation}}</td>
+                  <td>{{session.date_demarrage}}</td>
+                  <td>{{session.candidat_affectation}}</td>
+                  <td>{{session.candidat_acceptation}}</td>
+                  <td>{{session.nombre_place}}</td>
+                  <td>{{session.taux_acceptation}}</td>
+                  <td>{{session.taux_remplissage}}</td>
+                  <td style="width: 10%">     
+                    <a class="btn btn-default" [routerLink]="['/ficheCandidatSession', session.idSession]">
+                          <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
+                        </a>         
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="panel-footer panel-default pager">
+              <pagination-controls (pageChange)="p =$event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header">
+              <label style="font-weight:bold;color:#546E7A;">Nombre de CV intégrés au niveau de l'application
+                </label>
+          </div>
+          <div class="card-body">
+              <table class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>Sourceur</th>
+                      <th>Mainframe</th>
+                      <th>Mainframe++</th>
+                      <th>NTIC</th>
+                      <th>Autres technologies</th>
+                      <th>TOTAL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let technologie of Sourceurtechnologies| paginate: { itemsPerPage:3, currentPage: p }">
+                      <td>{{technologie.nom}}</td>
+                      <td>{{technologie.nbrCvMainframe}}</td>
+                      <td>{{technologie.nbrCvMainframePlus}}</td>
+                      <td>{{technologie.nbrCvNtic}}</td>
+                      <td>{{technologie.autreTechnologie}}</td>
+                      <td>{{technologie.total}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="panel-footer panel-default pager">
+                    <pagination-controls (pageChange)="p =$event"></pagination-controls>
+                  </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

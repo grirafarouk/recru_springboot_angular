@@ -1,0 +1,39 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <label style="font-weight:bold;color:#546E7A;">Liste Candidats
+      </label>
+      </div>
+    <div class="card-body">
+      <table class="table table-bordered table-striped" >
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Numéro de Téléphone	</th>
+            <th>Email</th>
+            <th>Date relance</th>
+            <th>Technologie</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let can of CVRelance| paginate: { itemsPerPage:10, currentPage: p }">
+            <td>{{can.nom}}</td>
+            <td>{{can.prenom}}</td>
+            <td>{{can.numero}}</td>
+            <td>{{can.email}}</td>
+            <td>{{can.date}}</td>
+            <td>{{can.technologie}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer panel-default pager">
+        <pagination-controls (pageChange)="p =$event"></pagination-controls>
+      </div>
+      <button type="button" [routerLink]="['/dashboard']" class="btn btn-sm btn-default" style="float:right">
+        Retour
+      </button>
+    </div>
+  </div>
+  </div>
+  
