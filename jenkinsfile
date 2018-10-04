@@ -156,7 +156,7 @@ pipeline {
                 echo sh(script: 'env|sort', returnStdout: true)
                 if (env.BUILD_STAGE == 1) {
                     env.MAIL_BODY = env.MAIL_BODY+" Compilation (mvn compile) s'est bien déroulé.\n"
-                    } else if (env.gitlabBranch.equals("Developpement")) {
+                    if (env.gitlabBranch.equals("Developpement")) {
                         if (env.TEST_STAGE == -1) {
                             env.MAIL_BODY = env.MAIL_BODY+" mvn test KO.\n"
                         } else if (env.TEST_STAGE == 1) {
@@ -174,7 +174,6 @@ pipeline {
                         } else {
                             env.MAIL_BODY = env.MAIL_BODY+" Sonar scan KO.\n"
                         }
-                        
                     } 
                 }else if (env.BUILD_STAGE == -1) {
                     env.MAIL_BODY = env.MAIL_BODY+"  Compilation (mvn compile) KO.\n"
