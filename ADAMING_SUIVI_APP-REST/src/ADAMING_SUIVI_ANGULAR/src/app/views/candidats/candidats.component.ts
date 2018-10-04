@@ -313,11 +313,12 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     if (!error) {
       this.candidate.dateInscription = new Date();
       this.candidate.statut = Status[Status.VIDE];
-      this.candidatsService.create(this.candidate, this.currentFile.file.type).subscribe((data: Candidate) => {
+      this.candidate.entretien=null
+      this.candidate.motif=null
+      this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")
-          callback(data.id)
-        
+          callback(data.id) 
         } else {
           this.notifierService.notify("error", "Erreur l'ors l'ajour")
         }

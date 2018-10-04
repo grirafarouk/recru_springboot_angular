@@ -291,6 +291,7 @@ export class FicheCandidatComponent implements OnInit {
     }
     else {
       this.currentCandidat.entretien.date = undefined
+      this.timeEntretien = undefined
     }
   }
 
