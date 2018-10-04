@@ -1,7 +1,7 @@
 pipeline {   
     agent any
     tools {
-        maven "M2_HOME"
+        maven "MAVEN_HOME"
         jdk "JAVA_HOME"
     }
     stages {
@@ -27,7 +27,7 @@ pipeline {
         }
         stage ('Build') {
             steps {
-                withMaven( maven: "MAVEN_HOME", mavenLocalRepo: '.repository') {
+                script {
                     sh 'mvn -U clean package'
                 }
             }
