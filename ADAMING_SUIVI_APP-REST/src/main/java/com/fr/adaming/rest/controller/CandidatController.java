@@ -79,8 +79,8 @@ public class CandidatController {
 
 	private V_ListeCandidatsDto v_ListeCandidatsDto;
 	private V_ReportingCandidatDto v_ReportingCandidatDto;
-	private V_ListeCandidatsMapper v_ListeCandidatsMapper ;//= Mappers.getMapper(V_ListeCandidatsMapper.class);
-	private V_ReportingCandidatMapper v_ReportingCandidatMapper;// = Mappers.getMapper(V_ReportingCandidatMapper.class);
+	private V_ListeCandidatsMapper v_ListeCandidatsMapper = Mappers.getMapper(V_ListeCandidatsMapper.class);
+	private V_ReportingCandidatMapper v_ReportingCandidatMapper = Mappers.getMapper(V_ReportingCandidatMapper.class);
 	private List<V_ListeCandidatsDto> listeCandidats;
 	private List<V_ReportingCandidatDto> listeReportingCandidats;
 

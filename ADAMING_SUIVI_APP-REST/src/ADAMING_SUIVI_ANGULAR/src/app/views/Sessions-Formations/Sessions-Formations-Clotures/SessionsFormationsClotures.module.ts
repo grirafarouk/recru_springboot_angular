@@ -3,25 +3,22 @@ import { FormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
-import { SessionsFormationsEncoursComponent } from './SessionsFormationsEncours.component';
-import { SessionsFormationsEncoursRoutingModule } from './SessionsFormationsEncours-routing.module';
+import { SessionsFormationsCloturesComponent } from './SessionsFormationsClotures.component';
+import { SessionsFormationsCloturesRoutingModule } from './SessionsFormationsClotures-routing.module';
 import { CommonModule } from '@angular/common';
 import { DxTreeViewModule } from 'devextreme-angular';
-import {AccordionModule} from 'ngx-accordion';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
+
 
 @NgModule({
   imports: [
     FormsModule,
-    SessionsFormationsEncoursRoutingModule,
+    SessionsFormationsCloturesRoutingModule,
     ChartsModule,
     BsDropdownModule,
     ButtonsModule.forRoot(),
     DxTreeViewModule,
     CommonModule ,
-    AccordionModule,
-    CollapseModule.forRoot(),
   ],
-  declarations: [  SessionsFormationsEncoursComponent ]
+  declarations: [  SessionsFormationsCloturesComponent ]
 })
-export class SessionsFormationsEncoursModule { }
+export class SessionsFormationsCloturesModule { }

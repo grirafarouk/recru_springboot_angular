@@ -34,11 +34,11 @@ export const navItems = [
     children: [
       {
         name: 'Sessions formations en cours',
-        url: '/candidats',
+        url: '/SessionsFormationsEncours',
       },
       {
         name: 'Sessions formations clotures',
-        url: '/listeNouveauxCandidats',
+        url: '/SessionsFormationsClotures',
       }
     ]
   },
