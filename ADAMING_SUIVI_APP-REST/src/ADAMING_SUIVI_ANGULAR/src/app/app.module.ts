@@ -42,7 +42,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { HttpClientModule, HttpParams, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor } from './helper/JwtInterceptor.service';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { ficheCvRelanceComponent } from './views/dashboard/ficheCvRelance/ficheCvRelance.component';
@@ -50,7 +50,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpModule } from '@angular/http';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import {  OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
+import { RoutingState } from './helper/routing-state.service';
 
 const notifierDefaultOptions: NotifierOptions = {
   position: {
@@ -95,6 +97,7 @@ const notifierDefaultOptions: NotifierOptions = {
 @NgModule({
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     AppAsideModule,
     AppBreadcrumbModule.forRoot(),
@@ -110,7 +113,8 @@ const notifierDefaultOptions: NotifierOptions = {
     NotifierModule.withConfig(notifierDefaultOptions),
     NgxPaginationModule,
     NgxSpinnerModule,
-    HttpModule
+    HttpModule,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,
@@ -120,7 +124,7 @@ const notifierDefaultOptions: NotifierOptions = {
     LoginComponent,
     RegisterComponent,
     ficheCvRelanceComponent,
-    ficheCandidatSessionComponent
+    ficheCandidatSessionComponent,
   ],
   providers: [{
     provide: LocationStrategy,
@@ -130,8 +134,8 @@ const notifierDefaultOptions: NotifierOptions = {
     useClass: JwtInterceptor,
     multi: true
   } ,
-
-  AccueilService,
+  {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr'},
+  AccueilService
 ],
   bootstrap: [ AppComponent ]
 })

@@ -1,17 +1,20 @@
+
+import { Profil } from "./enum/Profil";
+
 export class Utilisateur{
       id:number;
-	  profil:String;
-	  nom:String;
-	  prenom:String;
-	  login:String;
-	  email:String;
-	  password:String;
+	  profil:Profil;
+	  nom:string;
+	  prenom:string;
+	  login:string;
+	  email:string;
+	  password:string;
 	  dateCreation:Date;
 	  actif:Boolean;
-	  toke:String;
+	  toke:string;
 	  expire:Boolean;
 	  dateModificationMotPasse:Date;
 	  reporting:boolean;
-	  numeroTelF:String;
-	  numeroTelP:String;
+	  numeroTelF:string;
+	  numeroTelP:string;
 }

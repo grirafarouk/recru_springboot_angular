@@ -4,7 +4,7 @@ import {
     ActivatedRouteSnapshot
 } from '@angular/router';
 import { CandidatsService } from '../../../services/candidats.service';
-import { Candidate } from '../candidate';
+import { Candidate } from '../../../models/Candidate';
 
 @Injectable({ providedIn: 'root' })
 export class CandidatDetailResolve implements Resolve<any> {

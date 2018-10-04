@@ -30,13 +30,12 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.login).subscribe(
       data => {
         this.spinner.hide();
+        this.diableButton=false;
         this.router.navigate(['/dashboard'])
       },error=>{
         this.spinner.hide();
         this.diableButton=false;
-        this.notifierService.notify( 'error', error.error.error_description
-        );
-
+        this.notifierService.notify( 'error', error.error.error_description );
       }
     )
   }

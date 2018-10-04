@@ -1,1 +1,1 @@
-export const BACK_END_URL ="http://localhost:8080/ADAMING_SUIVI_APP-REST"
+export const BACK_END_URL ="http://localhost:8090"

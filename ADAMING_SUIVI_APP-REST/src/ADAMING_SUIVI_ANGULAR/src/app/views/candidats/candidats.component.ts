@@ -14,6 +14,7 @@ import { Competence } from "../../models/Competence";
 import { USER_NAME } from "../../helper/auth.constant";
 import { UtilisateurService } from "../../services/utilisateur.service";
 import { Router } from "@angular/router";
+import { Status } from "../../models/enum/Status";
 
 @Component({
   templateUrl: 'candidats.component.html',
@@ -311,8 +312,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
     if (!error) {
       this.candidate.dateInscription = new Date();
-      this.candidate.statut = "VIDE";
-      this.candidatsService.createOrUpdate(this.candidate, this.currentFile.file.type).subscribe((data: Candidate) => {
+      this.candidate.statut = Status[Status.VIDE];
+      this.candidatsService.create(this.candidate, this.currentFile.file.type).subscribe((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")
           callback(data.id)

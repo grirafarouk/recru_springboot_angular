@@ -28,6 +28,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^6.1.6",
+    "@angular/cdk": "6.4.6",
     "@angular/common": "^6.1.6",
     "@angular/compiler": "^6.1.6",
     "@angular/core": "^6.1.6",
@@ -54,6 +55,8 @@
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
     "mutationobserver-shim": "^0.3.2",
+    "ng-pick-datetime": "^6.0.16",
+    "ng-pick-datetime-moment": "^1.0.7",
     "ng2-charts": "^1.6.0",
     "ngx-bootstrap": "^3.0.1",
     "ngx-mask": "^6.1.3",

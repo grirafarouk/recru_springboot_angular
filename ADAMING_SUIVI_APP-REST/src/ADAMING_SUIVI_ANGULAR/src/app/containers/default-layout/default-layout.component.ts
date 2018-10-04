@@ -2,6 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { navItems } from './../../_nav';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
+import { Utilisateur } from '../../models/Utilisateur';
+import { UtilisateurService } from '../../services/utilisateur.service';
+import { Profil } from '../../models/enum/Profil';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +15,7 @@ export class DefaultLayoutComponent implements OnInit{
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
-  constructor(private authenticationService: AuthenticationService, private router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router,private userService:UtilisateurService) {
 
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
@@ -25,6 +28,10 @@ export class DefaultLayoutComponent implements OnInit{
 
 
   ngOnInit() {
+   
+  }
+  getProfiilDisplay(text){
+    return Profil[text]
   }
 
   logout() {
