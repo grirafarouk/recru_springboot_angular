@@ -1,0 +1,249 @@
+pipeline {   
+    agent any
+    tools {
+        maven "M2_HOME"
+        jdk "JAVA_HOME"
+    }
+    stages {
+        stage ('Initialize') {
+            steps {
+                script {
+                    sh '''
+                        echo "PATH = ${JAVA_HOME}"
+                        echo "M2_HOME = ${M2_HOME}"
+                    '''
+                    echo sh(script: 'env|sort', returnStdout: true)
+                    env.MAIL_BODY = "Bonjour "+env.gitlabUserName+"\n\tBranche : "+env.gitlabTargetBranch+"\n\tSuite à : commit:"+env.GIT_COMMIT+"\n\n"
+                    env.BUILD_STAGE = 0
+                    env.TEST_STAGE = 0
+                    env.SONAR_STAGE = 0
+                    env.QG_STAGE = 0
+                    if ("java@adaming.fr".equals(env.gitlabUserEmail)){
+                        env.gitlabUserEmail = "ibenali@adaming.fr"
+                    }
+                    def serverProperties = jsonParse(readFile('../serversProperties.json'))
+                }
+            }
+        }
+        stage ('Build') {
+            steps {
+                script {
+                    sh 'mvn clean compile'
+                }
+            }
+            post {
+                success {
+                    script {
+                        env.BUILD_STAGE = 1
+                    }
+                }
+                failure {
+                    script {
+                        env.BUILD_STAGE = -1
+                    }
+                }
+            }
+        }
+        stage ('Tests') {
+            parallel {
+                stage ('Maven') {
+                 when {expression {env.gitlabBranch == 'Developpement'} }
+                    steps {
+                        script {
+                            sh 'mvn test'
+                        }
+                    }
+                    post {
+                        success {
+                            script {
+                                env.TEST_STAGE = 1
+                            }
+                        }
+                        failure {
+                            script {
+                                env.TEST_STAGE = -1
+                            }
+                        }
+                    }
+                }
+                stage ('Sonar') {
+                    when {expression {env.gitlabBranch == 'Developpement'} }
+                        steps {
+							withSonarQubeEnv('SonarQube') {
+                            	sh '''
+                                   	mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar -Dsonar.password= -Dsonar.login=$SONAR_AUTH_TOKEN
+                                    echo "SONAR_AUTH_TOKEN=$SONAR_AUTH_TOKEN" >> target/sonar/report-task.txt
+                                '''
+                                stash includes: "target/sonar/report-task.txt", name: 'sonar-report-task'
+                       		}
+                        	script {
+                          		sh "cat target/sonar/report-task.txt"
+                            	def props = getProperties("target/sonar/report-task.txt")
+                            	env.SONAR_CE_TASK_URL = props.getProperty('ceTaskUrl')
+                                env.SONAR_REPORT_URL = props.getProperty('dashboardUrl')
+                       		}
+                		}
+                        post {
+                            success {
+                                script {
+                                    env.SONAR_STAGE = 1
+                                }
+                            }
+                            failure {
+                                script {
+                                    env.SONAR_STAGE = -1
+                                }
+                            }
+                        }
+             	}
+        	}
+        }
+        stage ('Quality Gate') {
+            when {expression {env.gitlabBranch == 'Developpement'} }
+            steps {
+                script {
+                	gitlabCommitStatus {
+                    	if(env.gitlabBranch == 'Developpement') {
+                        	withSonarQubeEnv('SonarQube') {
+                            	def ceTask
+                            	def x = 0
+                            	timeout(time: 1, unit: 'MINUTES') {
+                                	waitUntil {
+                                    	sh 'curl -u $SONAR_AUTH_TOKEN: $SONAR_CE_TASK_URL -o ceTask.json'
+                                    	ceTask = jsonParse(readFile('ceTask.json'))
+                                    	echo ceTask.toString()
+                                    	return "SUCCESS".equals(ceTask["task"]["status"])
+                                	}
+                            	}
+                            	def qualityGateUrl = env.SONAR_HOST_URL + "/api/qualitygates/project_status?analysisId=" + ceTask["task"]["analysisId"]
+                            	sh "curl -u $SONAR_AUTH_TOKEN $qualityGateUrl -o qualityGate.json"
+                            	def qualitygate = jsonParse(readFile('qualityGate.json'))
+                            	echo qualitygate.toString()
+                            	if ("ERROR".equals(qualitygate["projectStatus"]["status"])) {
+                                	for ( i = 0; i< 4; i++) {
+                                		echo qualitygate["projectStatus"]["conditions"][i]["status"]
+                                		if ( "ERROR".equals(qualitygate["projectStatus"]["conditions"][i]["status"])) {
+                                			x++         	
+	                                	}
+                                	}
+                                	if ( x > 1 ) {
+                          	 			error "Quality Gate failer"
+                            	    }
+                            	echo  "Quality Gate success"
+                        	    }
+                    	    }
+                        }
+                    }
+                }
+            }
+            post {
+                success {
+                    script {
+                        env.QG_STAGE = 1
+                    }
+                }
+                failure {
+                    script {
+                        env.QG_STAGE = -1
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                echo sh(script: 'env|sort', returnStdout: true)
+                if (env.BUILD_STAGE == 1) {
+                    env.MAIL_BODY = env.MAIL_BODY+" Compilation (mvn compile) s'est bien déroulé.\n"
+                    } else if (env.gitlabBranch.equals("Developpement")) {
+                        if (env.TEST_STAGE == -1) {
+                            env.MAIL_BODY = env.MAIL_BODY+" mvn test KO.\n"
+                        } else if (env.TEST_STAGE == 1) {
+                            env.MAIL_BODY = env.MAIL_BODY+" mvn test s'est bien déroulé.\n"
+                        } else {
+                            env.MAIL_BODY = env.MAIL_BODY+" mvn test s'est pas déroulé.\n"
+                        }
+                        if (env.SONAR_STAGE == 1) {
+                            env.MAIL_BODY = env.MAIL_BODY+" Sonar scan s'est bien déroulé.\n"
+                            if (env.QG_STAGE == 1) {
+                                env.MAIL_BODY = env.MAIL_BODY+" Sonar Quality Gate a retourné un résultat positif.\n"
+                            } else {
+                                env.MAIL_BODY = env.MAIL_BODY+" Sonar Quality Gate a retourné un résultat négatif voila l'url vers le rapport "+env.SONAR_REPORT_URL+" .\n si vous n'avez pas de login essayer avec votre mail @adaming.fr && mot de passe : adaming@2018 sinon demander via ServiceNow un compte Sonar"
+                            }
+                        } else {
+                            env.MAIL_BODY = env.MAIL_BODY+" Sonar scan KO.\n"
+                        }
+                        
+                    } 
+                }else if (env.BUILD_STAGE == -1) {
+                    env.MAIL_BODY = env.MAIL_BODY+"  Compilation (mvn compile) KO.\n"
+                }else {
+                    env.MAIL_BODY = env.MAIL_BODY+"  échec dans le script du pipeline.\n"
+                }
+                showChangeLog()
+                cleanWs()
+            }
+        }
+        failure {
+            script {
+                if (env.gitlabBranch.equals("Developement")) {
+                    emailext (
+                        body: env.MAIL_BODY+"\n\n\nCordialement", 
+                        subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                        to: gitlabUserEmail
+                    )
+                } 
+            }
+        }
+    }
+}
+
+def Properties getProperties(filename) {
+    def properties = new Properties()
+    properties.load(new StringReader(readFile(filename)))
+    return properties
+}
+
+@NonCPS
+def jsonParse(text) {
+    return new groovy.json.JsonSlurperClassic().parseText(text);
+}
+
+@NonCPS
+def jsonParse(URL url, String basicAuth) {
+    def conn = url.openConnection()
+    conn.setRequestProperty( "Authorization", "Basic " + basicAuth )
+    InputStream is = conn.getInputStream();
+    def json = new groovy.json.JsonSlurperClassic().parseText(is.text);
+    conn.disconnect();
+    return json
+} 
+@NonCPS
+def showChangeLog() {
+    def changeLogSets = currentBuild.rawBuild.changeSets
+    for (int i = 0; i < changeLogSets.size(); i++) {
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+            def entry = entries[j]
+            echo "\n${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+            def files = new ArrayList(entry.affectedFiles)
+            for (int k = 0; k < files.size(); k++) {
+                def file = files[k]
+                echo "\n  ${file.editType.name} ${file.path}"
+            }
+        }
+    }
+} 
+@NonCPS
+def affectChangeLog(String body) {
+    def changeLogSets = currentBuild.rawBuild.changeSets
+    for (int i = 0; i < changeLogSets.size(); i++) {
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+            def entry = entries[j]
+            body = body+ "\nDéveloppeur: ${entry.author}\t le: ${new Date(entry.timestamp)}: ${entry.msg}"
+        }
+    }
+    return body 
+}
