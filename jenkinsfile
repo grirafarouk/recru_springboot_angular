@@ -13,7 +13,7 @@ pipeline {
                         echo "M2_HOME = ${M2_HOME}"
                     '''
                     echo sh(script: 'env|sort', returnStdout: true)
-                    env.MAIL_BODY = "Bonjour "+env.gitlabUserName+"\n\tBranche : "+env.gitlabTargetBranch+"\n\tSuite à : commit:"+env.GIT_COMMIT+"\n\n"
+                    env.MAIL_BODY = "Bonjour "+env.gitlabUserName+"\n\tBranche : "+env.gitlabTargetBranch+"\n\tSuite à : "+env.GIT_COMMIT+"\n\n"
                     env.BUILD_STAGE = 0
                     env.TEST_STAGE = 0
                     env.SONAR_STAGE = 0
