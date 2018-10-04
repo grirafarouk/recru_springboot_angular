@@ -186,7 +186,7 @@ pipeline {
         }
         failure {
             script {
-                if (env.gitlabBranch.equals("Developement")) {
+                if (env.gitlabBranch.equals("Developpement")) {
                     emailext (
                         body: env.MAIL_BODY+"\n\n\nCordialement", 
                         subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
