@@ -27,6 +27,7 @@ import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.commons.collections4.CollectionUtils;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,13 +92,15 @@ public class CandidatController {
 	@Autowired
 	private IV_ListeCandidatsService vListeCandidatsService;
 
+	private V_ListeCandidatsDto vListeCandidatsDto;
+	private V_ReportingCandidatDto vReportingCandidatDto;
+	private V_ListeCandidatsMapper vListeCandidatsMapper = Mappers.getMapper(V_ListeCandidatsMapper.class);
+	private V_ReportingCandidatMapper vReportingCandidatMapper = Mappers.getMapper(V_ReportingCandidatMapper.class);
+
 	@Autowired
 	private IV_ReportingCandidatService vReportingCandidatService;
 
-	private V_ListeCandidatsDto vListeCandidatsDto;
-	private V_ReportingCandidatDto vReportingCandidatDto;
-	private V_ListeCandidatsMapper vListeCandidatsMapper;// = Mappers.getMapper(V_ListeCandidatsMapper.class);
-	private V_ReportingCandidatMapper vReportingCandidatMapper;// = Mappers.getMapper(V_ReportingCandidatMapper.class);
+	
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<Candidat> all() {

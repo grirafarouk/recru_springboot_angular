@@ -131,7 +131,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                      <tr *ngFor="let c of candidats| paginate: { itemsPerPage:10, currentPage: p }">
+                      <tr *ngFor="let c of candidats">
                       <td>{{c.nom}}</td>
                       <td>{{c.prenom}}</td>
                       <td>{{c.numeroTel}}</td>
@@ -145,9 +145,16 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="panel-footer panel-default pager">
-                        <pagination-controls (pageChange)="p =$event"></pagination-controls>
-                </div>
+      
+                    <ul class="pagination">
+                        <li  *ngFor=" let p of pages">
+                             <a class="page-link" (click)="setPage(p)">{{p}}</a>
+                       </li>
+                    </ul>
+                
+
+                    
+               
               </div>
           
           </div>

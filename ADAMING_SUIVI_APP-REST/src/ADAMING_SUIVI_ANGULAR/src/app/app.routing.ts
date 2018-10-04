@@ -82,6 +82,14 @@ export const routes: Routes = [
         loadChildren: './views/candidats/listeEntretien/listeEntretien.module#listeEntretienModule'
       },
       {
+        path: 'SessionsFormationsEncours',
+        loadChildren: './views/Sessions-Formations/Sessions-Formations-Encours/SessionsFormationsEncours.module#SessionsFormationsEncoursModule'
+      },
+      {
+        path: 'SessionsFormationsClotures',
+        loadChildren: './views/Sessions-Formations/Sessions-Formations-Clotures/SessionsFormationsClotures.module#SessionsFormationsCloturesModule'
+      },
+      {
         path: 'listeReporting',
         loadChildren: './views/candidats/listeReporting/listeReporting.module#listeReportingModule'
       },

@@ -123,8 +123,13 @@ export class CandidatsService {
     return this.httpClient.get<any>(BACK_END_URL + '/nouveauxcandidats/' + page + '/' + size);
   }
 
-  getTousCandidats(page, size) {
-    return this.httpClient.get<any>(BACK_END_URL + '/candidats/' + page + '/' + size);
+  MaxLength () {
+
+    return this.httpClient.get<any>(BACK_END_URL+'/nberNouveauxCandidats');
+  }
+
+  getTousCandidats (page, size) {
+    return this.httpClient.get<any>(BACK_END_URL+'/candidats/' + page + '/' + size);
   }
 
   rechercheTouscandidats(candidat): Observable<any> {

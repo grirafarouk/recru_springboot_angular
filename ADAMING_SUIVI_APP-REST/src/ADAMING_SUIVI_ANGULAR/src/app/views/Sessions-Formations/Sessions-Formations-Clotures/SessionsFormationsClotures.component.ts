@@ -7,25 +7,19 @@ import { SessionFormationEnCoursService } from "../../../services/sessionService
 
 
 @Component({
-  templateUrl: 'SessionsFormationsEncours.component.html',
-  styleUrls:["SessionsFormationsEncours.component.css"]
+  templateUrl: 'SessionsFormationsClotures.component.html',
+  styleUrls:["SessionsFormationsClotures.component.css"]
 })
-export class SessionsFormationsEncoursComponent implements OnInit {
+export class SessionsFormationsCloturesComponent implements OnInit {
 
   constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService) { }
   session: any = {}; 
   sessionFormations: any ;
   formations: any;
   t: any = [];
-  isCollapsed=[];
 
   ngOnInit() { 
-    this.formationService.getFormations().subscribe(data =>{
-    data.forEach(element => {
-      this.isCollapsed.push(true)
-    });
-    this.formations = data;
-    });
+    this.formationService.getFormations().subscribe(data => this.formations = data);
     this.sessionFormationService.getSessionFormationEnCours(this.session).subscribe(data => {
       this.sessionFormations = data;
       /*for (let i = 0; i < this.sessionFormations.length; i++) {
@@ -36,12 +30,6 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     });
 
   }
-  collapsed(event: any): void {
-    console.log(event);
-  }
 
-  expanded(event: any): void {
-    console.log(event);
-  }
 
 }
