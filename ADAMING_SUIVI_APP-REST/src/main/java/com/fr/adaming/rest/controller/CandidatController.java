@@ -100,8 +100,6 @@ public class CandidatController {
 	@Autowired
 	private IV_ReportingCandidatService vReportingCandidatService;
 
-	
-
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<Candidat> all() {
 		return candidatService.findAll();
@@ -120,9 +118,18 @@ public class CandidatController {
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(v_listeCandidats);
 	}
 
-	@RequestMapping(value = "/RechercheNouveauxcandidats", method = RequestMethod.POST)
-	public List<V_ListeCandidats> rechercherNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD) {
-		return new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
+	@RequestMapping(value = "/rechercheNouveauxcandidats", method = RequestMethod.POST)
+	public JSONObject rechercherNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
+			@RequestParam int size) {
+		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
+		JSONObject object = new JSONObject();
+		object.put("total", list.size());
+		if (size == 0)
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
+		else
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
+					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		return object;
 	}
 
 	@RequestMapping(value = "/candidats/{page}/{size}", method = RequestMethod.GET)
@@ -135,8 +142,18 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/RechercheTouscandidats", method = RequestMethod.POST)
-	public List<V_ListeCandidats> rechercherTousCandidats(@RequestBody V_ListeCandidatsDto NCD) {
-		return new ArrayList<>(vListeCandidatsService.rechercherTousCandidats(NCD));
+	public JSONObject rechercherTousCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
+			@RequestParam int size) {
+
+		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherTousCandidats(NCD));
+		JSONObject object = new JSONObject();
+		object.put("total", list.size());
+		if (size == 0)
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
+		else
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
+					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		return object;
 	}
 
 	@RequestMapping(value = "/candidatsarelancer/{page}/{size}", method = RequestMethod.GET)
@@ -148,8 +165,17 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/RechercheCandidatsaRelancer", method = RequestMethod.POST)
-	public List<V_ListeCandidats> findCandidatsaRelancer(@RequestBody V_ListeCandidatsDto NCD) {
-		return new ArrayList<>(vListeCandidatsService.rechercherCandidatsARelancer(NCD));
+	public JSONObject findCandidatsaRelancer(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
+			@RequestParam int size) {
+		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherCandidatsARelancer(NCD));
+		JSONObject object = new JSONObject();
+		object.put("total", list.size());
+		if (size == 0)
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
+		else
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
+					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		return object;
 	}
 
 	@RequestMapping(value = "/candidatavecentretien/{page}/{size}", method = RequestMethod.GET)

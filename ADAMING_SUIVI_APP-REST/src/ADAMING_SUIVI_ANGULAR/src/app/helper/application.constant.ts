@@ -1,1 +1,1 @@
-export const BACK_END_URL ="http://localhost:8090"
+export const BACK_END_URL ="http://192.168.1.205:8090"

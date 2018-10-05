@@ -66,10 +66,6 @@ export const routes: Routes = [
       loadChildren: './views/candidats/candidats.module#CandidatsModule'
       },
       {
-        path: 'listeNouveauxCandidats',
-        loadChildren: './views/candidats/listeNouveauxCandidats/listeNouveauxCandidats.module#listeNouveauxCandidatsModule'
-      },
-      {
         path: 'listeTousCandidats',
         loadChildren: './views/candidats/listeTousCandidats/listeTousCandidats.module#listeTousCandidatsModule'
       },

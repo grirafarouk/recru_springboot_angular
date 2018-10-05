@@ -4,6 +4,9 @@ import { Routes,
 import { CandidatsComponent } from './candidats.component';
 import { CandidatDetailResolve } from './fiche-candidat/CandidatDetailResolve';
 import { FicheCandidatComponent } from './fiche-candidat/fiche-candidat.component';
+import { listeNouveauxCandidatsComponent } from './listeNouveauxCandidats/listeNouveauxCandidats.component';
+import { listeTousCandidatsComponent } from './listeTousCandidats/listeTousCandidats.component';
+import { listeCandidatArelancerComponent } from './listeCandidatArelancer/listeCandidatArelancer.component';
 
 
 const routes: Routes = [
@@ -24,6 +27,27 @@ const routes: Routes = [
       resolve: {
         candidat: CandidatDetailResolve 
       },
+  },
+  {
+    path: 'listeNouveauxCandidats',
+    component: listeNouveauxCandidatsComponent,
+    data: {
+      title: 'listeNouveauxCandidats'
+    }
+  },
+  {
+    path: 'listeTousCandidats',
+    component: listeTousCandidatsComponent,
+    data: {
+      title: 'listeTousCandidats'
+    }
+  },
+  {
+    path: 'listeCandidatArelancer',
+    component: listeCandidatArelancerComponent,
+    data: {
+      title: 'listeCandidatArelancer'
+    }
   }
 ];
 
