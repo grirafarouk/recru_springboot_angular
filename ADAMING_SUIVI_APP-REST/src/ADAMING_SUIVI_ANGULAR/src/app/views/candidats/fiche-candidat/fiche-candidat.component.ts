@@ -179,7 +179,7 @@ export class FicheCandidatComponent implements OnInit {
       candidateTemp.motif = null
       this.candidatsService.updateCandidat(candidateTemp).subscribe(data => {
         this.notifierService.notify("success", "Candidat modifié avec success !")
-        this.router.navigate(["/listeNouveauxCandidats"]);
+        this.router.navigate(["/candidats/listeNouveauxCandidats"]);
 
       })
     }

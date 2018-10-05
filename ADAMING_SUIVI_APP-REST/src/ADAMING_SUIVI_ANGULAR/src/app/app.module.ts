@@ -20,6 +20,7 @@ import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
+import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -48,7 +49,6 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { ficheCvRelanceComponent } from './views/dashboard/ficheCvRelance/ficheCvRelance.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {  OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
@@ -112,9 +112,14 @@ const notifierDefaultOptions: NotifierOptions = {
     HttpClientModule,
     NotifierModule.withConfig(notifierDefaultOptions),
     NgxPaginationModule,
-    NgxSpinnerModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxLoadingModule.forRoot({ 
+      animationType: ngxLoadingAnimationTypes.circleSwish,
+      backdropBackgroundColour: 'rgba(255,255,255,0.3)', backdropBorderRadius: '10px',
+      primaryColour: '#dd0031', secondaryColour: '#006ddd', tertiaryColour: '#dd0031'
+    })
+
   ],
   declarations: [
     AppComponent,

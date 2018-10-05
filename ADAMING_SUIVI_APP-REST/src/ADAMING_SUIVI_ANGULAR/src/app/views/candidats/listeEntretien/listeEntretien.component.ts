@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Candidate } from "../candidate";
+import { CandidateDto } from "../CandidateDto";
 import { CandidatsService } from "../../../services/candidats.service";
 import { NotifierService } from "angular-notifier";
 import { OriginesService } from "../../../services/administrationService/origines.service";
@@ -22,7 +22,7 @@ export class listeEntretienComponent implements OnInit {
   candidats: any[];
   page= 0;
   size= 10;
-  condidat: Candidate = new Candidate();
+  condidat: CandidateDto = new CandidateDto();
   CritereRecheche : [
     { value: '1', text: 'Moins 1 mois' },
     { value: '2', text: 'Entre 1 et 6 mois' },
@@ -44,7 +44,7 @@ export class listeEntretienComponent implements OnInit {
     this.candidatsService.getCandidatEntretien(this.page,this.size).subscribe(data => this.candidats = data);
   }
   rechercheCandidat() {
-      this.candidatsService.rechercheNouveauxcandidats(this.condidat).subscribe(data=>{this.candidats = data
+      this.candidatsService.rechercheNouveauxcandidats(this.condidat,0,this.size).subscribe(data=>{this.candidats = data
         this.notifierService.notify("info","Nombre Candidat : "+data.length)
       })
    }

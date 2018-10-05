@@ -1,5 +1,5 @@
 
-export class Candidate {
+export class CandidateDto {
     id: number;
     nom: string;
     prenom: string;

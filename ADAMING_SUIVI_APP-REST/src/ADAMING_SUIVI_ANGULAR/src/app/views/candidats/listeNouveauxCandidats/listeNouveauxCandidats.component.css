@@ -5,3 +5,6 @@ a.first::after {
 a.last::before {
   content:'...'
 }
+.loadingCustom{
+  position: relative;
+}
