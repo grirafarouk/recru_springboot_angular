@@ -19,6 +19,15 @@ export class SessionFormationEnCoursService {
     return this.http.post(BACK_END_URL +'/sessionsformations/sessionFormationEnCoursparformation', sfec , httpOptions);
   }
 
+  getSessionFormationClotures(sfec){
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL +'/sessionsformations/sessionFormationCloturee', sfec , httpOptions);
+  }
+
   NombreParticipants(session){
     const httpOptions = {
       headers: new HttpHeaders({
@@ -26,6 +35,24 @@ export class SessionFormationEnCoursService {
       })
     };
     return this.http.post(BACK_END_URL +'/sessionsformations/nbreparticipants', session , httpOptions);
+  }
+
+  rechercherSessionFormationencours (formation): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL +'/formation/formationencours', formation,httpOptions);
+  }
+
+  rechercherSessionFormationenclotures (formation): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL +'/formation/formationclotures', formation,httpOptions);
   }
 
 }

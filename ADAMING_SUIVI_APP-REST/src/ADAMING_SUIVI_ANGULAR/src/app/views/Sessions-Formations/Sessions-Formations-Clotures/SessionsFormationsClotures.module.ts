@@ -7,6 +7,7 @@ import { SessionsFormationsCloturesComponent } from './SessionsFormationsCloture
 import { SessionsFormationsCloturesRoutingModule } from './SessionsFormationsClotures-routing.module';
 import { CommonModule } from '@angular/common';
 import { DxTreeViewModule } from 'devextreme-angular';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { DxTreeViewModule } from 'devextreme-angular';
     ButtonsModule.forRoot(),
     DxTreeViewModule,
     CommonModule ,
+    CollapseModule.forRoot(),
   ],
   declarations: [  SessionsFormationsCloturesComponent ]
 })

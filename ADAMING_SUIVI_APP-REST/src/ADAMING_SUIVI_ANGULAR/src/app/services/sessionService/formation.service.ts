@@ -10,10 +10,12 @@ export class FormationService {
 
   constructor(private http: HttpClient) { }
 
-  getFormations(){
+  getListeformationencours(){
     return this.http.get<any>(BACK_END_URL+"/formation/listeformationencours");
   }
-
+  getListeformationclotures(){
+    return this.http.get<any>(BACK_END_URL+"/formation/listeformationclotures");
+  }
   getAllFormations(){
     return this.http.get<any>(BACK_END_URL+'/formation');
   }
@@ -27,9 +29,9 @@ export class FormationService {
     return this.http.post(BACK_END_URL+'/formation/formationencours', session , httpOptions);
   }
 
-  getFormationsCloturee(){
+  /*getFormationsCloturee(){
     return this.http.get<any>(BACK_END_URL+'/formation/listeformationclotures');
-  }
+  }*/
 
   public AjoutFormation(formation): Observable<any>{
     const httpOptions = {

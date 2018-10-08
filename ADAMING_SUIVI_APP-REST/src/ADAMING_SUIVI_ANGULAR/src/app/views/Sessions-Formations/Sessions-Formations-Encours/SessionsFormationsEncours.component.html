@@ -1,4 +1,66 @@
 <div class="card">
+    <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
+    </div>
+    <div class="card-body">
+            <div class="row">      
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="nom">Code formation:</label>
+                            <input type="text" class="form-control"  name="code" [(ngModel)]="formation.code" id="code"> 
+                        </div>
+                    </div>  
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="nom">Nom formation:</label>
+                            <input type="text" class="form-control"  name="nom" [(ngModel)]="formation.nom" id="nom"> 
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="technologie">Technologie:</label>
+                            <select [(ngModel)]="formation.technologie.libelle"  name="technologie"  class="form-control" id="technologie">
+                                <option value="">--Sélectionner--</option>
+                                <option *ngFor="let tech of technologies" [value]="tech.libelle">{{tech.libelle}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="lieu">Lieu:</label>
+                                <select  [(ngModel)]="formation.lieu.libelle" class="form-control input-sm">
+                                    <option value="">-- Sélectionner --</option>
+                                    <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
+                                  </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
+                                    <select  [(ngModel)]="formation.typeFormation.libelle" class="form-control input-sm">
+                                        <option value="">-- Sélectionner --</option>
+                                        <option *ngFor="let type of typeFormation" [value]="type.libelle">{{ type.libelle }}</option>
+                                      </select>
+                                </div>
+                        </div>
+                                 
+                </div>
+              
+    </div>
+    <div class="card-footer">
+
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherSession()">Rechercher</button>
+                </div>
+
+                <div class="col-2">
+                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+                </div>
+            </div>
+        </div>
+  </div>
+<div class="card">
         <div class="panel panel-default" *ngFor="let formation of formations; let i = index">
         <div class="card-header">
         <a  role="button" (click)="this.isCollapsed[i] = !this.isCollapsed[i]" href="#{{formation.id}}">
@@ -10,7 +72,7 @@
              (expanded)="expanded($event)"
              [collapse]="isCollapsed[i]">
              <div class="panel-body">
-                    <table class="table table-bordered">
+                    <table class="table  table-striped">
                         <thead>
                             <tr>
                                 <th>Code</th>
@@ -20,6 +82,7 @@
                                 <th>Type Formation</th>
                                 <th>Date Démarage</th>
                                 <th>Date Fin</th>
+                                <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,7 +95,11 @@
                                     <td>{{f.formation.typeFormation.libelle}}</td>
                                     <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
                                     <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
-                                    
+                                    <td style="width: 10%">     
+                                        <a class="btn btn-default" [routerLink]="['/ficheSessionFormation', f.id]">
+                                              <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
+                                            </a>         
+                                      </td>
                                 </tr>
                             </ng-container>
                         </tbody>

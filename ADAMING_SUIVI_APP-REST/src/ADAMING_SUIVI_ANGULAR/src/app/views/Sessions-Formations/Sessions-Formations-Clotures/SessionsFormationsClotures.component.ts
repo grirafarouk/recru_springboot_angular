@@ -4,6 +4,10 @@ import { NotifierService } from "angular-notifier";
 
 import { FormationService } from "../../../services/sessionService/formation.service";
 import { SessionFormationEnCoursService } from "../../../services/sessionService/session-formation-en-cours.service";
+import { TechnologieService } from "../../../services/administrationService/TechnologieService";
+import { LieuxService } from "../../../services/administrationService/Lieux.service.";
+import { TypeFormationService } from "../../../services/administrationService/TypeFormationService";
+import { Formation } from "../formation";
 
 
 @Component({
@@ -12,15 +16,42 @@ import { SessionFormationEnCoursService } from "../../../services/sessionService
 })
 export class SessionsFormationsCloturesComponent implements OnInit {
 
-  constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService) { }
+  constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
+    private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
   session: any = {}; 
   sessionFormations: any ;
   formations: any;
   t: any = [];
+  isCollapsed=[];
+  formation: Formation = new Formation();
+  //session: Session=new Session();
+  technologies = [];
+  lieux=[];
+  typeFormation=[]
 
   ngOnInit() { 
-    this.formationService.getFormations().subscribe(data => this.formations = data);
-    this.sessionFormationService.getSessionFormationEnCours(this.session).subscribe(data => {
+    this.getListe();
+  }
+
+  getListe(){
+    this.typeFormationService.findAllTypeFormation().subscribe(data =>
+      this.typeFormation=data);
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    });
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    });
+    this.lieuxService.findAllLieux().subscribe(data=>{
+      this.lieux = data;
+    })
+    this.formationService.getListeformationclotures().subscribe(data =>{
+    data.forEach(element => {
+      this.isCollapsed.push(true)
+    });
+    this.formations = data;
+    });
+    this.sessionFormationService.getSessionFormationClotures(this.session).subscribe(data => {
       this.sessionFormations = data;
       /*for (let i = 0; i < this.sessionFormations.length; i++) {
         let sf = this.sessionFormations[i];
@@ -28,7 +59,30 @@ export class SessionsFormationsCloturesComponent implements OnInit {
       };*/
 
     });
+  }
 
+  rechercherSession(){
+ 
+    this.sessionFormationService.rechercherSessionFormationenclotures(this.formation).subscribe(data => 
+      this.formations = data
+     );
+    }
+
+
+  reset(){
+    this.formation.code=null;
+    this.formation.nom = null;
+    this.formation.technologie.libelle = null;
+    this.formation.lieu.libelle = null;
+    this.formation.typeFormation.libelle = null;
+    this.getListe();
+  }
+  collapsed(event: any): void {
+    console.log(event);
+  }
+
+  expanded(event: any): void {
+    console.log(event);
   }
 
 
