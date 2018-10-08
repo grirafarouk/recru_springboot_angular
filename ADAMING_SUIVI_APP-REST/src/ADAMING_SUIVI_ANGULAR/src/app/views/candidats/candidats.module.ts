@@ -8,14 +8,19 @@ import { CandidatsRoutingModule } from './candidats-routing.module';
 import { CommonModule } from '@angular/common';
 import { DxTreeViewModule } from 'devextreme-angular';
 import { NgSelectModule } from '@ng-select/ng-select';
-import {NgxMaskModule} from 'ngx-mask';
+import { NgxMaskModule } from 'ngx-mask';
 import { FicheCandidatComponent } from './fiche-candidat/fiche-candidat.component'
-import { NgxSpinnerModule } from 'ngx-spinner';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { MonthYeatPickerComponent } from '../../helper/month-year-picker';
 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertModule } from 'ngx-bootstrap/alert';
+import { listeNouveauxCandidatsComponent } from './listeNouveauxCandidats/listeNouveauxCandidats.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { TextMaskModule } from 'angular2-text-mask';
+import { NgxLoadingModule } from 'ngx-loading';
+import { listeTousCandidatsComponent } from './listeTousCandidats/listeTousCandidats.component';
+import { listeCandidatArelancerComponent } from './listeCandidatArelancer/listeCandidatArelancer.component';
 
 @NgModule({
   imports: [
@@ -25,16 +30,26 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     DxTreeViewModule,
-    CommonModule ,
+    CommonModule,
     NgSelectModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
-    NgxSpinnerModule,
-    OwlDateTimeModule, OwlNativeDateTimeModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
     ModalModule.forRoot(),
     AlertModule.forRoot(),
+    NgxPaginationModule,
+    TextMaskModule,
+    NgxLoadingModule.forRoot({})
 
   ],
-  declarations: [  CandidatsComponent, FicheCandidatComponent,MonthYeatPickerComponent ]
+  declarations: [
+    listeCandidatArelancerComponent,
+    listeTousCandidatsComponent,
+    listeNouveauxCandidatsComponent,
+    CandidatsComponent,
+    FicheCandidatComponent,
+    MonthYeatPickerComponent
+  ]
 })
 export class CandidatsModule { }

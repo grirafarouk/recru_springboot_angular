@@ -13,15 +13,15 @@ export const navItems = [
       },
       {
         name: 'Liste Nouveaux Condidats',
-        url: '/listeNouveauxCandidats',
+        url: '/candidats/listeNouveauxCandidats',
       },
       {
         name: 'Liste Tous Condidats',
-        url: '/listeTousCandidats',
+        url: '/candidats/listeTousCandidats',
       },
       {
         name: 'Candidats A Relancer',
-        url: '/listeCandidatArelancer',
+        url: '/candidats/listeCandidatArelancer',
       },
     ]
   },

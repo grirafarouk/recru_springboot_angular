@@ -72,14 +72,14 @@ export class CandidatsService {
     }))
 
   }
-  rechercheNouveauxcandidats(candidate): Observable<any> {
+  rechercheNouveauxcandidats(candidate,page,size): Observable<any> {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidats", candidate, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/rechercheNouveauxcandidats" +"?page="+page+"&size="+size, candidate, httpOptions);
   }
 
 
@@ -132,26 +132,26 @@ export class CandidatsService {
     return this.httpClient.get<any>(BACK_END_URL+'/candidats/' + page + '/' + size);
   }
 
-  rechercheTouscandidats(candidat): Observable<any> {
+  rechercheTouscandidats(candidat,page, size): Observable<any> {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidats", candidat, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidats" +"?page="+page+"&size="+size, candidat, httpOptions);
   }
   getCandidatArelancer(page, size) {
     return this.httpClient.get<any>(BACK_END_URL + '/candidatsarelancer/' + page + '/' + size);
   }
-  rechercheCandidatArelancer(candidat): Observable<any> {
+  rechercheCandidatArelancer(candidat, page, size): Observable<any> {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsaRelancer", candidat, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsaRelancer" +"?page="+page+"&size="+size, candidat, httpOptions);
   }
   getCandidatEntretien(page, size) {
     return this.httpClient.get<any>(BACK_END_URL + '/candidatavecentretien/' + page + '/' + size);
@@ -183,9 +183,9 @@ export class CandidatsService {
     const headers = new Headers({ 'Authorization': `Bearer ${token}` });
     return this.http.post(BACK_END_URL + "/CVPDF", { id: candidat.id }, {
       headers: headers, responseType: ResponseContentType.Blob,
-    }).map(res => {
+    }).map((res) => {
       return {
-        filename: candidat.nomCV,
+        filename:res.headers.get("content-disposition").split(';')[1],
         data: res.blob()
       };
     })
