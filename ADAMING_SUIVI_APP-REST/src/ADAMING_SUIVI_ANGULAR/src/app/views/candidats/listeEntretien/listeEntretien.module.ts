@@ -10,7 +10,7 @@ import { DxTreeViewModule } from 'devextreme-angular';
 import { NgxPaginationModule } from 'ngx-pagination';
 import {NgxMaskModule} from 'ngx-mask';
 import { TextMaskModule } from 'angular2-text-mask';
-
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 
@@ -25,7 +25,9 @@ import { TextMaskModule } from 'angular2-text-mask';
     CommonModule ,
     NgxPaginationModule,
     NgxMaskModule.forRoot(),
-    TextMaskModule
+    TextMaskModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
 
   ],
   declarations: [  listeEntretienComponent ]

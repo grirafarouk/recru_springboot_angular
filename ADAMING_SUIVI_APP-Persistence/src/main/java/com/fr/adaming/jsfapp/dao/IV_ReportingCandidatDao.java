@@ -10,4 +10,6 @@ public interface IV_ReportingCandidatDao extends IManagerDao<V_ReportingCandidat
 
 	List<V_ReportingCandidat> rechercherReportingCandidat(V_ReportingCandidatDto ReportingCandidatDto, int page,
 			int size);
+    List<V_ReportingCandidat> findReportingCandidat(V_ReportingCandidatDto v_ReportingcandidatDto);
+
 }

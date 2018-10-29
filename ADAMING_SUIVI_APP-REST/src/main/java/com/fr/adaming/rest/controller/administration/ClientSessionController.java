@@ -30,4 +30,9 @@ public class ClientSessionController {
 	public ClientSession create(@RequestBody ClientSession entity) {
 		return clientSessionService.create(entity);
 	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public ClientSession update(@RequestBody ClientSession entity) {
+		return clientSessionService.update(entity);
+	}
 }

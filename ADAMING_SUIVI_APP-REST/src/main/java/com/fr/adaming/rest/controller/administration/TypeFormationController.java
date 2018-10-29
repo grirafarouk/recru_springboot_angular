@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.TypeFormation;
 import com.fr.adaming.jsfapp.services.ITypeFormationService;
 
@@ -29,6 +30,15 @@ public class TypeFormationController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public TypeFormation createOrUpdate(@RequestBody TypeFormation entity) {
 		return typeFormationService.createOrUpdate(entity);
+	}
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public TypeFormation create(@RequestBody TypeFormation entity) {
+		return typeFormationService.merge(entity);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public TypeFormation update(@RequestBody TypeFormation entity) {
+		return typeFormationService.update(entity);
 	}
 
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)

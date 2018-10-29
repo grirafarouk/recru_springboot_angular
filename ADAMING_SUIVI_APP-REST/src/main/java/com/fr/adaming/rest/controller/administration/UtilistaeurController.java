@@ -1,5 +1,6 @@
 package com.fr.adaming.rest.controller.administration;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,7 @@ import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
+import com.fr.adaming.jsfapp.utils.Utilitaire;
 
 @RestController
 @RequestMapping(value = "/utilisateurs")
@@ -35,18 +37,20 @@ public class UtilistaeurController {
 		return utilisateurService.merge(entity);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Utilisateur create(@RequestBody Utilisateur entity) {
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public Utilisateur create(@RequestBody Utilisateur entity) throws NoSuchAlgorithmException {
 		entity.setActif(true);
 		entity.setDateCreation(new Date());
 		entity.setDateModificationMotPasse(new Date());
 		entity.setExpire(false);
+		entity.setPassword(Utilitaire
+				.hashMD5Crypt(entity.getPassword()));
 		return utilisateurService.create(entity);
 	}
 	
-	@RequestMapping(value = "update", method = RequestMethod.POST)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Utilisateur Update(@RequestBody Utilisateur entity) {
-		
+		entity.setDateModificationMotPasse(new Date());
 		return utilisateurService.update(entity);
 	}
 	

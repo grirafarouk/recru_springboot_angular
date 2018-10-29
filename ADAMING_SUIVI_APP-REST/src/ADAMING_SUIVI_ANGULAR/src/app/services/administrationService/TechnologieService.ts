@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BACK_END_URL } from '../../helper/application.constant';
 
@@ -15,6 +15,23 @@ export class TechnologieService {
   findAllTechnologies(): Observable<any> {
     return this.http.get(BACK_END_URL + "/technologie");
   }
+  save(technologie): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL + "/technologie/add", technologie, httpOptions);
+  }
+  update(technologie): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL + "/technologie/update" , technologie, httpOptions);
+}
   
 }
 

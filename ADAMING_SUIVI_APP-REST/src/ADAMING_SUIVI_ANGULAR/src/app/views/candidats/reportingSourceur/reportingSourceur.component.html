@@ -1,0 +1,136 @@
+
+<div class="animated fadeIn">
+    <div class="row">
+            <div class="card">
+                    <div class="card-header">
+                            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
+                    </div>
+                    <div class="card-body">
+                            <div class="row">      
+                                    <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <label for="profil" style="font-weight:bold">Sourceur :</label>
+                                                <select [(ngModel)]="sourceur.idUser"  class="form-control input-sm">
+                                                    <option value="">-- Sélectionner --</option>
+                                                    <option *ngFor="let sr of ListSourceur" [value]="sr.idUser">{{ sr.nomSourceur }}</option>
+                                                  </select>
+                                            </div>
+                                    </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                      <label for="dateDebut" style="font-weight:bold">Date debut</label>
+                                      <input  
+                                        [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
+                                        id="dateDebut">
+                                      <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-2">
+                                        <div class="form-group">
+                                          <label for="dateFin" style="font-weight:bold">Date fin</label>
+                                          <input  
+                                            [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
+                                             id="dateFin">
+                                          <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
+                                        </div>
+                                      </div>
+                                      
+                                    
+                                          
+                                            
+                                            
+                                           
+                                </div>
+                               
+                    </div>
+                    <div class="card-footer">
+
+                            <div class="row align-items-center">
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherReportingSourceur()">Rechercher</button>
+                                </div>
+    
+                                <div class="col-2">
+                                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+
+                  <div class="card"> 
+                        <div class="card-header">
+                                <label style="font-weight:bold;color:#546E7A;">Reporting sourceur</label>
+                        </div>
+                        <div class="row">
+                                <div class="col-sm-6">
+                                        <div class="card-body">
+                                                <div class="card" style="height: 95% !important;">
+                                                        <div class="card-header">
+                                                          <label style="font-weight:bold;color:#546E7A;">Répartition des statuts</label>
+                                                        </div>
+                                                        <div class="card-body" >
+                                                            <canvas baseChart class="chart"
+                                                            [data]="pieChart2Data"
+                                                            [labels]="pieChart2Labels"
+                                                            [colors]="Chart2Colors"
+                                                            [chartType]="pieChartType"></canvas>
+                                                        </div>
+                                                      </div>
+                                        </div>
+                                    </div>
+                        <div class="col-sm-6">
+                    <div class="card-body">
+                            <div class="card" style="height: 95% !important;">
+                                    <div class="card-header">
+                                      <label style="font-weight:bold;color:#546E7A;">Répartition des technologies</label>
+                                    </div>
+                                    <div class="card-body" >
+                                        <canvas baseChart class="chart"
+                                        [data]="pieChartData"
+                                        [labels]="pieChartLabels"
+                                        [colors]="ChartColors"
+                                        [chartType]="pieChartType"></canvas>
+                                    </div>
+                                  </div>
+                    </div>
+                </div>
+               
+                  </div>
+                </div>
+        <div class="card"> 
+                         
+            <div class="card-header">
+                    <label style="font-weight:bold;color:#546E7A;">Reporting sourceur</label>
+            </div>
+         
+                
+                <div class="card-body">
+                  <table class="table table-bordered table-striped" >
+                    <thead>
+                      <tr>
+                        <th>Sourceur</th>
+                        <th>Totale</th>
+                        <th>CV disponibles</th>
+                        <th>Hors cible</th>
+                        <th>Taux de satisfaction</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let rep of ListReporting| paginate: { itemsPerPage:10, currentPage: p }">
+                        <td>{{rep.nomSourceur}}</td>
+                        <td>{{rep.nbrTotal}}</td>
+                        <td>{{rep.nbrDsipo}}</td>
+                        <td>{{rep.nbrHors}}</td>
+                        <td>{{rep.taux}}%</td>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="panel-footer panel-default pager">
+                    <pagination-controls (pageChange)="p =$event"></pagination-controls>
+                  </div>
+                </div>
+          
+          </div>
+    </div>
+</div>

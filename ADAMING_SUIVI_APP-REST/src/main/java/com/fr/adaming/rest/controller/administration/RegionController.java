@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.model.CodePostal;
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.services.IRegionService;
 
@@ -27,9 +28,14 @@ public class RegionController {
 		return regionService.rechercherRegionPourReporting();
 	}
 
-	@RequestMapping(value = "/{text}", method = RequestMethod.GET)
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
 	public List<Region> rechercherRegion(@PathVariable String text) {
 		return regionService.rechercherRegion(text);
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public Region update(@RequestBody Region entity) {
+		return regionService.update(entity);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)

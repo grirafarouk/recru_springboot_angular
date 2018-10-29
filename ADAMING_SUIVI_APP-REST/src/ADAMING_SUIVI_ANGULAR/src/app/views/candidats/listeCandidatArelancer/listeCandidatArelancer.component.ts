@@ -8,6 +8,8 @@ import { CompetencesService } from "../../../services/administrationService/comp
 import { TechnologieService } from "../../../services/administrationService/TechnologieService";
 import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
+import { RegionService } from "../../../services/administrationService/region.service";
+import { Region } from "../../../models/region";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -21,7 +23,8 @@ export class listeCandidatArelancerComponent implements OnInit {
   origines=[]
   competences=[]
   candidats: any[];
-
+  refDisponibilite = this.helperService.buildDisponibiliteArray();
+  region: Array<Region> = [];
   columns =[
     {
       data:'nom',
@@ -46,17 +49,17 @@ export class listeCandidatArelancerComponent implements OnInit {
     {
       data:'dateInscription',
       title:'Date inscription',
-      visible:true
+      visible:false
     },
     {
       data:'technologie',
       title:'Type de profil',
-      visible:true
+      visible:false
     },
     {
       data:'region',
       title:'Région',
-      visible:true
+      visible:false
     },
     {
       data:'nomSourceur',
@@ -67,10 +70,30 @@ export class listeCandidatArelancerComponent implements OnInit {
       data:'prenomSourceur',
       title:'Prénom sourceur',
       visible:true
+    },
+    {
+      data:'disponibilite',
+      title:'Disponible',
+      visible:true
+    },
+    {
+      data:'dateRelance',
+      title:'Date relance',
+      visible:true
+    },
+    {
+      data:'nomCharge',
+      title:'Nom charge',
+      visible:true
+    },
+    {
+      data:'prenomCharge',
+      title:'Prénom charge',
+      visible:true
     }
   ]
   pages = [];
-  size = 5;
+  size = 10;
   currentPage = 1;
   maxlenght = 0;
   lastPage = 1;
@@ -80,10 +103,15 @@ export class listeCandidatArelancerComponent implements OnInit {
     private router:Router,
     private candidatsService:CandidatsService,
     private helperService:HelperService,
-    private notifierService:NotifierService) {}
+    private notifierService:NotifierService,
+    private technologiesService: TechnologieService,
+    private regionService: RegionService) {}
 
   ngOnInit(): void {
     this.rechercheCandidat();
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    })
   }
   rechercheCandidat() {
     this.loading=true;
@@ -117,9 +145,13 @@ export class listeCandidatArelancerComponent implements OnInit {
     this.condidat.technologie = null;
     this.condidat.nomSourceur = null;
     this.condidat.prenomSourceur = null;
+    this.condidat.nomCharge = null;
+    this.condidat.prenomCharge = null;
+    this.condidat.disponibilite = null;
     this.condidat.region = null;
-    this.condidat.dateInscription = null;
-    this.condidat.critereRecheche = null;
+    this.condidat.dateRelance = null;
+    this.condidat.dateDebut = null;
+    this.condidat.dateFin = null;
     this.rechercheCandidat();
   }
 
@@ -149,4 +181,23 @@ export class listeCandidatArelancerComponent implements OnInit {
   openDetails(candidat){
     this.router.navigate(["/candidats/details/"+candidat.id]);
   }
+
+  codePostaleOnSearch(value) {
+    if (value != "")
+      this.regionService.completeRegion(value).subscribe(data => {
+        data.forEach(element => {
+          this.region = [...  this.region, element]
+        });
+      })
+    else this.region = []
+  }
+  private updateDateRelance(date: Date) {
+    this.condidat.dateRelance = date
+  }
+
+  /*relanceHandleChange(event) {
+    if (this.condidat.relancer == true) {
+      this.condidat.dateRelance = undefined
+    }
+  }*/
 }

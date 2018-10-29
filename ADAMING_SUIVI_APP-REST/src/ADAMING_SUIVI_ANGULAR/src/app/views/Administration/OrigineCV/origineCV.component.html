@@ -1,0 +1,101 @@
+<div class="animated fadeIn">
+<div class="row">
+        <div class="card"> 
+                         
+                <div class="card-header">
+                        <label style="font-weight:bold;color:#546E7A;">Origine CV</label>
+                </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" >
+          <thead>
+            <tr>
+              <th>Libellés</th>
+              <th>Ation</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let origine of ListOrigines| paginate: { itemsPerPage:10, currentPage: p }">
+              <td>{{origine.libelle}}</td>
+              <td style="width: 120px">
+                <button type="button" (click)="showEditModal(origine)" class="btn btn-outline-primary btn-sm">
+                <i class="fa fa-edit"></i>
+            </button>       
+            </tr>
+          </tbody>
+        </table>
+        <div class="panel-footer panel-default pager">
+          <pagination-controls (pageChange)="p =$event"></pagination-controls>
+        </div>
+      </div>
+      <div class="card-footer">
+          <div class="col-2">
+              <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
+            </div>
+          
+        </div>
+
+</div>
+
+<div bsModal #origineAddModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Origine CV</h4>
+      <button type="button" class="close" (click)="origineAddModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="origine.libelle" name="libelle" id="libelle"  />
+
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="origineAddModal.hide()">Annuler</button>
+      <button type="button" (click)="saveOrigine()"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div bsModal #origineEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Lieux</h4>
+      <button type="button" class="close" (click)="origineEditModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="origine.libelle" name="libelle" id="libelle"  />
+
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="origineEditModal.hide()">Annuler</button>
+      <button type="button" (click)="updateOrigine(origine)"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+</div>

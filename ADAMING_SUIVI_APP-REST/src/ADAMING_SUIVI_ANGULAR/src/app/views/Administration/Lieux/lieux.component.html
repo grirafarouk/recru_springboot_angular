@@ -1,0 +1,117 @@
+<div class="animated fadeIn">
+<div class="row">
+        <div class="card"> 
+                         
+                <div class="card-header">
+                        <label style="font-weight:bold;color:#546E7A;">lieux</label>
+                </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" >
+          <thead>
+            <tr>
+              <th>Libellés</th>
+              <th>Adresses</th>
+              <th>Ation</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let lieu of ListLieux| paginate: { itemsPerPage:10, currentPage: p }">
+              <td>{{lieu.libelle}}</td>
+              <td>{{lieu.adresseAdaming}}</td>
+              <td style="width: 120px">
+                <button type="button" (click)="showEditModal(lieu)" class="btn btn-outline-primary btn-sm">
+                <i class="fa fa-edit"></i>
+            </button>       
+            </tr>
+          </tbody>
+        </table>
+        <div class="panel-footer panel-default pager">
+          <pagination-controls (pageChange)="p =$event"></pagination-controls>
+        </div>
+      </div>
+      <div class="card-footer">
+          <div class="col-2">
+              <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
+            </div>
+          
+        </div>
+
+</div>
+
+<div bsModal #lieuAddModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Lieux</h4>
+      <button type="button" class="close" (click)="lieuAddModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="lieu.libelle" name="libelle" id="libelle"  />
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Adresse Adaming : </label>
+          <div class="col-md-8 ">
+              <input class="form-control" [(ngModel)]="lieu.adresseAdaming" name="adresseAdaming" id="adresseAdaming"  />
+
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="lieuAddModal.hide()">Annuler</button>
+      <button type="button" (click)="saveLieu()"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<div bsModal #lieuEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Lieux</h4>
+      <button type="button" class="close" (click)="lieuEditModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="lieu.libelle" name="libelle" id="libelle"  />
+
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Adresse Adaming : </label>
+          <div class="col-md-8 ">
+              <input class="form-control" [(ngModel)]="lieu.adresseAdaming" name="adresseAdaming" id="adresseAdaming"  />
+
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="lieuEditModal.hide()">Annuler</button>
+      <button type="button" (click)="updateLieu(lieu)"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+</div>
+</div>

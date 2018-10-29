@@ -9,6 +9,10 @@ import { TechnologieService } from "../../../services/administrationService/Tech
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
+import { CodePostalService } from "../../../services/administrationService/code-postal.service";
+import { CodePostal } from "../../../models/CodePostal";
+import { RegionService } from "../../../services/administrationService/region.service";
+import { Region } from "../../../models/region";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -44,24 +48,34 @@ export class listeTousCandidatsComponent implements OnInit {
       visible:true
     },
     {
+      data:'statut',
+      title:'Statut',
+      visible:false
+    },
+    {
+      data:'dateRelance',
+      title:'Date relance',
+      visible:true
+    },
+    {
       data:'technologie',
       title:'Type de profil',
-      visible:true
+      visible:false
     },
     {
       data:'region',
       title:'Région',
-      visible:true
+      visible:false
     },
     {
       data:'nomSourceur',
       title:'Nom sourceur',
-      visible:true
+      visible:false
     },
     {
       data:'prenomSourceur',
       title:'Prénom sourceur',
-      visible:true
+      visible:false
     },
     {
       data:'dateEntretien',
@@ -77,6 +91,16 @@ export class listeTousCandidatsComponent implements OnInit {
       data:'disponibilite',
       title:'Disponible',
       visible:true
+    },
+    {
+      data:'nomCharge',
+      title:'Nom charge',
+      visible:true
+    },
+    {
+      data:'prenomCharge',
+      title:'Prénom charge',
+      visible:true
     }
   ]
 
@@ -88,21 +112,26 @@ export class listeTousCandidatsComponent implements OnInit {
   candidats: any[];
 
   pages = [];
-  size = 5;
+  size = 10;
   currentPage = 1;
   maxlenght = 0;
   lastPage = 1;
-
+  region: Array<Region> = [];
+  refStatut = this.helperService.buildStatutArray();
+  refDisponibilite = this.helperService.buildDisponibiliteArray();
   condidat: CandidateDto = new CandidateDto();
 
   constructor(private router:Router,private candidatsService:CandidatsService,
-    private notifierService:NotifierService,
-    private lieuxService:LieuxService,private helperService:HelperService) {}
+    private notifierService:NotifierService, private technologiesService: TechnologieService,
+    private lieuxService:LieuxService,private helperService:HelperService, private regionService: RegionService) {}
 
   ngOnInit(): void {
     this.rechercheCandidat()
     this.lieuxService.findAllLieux().subscribe(data=>{
       this.lieux = data;
+    })
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
     })
   } 
 
@@ -134,13 +163,13 @@ export class listeTousCandidatsComponent implements OnInit {
     this.condidat.prenom = null;
     this.condidat.numeroTel = null;
     this.condidat.email = null;
-    this.condidat.dateInscription = null;
+    this.condidat.dateEntretien = null;
     this.condidat.technologie = null;
     this.condidat.nomSourceur = null;
     this.condidat.prenomSourceur = null;
     this.condidat.region = null;
-    this.condidat.dateInscription = null;
-    this.condidat.critereRecheche = null;
+    this.condidat.dateRelance=null;
+    this.condidat.statut=null;
     this.rechercheCandidat();
   }
 
@@ -170,5 +199,19 @@ export class listeTousCandidatsComponent implements OnInit {
 
   openDetails(candidat){
     this.router.navigate(["/candidats/details/"+candidat.id]);
+  }
+
+  codePostaleOnSearch(value) {
+    if (value != "")
+      this.regionService.completeRegion(value).subscribe(data => {
+        data.forEach(element => {
+          this.region = [...  this.region, element]
+        });
+      })
+    else this.region = []
+  }
+
+  private updateDateRelance(date: Date) {
+    this.condidat.dateRelance = date
   }
 }

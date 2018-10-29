@@ -18,6 +18,7 @@ public interface IV_ListeCandidatsService extends IManagerService<V_ListeCandida
 
 	List<V_ListeCandidats> rechercherCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size, Boolean all);
+    List<V_ListeCandidats> findCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, Boolean all);
 
 	public List<V_ListeCandidats> rechercherV_ListeCandidatsARelancer(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);

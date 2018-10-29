@@ -1,5 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Disponibilite } from "../models/enum/Disponibilite";
+import { Status } from "../models/enum/Status";
+import { Profil } from "../models/enum/Profil";
 
 
 @Injectable({
@@ -11,6 +13,17 @@ export class HelperService {
         return Object.keys(Disponibilite)
             .map(key => ({ label: Disponibilite[key], value: key }))
     }
+
+    public buildProfilArray(): Object[] {
+      return Object.keys(Profil)
+          .map(key => ({ label: Profil[key], value: key }))
+  }
+
+    public buildStatutArray(): Object[] {
+      return Object.keys(Status)
+          .map(key => ({ label: Status[key], value: key }))
+  }
+
 
     public formatTime(date) {
         let timeTab = date.toLocaleTimeString("fr-FR", { timeZone: 'Europe/Brussels' }).split(':');
@@ -37,7 +50,7 @@ export class HelperService {
   }
 
   public generatePages(currentPage, maxPages,nbPagesAffiche?) {
-    nbPagesAffiche = nbPagesAffiche==null ? 3:nbPagesAffiche;
+    nbPagesAffiche = nbPagesAffiche==null ? 10:nbPagesAffiche;
     let pages = []
     if (maxPages <= nbPagesAffiche) {
       for (let index = 1; index <= maxPages; index++) {

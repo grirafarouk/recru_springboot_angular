@@ -78,7 +78,7 @@ export class listeNouveauxCandidatsComponent implements OnInit {
   candidats: any[];
 
   pages = [];
-  size = 5;
+  size = 10;
   currentPage = 1;
   maxlenght = 0;
   lastPage = 1;

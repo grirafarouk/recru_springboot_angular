@@ -25,4 +25,27 @@ export class UtilisateurService {
             return JSON.parse(localStorage.getItem(USER_NAME)).userInfo
         } else return null;
     }
+    getAllUser(): Observable<any> {
+        return this.httpClient.get(BACK_END_URL + "/utilisateurs")
+    }
+
+    save(utilisateur): Observable<any> {
+
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        };
+        return this.httpClient.post(BACK_END_URL + "/utilisateurs/add", utilisateur, httpOptions);
+      }
+
+      update(utilisateur): Observable<any> {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json'
+          })
+        };
+        return this.httpClient.post(BACK_END_URL + "/utilisateurs/update" , utilisateur, httpOptions);
+    }
+
 }

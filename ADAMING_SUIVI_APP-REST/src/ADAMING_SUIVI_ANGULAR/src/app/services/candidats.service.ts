@@ -153,6 +153,24 @@ export class CandidatsService {
     };
     return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsaRelancer" +"?page="+page+"&size="+size, candidat, httpOptions);
   }
+  rechercheCandidatAvecEntretien (candidat, page, size): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" +"?page="+page+"&size="+size, candidat, httpOptions);
+  }
+  RechercheReporting (candidat, page, size): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL + "/RechercheReporting" +"?page="+page+"&size="+size, candidat, httpOptions);
+  }
   getCandidatEntretien(page, size) {
     return this.httpClient.get<any>(BACK_END_URL + '/candidatavecentretien/' + page + '/' + size);
   }

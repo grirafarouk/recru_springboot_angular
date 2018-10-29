@@ -77,6 +77,11 @@ public class V_ListeCandidatsService extends ManagerService<V_ListeCandidats, Lo
 			int size,Boolean all) {
 		return v_ListeCandidatsDao.rechercherCandidatAvecEntretien(v_ListeCandidatsDto,page,size, all);
 	}
+	
+	@Override
+	public List<V_ListeCandidats> findCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, Boolean all) {
+		return v_ListeCandidatsDao.findCandidatAvecEntretien(v_ListeCandidatsDto,all);
+	}
 
 	@Override
 	public IManagerDao<V_ListeCandidats, Long> getDao() {

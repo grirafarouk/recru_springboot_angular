@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.model.Lieu;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.services.IOrigineService;
 
@@ -35,10 +36,17 @@ public class OrigineController {
 	public Origine createOrUpdate(@RequestBody Origine entity) {
 		return origineService.createOrUpdate(entity);
 	}
-
-	public Origine create(Origine entity) {
-		return origineService.merge(entity);
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public Origine update(@RequestBody Origine entity) {
+		return origineService.update(entity);
 	}
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public Origine create(@RequestBody Origine entity) {
+		return origineService.create(entity);
+	}
+
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public List<Origine> findAllOrigines() {

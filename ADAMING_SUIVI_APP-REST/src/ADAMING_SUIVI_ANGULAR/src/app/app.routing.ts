@@ -11,6 +11,7 @@ import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './services/AuthGuard.service';
 import { ficheCvRelanceComponent } from './views/dashboard/ficheCvRelance/ficheCvRelance.component';
 import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
+import { FicheSessionFormationComponent } from './views/Sessions-Formations/FicheSessionFormation/FicheSessionFormation.component';
 export const routes: Routes = [
   {
     path: '',
@@ -24,6 +25,10 @@ export const routes: Routes = [
   {
     path: 'ficheCandidatSession/:idSession',
     component: ficheCandidatSessionComponent
+  },
+  {
+    path: 'ficheSessionFormation/:id',
+    component: FicheSessionFormationComponent
   },
   {
     path: '404',
@@ -66,28 +71,24 @@ export const routes: Routes = [
       loadChildren: './views/candidats/candidats.module#CandidatsModule'
       },
       {
-        path: 'listeTousCandidats',
-        loadChildren: './views/candidats/listeTousCandidats/listeTousCandidats.module#listeTousCandidatsModule'
-      },
-      {
-        path: 'listeCandidatArelancer',
-        loadChildren: './views/candidats/listeCandidatArelancer/listeCandidatArelancer.module#listeCandidatArelancerModule'
-      },
-      {
         path: 'listeEntretien',
         loadChildren: './views/candidats/listeEntretien/listeEntretien.module#listeEntretienModule'
       },
       {
-        path: 'SessionsFormationsEncours',
-        loadChildren: './views/Sessions-Formations/Sessions-Formations-Encours/SessionsFormationsEncours.module#SessionsFormationsEncoursModule'
-      },
-      {
-        path: 'SessionsFormationsClotures',
-        loadChildren: './views/Sessions-Formations/Sessions-Formations-Clotures/SessionsFormationsClotures.module#SessionsFormationsCloturesModule'
+        path: 'SessionsFormations',
+        loadChildren: './views/Sessions-Formations/sessionFormations.module#SessionFormationsModule'
       },
       {
         path: 'listeReporting',
         loadChildren: './views/candidats/listeReporting/listeReporting.module#listeReportingModule'
+      },
+      {
+        path: 'reportingSourceur',
+        loadChildren: './views/candidats/reportingSourceur/reportingSourceur.module#reportingSourceurModule'
+      },
+      {
+        path: 'administration',
+        loadChildren: './views/Administration/administration.module#administrationModule'
       },
       {
         path: 'base',

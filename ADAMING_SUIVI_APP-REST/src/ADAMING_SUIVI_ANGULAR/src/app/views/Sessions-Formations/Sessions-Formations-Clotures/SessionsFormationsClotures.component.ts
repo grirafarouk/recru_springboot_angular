@@ -17,7 +17,7 @@ import { Formation } from "../formation";
 export class SessionsFormationsCloturesComponent implements OnInit {
 
   constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
-    private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
+    private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService:TypeFormationService) { }
   session: any = {}; 
   sessionFormations: any ;
   formations: any;

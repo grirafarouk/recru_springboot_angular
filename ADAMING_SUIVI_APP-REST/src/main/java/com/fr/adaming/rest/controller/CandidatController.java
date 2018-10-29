@@ -1,4 +1,4 @@
-package com.fr.adaming.rest.controller;
+ package com.fr.adaming.rest.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -183,6 +183,20 @@ public class CandidatController {
 			Boolean all) {
 		return vListeCandidatsService.rechercherCandidatAvecEntretien(vListeCandidatsDto, page, size, false);
 	}
+	
+	@RequestMapping(value = "/RechercheCandidatavecentretien", method = RequestMethod.POST)
+	public JSONObject findCandidatavecentretien(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
+			@RequestParam int size) {
+		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.findCandidatAvecEntretien(NCD,false));
+		JSONObject object = new JSONObject();
+		object.put("total", list.size());
+		if (size == 0)
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
+		else
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
+					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		return object;
+	}
 
 	@RequestMapping(value = "/reporting/{page}/{size}", method = RequestMethod.GET)
 	public List<V_ReportingCandidatDto> findReportingCandidats(@PathVariable int page, @PathVariable int size) {
@@ -191,6 +205,20 @@ public class CandidatController {
 		List<V_ReportingCandidat> v_listeCandidats = new ArrayList<>(
 				vReportingCandidatService.rechercherReportingCandidat(vReportingCandidatDto, page, size));
 		return vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(v_listeCandidats);
+	}
+	
+	@RequestMapping(value = "/RechercheReporting", method = RequestMethod.POST)
+	public JSONObject rechercherReportingCandidat(@RequestBody V_ReportingCandidatDto NCD, @RequestParam int page,
+			@RequestParam int size) {
+		List<V_ReportingCandidat> list = new ArrayList<>(vReportingCandidatService.findReportingCandidat(NCD));
+		JSONObject object = new JSONObject();
+		object.put("total", list.size());
+		if (size == 0)
+			object.put("results", vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(list));
+		else
+			object.put("results", vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(
+					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		return object;
 	}
 
 	@GetMapping(value = "/getcandidatById/{id}", produces = "application/json")
@@ -269,6 +297,42 @@ public class CandidatController {
 		}
 		return candidat;
 	}
+	
+	private Boolean creerCv(Candidat candidat, String login, String mime) { 
+		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
+				+ File.separator + login + File.separator;
+		FileInputStream fileInputStream = null;
+		try {
+			fileInputStream = new FileInputStream(realPath
+					+ candidat.getNomCV().replace(".docx", ".pdf").replace(".doc", ".pdf").replace(".PDF", ".pdf"));
+			Document cvAlfresco = AlfrescoOpenCmis.createCv(fileInputStream, genererNomPDF(candidat),
+					fileInputStream.getChannel().size(), mime);
+			candidat.setIdCv(cvAlfresco.getId());
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} finally {
+			if (fileInputStream != null)
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}
+
+	}
+	
+	private String genererNomPDF(Candidat candidat) {
+		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+		int dotPosition = candidat.getNomCV().lastIndexOf('.');
+		String extension = "";
+		if (dotPosition != -1) {
+			extension = candidat.getNomCV().substring(dotPosition);
+		}
+		return "CV " + candidat.getNom() + " " + candidat.getPrenom() + " - " + df.format(new Date()) + extension;
+	}
+
 
 	@RequestMapping(value = "/updateCandidat", method = RequestMethod.PUT)
 	public Candidat updateCandidat(@RequestBody Candidat entity) {
@@ -360,41 +424,6 @@ public class CandidatController {
 				return null;
 			}
 		}
-	}
-
-	private Boolean creerCv(Candidat candidat, String login, String mime) {
-		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
-				+ File.separator + login + File.separator;
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(realPath
-					+ candidat.getNomCV().replace(".docx", ".pdf").replace(".doc", ".pdf").replace(".PDF", ".pdf"));
-			Document cvAlfresco = AlfrescoOpenCmis.createCv(fileInputStream, genererNomPDF(candidat),
-					fileInputStream.getChannel().size(), mime);
-			candidat.setIdCv(cvAlfresco.getId());
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		} finally {
-			if (fileInputStream != null)
-				try {
-					fileInputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		}
-
-	}
-
-	private String genererNomPDF(Candidat candidat) {
-		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-		int dotPosition = candidat.getNomCV().lastIndexOf('.');
-		String extension = "";
-		if (dotPosition != -1) {
-			extension = candidat.getNomCV().substring(dotPosition);
-		}
-		return "CV " + candidat.getNom() + " " + candidat.getPrenom() + " - " + df.format(new Date()) + extension;
 	}
 
 	@GetMapping("/getCandidatByEmail/{email}/")

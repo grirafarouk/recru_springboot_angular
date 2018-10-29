@@ -832,6 +832,62 @@ public class V_ListecandidatsDao extends ManagerDao<V_ListeCandidats, Long> impl
 
 		return liste;
 	}
+	
+	@Override
+	public List<V_ListeCandidats> findCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, Boolean all) {
+		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
+
+		if (v_ListeCandidatsDto != null) {
+			if (v_ListeCandidatsDto.getNom() != null && !v_ListeCandidatsDto.getNom().isEmpty()) {
+				query = query + " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%" + v_ListeCandidatsDto.getNom() + "%'";
+			}
+
+			if (v_ListeCandidatsDto.getPrenom() != null && !v_ListeCandidatsDto.getPrenom().isEmpty()) {
+				query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%" + v_ListeCandidatsDto.getPrenom()
+						+ "%'";
+			}
+
+			if (v_ListeCandidatsDto.getNumeroTel() != null && !v_ListeCandidatsDto.getNumeroTel().isEmpty()) {
+				query = query + " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT = '" + v_ListeCandidatsDto.getNumeroTel()
+						+ "'";
+			}
+
+		
+			if (v_ListeCandidatsDto.getDateEntretien() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='"
+						+ sdf.format(v_ListeCandidatsDto.getDateEntretien()) + "'";
+			}
+
+			if (v_ListeCandidatsDto.getLieuEntretien() != null && !v_ListeCandidatsDto.getLieuEntretien().isEmpty()) {
+				query = query + " AND V_ListeCandidats.LIEU_ENTRETIEN LIKE '%" + v_ListeCandidatsDto.getLieuEntretien()
+						+ "%'";
+			}
+			if (v_ListeCandidatsDto.getNomCharge() != null && !v_ListeCandidatsDto.getNomCharge().isEmpty()) {
+				query = query + " AND V_ListeCandidats.NOM_CHARGE LIKE '%" + v_ListeCandidatsDto.getNomCharge() + "%'";
+			}
+			if (v_ListeCandidatsDto.getPrenomCharge() != null && !v_ListeCandidatsDto.getPrenomCharge().isEmpty()) {
+				query = query + " AND V_ListeCandidats.PRENOM_CHARGE LIKE '%" + v_ListeCandidatsDto.getPrenomCharge()
+						+ "%'";
+			}
+
+			if (v_ListeCandidatsDto.getMobilite() != null) {
+				query = query + " AND V_ListeCandidats.MOBILITE = " + v_ListeCandidatsDto.getMobilite() + "";
+			}
+		}
+		if (all) {
+			query = query
+					+ " AND V_ListeCandidats.STATUT IN ('1','2','3','4') AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() ";
+		} else {
+			query = query
+					+ " AND V_ListeCandidats.STATUT IN ('2','3','4') AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL  AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() AND V_ListeCandidats.LIEU_ENTRETIEN IS NOT NULL ";
+		}
+		query = query + " ORDER BY V_ListeCandidats.DATE_ENTRETIEN DESC";
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<V_ListeCandidats> liste = (List<V_ListeCandidats>) st.addEntity(V_ListeCandidats.class).list();
+
+		return liste;
+	}
 
 	@Override
 	public Number nberCandidatsARelancer() {

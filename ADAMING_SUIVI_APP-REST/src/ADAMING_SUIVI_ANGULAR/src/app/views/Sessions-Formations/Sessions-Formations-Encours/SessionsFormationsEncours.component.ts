@@ -5,7 +5,7 @@ import { NotifierService } from "angular-notifier";
 import { FormationService } from "../../../services/sessionService/formation.service";
 import { SessionFormationEnCoursService } from "../../../services/sessionService/session-formation-en-cours.service";
 import { Formation } from "../formation";
-import { Session } from "../session";
+//import { Session } from "../session";
 import { Technologie } from "../../../models/Technologie";
 import { TechnologieService } from "../../../services/administrationService/TechnologieService";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
@@ -23,7 +23,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
   session: any = {}; 
   sessionFormations: any ;
   formations: any;
-  t: any = [];
+  t = [];
   isCollapsed=[];
   formation: Formation = new Formation();
   //session: Session=new Session();
@@ -63,7 +63,8 @@ export class SessionsFormationsEncoursComponent implements OnInit {
         this.sessionFormations = data;
         /*for (let i = 0; i < this.sessionFormations.length; i++) {
           let sf = this.sessionFormations[i];
-          this.sessionFormationService.NombreParticipants(sf).subscribe(resp => { this.t[i] = (resp) })
+          this.sessionFormationService.NombreParticipants(sf).subscribe(resp => { 
+            this.t[i] = resp })
         };*/
   
       });

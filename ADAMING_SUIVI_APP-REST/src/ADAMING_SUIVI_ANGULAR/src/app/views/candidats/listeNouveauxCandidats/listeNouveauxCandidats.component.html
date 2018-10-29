@@ -9,20 +9,20 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label for="nom">Nom:</label>
+                                <label for="nom" style="font-weight:bold">Nom:</label>
                                 <input type="text" class="form-control" name="nom" [(ngModel)]="condidat.nom" id="nom">
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="prenom">Prénom :</label>
+                                <label class="form-col-form-label" for="prenom" style="font-weight:bold">Prénom :</label>
                                 <input type="text" class="form-control" name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
 
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="numeroTel">N° téléphone:</label>
+                                <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N° téléphone:</label>
                                 <input type="text" class="form-control" name="prenom" [(ngModel)]="condidat.numeroTel"
                                     id="numeroTel" [textMask]="{mask: mask}">
 
@@ -30,23 +30,27 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="email">Email:</label>
+                                <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
                                 <input type="text" class="form-control" name="email" [(ngModel)]="condidat.email" id="email">
 
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="dateInscription">Date Inscription:</label>
-                                <input type="date" class="form-control" name="dateInscription" [(ngModel)]="condidat.dateInscription"
-                                    id="dateInscription">
+                                <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date Inscription:</label>
+                               
+
+                                    <input  [owlDateTimeFilter]="dateDateFilter"
+                                    [owlDateTimeTrigger]="dateInscription" [owlDateTime]="dateInscription" class="form-control"
+                                    name="dateInscription" [(ngModel)]="condidat.dateInscription" id="dateInscription">
+                                    <owl-date-time [pickerType]="'calendar'" #dateInscription></owl-date-time>
 
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label for="profil">Type de profil:</label>
-                                <select [(ngModel)]="condidat.technologie" name="profil" class="form-control input-sm">
+                                <label for="profil" style="font-weight:bold">Type de profil:</label>
+                                <select [(ngModel)]="condidat.technologie" name="profil" class="form-control input-sm" id="profil">
                                     <option value="">-- Sélectionner --</option>
                                     <option *ngFor="let tech of technologies" [value]="tech.libelle">{{ tech.libelle }}</option>
                                 </select>
@@ -56,7 +60,7 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="nomSourceur">Nom Sourceur :</label>
+                                <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
                                 <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomSourceur"
                                     id="nomSourceur">
 
@@ -64,21 +68,21 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="prenomSourceur">Prenom Sourceur :</label>
+                                <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
                                 <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomSourceur"
                                     id="prenomSourceur">
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="prenom">Region:</label>
+                                <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
                                 <input type="text" class="form-control" name="region" [(ngModel)]="condidat.region" id="region">
 
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="region">Fraicheur CV:</label>
+                                <label class="form-col-form-label" for="region" style="font-weight:bold">Fraicheur CV:</label>
                                 <select [(ngModel)]="condidat.critereRecheche" name="region" class="form-control input-sm">
                                     <option selected value="">-- Sélectionner --</option>
                                     <option value="1">Moins 1 mois</option>
@@ -139,7 +143,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <ul class="pagination">
+                <ul class="pagination justify-content-center">
                     <li [class.disabled]="1==currentPage" class="page-item">
                         <a (click)="setPage(1)" class="page-link">«</a>
                     </li>
@@ -157,7 +161,7 @@
                     </li>
                 </ul>
             </div>
-            <ngx-loading [show]="loading" [config]=""></ngx-loading>
+            <!--<ngx-loading [show]="loading" [config]=""></ngx-loading>-->
         </div>
     </div>
 </div>

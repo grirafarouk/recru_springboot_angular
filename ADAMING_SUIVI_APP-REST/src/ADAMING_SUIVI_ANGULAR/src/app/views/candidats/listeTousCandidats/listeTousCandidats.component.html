@@ -8,27 +8,27 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label for="nom">Nom:</label>
+                            <label for="nom" style="font-weight:bold">Nom:</label>
                             <input type="text" class="form-control" name="nom" [(ngModel)]="condidat.nom" id="nom">
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom">Prénom :</label>
+                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Prénom :</label>
                             <input type="text" class="form-control" name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="numeroTel">N° téléphone:</label>
+                            <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N° téléphone:</label>
                             <input type="text" class="form-control" name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel">
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="email">Email:</label>
+                            <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
                             <input type="text" class="form-control" name="email" [(ngModel)]="condidat.email" id="email">
 
                         </div>
@@ -36,59 +36,109 @@
 
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label for="nom">Type de profil:</label>
-                            <input type="text" class="form-control" name="technologie" [(ngModel)]="condidat.technologie"
-                                id="nom">
+                            <label for="nom" style="font-weight:bold">Type de profil:</label>
+                                <select [(ngModel)]="condidat.technologie" name="profil" class="form-control input-sm">
+                                    <option [ngValue]="undefined">--Séléctionner--</option>
+                                    <option *ngFor="let tech of technologies" [value]="tech.libelle">{{ tech.libelle }}</option>
+                                </select>
 
                         </div>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="dateEntretien">Date entretien:</label>
-                            <input type="date" class="form-control" name="dateEntretien" [(ngModel)]="condidat.dateEntretien"
-                                id="dateEntretien">
-
+                            <label class="form-col-form-label" for="dateEntretien" style="font-weight:bold">Date entretien:</label>
+                                <input  [owlDateTimeFilter]="dateEntretienDateFilter"
+                                    [owlDateTimeTrigger]="dateEntretien" [owlDateTime]="dateEntretien" class="form-control"
+                                    name="dateEntretien" [(ngModel)]="condidat.dateEntretien" id="dateEntretien">
+                                    <owl-date-time [pickerType]="'calendar'" #dateEntretien></owl-date-time>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label for="profil">Lieu entretien:</label>
+                            <label for="profil" style="font-weight:bold">Lieu entretien:</label>
                             <select [(ngModel)]="condidat.lieuEntretien" class="form-control input-sm">
-                                <option value="">-- Sélectionner --</option>
+                                <option [ngValue]="undefined">--Séléctionner--</option>
                                 <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="region">Disponibilité:</label>
-                            <select [(ngModel)]="condidat.disponibilite" class="form-control input-sm">
-                                <option selected value="">-- Sélectionner --</option>
-                                <option value="DISPONIBLE">DISPONIBLE</option>
-                                <option value="EN_POSTE">EN_POSTE</option>
-                                <option value="PREAVIS">PREAVIS</option>
-                                <option value="message_vocal">message_vocal</option>
-                                <option value="pas_interesse">pas_interesse</option>
-                                <option value="envoi_de_la_plaquette">envoi_de_la_plaquette</option>
-                                <option value="EN_ATTENTE_FORMATION">EN_ATTENTE_FORMATION</option>
-                                <option value="mail_envoye">mail_envoye</option>
-                                <option value="hors_cible">hors_cible</option>
-                                <option value="Déjà_chez_ADAMING">Déjà_chez_ADAMING</option>
-                            </select>
+                            <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
+                            <select [(ngModel)]="condidat.disponibilite" name="disponibilite" class="form-control"
+                            id="disponibilite">
+                            <option [ngValue]="undefined">--Séléctionner--</option>
+                            <option *ngFor="let refDis of refDisponibilite" [value]="refDis.value">{{refDis.label}}</option>
+                          </select>
                         </div>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom">Region:</label>
-                            <input type="text" class="form-control" name="region" [(ngModel)]="condidat.region" id="region">
+                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
+                            <ng-select aria-required=""  
+                            id="region" [items]="region" (search)="codePostaleOnSearch($event)" 
+                                [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
+                               <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
+
+                           </ng-select>
 
                         </div>
                     </div>
 
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Date Relance:</label>
+                          <month-year-picker (changed)="updateDateRelance($event)" [(ngModel)]="condidat.dateRelance"></month-year-picker>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
+                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomSourceur"
+                                id="nomSourceur">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
+                            <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomSourceur"
+                                id="prenomSourceur">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                        <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom charge :</label>
+                                    <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomCharge"
+                                        id="nomSourceur">
+        
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom charge :</label>
+                                    <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomCharge"
+                                        id="prenomSourceur">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label class="form-col-form-label" for="statut" style="font-weight:bold">Statut :</label>
+                                        <select [(ngModel)]="condidat.statut" name="statut" class="form-control"
+                                        id="statut">
+                                        <option [ngValue]="undefined">--Séléctionner--</option>
+                                        <option *ngFor="let refSt of refStatut" [value]="refSt.value">{{refSt.label}}</option>
+                                      </select>
+                                    </div>
+                           </div>
                 </div>
             </div>
             <div class="card-footer">
@@ -151,7 +201,7 @@
                     </tbody>
                 </table>
                 <div class="panel-footer panel-default pager">
-                    <ul class="pagination">
+                    <ul class="pagination justify-content-center">
                         <li [class.disabled]="1==currentPage" class="page-item">
                             <a (click)="setPage(1)" class="page-link">«</a>
                         </li>
@@ -170,7 +220,7 @@
                     </ul>
                 </div>
             </div>
-            <ngx-loading [show]="loading" [config]=""></ngx-loading>
+            <!--<ngx-loading [show]="loading" [config]=""></ngx-loading>-->
         </div>
     </div>
 </div>

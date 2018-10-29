@@ -17,8 +17,10 @@ export class CandidateDto {
     nomSourceur: string;
     prenomSourceur: string;
     disponibilite: string;
-    relancer: string;
-    dateRelance: number;
+    relancer: boolean;
+    dateRelance: Date;
+    dateDebut: Date;
+    dateFin: Date;
     dateEntretien: Date;
     lieuEntretien: string;
     confirmationRdv: boolean;
@@ -26,6 +28,7 @@ export class CandidateDto {
     prenomCharge: string;
     commentaire: string;
     critereRecheche: string;
+    origine: string;
   }
   
   

@@ -1,4 +1,9 @@
 <div class="animated fadeIn">
+        <div class="card">
+                <div class="card-header">
+                        <label style="font-weight:bold;color:#546E7A;">Nouveau Candidat
+                        </label>
+                        </div>
     <div class="row">
         <div class="col-sm-3 col-md-3">
             <div class="card">
@@ -6,8 +11,8 @@
                     <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
                         <input (change)="uploadFiles($event)" style="display: none;" id="fileUpload" type="file"
                             webkitdirectory mozdirectory />
-                        <button onclick="document.getElementById('fileUpload').click();" style="width: 100px" type="button"
-                            class="btn btn-block btn-outline-primary">Primary</button>
+                        <button onclick="document.getElementById('fileUpload').click();" style="width: 110px" type="button"
+                            class="btn btn-block btn-outline-primary">Select. fichiers</button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -66,7 +71,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
-                                    <input type="text"  class="form-control"  mask='00-00-00-00-00'  name="telephone"
+                                    <input type="text"  class="form-control"  [textMask]="{mask: mask}"  name="telephone"
                                         [(ngModel)]="candidate.numeroTel" id="telephone">
                                        
                                 </div>
@@ -209,5 +214,5 @@
     </div>
     </div>
     <!--/.row-->
-
+</div>
 </div>

@@ -24,12 +24,12 @@ public class TechnologieController {
 	@Autowired
 	private ITechnologieService technologieService;
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Technologie create(@RequestBody Technologie entity) {
 		return technologieService.merge(entity);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Technologie update(@RequestBody Technologie entity) {
 		return technologieService.update(entity);
 	}

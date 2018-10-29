@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { DxTreeViewModule } from 'devextreme-angular';
 import {AccordionModule} from 'ngx-accordion';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { FicheSessionFormationComponent } from '../FicheSessionFormation/FicheSessionFormation.component';
+//import { FicheSessionFormationComponent } from '../FicheSessionFormation/FicheSessionFormation.component';
 
 @NgModule({
   imports: [
@@ -23,6 +23,6 @@ import { FicheSessionFormationComponent } from '../FicheSessionFormation/FicheSe
     AccordionModule,
     CollapseModule.forRoot(),
   ],
-  declarations: [  SessionsFormationsEncoursComponent,FicheSessionFormationComponent  ]
+  declarations: [  SessionsFormationsEncoursComponent]
 })
 export class SessionsFormationsEncoursModule { }

@@ -82,6 +82,7 @@
                                 <th>Type Formation</th>
                                 <th>Date Démarage</th>
                                 <th>Date Fin</th>
+                                <!--<th>Nbre Participant</th>-->
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -95,6 +96,7 @@
                                     <td>{{f.formation.typeFormation.libelle}}</td>
                                     <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
                                     <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
+                                    <!--<td>{{ t[i] }} </td> -->
                                     <td style="width: 10%">     
                                         <a class="btn btn-default" [routerLink]="['/ficheSessionFormation', f.id]">
                                               <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>

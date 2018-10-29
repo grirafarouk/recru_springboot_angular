@@ -2,6 +2,7 @@ package com.fr.adaming.jsfapp.dao.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -609,6 +610,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements
 				BigDecimal autre = (BigDecimal) o[5];
 				BigDecimal taux_satis = (BigDecimal) o[6]; 
 				BigDecimal taux_hors = (BigDecimal) o[7]; 
+				taux_satis = taux_satis.setScale(0, RoundingMode.HALF_UP);
+
 			
 				data.add(new ReportingSourceurParDispoDto(idUser,nom,nbrTotal,nbrDispo,nbrHors,autre,taux_satis,taux_hors));
 				
@@ -661,6 +664,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements
 				BigDecimal autre = (BigDecimal) o[5];
 				BigDecimal taux_satis = (BigDecimal) o[6]; 
 				BigDecimal taux_hors = (BigDecimal) o[7]; 
+				taux_satis = taux_satis.setScale(0, RoundingMode.HALF_UP);
+
 			
 				data.add(new ReportingSourceurParDispoDto(idUser,nom,nbrTotal,nbrDispo,nbrHors,autre,taux_satis,taux_hors));
 				

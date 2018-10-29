@@ -1,0 +1,103 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="card">
+            <form #rechercheForm="ngForm">
+                <div class="card-header">
+                    <label style="font-weight:bold;color:#546E7A;">Informations</label>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="nom" style="font-weight:bold">Nom:</label>
+                                <p class="form-control-static">{{ session?.formation.nom }}</p>                            
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="prenom" style="font-weight:bold">Technologie :</label>
+                                <p class="form-control-static">{{ session?.formation.technologie.libelle }}</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">Lieu :</label>
+                                <p class="form-control-static">{{ session?.formation.lieu.libelle }}</p>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="email" style="font-weight:bold">Type Formation :</label>
+                                <p class="form-control-static">{{ session?.formation.typeFormation.libelle }}</p>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date de Demarrage :</label>
+                                <p class="form-control-static">{{ session?.dateDemarrage | date : 'dd/MM/yyyy' }}</p>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="profil" style="font-weight:bold">Date Fin :</label>
+                                <p class="form-control-static">{{ session?.dateFin | date : 'dd/MM/yyyy' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                 
+                </div>
+                <div class="card-footer">
+
+                </div>
+            </form>
+        </div>
+            <div class="card"> 
+                             
+                    <div class="card-header">
+                            <label style="font-weight:bold;color:#546E7A;">Liste Candidats</label>
+                    </div>
+        <div class="card-body">
+            <table class="table table-bordered table-striped" >
+              <thead>
+                <tr>
+                    <th> NOM
+                    </th>
+                    <th>PRENOM
+                    </th>
+                    <th>N° TEL
+                    </th>
+                    <th>E-MAIL
+                    </th>
+                    <th>SOURCEUR
+                    </th>
+                    <th>Accéptation candidat
+                    </th>
+                    <th>Refus candidat</th>
+    
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let c of candidats">
+          <td>{{c.nom}}</td>
+          <td>{{c.prenom}}</td>
+          <td style="white-space: nowrap;">{{c.numeroTel}}</td>
+          <td>{{c.nom}}</td>
+          <td>{{c.creePar.nom }}  {{c.creePar.prenom }}</td>
+          <td><input type="checkbox" [(ngModel)]="c.docConsult" ></td>
+          <td><input type="checkbox"  [(ngModel)]="c.docRefus" ></td>
+                </tr>
+              </tbody>
+            </table>
+            
+          </div>
+          <div class="col-2">
+            <button (click)="annuler()" type="button" class="btn btn-block btn-primary" style="float:right">Annuler</button>
+          </div>
+    
+    </div>   
+</div>
+    
+</div>  

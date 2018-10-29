@@ -38,12 +38,12 @@ public class AlfrescoOpenCmis {
 			Map<String, String> parameter = new HashMap<String, String>();
 
 			// user credentials
-			parameter.put(SessionParameter.USER, "mazaidi");
-			parameter.put(SessionParameter.PASSWORD, "J500Z9NW");
+			parameter.put(SessionParameter.USER, "admin");
+			parameter.put(SessionParameter.PASSWORD, "admin");
 
 			// connection settings
 			parameter.put(SessionParameter.ATOMPUB_URL,
-					"http://188.165.118.132:9999/alfresco/api/-default-/public/cmis/versions/1.0/atom");
+					"http://127.0.0.1:8081/alfresco/api/-default-/public/cmis/versions/1.0/atom");
 			parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 			List<Repository> s = factory.getRepositories(parameter);
 			// create session
@@ -54,7 +54,7 @@ public class AlfrescoOpenCmis {
 
 	public static Folder createCvFolderIfNotExist() {
 		if (folder == null) {
-			String query = "SELECT * FROM cmis:folder WHERE cmis:name LIKE 'Suivi-Recrutement'";
+			String query = "SELECT cmis:objectId FROM cmis:folder WHERE cmis:name LIKE 'Suivi-Recrutement'";
 			ItemIterable<QueryResult> q = getSession().query(query, false);
 			if (q != null) {
 				for (QueryResult qr : q) {

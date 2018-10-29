@@ -37,6 +37,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   currentFile: any;
   listNomCvs = []
   allFiles = []
+  mask: any[] = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+
 
   constructor(private router:Router,private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,

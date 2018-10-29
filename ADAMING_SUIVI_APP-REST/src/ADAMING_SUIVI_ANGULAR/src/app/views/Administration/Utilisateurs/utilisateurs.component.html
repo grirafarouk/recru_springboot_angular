@@ -1,0 +1,217 @@
+<div class="animated fadeIn">
+<div class="row">
+        <div class="card"> 
+                         
+                <div class="card-header">
+                        <label style="font-weight:bold;color:#546E7A;">Utilistaeur</label>
+                </div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped" >
+          <thead>
+            <tr>
+              <th>Login</th>
+              <th>Profil</th>
+              <th>Actif</th>
+              <th>Reporting</th>
+              <th>Ation</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let uti of ListUtilistaeur| paginate: { itemsPerPage:10, currentPage: p }">
+              <td>{{uti.login}}</td>
+              <td>{{uti.profil}}</td>
+              <td>{{uti.actif | boolean }}</td>
+              <td>{{uti.reporting | boolean }}</td>
+              <td style="width: 120px">
+                <button type="button" (click)="showEditModal(uti)" class="btn btn-outline-primary btn-sm">
+                <i class="fa fa-edit"></i>
+            </button> 
+            </tr>
+          </tbody>
+        </table>
+        <div class="panel-footer panel-default pager">
+          <pagination-controls (pageChange)="p =$event"></pagination-controls>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="col-2">
+            <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
+          </div>
+        
+      </div>
+
+</div>   
+
+<div bsModal #utilisateurAddModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Utilisateur</h4>
+      <button type="button" class="close" (click)="utilisateurAddModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Login:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.login" name="log" id="log"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Profil:</label>
+          <div class="col-md-8">
+              <select [(ngModel)]="utilisateur.profil" name="profil" class="form-control"
+                      id="profil">
+                      <option [ngValue]="undefined">--Séléctionner--</option>
+                      <option *ngFor="let profil of refProfil" [value]="profil.value">{{profil.label}}</option>
+                    </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Nom:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.nom" name="nom" id="nom"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Prénom:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.prenom" name="prenom" id="prenom"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Numéro Fixe :</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF" id="numeroTelF"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Numéro Portable:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP" id="numeroTelP"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Email:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.email" name="email" id="email"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Mot de passe:</label>
+          <div class="col-md-8">
+              <input class="form-control" type="password" [(ngModel)]="utilisateur.password" name="password" id="password"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Actif:</label>
+          <div class="col-md-8">
+              <input class="form-control" type="checkbox" [(ngModel)]="utilisateur.actif" name="actif" id="actif"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Reporting:</label>
+          <div class="col-md-8">
+              <input class="form-control" type="checkbox" [(ngModel)]="utilisateur.reporting" name="reporting" id="reporting"  />
+          </div>
+        </div>
+      
+      
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="utilisateurAddModal.hide()">Annuler</button>
+      <button type="button" (click)="saveUtilisateur()"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div bsModal #utilisateurEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Utilisateur</h4>
+      <button type="button" class="close" (click)="utilisateurEditModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Login:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.login" name="login" id="login"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Profil:</label>
+          <div class="col-md-8">
+              <select [(ngModel)]="utilisateur.profil" name="profil" class="form-control"
+                      id="profil">
+                      <option [ngValue]="undefined">--Séléctionner--</option>
+                      <option *ngFor="let profil of refProfil" [value]="profil.value">{{profil.label}}</option>
+                    </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Nom:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.nom" name="nom" id="nom"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Prénom:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.prenom" name="prenom" id="prenom"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Numéro Fixe :</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF" id="numeroTelF"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Numéro Portable:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP" id="numeroTelP"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Email:</label>
+          <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="utilisateur.email" name="email" id="email"  />
+          </div>
+        </div>
+       
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Actif:</label>
+          <div class="col-md-8">
+              <input class="form-control" type="checkbox" [(ngModel)]="utilisateur.actif" name="actif" id="actif"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Reporting:</label>
+          <div class="col-md-8">
+              <input class="form-control" type="checkbox" [(ngModel)]="utilisateur.reporting" name="reporting" id="reporting"  />
+          </div>
+        </div>
+      
+      
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="utilisateurEditModal.hide()">Annuler</button>
+      <button type="button" (click)="updateUtilisateur()"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>

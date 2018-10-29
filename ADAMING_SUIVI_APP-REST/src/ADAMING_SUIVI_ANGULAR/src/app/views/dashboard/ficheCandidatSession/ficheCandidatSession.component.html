@@ -20,6 +20,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let can of CandidatSession| paginate: { itemsPerPage:10, currentPage: p }">
+
             <td>{{can.nom}}</td>
             <td>{{can.prenom}}</td>
             <td>{{can.numero}}</td>

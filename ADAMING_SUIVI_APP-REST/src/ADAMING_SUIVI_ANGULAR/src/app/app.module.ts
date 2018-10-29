@@ -53,6 +53,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {  OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { RoutingState } from './helper/routing-state.service';
+import { FicheSessionFormationComponent } from './views/Sessions-Formations/FicheSessionFormation/FicheSessionFormation.component';
 
 const notifierDefaultOptions: NotifierOptions = {
   position: {
@@ -130,6 +131,7 @@ const notifierDefaultOptions: NotifierOptions = {
     RegisterComponent,
     ficheCvRelanceComponent,
     ficheCandidatSessionComponent,
+    FicheSessionFormationComponent
   ],
   providers: [{
     provide: LocationStrategy,

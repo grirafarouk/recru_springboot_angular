@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BACK_END_URL } from '../../helper/application.constant';
+import { Lieu } from '../../models/Lieu';
 
 @Injectable({
   providedIn: 'root'
@@ -13,4 +14,21 @@ export class LieuxService {
   findAllLieux(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/lieu");
   }
+  save(lieu): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL + "/lieu/add", lieu, httpOptions);
+  }
+  update(lieu): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL + "/lieu/update" , lieu, httpOptions);
+}
 }

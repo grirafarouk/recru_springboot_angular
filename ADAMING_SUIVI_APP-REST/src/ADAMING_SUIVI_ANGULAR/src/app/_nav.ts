@@ -34,11 +34,11 @@ export const navItems = [
     children: [
       {
         name: 'Sessions formations en cours',
-        url: '/SessionsFormationsEncours',
+        url: '/SessionsFormations',
       },
       {
         name: 'Sessions formations clotures',
-        url: '/SessionsFormationsClotures',
+        url: '/SessionsFormations/SessionsFormationsClotures',
       }
     ]
   },
@@ -47,6 +47,51 @@ export const navItems = [
     url: '/listeReporting',
   },
   {
+    name: 'Reporting Sourceur',
+    url: '/reportingSourceur',
+  },
+  {
+    name: 'Administration',
+    children: [
+      {
+        name: 'Competences',
+        url: '/administration',
+      },
+      {
+        name: 'Utilisateurs',
+        url: '/administration/utilisateurs',
+      },
+      {
+        name: 'lieux',
+        url: '/administration/lieux',
+      },
+      {
+        name: 'origineCV',
+        url: '/administration/origineCV',
+      },
+      {
+        name: 'technologies',
+        url: '/administration/technologies',
+      },
+      {
+        name: 'typeFormation',
+        url: '/administration/typeFormation',
+      },
+      {
+        name: 'clientSession',
+        url: '/administration/clientSession',
+      },
+      {
+        name: 'motifHorsCible',
+        url: '/administration/motifHorsCible',
+      },
+      {
+        name: 'region',
+        url: '/administration/region',
+      }
+    ]
+  }
+  /*{
     title: true,
     name: 'Theme'
   },
@@ -265,5 +310,5 @@ export const navItems = [
     url: 'http://coreui.io/pro/angular/',
     icon: 'icon-layers',
     variant: 'danger'
-  }
+  }*/
 ];

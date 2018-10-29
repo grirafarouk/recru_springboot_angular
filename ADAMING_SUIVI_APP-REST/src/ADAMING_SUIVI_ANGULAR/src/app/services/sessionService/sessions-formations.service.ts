@@ -14,9 +14,10 @@ export class SessionsFormationsService {
    return this.http.get<any>(BACK_END_URL+'/sessionsformations');
   }
 
-  getFicheSessionFormation(id){
-    return this.http.get<any>(BACK_END_URL+'/sessionsformations/' + id);
+  getFicheSessionFormation(session){
+    return this.http.get<any>(BACK_END_URL+'/sessionsformations/CandidatParSession?id=' + session);
   }
+  
 
   NombreParticipants(session): Observable<any>{
     const httpOptions = {
