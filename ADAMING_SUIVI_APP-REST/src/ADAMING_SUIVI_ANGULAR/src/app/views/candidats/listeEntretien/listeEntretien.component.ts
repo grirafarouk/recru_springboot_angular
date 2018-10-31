@@ -8,6 +8,7 @@ import { CompetencesService } from "../../../services/administrationService/comp
 import { TechnologieService } from "../../../services/administrationService/TechnologieService";
 import { HelperService } from "../../../helper/helper.service";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -96,7 +97,7 @@ export class listeEntretienComponent implements OnInit {
 
 
   constructor(private originesService:OriginesService,private technologiesService:TechnologieService,
-    private sanitizer: DomSanitizer,private candidatsService:CandidatsService,
+    private sanitizer: DomSanitizer,private candidatsService:CandidatsService,  private router:Router,
     private notifierService:NotifierService,private competencesService:CompetencesService,private helperService:HelperService,
     private lieuxService:LieuxService) {}
 
@@ -172,5 +173,9 @@ export class listeEntretienComponent implements OnInit {
         a.remove(); // remove the element     
        
     })
+  }
+
+  openDetails(candidat){
+    this.router.navigate(["/listeEntretien/details/"+candidat.id]);
   }
 }

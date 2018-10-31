@@ -39,6 +39,7 @@ export class FicheCandidatComponent implements OnInit {
 
   @ViewChild("emailModalHorCible")
   public emailModalHorCible;
+  civilites= ["M","Mme"];
 
   commentaireMotif = "";
   minRelance = new Date();
@@ -108,7 +109,7 @@ export class FicheCandidatComponent implements OnInit {
       this.competences = data;
       this.currentCandidat.candidatCompetence.forEach((obj, i) => {
         this.competences.forEach((obj2, i) => {
-          if (obj2.id == obj.pk.competence.id) {
+          if (obj2.id == obj.id) {
             obj2.selected = true;
           }
         });
@@ -177,6 +178,7 @@ export class FicheCandidatComponent implements OnInit {
       const candidateTemp: any = Object.assign({}, this.currentCandidat);
       candidateTemp.entretien = null
       candidateTemp.motif = null
+      candidateTemp.suivi = null
       this.candidatsService.updateCandidat(candidateTemp).subscribe(data => {
         this.notifierService.notify("success", "Candidat modifié avec success !")
         this.router.navigate(["/candidats/listeNouveauxCandidats"]);
@@ -186,14 +188,11 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private generateComp() {
+    this.currentCandidat.candidatCompetence= new Array<Competence>();
     this.competences.forEach((obj, i) => {
       if (obj.selected) {
         //delete obj.selected;
-        this.currentCandidat.candidatCompetence.push({
-          pk: {
-            competence: obj,
-          }
-        });
+        this.currentCandidat.candidatCompetence.push(obj);
       }
     });
   }
@@ -296,6 +295,7 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private async sauvgarderFiche() {
+    this.currentCandidat.suivi = null
     //#region get Competences
     this.generateComp();
     //#endregion

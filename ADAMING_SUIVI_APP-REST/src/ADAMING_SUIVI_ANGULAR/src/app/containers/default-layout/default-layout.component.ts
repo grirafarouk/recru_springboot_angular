@@ -10,15 +10,21 @@ import { Profil } from '../../models/enum/Profil';
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html'
 })
-export class DefaultLayoutComponent implements OnInit{
+export class DefaultLayoutComponent implements OnInit {
   public navItems = navItems;
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
-  constructor(private authenticationService: AuthenticationService, private router: Router,private userService:UtilisateurService) {
+  constructor(private authenticationService: AuthenticationService, private router: Router, private userService: UtilisateurService) {
 
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
+
+      var list = document.getElementsByClassName('nav-item ');
+      // for (let i = 0; i < list.length; i++) {
+      //   list[i].classList.remove("open");
+      // }
+
     });
 
     this.changes.observe(<Element>this.element, {
@@ -28,9 +34,9 @@ export class DefaultLayoutComponent implements OnInit{
 
 
   ngOnInit() {
-   
+
   }
-  getProfiilDisplay(text){
+  getProfiilDisplay(text) {
     return Profil[text]
   }
 

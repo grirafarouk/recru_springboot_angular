@@ -5,8 +5,10 @@ export const navItems = [
     icon: 'icon-speedometer'
   },
   {
+    icon: 'icon-people',
     name: 'Candidats',
-    children: [
+    url: '/candidats',
+     children: [
       {
         name: 'Nouveaux Condidats',
         url: '/candidats',
@@ -31,7 +33,9 @@ export const navItems = [
   },
   {
     name: 'Sessions Formations',
-    children: [
+    icon: 'icon-briefcase',
+    url: '/SessionsFormations',
+     children: [
       {
         name: 'Sessions formations en cours',
         url: '/SessionsFormations',
@@ -52,6 +56,8 @@ export const navItems = [
   },
   {
     name: 'Administration',
+    icon: 'icon-wrench',
+    url: '/administration',
     children: [
       {
         name: 'Competences',

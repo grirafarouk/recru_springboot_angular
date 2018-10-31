@@ -24,7 +24,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.candidatsService.folders = this.folders;
   }
-
+  civilites= ["M","Mme"];
   candidate: Candidate;
   codePostals: Array<CodePostal> = [];
   technologies: Array<Technologie> = []
@@ -189,8 +189,9 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         numeroTel: this.candidate.numeroTel
       }
       this.candidatsService.rechercheNouveauxcandidats(candidateTemp,0,0).subscribe((data) => {
-        this.candidatsFound = data
-        this.notifierService.notify("info", "Nombre Candidat : " + data.length)
+        console.log(data)
+        this.candidatsFound = data.results        
+        this.notifierService.notify("info", "Nombre Candidat : " + data.total)
 
       })
     }
@@ -231,11 +232,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     this.competences.forEach((obj, i) => {
       if (obj.selected) {
         delete obj.selected;
-        this.candidate.candidatCompetence.push({
-          pk: {
-            competence: obj,
-          }
-        })
+        this.candidate.candidatCompetence.push(obj)
       }
     });
     //#endregion

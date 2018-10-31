@@ -1,4 +1,4 @@
- package com.fr.adaming.rest.controller;
+package com.fr.adaming.rest.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -48,15 +48,11 @@ import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.mapper.V_ListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.V_ReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
-import com.fr.adaming.jsfapp.model.CandidatCompetence;
-import com.fr.adaming.jsfapp.model.CandidatCompetenceId;
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.V_ListeCandidats;
 import com.fr.adaming.jsfapp.model.V_ReportingCandidat;
-import com.fr.adaming.jsfapp.services.ICandidatCompetenceService;
 import com.fr.adaming.jsfapp.services.ICandidatService;
-import com.fr.adaming.jsfapp.services.ICompetenceService;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
 import com.fr.adaming.jsfapp.services.IV_ListeCandidatsService;
 import com.fr.adaming.jsfapp.services.IV_ReportingCandidatService;
@@ -76,12 +72,6 @@ public class CandidatController {
 
 	@Autowired
 	private IUtilisateurService utilisateurService;
-
-	@Autowired
-	private ICandidatCompetenceService candidatCompetenceService;
-
-	@Autowired
-	private ICompetenceService competenceService;
 
 	@Autowired
 	StorageService storageService;
@@ -183,11 +173,11 @@ public class CandidatController {
 			Boolean all) {
 		return vListeCandidatsService.rechercherCandidatAvecEntretien(vListeCandidatsDto, page, size, false);
 	}
-	
+
 	@RequestMapping(value = "/RechercheCandidatavecentretien", method = RequestMethod.POST)
 	public JSONObject findCandidatavecentretien(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
 			@RequestParam int size) {
-		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.findCandidatAvecEntretien(NCD,false));
+		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.findCandidatAvecEntretien(NCD, false));
 		JSONObject object = new JSONObject();
 		object.put("total", list.size());
 		if (size == 0)
@@ -206,7 +196,7 @@ public class CandidatController {
 				vReportingCandidatService.rechercherReportingCandidat(vReportingCandidatDto, page, size));
 		return vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(v_listeCandidats);
 	}
-	
+
 	@RequestMapping(value = "/RechercheReporting", method = RequestMethod.POST)
 	public JSONObject rechercherReportingCandidat(@RequestBody V_ReportingCandidatDto NCD, @RequestParam int page,
 			@RequestParam int size) {
@@ -290,15 +280,11 @@ public class CandidatController {
 		Candidat candidat = null;
 		if (creerCv(entity, login, mime)) {
 			candidat = candidatService.createOrUpdate(entity);
-			for (CandidatCompetence candidatCompetence : candidat.getCandidatCompetence()) {
-				candidatCompetence.getPk().setCandidat(candidat);
-				candidatCompetenceService.create(candidatCompetence);
-			}
 		}
 		return candidat;
 	}
-	
-	private Boolean creerCv(Candidat candidat, String login, String mime) { 
+
+	private Boolean creerCv(Candidat candidat, String login, String mime) {
 		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
 				+ File.separator + login + File.separator;
 		FileInputStream fileInputStream = null;
@@ -322,7 +308,7 @@ public class CandidatController {
 		}
 
 	}
-	
+
 	private String genererNomPDF(Candidat candidat) {
 		DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 		int dotPosition = candidat.getNomCV().lastIndexOf('.');
@@ -333,23 +319,9 @@ public class CandidatController {
 		return "CV " + candidat.getNom() + " " + candidat.getPrenom() + " - " + df.format(new Date()) + extension;
 	}
 
-
 	@RequestMapping(value = "/updateCandidat", method = RequestMethod.PUT)
 	public Candidat updateCandidat(@RequestBody Candidat entity) {
 		Candidat candidat = candidatService.createOrUpdate(entity);
-		List<Competence> listCompetencesCandidat = competenceService.rechercherCandidatCompetences(entity.getId());
-		for (Competence competence : listCompetencesCandidat) {
-			CandidatCompetence cc = new CandidatCompetence();
-			CandidatCompetenceId pk = new CandidatCompetenceId();
-			pk.setCandidat(entity);
-			pk.setCompetence(competence);
-			cc.setPk(pk);
-			candidatCompetenceService.delete(cc);
-		}
-		for (CandidatCompetence candidatCompetence : candidat.getCandidatCompetence()) {
-			candidatCompetence.getPk().setCandidat(candidat);
-			candidatCompetenceService.create(candidatCompetence);
-		}
 		return candidat;
 	}
 
@@ -691,10 +663,10 @@ public class CandidatController {
 		emailContent.append("Compétence  :");
 		emailContent.append(CLOSE_TABLE_COLONE);
 
-		for (CandidatCompetence item : candidat.getCandidatCompetence()) {
+		for (Competence item : candidat.getCandidatCompetence()) {
 
 			emailContent.append(OPEN_TABLE_COLONE);
-			emailContent.append(item.getPk().getCompetence().getLibelle());
+			emailContent.append(item.getLibelle());
 			emailContent.append(CLOSE_TABLE_COLONE);
 
 		}

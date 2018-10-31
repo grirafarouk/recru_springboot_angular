@@ -41,7 +41,6 @@ import { listeCandidatArelancerComponent } from './listeCandidatArelancer/listeC
     NgxPaginationModule,
     TextMaskModule,
     NgxLoadingModule.forRoot({})
-
   ],
   declarations: [
     listeCandidatArelancerComponent,
@@ -49,6 +48,9 @@ import { listeCandidatArelancerComponent } from './listeCandidatArelancer/listeC
     listeNouveauxCandidatsComponent,
     CandidatsComponent,
     FicheCandidatComponent,
+    MonthYeatPickerComponent
+  ],
+  exports :[
     MonthYeatPickerComponent
   ]
 })

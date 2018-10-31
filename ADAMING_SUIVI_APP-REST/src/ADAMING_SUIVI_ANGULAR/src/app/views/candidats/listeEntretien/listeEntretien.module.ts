@@ -11,7 +11,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import {NgxMaskModule} from 'ngx-mask';
 import { TextMaskModule } from 'angular2-text-mask';
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-
+import { FicheEntrtienComponent } from './ficher-entretien/fiche-entrtien.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MonthYeatPickerComponent } from '../../../helper/month-year-picker';
+import { CandidatsModule } from '../candidats.module';
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxLoadingModule } from 'ngx-loading';
+import { CommonCustomModule } from '../../../common/common.module';
 
 
 @NgModule({
@@ -28,8 +35,13 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
     TextMaskModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-
+    NgSelectModule,
+    CandidatsModule,
+    ModalModule.forRoot(),
+    AlertModule.forRoot(),
+    NgxLoadingModule.forRoot({}),
+    CommonCustomModule,
   ],
-  declarations: [  listeEntretienComponent ]
+  declarations: [  listeEntretienComponent ,FicheEntrtienComponent]
 })
 export class listeEntretienModule { }

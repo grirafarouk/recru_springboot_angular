@@ -119,8 +119,7 @@ const notifierDefaultOptions: NotifierOptions = {
       animationType: ngxLoadingAnimationTypes.circleSwish,
       backdropBackgroundColour: 'rgba(255,255,255,0.3)', backdropBorderRadius: '10px',
       primaryColour: '#dd0031', secondaryColour: '#006ddd', tertiaryColour: '#dd0031'
-    })
-
+    }),
   ],
   declarations: [
     AppComponent,

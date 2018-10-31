@@ -120,7 +120,15 @@
                         Colonnes <span class="caret"></span>
                     </button>
                     <ul (click)="$event.stopPropagation()" class="light" *dropdownMenu class="dropdown-menu" role="menu">
-                            <li role="menuitem" *ngFor="let col of columns"> <a class="dropdown-item"><input [(ngModel)]="col.visible" type="checkbox" />{{col.title}}</a></li>
+                            <li role="menuitem" *ngFor="let col of columns"> <a class="dropdown-item"><label class="label">
+                                    <input class="label__checkbox"
+                                    [(ngModel)]="col.visible" type="checkbox" />
+                                    <span class="label__text">
+                                        <span class="label__check">
+                                            <i class="fa fa-check icon"></i>
+                                        </span>
+                                    </span>
+                                </label>>{{col.title}}</a></li>
                        
                     </ul>
                 </div>

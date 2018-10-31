@@ -28,7 +28,6 @@ public class Competence implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String libelle;
-	private Set<CandidatCompetence> candidatCompetence = new HashSet<CandidatCompetence>(0);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,13 +49,5 @@ public class Competence implements java.io.Serializable {
 		this.libelle = libelle;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.competence", cascade = CascadeType.ALL)
-	@JsonIgnore
-	public Set<CandidatCompetence> getCandidatCompetence() {
-		return candidatCompetence;
-	}
 
-	public void setCandidatCompetence(Set<CandidatCompetence> candidatCompetence) {
-		this.candidatCompetence = candidatCompetence;
-	}
 }

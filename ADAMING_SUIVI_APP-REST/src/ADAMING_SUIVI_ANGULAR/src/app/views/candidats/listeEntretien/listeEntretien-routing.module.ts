@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes,
      RouterModule } from '@angular/router';
 import { listeEntretienComponent } from './listeEntretien.component';
+import { CandidatDetailResolve } from '../fiche-candidat/CandidatDetailResolve';
+import { FicheEntrtienComponent } from './ficher-entretien/fiche-entrtien.component';
 
 
 const routes: Routes = [
@@ -10,6 +12,15 @@ const routes: Routes = [
     component: listeEntretienComponent,
     data: {
       title: 'listeEntretien'
+    }
+  },
+  {
+    path: 'details/:id',
+    component: FicheEntrtienComponent,
+    data: {
+      title: 'Entrtiens / '
+    }  ,resolve: {
+      candidat: CandidatDetailResolve 
     }
   }
 ];

@@ -18,6 +18,9 @@ export class SessionsFormationsService {
     return this.http.get<any>(BACK_END_URL+'/sessionsformations/CandidatParSession?id=' + session);
   }
   
+  getsessionFormationEnCours(sessionFormation){
+    return this.http.post<any>(BACK_END_URL+'/sessionsformations/sessionFormationEnCours',sessionFormation);
+  }
 
   NombreParticipants(session): Observable<any>{
     const httpOptions = {

@@ -29,11 +29,10 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="civilite">Civilité</label>
-                    <select required #civilite="ngModel" name="civilite" [(ngModel)]="currentCandidat.civilite" class="form-control"
+                    <ng-select  bindValue="id" bindLabel="libelle" [items]="civilites" required #civilite="ngModel" name="civilite" [(ngModel)]="currentCandidat.civilite" 
                       id="civilite">
-                      <option value="M">M</option>
-                      <option value="Mme">Mme</option>
-                    </select> </div>
+                      
+                    </ng-select> </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
@@ -70,10 +69,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="origineCV">Origine CV</label>
-                    <select  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.origine" name="origineCV" class="form-control" id="origineCV">
-                      <option [ngValue]="undefined">--Séléctionner--</option>
-                      <option *ngFor="let origine of origines" [ngValue]="origine">{{origine.libelle}}</option>
-                    </select>
+                    <ng-select   bindLabel="libelle" [items]="origines"   [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.origine" name="origineCV" id="origineCV">
+                    </ng-select>
 
                   </div>
                 </div>
@@ -82,10 +79,8 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="profil">Profil </label>
-                    <select  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.technologie" name="technologie" class="form-control" id="profil">
-                      <option [ngValue]="undefined">--Séléctionner--</option>
-                      <option *ngFor="let tech of technologies" [ngValue]="tech">{{tech.libelle}}</option>
-                    </select>
+                    <ng-select   bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.technologie" name="technologie"  id="profil">
+                    </ng-select>
                   </div>
                 </div>
                 <div class="col-sm-6">
@@ -212,19 +207,27 @@
                   <p class="form-control-static">{{currentCandidat.creePar.nom}} {{currentCandidat.creePar.prenom}}</p>
                 </div>
               </div>
+              
               <div class="form-group row competences">
                 <div class="col-md-3 col-form-label" *ngFor="let compt of competences; let i = index">
                   <div class="form-check form-check-inline mr-1">
-                    <input class="form-check-input" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
-                      id="inline-checkbox1" [value]="compt.id">
+                      <label class="label">
+                          <input class="label__checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
+                              id="inline-checkbox1" [value]="compt.id">
+                          <span class="label__text">
+                              <span class="label__check">
+                                  <i class="fa fa-check icon"></i>
+                              </span>
+                          </span>
+                      </label>
                     <label class="form-check-label" for="inline-checkbox1">{{compt.libelle}}</label>
                   </div>
                 </div>
 
               </div>
               <div class="row align-items-center" style="margin-bottom: 50px">
-                <div class="col-8"></div>
-                <div class="col-4">
+                <div class="col-7"></div>
+                <div class="col-5">
                   <button (click)="updateCandidats()" type="button" class="btn btn-block btn-primary">Modifier candidat</button>
                 </div>
               </div>
@@ -232,20 +235,33 @@
                 <div class="col-md-6 col-form-label">
                   <label class="form-check-label" style="padding-right: 30px" for="envoiMail">
                     Envoi e-mail:
-                  </label> <input class="" type="checkbox" [(ngModel)]="envoiMail" name="envoiMail" value="true" id="envoiMail ">
+                  </label> 
+                  <label class="label">
+                      <input class="label__checkbox" type="checkbox" [(ngModel)]="envoiMail" name="envoiMail" value="true" id="envoiMail ">
+                      <span class="label__text">
+                          <span class="label__check">
+                              <i class="fa fa-check icon"></i>
+                          </span>
+                      </span>
+                  </label>
 
                 </div>
               </div>
+
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Chargé recrutement</label>
+                <div class="col-7">
+                  <p class="form-control-static"  style="margin-top:8px">{{currentCandidat.entretien.charge!=null ? currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ? currentCandidat.entretien.charge.prenom :""}}</p>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
                     <label for="entretienDispo">Disponible</label>
-                    <select [(ngModel)]="currentCandidat.entretien.disponible" name="entretienDispo" class="form-control"
+                    <ng-select bindValue="value"  bindLabel="label" [items]="refDisponibilite"   [(ngModel)]="currentCandidat.entretien.disponible" name="entretienDispo"
                       id="entretienDispo">
-                      <option [ngValue]="undefined">--Séléctionner--</option>
-                      <option *ngFor="let refDis of refDisponibilite" [value]="refDis.value">{{refDis.label}}</option>
-                    </select>
-
+                    </ng-select>
                   </div>
                 </div>
                 <div class="col-6">
@@ -323,21 +339,17 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="entretienLieu">Lieu entretien</label>
-                    <select [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" class="form-control" id="entretienLieu">
-                      <option [ngValue]="undefined">--Séléctionner--</option>
-                      <option *ngFor="let lieu of lieux" [ngValue]="lieu">{{lieu.libelle}}</option>
-                    </select>
+                    <ng-select  bindLabel="libelle" [items]="lieux"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
+                    </ng-select>
                   </div>
                 </div>
 
                 <div class="col-6">
                   <div class="form-group">
                     <label for="entretienPertinence">Pertinence Cv</label>
-                    <select [(ngModel)]="currentCandidat.entretien.pertinence" name="entretienPertinence" class="form-control"
+                    <ng-select   [items]="pertinenecesValeurs"   [(ngModel)]="currentCandidat.entretien.pertinence" name="entretienPertinence" 
                       id="entretienPertinence">
-                      <option [ngValue]="undefined">--Séléctionner--</option>
-                      <option *ngFor="let pertinenece of pertinenecesValeurs" [value]="pertinenece">{{pertinenece}}</option>
-                    </select>
+                     </ng-select>
                   </div>
                 </div>
               </div>
@@ -387,10 +399,8 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="text-input">Motif </label>
               <div class="col-md-8">
-                <select [(ngModel)]="currentCandidat.motif" name="motif" class="form-control" id="motif">
-                  <option [ngValue]="undefined">--Séléctionner--</option>
-                  <option *ngFor="let motif of motifs" [ngValue]="motif">{{motif.libelle}}</option>
-                </select>
+                <ng-select  bindLabel="libelle" [items]="motifs"   [(ngModel)]="currentCandidat.motif" name="motif"  id="motif">
+                 </ng-select>
               </div>
             </div>
             <div class="form-group row">

@@ -1,0 +1,526 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4">
+              <h5>Information:</h5>
+            </div>
+            <div class="col-2"><label>Nom: </label><span class="field">{{currentCandidat.nom}}</span></div>
+            <div class="col-2"><label>Prénom: </label><span class="field">{{currentCandidat.prenom}}</span></div>
+            <div class="col-2"><label>Age: </label><span class="field">{{currentCandidat.age}}</span></div>
+            <div class="col-2"><label>Tél: </label><span class="field">{{currentCandidat.numeroTel | mask:
+                '00-00-00-00-00'}}</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-7">
+              <div *ngIf="pdfSource!=undefined">
+                <object style="margin-top: 20px" [data]="pdfSource" height="1500px" width="100%">
+                  <param name="view" value="fitH" />
+                </object>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="civilite">Civilité</label>
+                    <select required #civilite="ngModel" name="civilite" [(ngModel)]="currentCandidat.civilite" class="form-control"
+                      id="civilite">
+                      <option value="M">M</option>
+                      <option value="Mme">Mme</option>
+                    </select> </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" class="form-control" name="nom" [(ngModel)]="currentCandidat.nom" id="nom">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label class="form-col-form-label" for="prenom">Prenom</label>
+                    <input type="text" class="form-control" name="prenom" [(ngModel)]="currentCandidat.prenom" id="prenom">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" name="email" [(ngModel)]="currentCandidat.email" id="email">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <input type="text" class="form-control" mask='00-00-00-00-00' name="telephone" [(ngModel)]="currentCandidat.numeroTel"
+                      id="telephone">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="origineCV">Origine CV</label>
+                    <ng-select [items]="origines" bindLabel="libelle" [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.origine" name="origineCV"
+                     id="origineCV">                      
+                    </ng-select>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="profil">Profil </label>
+                    <ng-select [items]="technologies" bindLabel="libelle"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.technologie" name="technologie"
+                       id="profil">
+                      
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="codePostal">Code postal</label>
+                    <ng-select aria-required="" id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)"
+                      [ngModel]="currentCandidat?.codePostal" (ngModelChange)="currentCandidat.codePostal = $event"
+                      name="codePostal">
+                      <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
+                        {{codeP.ville}}</ng-option>
+
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Region</label>
+                    <p class="form-control-static">{{currentCandidat?.codePostal?.region}}</p>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Ville</label>
+                    <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label class="col-7 col-form-label">Mobilité: </label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
+                          type="radio" id="inline-checkbox1" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox1">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
+                          type="radio" id="inline-checkbox2" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox2">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label class="col-md-7 col-form-label">Pole Emploi: </label>
+                    <div class="col-md-4 col-form-label">
+                      <div class="form-check form-check-inline mr-1">
+                        <input class="form-check-input" [(ngModel)]="currentCandidat.posteEnCours" name="poleEmploi"
+                          type="radio" id="inline-checkbox3" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox3">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-1">
+                        <input class="form-check-input" [(ngModel)]="currentCandidat.posteEnCours" name="poleEmploi"
+                          type="radio" id="inline-checkbox4" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox4">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="entretienDispo">Disponible</label>
+                    <ng-select [items]="refDisponibilite" bindLabel="label" bindValue="value"   [(ngModel)]="currentCandidat.entretien.disponible" name="entretienDispo"
+                      id="entretienDispo">    
+                    </ng-select>
+
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 20px">
+                <HR size="5" align="center" width="100%" />
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="adresse">Adresse</label>
+                    <input type="text" class="form-control" name="adresse" [(ngModel)]="currentCandidat.adresse" id="adresse">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="dateNaissance">Date de Naissance</label>
+                    <input [owlDateTimeTrigger]="dtdateNaissance" [owlDateTime]="dtdateNaissance" class="form-control"
+                      name="dateNaissance" [(ngModel)]="currentCandidat.dateNaissance" id="dateNaissance">
+                    <owl-date-time [pickerType]="'calendar'" #dtdateNaissance></owl-date-time>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="diplome">Diplome</label>
+                    <input type="text" class="form-control" name="diplome" [(ngModel)]="currentCandidat.diplome" id="diplome">
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="text" class="form-control" name="age" [(ngModel)]="currentCandidat.age" id="age">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="dateObtentionDiplome">Date d'obtention du diplôme</label>
+                    <month-year-picker (changed)="updateDateObtentionDiplome($event)" [innerValue]="currentCandidat.dateObtentionDiplome"></month-year-picker>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="lieuNaissance">Lieu de Naissance</label>
+                    <input type="text" class="form-control" name="lieuNaissance" [(ngModel)]="currentCandidat.lieuNaissance"
+                      id="lieuNaissance">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="entretienDate">Date entretien</label>
+                    <input [owlDateTimeFilter]="entretienDateFilter" [min]="minRelance" [owlDateTimeTrigger]="dtentretienDate"
+                      [owlDateTime]="dtentretienDate" class="form-control" name="entretienDate" [(ngModel)]="currentCandidat.entretien.date"
+                      id="entretienDate">
+                    <owl-date-time [pickerType]="'calendar'" #dtentretienDate></owl-date-time>
+
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="timeEntretien">Heure entretien</label>
+                    <input [owlDateTimeFilter]="entretienHeureFilter" class="form-control" placeholder="Time:"
+                      [(ngModel)]="timeEntretien" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
+                    <owl-date-time (afterPickerClosed)="afterHeurePickerClosed()" [pickerType]="'timer'" #dt2></owl-date-time>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="entretienLieu">Lieu entretien</label>
+                    <ng-select [items]="lieux" bindLabel="libelle" [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu"
+                    id="entretienLieu">
+                    
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class=" form-group row">
+                <label class="col-4 col-form-label" for="entretienPertinence">Pertinence Cv</label>
+                <div class="col-7" style="margin-top:8px">
+                  <p class="form-control-static">{{currentCandidat.entretien.pertinence}} </p>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Chargé recrutement</label>
+                <div class="col-7">
+                  <p class="form-control-static" style="margin-top:8px">{{currentCandidat.entretien.charge!=null ?
+                    currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ?
+                    currentCandidat.entretien.charge.prenom :""}}</p>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 20px">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="comEntrtien">Commentaire</label>
+                    <textarea id="comEntrtien" [(ngModel)]="currentCandidat.entretien.commentaire" name="comEntrtien"
+                      rows="4" class="form-control"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row competences">
+                <div class="col-md-3 col-form-label" *ngFor="let compt of competences; let i = index">
+                  <div class="form-check form-check-inline mr-1">
+                    <input class="form-check-input" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
+                      id="inline-checkbox1" [value]="compt.id">
+                    <label class="form-check-label" for="inline-checkbox1">{{compt.libelle}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 20px">
+                <HR size="5" align="center" width="100%" />
+              </div>
+              <div class="form-group row">
+                <label class="col-4 col-form-label">Chargé Suivi</label>
+                <div class="col-7">
+                  <p class="form-control-static" style="margin-top:8px">{{currentCandidat.suivi.charge!=null ?
+                    currentCandidat.suivi.charge.nom :""}} {{currentCandidat.suivi.charge!=null ?
+                    currentCandidat.suivi.charge.prenom :""}}</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <label style="color: blue;font-weight:bold">Présentation générale</label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Présentation:</label>
+                    <app-rating [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"
+                      (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Savoir etre:</label>
+                    <app-rating [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Fiabilité:</label>
+                    <app-rating [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <label style="color: blue;font-weight:bold">Motivation</label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Attrait pour l'informatique:</label>
+                    <app-rating [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Prêt à la reconversion:</label>
+                    <app-rating [rating]='currentCandidat.suivi.notePret' [name]="'notePret'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Mobilité:</label>
+                    <app-rating [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <label style="color: blue;font-weight:bold">Autre critéres:</label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="noteResultat">Résultat du test:</label>
+                    <input class="form-control" name="noteResultat" min="0" max="45" type="number" id="noteResultat" 
+                      [(ngModel)]="currentCandidat.suivi.noteResultat">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Cohérence du parcours:</label>
+                    <app-rating [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Potentiel d’évolution:</label>
+                    <app-rating [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Anglais:</label>
+                    <app-rating [rating]='currentCandidat.suivi.anglais' [name]="'anglais'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label class="col-7 col-form-label">Mobilité: </label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.suivi.mobilite"
+                          type="radio" id="inline-checkbox1" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox1">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.suivi.mobilite"
+                          type="radio" id="inline-checkbox2" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox2">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label class="col-md-7 col-form-label">Mobilité Tout France:</label>
+                    <div class="col-md-4 col-form-label">
+                      <div class="form-check form-check-inline mr-1">
+                        <input class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance" name="mobilteTouFrance"
+                          type="radio" id="inline-checkbox3" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox3">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-1">
+                        <input class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance" name="mobilteTouFrance"
+                          type="radio" id="inline-checkbox4" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox4">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-7 col-form-label">Relancer: </label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="suiviRelance" [(ngModel)]="currentCandidat.suivi.relance"
+                          type="radio" id="inline-checkbox5" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox5">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" name="suiviRelance" [(ngModel)]="currentCandidat.suivi.relance"
+                          type="radio" id="inline-checkbox6" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox6">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="dateNaissance">Date relance</label>
+                    <input [owlDateTimeTrigger]="suiviDateRelance" [owlDateTime]="suiviDateRelance" class="form-control"
+                      name="dateNaissance" [(ngModel)]="currentCandidat.suivi.dateRelance" id="suiviDateRelance">
+                    <owl-date-time [pickerType]="'calendar'" #suiviDateRelance></owl-date-time>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="form-group">
+                        <label for="suiviRegions">Mobilité regions</label>                    
+                        <ng-select
+                        [multiple]="true"
+                        [items]="regions"
+                        bindLabel="code"
+                        [disabled]="true"
+                       (click)="openRegionsDialog()" 
+                        name="suiviRegions" 
+                        [(ngModel)]="currentCandidat.suivi.regions"
+                         id="suiviRegions"
+                      >
+                      </ng-select>
+                      </div>
+                    </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="entretienMobilteCharge">Mobilité Ville</label>
+                    <input type="text" class="form-control" name="entretienMobilteCharge" [(ngModel)]="currentCandidat.entretien.mobilteCharge" id="entretienMobilteCharge">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Statut:</label>
+                    <ng-select bindValue="value"  bindLabel="label" [items]="refStatus"  [(ngModel)]="currentCandidat.statut" name="statut"
+                      id="statut">
+                    </ng-select>
+                  </div>
+                </div>
+
+               
+              </div>
+              <div class="row">
+                <div class="col-sm-6" *ngIf="currentCandidat.statut=='VALIDE'">
+                  <div class="form-group">
+                    <label for="sessionFormation">Affectation Candidat</label>
+                    <ng-select class="custom" bindLabel="itemLabel" [items]="sessionFormations"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.sessionFormation" name="sessionFormation"
+                      id="sessionFormation">
+                    </ng-select >
+                  </div>
+                </div>
+              </div>
+
+            </div><!-- /champ -->
+          </div><!-- /.row -->
+
+        </div><!-- /.body -->
+        <div class="card-footer">
+          <div class="row align-items-center">
+            <div [ngClass]="enableSave?'col-md-6 col-form-label':'col-md-8 col-form-label'">
+            </div>
+            <div class="col-2">
+              <button type="button" [disabled]="file==undefined" (click)="downloadPDF()" class="btn btn-block btn-primary">Télécharger
+                Cv</button>
+            </div>
+            <div class="col-2" *ngIf="enableSave">
+              <button type="button" (click)="sauvgarderFicheEntrtien()" class="btn btn-block btn-primary">Sauvegarder</button>
+            </div>
+            <div class="col-2">
+              <button (click)="annuler()" type="button" class="btn btn-block btn-primary">Annuler</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <div bsModal #regionFranceModal="bs-modal" class="modal fade"  >
+    <div class="modal-dialog modal-primary  modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Selectionne regions</h4>
+          <button type="button" class="close" (click)="regionFranceModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="margin-left: 50px">
+            <div id="france-map" style="width: 400px; height: 400px"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" (click)="selectionnerTousRegion()" class="btn btn-primary">Toute la France</button>
+          <button type="button" (click)="validerRegion()" class="btn btn-primary">Valider</button>
+          <button type="button" class="btn btn-secondary" (click)="regionFranceModal.hide()">Annuler</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->

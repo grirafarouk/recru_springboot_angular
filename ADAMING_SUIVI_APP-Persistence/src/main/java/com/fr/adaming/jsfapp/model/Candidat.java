@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -78,7 +80,7 @@ public class Candidat implements java.io.Serializable {
 //	private Boolean tes;
 //	private Boolean ops;
 	
-	private Set<CandidatCompetence> candidatCompetence = new HashSet<CandidatCompetence>(0);
+	private Set<Competence> candidatCompetence = new HashSet<Competence>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -298,12 +300,18 @@ public class Candidat implements java.io.Serializable {
 		this.docRefus = docRefus;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pk.candidat")
-	public Set<CandidatCompetence> getCandidatCompetence() {
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name="candidat_competence",
+    joinColumns=
+        @JoinColumn(name="candidat_id", referencedColumnName="id"),
+    inverseJoinColumns=
+        @JoinColumn(name="competence_id", referencedColumnName="id")
+    )
+	public Set<Competence> getCandidatCompetence() {
 		return candidatCompetence;
 	}
 
-	public void setCandidatCompetence(Set<CandidatCompetence> candidatCompetence) {
+	public void setCandidatCompetence(Set<Competence> candidatCompetence) {
 		this.candidatCompetence = candidatCompetence;
 	}
 

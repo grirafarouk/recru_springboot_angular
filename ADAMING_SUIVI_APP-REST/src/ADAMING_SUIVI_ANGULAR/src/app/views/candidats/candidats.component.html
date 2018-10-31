@@ -1,9 +1,10 @@
 <div class="animated fadeIn">
-        <div class="card">
-                <div class="card-header">
-                        <label style="font-weight:bold;color:#546E7A;">Nouveau Candidat
-                        </label>
-                        </div>
+    <div class="card">
+        <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Nouveau Candidat
+            </label>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-3 col-md-3">
             <div class="card">
@@ -29,33 +30,32 @@
         <!--/.col-->
         <div class="col-sm-9 col-md-9">
             <div class="card">
-                <form (ngSubmit)="onSubmit()" >
+                <form (ngSubmit)="onSubmit()">
                     <div class="card-body">
 
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="civilite">Civilité</label>
-                                    <select [disabled]="candidateFound==false" required #civilite="ngModel" name="civilite"
-                                    [(ngModel)]="candidate.civilite" class="form-control" id="civilite">
-                                            <option value="M">M</option>
-                                            <option value="Mme">Mme</option>
-                                    </select> </div>
+                                    <ng-select [items]="civilites" [disabled]="candidateFound==false" required
+                                        #civilite="ngModel" name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
+
+                                    </ng-select>
+                                </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
-                                    <input type="text" class="form-control"   name="nom"
-                                        [(ngModel)]="candidate.nom" id="nom">                                        
-                                      
+                                    <input type="text" class="form-control" name="nom" [(ngModel)]="candidate.nom" id="nom">
+
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="prenom">Prenom</label>
-                                    <input type="text" class="form-control"  name="prenom"
-                                        [(ngModel)]="candidate.prenom" id="prenom">
-                                   
+                                    <input type="text" class="form-control" name="prenom" [(ngModel)]="candidate.prenom"
+                                        id="prenom">
+
                                 </div>
                             </div>
                         </div>
@@ -63,28 +63,26 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email"  class="form-control" name="email" [(ngModel)]="candidate.email"
+                                    <input type="email" class="form-control" name="email" [(ngModel)]="candidate.email"
                                         id="email">
-                                        
+
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
-                                    <input type="text"  class="form-control"  [textMask]="{mask: mask}"  name="telephone"
+                                    <input type="text" class="form-control" [textMask]="{mask: mask}" name="telephone"
                                         [(ngModel)]="candidate.numeroTel" id="telephone">
-                                       
+
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="origineCV">Origine CV</label>
-                                    <select   [(ngModel)]="candidate.origine.id"    name="origineCV"
-                                    [disabled]="candidateFound===false" class="form-control" id="origineCV">
-                                        <option value="undefined">--Sélectionner--</option>
-                                        <option *ngFor="let origine of origines" [value]="origine.id">{{origine.libelle}}</option>
-                                    </select>
-                                   
+                                    <ng-select bindValue="id" bindLabel="libelle" [items]="origines" [(ngModel)]="candidate.origine.id"
+                                        name="origineCV" [disabled]="candidateFound===false" id="origineCV">
+                                    </ng-select>
+
                                 </div>
                             </div>
                         </div>
@@ -92,19 +90,18 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="profil">Profil </label>
-                                    <select [(ngModel)]="candidate.technologie.id"  name="technologie" [disabled]="candidateFound===false" class="form-control" id="profil">
-                                        <option value="undefined">--Sélectionner--</option>
-                                        <option *ngFor="let tech of technologies" [value]="tech.id">{{tech.libelle}}</option>
-                                    </select>
-                                     
+                                    <ng-select bindValue="id" bindLabel="libelle" [items]="technologies" [(ngModel)]="candidate.technologie.id"
+                                        name="technologie" [disabled]="candidateFound===false" id="profil">
+                                    </ng-select>
+
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="codePostal">Code postal</label>
-                                    <ng-select aria-required="" [disabled]="candidateFound==false" 
-                                     id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)" 
-                                         [ngModel]="candidate?.codePostal" (ngModelChange)="candidate.codePostal = $event" name="codePostal">
+                                    <ng-select aria-required="" [disabled]="candidateFound==false" id="codePostal"
+                                        [items]="codePostals" (search)="codePostaleOnSearch($event)" [ngModel]="candidate?.codePostal"
+                                        (ngModelChange)="candidate.codePostal = $event" name="codePostal">
                                         <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
                                             {{codeP.ville}}</ng-option>
 
@@ -127,9 +124,18 @@
                             </div>
                         </div>
                         <div class="form-group row competences">
+
                             <div class="col-md-2 col-form-label" *ngFor="let compt of competences; let i = index">
                                 <div class="form-check form-check-inline mr-1">
-                                    <input class="form-check-input" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected" id="inline-checkbox1" [value]="compt.id">
+                                    <label class="label">
+                                        <input class="label__checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
+                                            id="inline-checkbox1" [value]="compt.id">
+                                        <span class="label__text">
+                                            <span class="label__check">
+                                                <i class="fa fa-check icon"></i>
+                                            </span>
+                                        </span>
+                                    </label>
                                     <label class="form-check-label" for="inline-checkbox1">{{compt.libelle}}</label>
                                 </div>
                             </div>
@@ -141,7 +147,7 @@
                         </div>
                         <div *ngIf="pdfSrc!=undefined">
                             <object style="margin-top: 20px" [data]="pdfSrc" height="450px" width="100%">
-                                    <param name="view" value="fitH" />            
+                                <param name="view" value="fitH" />
 
                             </object>
                         </div>
@@ -151,7 +157,15 @@
                         <div class="row align-items-center">
                             <div class="col-md-6 col-form-label">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" [(ngModel)]="candidate.cvAnonyme" name="cvAnonyme" value="true" id="cvanonyme ">
+                                    <label class="label">
+                                        <input class="label__checkbox" type="checkbox" [(ngModel)]="candidate.cvAnonyme"
+                                            name="cvAnonyme" value="true" id="cvanonyme ">
+                                        <span class="label__text">
+                                            <span class="label__check">
+                                                <i class="fa fa-check icon"></i>
+                                            </span>
+                                        </span>
+                                    </label>
                                     <label class="form-check-label" for="cvanonyme">
                                         CV anonyme
                                     </label>
@@ -162,11 +176,12 @@
                             </div>
 
                             <div class="col-2">
-                                <button (click)="submitAndRedirect()" [disabled]="pdfSrc==undefined" type="button" class="btn btn-block btn-primary">Planifier
+                                <button (click)="submitAndRedirect()" [disabled]="pdfSrc==undefined" type="button"
+                                    class="btn btn-block btn-primary">Planifier
                                     Rdv</button>
                             </div>
                             <div class="col-2">
-                                <button  [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-primary">Enregistrer</button>
+                                <button [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-primary">Enregistrer</button>
                             </div>
                         </div>
                     </div>
@@ -177,42 +192,41 @@
     </div>
     <!--/.row-->
     <div class="row" *ngIf="candidatsFound.length>0">
-        <div  class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <i class="fa fa-align-justify"></i> Candidats Trouvés
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>N° Téléphone</th>
-                            <th>Email</th>
-                            <th>Date Inscription</th>
-                            <th>Statut</th>
-                            <th>Type de profil</th>
-                            <th>Sourceur</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let candidat of candidatsFound">
-                            <td>{{candidat.nom}}</td>
-                            <td>{{candidat.prenom}}</td>
-                            <td>{{candidat.numeroTel}}</td>
-                            <td>{{candidat.email}}</td>
-                            <td>{{candidat.dateInscription}}</td>
-                            <td>{{candidat.statut}}</td>
-                            <td>{{candidat.technologie}}</td>
-                            <td>{{candidat.nomCharge }} {{candidat.prenomSourceur}}</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Candidats Trouvés
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>N° Téléphone</th>
+                                <th>Email</th>
+                                <th>Date Inscription</th>
+                                <th>Statut</th>
+                                <th>Type de profil</th>
+                                <th>Sourceur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let candidat of candidatsFound">
+                                <td>{{candidat.nom}}</td>
+                                <td>{{candidat.prenom}}</td>
+                                <td>{{candidat.numeroTel}}</td>
+                                <td>{{candidat.email}}</td>
+                                <td>{{candidat.dateInscription}}</td>
+                                <td>{{candidat.statut}}</td>
+                                <td>{{candidat.technologie}}</td>
+                                <td>{{candidat.nomCharge }} {{candidat.prenomSourceur}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    </div>
     <!--/.row-->
-</div>
 </div>
