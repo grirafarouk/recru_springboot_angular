@@ -17,7 +17,7 @@ import com.fr.adaming.jsfapp.services.ITechnologieService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/technologie")
+@RequestMapping(value = "/api/technologie")
 
 public class TechnologieController {
 
@@ -43,7 +43,7 @@ public class TechnologieController {
 	public List<Technologie> rechercherTechnologiePourReporting() {
 		return technologieService.rechercherTechnologiePourReporting();
 	}
-	
+
 	@RequestMapping(value = "/Libelle", method = RequestMethod.GET)
 	public List<TechnologieDto> rechercherTechnologieParLibelle() {
 		return technologieService.findAllTechnologiesByLibelle();

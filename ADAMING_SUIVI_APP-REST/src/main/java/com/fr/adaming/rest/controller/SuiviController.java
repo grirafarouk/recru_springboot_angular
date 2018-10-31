@@ -13,7 +13,7 @@ import com.fr.adaming.jsfapp.model.Suivi;
 import com.fr.adaming.jsfapp.services.ISuiviService;
 
 @RestController
-@RequestMapping(value = "/suivi")
+@RequestMapping(value = "/api/suivi")
 public class SuiviController {
 
 	@Autowired

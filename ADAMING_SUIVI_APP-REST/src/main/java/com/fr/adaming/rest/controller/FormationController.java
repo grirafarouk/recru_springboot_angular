@@ -18,7 +18,7 @@ import com.fr.adaming.jsfapp.model.Formation;
 import com.fr.adaming.jsfapp.services.impl.FormationService;
 
 @RestController
-@RequestMapping(value = "/formation")
+@RequestMapping(value = "/api/formation")
 @CrossOrigin("*")
 public class FormationController {
 
@@ -60,26 +60,27 @@ public class FormationController {
 	}
 
 	@RequestMapping(value = "/formationencours", method = RequestMethod.POST)
-	public List<Formation> rechercherFormationsEnCours(@RequestBody FormationDto formationDto, SessionFormationDto searchDto) {
-		
-		List<Formation> liste = new ArrayList<>(
-				formationService.rechercherFormationsEnCours(formationDto, searchDto));
+	public List<Formation> rechercherFormationsEnCours(@RequestBody FormationDto formationDto,
+			SessionFormationDto searchDto) {
+
+		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsEnCours(formationDto, searchDto));
 		return liste;
 	}
 
 	@RequestMapping(value = "/formationclotures", method = RequestMethod.POST)
-	public List<Formation> rechercherFormationsClotures(@RequestBody FormationDto formationDto, SessionFormationDto searchDto) {
-		List<Formation> liste = new ArrayList<>(
-		 formationService.rechercherFormationsClotures(formationDto, searchDto));
+	public List<Formation> rechercherFormationsClotures(@RequestBody FormationDto formationDto,
+			SessionFormationDto searchDto) {
+		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsClotures(formationDto, searchDto));
 		return liste;
 	}
 
 	@RequestMapping(value = "/listeformationparsession", method = RequestMethod.POST)
-	public List<Formation> rechercherFormationParSessionFormation(@RequestBody FormationDto formationDto, SessionFormationDto sessionFormationDto) {
+	public List<Formation> rechercherFormationParSessionFormation(@RequestBody FormationDto formationDto,
+			SessionFormationDto sessionFormationDto) {
 		return formationService.rechercherFormationParSessionFormation(formationDto, sessionFormationDto);
 	}
 
-	@RequestMapping(value = "/listeformationencours", method= RequestMethod.GET)
+	@RequestMapping(value = "/listeformationencours", method = RequestMethod.GET)
 	public List<Formation> findAllFormationsEnCours() {
 		return formationService.findAllFormationsEnCours();
 	}
@@ -88,7 +89,5 @@ public class FormationController {
 	public List<Formation> findAllFormationsClotures() {
 		return formationService.findAllFormationsClotures();
 	}
-
-	
 
 }

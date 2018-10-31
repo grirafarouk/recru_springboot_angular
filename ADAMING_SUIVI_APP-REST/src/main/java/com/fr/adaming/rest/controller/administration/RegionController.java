@@ -11,12 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.jsfapp.model.CodePostal;
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.services.IRegionService;
 
 @RestController
-@RequestMapping(value = "/region")
+@RequestMapping(value = "/api/region")
 @CrossOrigin("*")
 public class RegionController {
 
@@ -32,7 +31,7 @@ public class RegionController {
 	public List<Region> rechercherRegion(@PathVariable String text) {
 		return regionService.rechercherRegion(text);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Region update(@RequestBody Region entity) {
 		return regionService.update(entity);

@@ -3,6 +3,8 @@ import { Routes,
      RouterModule } from '@angular/router';
 import { ReportingSourceurComponent } from './reportingSourceur/reportingSourceur.component';
 import { ListeReportingComponent } from './listeReporting/listeReporting.component';
+import { FicheReportingComponent } from './ficher-reporting/fiche-reporting.component';
+import { CandidatDetailResolve } from '../candidats/fiche-candidat/CandidatDetailResolve';
 
 
 const routes: Routes = [
@@ -18,6 +20,15 @@ const routes: Routes = [
     component: ListeReportingComponent,
     data: {
       title: 'Liste Reporting'
+    }
+  },
+  {
+    path: 'details/:id',
+    component: FicheReportingComponent,
+    data: {
+      title: 'Reporting / '
+    }  ,resolve: {
+      candidat: CandidatDetailResolve 
     }
   }
 ];

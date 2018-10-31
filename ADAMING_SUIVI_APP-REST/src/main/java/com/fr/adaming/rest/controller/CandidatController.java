@@ -29,9 +29,7 @@ import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -63,8 +61,8 @@ import com.fr.adaming.util.JavaMailApi;
 import com.fr.adaming.util.PieceJointe;
 
 @RestController
-@CrossOrigin("*")
-@Controller
+@RequestMapping(value = "/api/")
+
 public class CandidatController {
 
 	@Autowired

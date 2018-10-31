@@ -21,7 +21,7 @@ import com.fr.adaming.jsfapp.services.IUtilisateurService;
 import com.fr.adaming.jsfapp.utils.Utilitaire;
 
 @RestController
-@RequestMapping(value = "/utilisateurs")
+@RequestMapping(value = "/api/utilisateurs")
 @CrossOrigin("*")
 public class UtilistaeurController {
 
@@ -43,18 +43,15 @@ public class UtilistaeurController {
 		entity.setDateCreation(new Date());
 		entity.setDateModificationMotPasse(new Date());
 		entity.setExpire(false);
-		entity.setPassword(Utilitaire
-				.hashMD5Crypt(entity.getPassword()));
+		entity.setPassword(Utilitaire.hashMD5Crypt(entity.getPassword()));
 		return utilisateurService.create(entity);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Utilisateur Update(@RequestBody Utilisateur entity) {
 		entity.setDateModificationMotPasse(new Date());
 		return utilisateurService.update(entity);
 	}
-	
-	
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public Utilisateur findById(@PathVariable Long id) {

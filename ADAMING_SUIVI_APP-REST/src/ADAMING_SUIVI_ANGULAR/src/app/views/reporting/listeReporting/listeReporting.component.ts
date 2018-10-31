@@ -10,6 +10,7 @@ import { RegionService } from "../../../services/administrationService/region.se
 import { Region } from "../../../models/region";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { CandidateDto } from "../../candidats/CandidateDto";
+import { Router } from "@angular/router";
 
 
 @Component({
@@ -148,7 +149,7 @@ export class ListeReportingComponent implements OnInit {
     private sanitizer: DomSanitizer,private candidatsService:CandidatsService,
     private notifierService:NotifierService,private competencesService:CompetencesService,
     private helperService:HelperService, private regionService: RegionService,
-    private lieuxService:LieuxService) {}
+    private lieuxService:LieuxService, private router:Router) {}
 
   ngOnInit(): void {
     this.rechercheCandidat();
@@ -234,5 +235,7 @@ export class ListeReportingComponent implements OnInit {
     else this.region = []
   }
 
-  
+  openDetails(candidat){
+    this.router.navigate(["/reporting/details/"+candidat.id]);
+  }
 }

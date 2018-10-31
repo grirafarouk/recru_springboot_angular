@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BACK_END_URL } from '../helper/application.constant';
+import { BACK_END_URL, BACK_END_URL_SECURITY } from '../helper/application.constant';
 import { TOKEN_AUTH_USERNAME, TOKEN_AUTH_PASSWORD, TOKEN_NAME, USER_NAME } from '../helper/auth.constant';
 import { map } from 'rxjs/operators';
 import * as jwt_decode from "jwt-decode";
@@ -12,7 +12,7 @@ import { Utilisateur } from '../models/Utilisateur';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  static AUTH_TOKEN = BACK_END_URL + '/oauth/token';
+  static AUTH_TOKEN = BACK_END_URL_SECURITY + '/oauth/token';
 
   constructor(private httpClient: HttpClient, private utilisateurService: UtilisateurService) { }
 
@@ -30,7 +30,7 @@ export class AuthenticationService {
         if (data) {  // login successful if there's a jwt token in the response
           let tokenInfo = this.getDecodedAccessToken(data.access_token); // decode token
           localStorage.setItem(TOKEN_NAME, data.access_token);
-         this.utilisateurService.getUser(tokenInfo.user_name).subscribe((user: Utilisateur) => {
+        await this.utilisateurService.getUser(tokenInfo.user_name).toPromise().then((user: Utilisateur) => {
             if (user) {
               var currentUser = {
                 token: data,

@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.TypeFormation;
 import com.fr.adaming.jsfapp.services.ITypeFormationService;
 
 @RestController
-@RequestMapping(value = "typeformation")
+@RequestMapping(value = "/api/typeformation")
 @CrossOrigin("*")
 public class TypeFormationController {
 
@@ -31,6 +30,7 @@ public class TypeFormationController {
 	public TypeFormation createOrUpdate(@RequestBody TypeFormation entity) {
 		return typeFormationService.createOrUpdate(entity);
 	}
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public TypeFormation create(@RequestBody TypeFormation entity) {
 		return typeFormationService.merge(entity);
@@ -57,8 +57,7 @@ public class TypeFormationController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-	public void deleteById(@PathVariable
-			Long id) {
+	public void deleteById(@PathVariable Long id) {
 		typeFormationService.deleteById(id);
 	}
 

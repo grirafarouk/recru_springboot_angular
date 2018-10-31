@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Lieu;
 import com.fr.adaming.jsfapp.services.ILieuService;
 
 @RestController
-@RequestMapping(value = "/lieu")
+@RequestMapping(value = "/api/lieu")
 @CrossOrigin("*")
 public class LieuController {
 
@@ -31,17 +30,16 @@ public class LieuController {
 	public Lieu createOrUpdate(@RequestBody Lieu entity) {
 		return lieuService.createOrUpdate(entity);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Lieu update(@RequestBody Lieu entity) {
 		return lieuService.update(entity);
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Lieu create(@RequestBody Lieu entity) {
 		return lieuService.create(entity);
 	}
-
 
 	@RequestMapping(value = "/adresse/{libelle}", method = RequestMethod.GET)
 	public Lieu rechercherLieuParAdresse(@PathVariable String libelle) {

@@ -13,6 +13,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ReportingRoutingModule } from './reporting-routing.module';
 import { ReportingSourceurComponent } from './reportingSourceur/reportingSourceur.component';
 import { ListeReportingComponent } from './listeReporting/listeReporting.component';
+import { FicheReportingComponent } from './ficher-reporting/fiche-reporting.component';
+import { CommonCustomModule } from '../../common/common.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { NgxLoadingModule } from 'ngx-loading';
+import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   imports: [
@@ -28,8 +33,10 @@ import { ListeReportingComponent } from './listeReporting/listeReporting.compone
     TextMaskModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    NgSelectModule
+    NgSelectModule,
+    ModalModule.forRoot(),
+    CommonCustomModule
   ],
-  declarations: [ReportingSourceurComponent,ListeReportingComponent    ]
+  declarations: [ReportingSourceurComponent,ListeReportingComponent,FicheReportingComponent    ]
 })
 export class ReportingModule { }

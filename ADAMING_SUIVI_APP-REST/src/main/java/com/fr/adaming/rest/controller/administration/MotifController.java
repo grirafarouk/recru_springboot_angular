@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.jsfapp.model.ClientSession;
 import com.fr.adaming.jsfapp.model.Motif;
 import com.fr.adaming.jsfapp.services.IMotifService;
 
 @RestController
-@RequestMapping("/motifs")
+@RequestMapping("/api/motifs")
 @CrossOrigin("*")
 public class MotifController {
 
@@ -26,12 +25,12 @@ public class MotifController {
 	public Motif rechercheMotifParLibelle(@PathVariable String libelle) {
 		return motifService.rechercheMotifParLibelle(libelle);
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Motif create(@RequestBody Motif entity) {
 		return motifService.create(entity);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Motif update(@RequestBody Motif entity) {
 		return motifService.update(entity);

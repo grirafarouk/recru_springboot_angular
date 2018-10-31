@@ -53,13 +53,21 @@
       inset 0 0 0 .1em white,
       0 0 0 .2em;
     }
-    
+    &:disabled {
+      background: #363945;
+      box-shadow:
+      inset 0 0 0 .5em white,
+      0 0 0 .2em;
+      opacity: .5;
+      pointer-events: none;
+    }
     &:checked {
       background: dodgerblue;
       box-shadow:
         inset 0 0 0 .1em white,
         0 0 0 .2em dodgerblue;
     } 
+   
   
     &:focus { outline: 0; }
   }

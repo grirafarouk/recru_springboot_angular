@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.FormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.model.Candidat;
-import com.fr.adaming.jsfapp.model.Formation;
 import com.fr.adaming.jsfapp.model.SessionFormation;
 import com.fr.adaming.jsfapp.services.impl.CandidatService;
 import com.fr.adaming.jsfapp.services.impl.SessionFormationService;
 
 @RestController
-@RequestMapping("/sessionsformations")
+@RequestMapping("/api/sessionsformations")
 @CrossOrigin("*")
 public class SessionsFormations {
 
@@ -75,7 +73,7 @@ public class SessionsFormations {
 	public List<SessionFormation> rechercherFormationEnCours(@RequestBody SessionFormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherFormationEnCours(sessionFormationDto);
 	}
-	
+
 	@RequestMapping(value = "/sessionFormation", method = RequestMethod.GET, produces = "application/json")
 	public List<SessionFormation> rechercherSession() {
 		return sessionFormationService.rechercherSession();
@@ -103,7 +101,7 @@ public class SessionsFormations {
 	@RequestMapping(value = "/listeCandidats", method = RequestMethod.POST)
 	public List<Candidat> rechercherCandidatAvecSessionFormation(@RequestBody SessionFormationDto sessionFormationDto) {
 		List<Candidat> liste = new ArrayList<>(
-		 candidatService.rechercherCandidatAvecSessionFormation(sessionFormationDto));
+				candidatService.rechercherCandidatAvecSessionFormation(sessionFormationDto));
 		return liste;
 	}
 

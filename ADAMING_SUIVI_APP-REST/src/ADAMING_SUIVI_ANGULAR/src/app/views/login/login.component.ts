@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
   }
   doLogin() {
     this.diableButton=true
-    this.authenticationService.login(this.login).subscribe(
+    this.authenticationService.login(this.login).toPromise().then(
       data => {
         this.diableButton=false;
         this.router.navigate(['/dashboard'])

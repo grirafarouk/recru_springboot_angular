@@ -12,25 +12,24 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.model.ClientSession;
 import com.fr.adaming.jsfapp.services.IClientSessionService;
 
-
 @RestController
 @CrossOrigin("*")
-@RequestMapping(value = "/clientSession")
+@RequestMapping(value = "/api/clientSession")
 public class ClientSessionController {
-	
+
 	@Autowired
 	private IClientSessionService clientSessionService;
-	
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<ClientSession> findAll() {
 		return clientSessionService.findAll();
 	}
-	
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ClientSession create(@RequestBody ClientSession entity) {
 		return clientSessionService.create(entity);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public ClientSession update(@RequestBody ClientSession entity) {
 		return clientSessionService.update(entity);
