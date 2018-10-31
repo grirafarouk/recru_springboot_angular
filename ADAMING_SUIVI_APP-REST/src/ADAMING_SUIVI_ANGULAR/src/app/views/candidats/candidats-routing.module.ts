@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes,
      RouterModule } from '@angular/router';
-import { CandidatsComponent } from './candidats.component';
+import { CandidatsComponent } from './candidats/candidats.component';
 import { CandidatDetailResolve } from './fiche-candidat/CandidatDetailResolve';
 import { FicheCandidatComponent } from './fiche-candidat/fiche-candidat.component';
 import { listeNouveauxCandidatsComponent } from './listeNouveauxCandidats/listeNouveauxCandidats.component';

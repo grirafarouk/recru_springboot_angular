@@ -675,5 +675,5 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		return data;
 	}
-
+	
 }

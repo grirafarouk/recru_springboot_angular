@@ -1,37 +1,39 @@
 import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { CandidateDto } from "../CandidateDto";
 import { CandidatsService } from "../../../services/candidats.service";
 import { NotifierService } from "angular-notifier";
 import { OriginesService } from "../../../services/administrationService/origines.service";
 import { CompetencesService } from "../../../services/administrationService/competences.service";
 import { TechnologieService } from "../../../services/administrationService/TechnologieService";
 import { HelperService } from "../../../helper/helper.service";
+import { RegionService } from "../../../services/administrationService/region.service";
+import { Region } from "../../../models/region";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
-import { Router } from "@angular/router";
+import { CandidateDto } from "../../candidats/CandidateDto";
 
 
 @Component({
   selector: 'ngbd-dropdown-basic',
-  templateUrl: 'listeEntretien.component.html',
-  
+  templateUrl: 'listeReporting.component.html',
+  styleUrls: ["listeReporting.component.css"]
+
 })
-export class listeEntretienComponent implements OnInit {
+export class ListeReportingComponent implements OnInit {
   
   mask: any[] = [/\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/];
   technologies=[]
   origines=[]
   competences=[]
   candidats: any[];
-  page= 0;
-  size= 10;
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche : [
     { value: '1', text: 'Moins 1 mois' },
     { value: '2', text: 'Entre 1 et 6 mois' },
     { value: '3', text: 'Plus de 6 mois' }
   ];
-   columns =[
+  refStatut = this.helperService.buildStatutArray();
+
+  columns =[
     {
       data:'nom',
       title:'Nom',
@@ -43,13 +45,13 @@ export class listeEntretienComponent implements OnInit {
       visible:true
     },
     {
-      data:'email',
-      title:'Email',
-      visible:true
+      data:'diplome',
+      title:'Diplôme',
+      visible:false
     },
     {
-      data:'dateInscription',
-      title:'Date inscription',
+      data:'dateObtentionDiplome',
+      title:'Obtention De Diplôme',
       visible:false
     },
     {
@@ -58,13 +60,38 @@ export class listeEntretienComponent implements OnInit {
       visible:true
     },
     {
-      data:'dateEntretien',
-      title:'Date entretien',
+      data:'email',
+      title:'Email',
       visible:true
     },
     {
-      data:'lieuEntretien',
-      title:'Lieu entretienr',
+      data:'origine',
+      title:'Origine',
+      visible:false
+    },
+    {
+      data:'dateInscription',
+      title:'Date inscription',
+      visible:true
+    },
+    {
+      data:'statut',
+      title:'Statut',
+      visible:false
+    },
+    {
+      data:'nomSourceur',
+      title:'Nom sourceur',
+      visible:false
+    },
+    {
+      data:'prenomSourceur',
+      title:'Prénom sourceur',
+      visible:false
+    },
+    {
+      data:'dateEntretien',
+      title:'Date entretien',
       visible:true
     },
     {
@@ -78,47 +105,63 @@ export class listeEntretienComponent implements OnInit {
       visible:true
     },
     {
-      data:'mobilite',
-      title:'Mobilité',
+      data:'pertinence',
+      title:'Pertinence',
       visible:false
     },
     {
-      data:'statut',
-      title:'Statut',
+      data:'disponible',
+      title:'Disponibilité',
+      visible:false
+    },
+    {
+      data:'lieuEntretien',
+      title:'Lieu entretien',
       visible:true
+    },
+    {
+      data:'formation',
+      title:'Formation',
+      visible:false
+    },
+    {
+      data:'dateDemarrageFormation',
+      title:'Date démarrage formation',
+      visible:false
+    },
+    {
+      data:'technologie',
+      title:'Type de profil',
+      visible:false
     }
   ];
   public loading = false;
+  pages = [];
+  size = 10;
   currentPage = 1;
   maxlenght = 0;
   lastPage = 1;
-  pages = [];
+  region: Array<Region> = [];
   lieux=[]
 
-
   constructor(private originesService:OriginesService,private technologiesService:TechnologieService,
-    private sanitizer: DomSanitizer,private candidatsService:CandidatsService,  private router:Router,
-    private notifierService:NotifierService,private competencesService:CompetencesService,private helperService:HelperService,
+    private sanitizer: DomSanitizer,private candidatsService:CandidatsService,
+    private notifierService:NotifierService,private competencesService:CompetencesService,
+    private helperService:HelperService, private regionService: RegionService,
     private lieuxService:LieuxService) {}
 
   ngOnInit(): void {
     this.rechercheCandidat();
     this.technologiesService.findAllTechnologies().subscribe(data=>{
-    this.technologies = data;
+      this.technologies = data;
     })
     this.lieuxService.findAllLieux().subscribe(data=>{
       this.lieux = data;
     })
+    this.originesService.findAllOrigines().subscribe(data => {
+      this.origines = data;
+    })
   }
-
-  /*getListeCandidat(){
-    this.candidatsService.getCandidatEntretien(this.page,this.size).subscribe(data => this.candidats = data);
-  }
-  rechercheCandidat() {
-      this.candidatsService.rechercheNouveauxcandidats(this.condidat,0,this.size).subscribe(data=>{this.candidats = data
-        this.notifierService.notify("info","Nombre Candidat : "+data.length)
-      })
-   }*/
 
    rechercheCandidat() {
     this.loading=true;
@@ -131,7 +174,7 @@ export class listeEntretienComponent implements OnInit {
 
    doRechercheCandidat(callBack?){
     let page = (this.currentPage - 1) * this.size;
-    this.candidatsService.rechercheCandidatAvecEntretien(this.condidat, page, this.size).subscribe(data => {
+    this.candidatsService.RechercheReporting(this.condidat, page, this.size).subscribe(data => {
       this.maxlenght = data.total;
       this.candidats = data.results;
       this.lastPage = Math.ceil(this.maxlenght / this.size)
@@ -147,18 +190,24 @@ export class listeEntretienComponent implements OnInit {
      this.condidat.nom=null;
      this.condidat.prenom = null;
      this.condidat.numeroTel = null;
-     this.condidat.dateEntretien = null;
-     this.condidat.lieuEntretien = null;
-     this.condidat.nomCharge = null;
-     this.condidat.prenomCharge = null;
+     this.condidat.email = null;
+     this.condidat.dateInscription= null;
+     this.condidat.technologie = null;
+     this.condidat.nomSourceur = null;
+     this.condidat.prenomSourceur = null;
+     this.condidat.region = null;
+     this.condidat.dateInscription = null;
+     this.condidat.critereRecheche = null;
      this.rechercheCandidat();
    }
+
    setPage(p) {
     this.loading=true;
     this.currentPage = p;
     this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
     this.doRechercheCandidat();
   }
+
   downloadCV(candidat){
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
@@ -175,7 +224,15 @@ export class listeEntretienComponent implements OnInit {
     })
   }
 
-  openDetails(candidat){
-    this.router.navigate(["/listeEntretien/details/"+candidat.id]);
+  codePostaleOnSearch(value) {
+    if (value != "")
+      this.regionService.completeRegion(value).subscribe(data => {
+        data.forEach(element => {
+          this.region = [...  this.region, element]
+        });
+      })
+    else this.region = []
   }
+
+  
 }

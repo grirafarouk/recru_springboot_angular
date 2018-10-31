@@ -71,20 +71,16 @@ export const routes: Routes = [
       loadChildren: './views/candidats/candidats.module#CandidatsModule'
       },
       {
-        path: 'listeEntretien',
-        loadChildren: './views/candidats/listeEntretien/listeEntretien.module#listeEntretienModule'
+        path: 'entretien',
+        loadChildren: './views/entretien/entretien.module#EntretienModule'
       },
       {
         path: 'SessionsFormations',
         loadChildren: './views/Sessions-Formations/sessionFormations.module#SessionFormationsModule'
-      },
+      },   
       {
-        path: 'listeReporting',
-        loadChildren: './views/candidats/listeReporting/listeReporting.module#listeReportingModule'
-      },
-      {
-        path: 'reportingSourceur',
-        loadChildren: './views/candidats/reportingSourceur/reportingSourceur.module#reportingSourceurModule'
+        path: 'reporting',
+        loadChildren: './views/reporting/reporting.module#ReportingModule'
       },
       {
         path: 'administration',

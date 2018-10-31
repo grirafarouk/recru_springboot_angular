@@ -12,7 +12,7 @@ import { SourceurReporting } from "../../../models/SourceurReporting";
   styleUrls: ["reportingSourceur.component.css"]
   
 })
-export class reportingSourceurComponent implements OnInit {
+export class ReportingSourceurComponent implements OnInit {
   
   ListReporting=[]
   ListSourceur=[]

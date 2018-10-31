@@ -1,20 +1,20 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Candidate } from "../../models/Candidate";
-import { CandidatsService } from "../../services/candidats.service";
+import { Candidate } from "../../../models/Candidate";
+import { CandidatsService } from "../../../services/candidats.service";
 import { NotifierService } from "angular-notifier";
-import { OriginesService } from "../../services/administrationService/origines.service";
-import { CompetencesService } from "../../services/administrationService/competences.service";
-import { TechnologieService } from "../../services/administrationService/TechnologieService";
-import { CodePostalService } from "../../services/administrationService/code-postal.service";
-import { CodePostal } from "../../models/CodePostal";
-import { Technologie } from "../../models/Technologie";
-import { Origine } from "../../models/Origine";
-import { Competence } from "../../models/Competence";
-import { USER_NAME } from "../../helper/auth.constant";
-import { UtilisateurService } from "../../services/utilisateur.service";
+import { OriginesService } from "../../../services/administrationService/origines.service";
+import { CompetencesService } from "../../../services/administrationService/competences.service";
+import { TechnologieService } from "../../../services/administrationService/TechnologieService";
+import { CodePostalService } from "../../../services/administrationService/code-postal.service";
+import { CodePostal } from "../../../models/CodePostal";
+import { Technologie } from "../../../models/Technologie";
+import { Origine } from "../../../models/Origine";
+import { Competence } from "../../../models/Competence";
+import { UtilisateurService } from "../../../services/utilisateur.service";
 import { Router } from "@angular/router";
-import { Status } from "../../models/enum/Status";
+import { Status } from "../../../models/enum/Status";
+import { HelperService } from "../../../helper/helper.service";
 
 @Component({
   templateUrl: 'candidats.component.html',
@@ -41,7 +41,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
 
   constructor(private router:Router,private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
-    private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
+    private sanitizer: DomSanitizer, private candidatsService: CandidatsService,private helperService:HelperService,
     private notifierService: NotifierService, private competencesService: CompetencesService) {
   }
 
@@ -229,12 +229,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   async saveCandidat(callback){
     var error = false;
     //#region get Competences
-    this.competences.forEach((obj, i) => {
-      if (obj.selected) {
-        delete obj.selected;
-        this.candidate.candidatCompetence.push(obj)
-      }
-    });
+    this.helperService.generateComp(this.candidate,this.competences);
+
     //#endregion
 
     //#region  allert Message

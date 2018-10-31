@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes,
      RouterModule } from '@angular/router';
-import { listeEntretienComponent } from './listeEntretien.component';
-import { CandidatDetailResolve } from '../fiche-candidat/CandidatDetailResolve';
+import { listeEntretienComponent } from './listeEntretien/listeEntretien.component';
+import { CandidatDetailResolve } from '../candidats/fiche-candidat/CandidatDetailResolve';
 import { FicheEntrtienComponent } from './ficher-entretien/fiche-entrtien.component';
 
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'list',
     component: listeEntretienComponent,
     data: {
-      title: 'listeEntretien'
+      title: 'Liste Entretien'
     }
   },
   {

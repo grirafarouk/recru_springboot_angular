@@ -173,7 +173,7 @@ export class FicheCandidatComponent implements OnInit {
     let errorCv = this.verifierCvAnym();
     if (!errorCv) {
       //#region get Competences
-      this.generateComp();
+      this.helperService.generateComp(this.currentCandidat,this.competences);
       //#endregion
       const candidateTemp: any = Object.assign({}, this.currentCandidat);
       candidateTemp.entretien = null
@@ -187,15 +187,7 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private generateComp() {
-    this.currentCandidat.candidatCompetence= new Array<Competence>();
-    this.competences.forEach((obj, i) => {
-      if (obj.selected) {
-        //delete obj.selected;
-        this.currentCandidat.candidatCompetence.push(obj);
-      }
-    });
-  }
+
 
   private verifierCvAnym() {
     let error = false;
@@ -297,7 +289,7 @@ export class FicheCandidatComponent implements OnInit {
   private async sauvgarderFiche() {
     this.currentCandidat.suivi = null
     //#region get Competences
-    this.generateComp();
+    this.helperService.generateComp(this.currentCandidat,this.competences);
     //#endregion
     if (!this.verfierDispo() && !this.verfierRelance() && !this.verfierEntrtien()) {
       //#region Hors Cible 

@@ -1,35 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { Candidate } from '../../../../models/candidate';
-import { CodePostal } from '../../../../models/CodePostal';
-import { Technologie } from '../../../../models/Technologie';
-import { Origine } from '../../../../models/Origine';
-import { TechnologieService } from '../../../../services/administrationService/TechnologieService';
-import { OriginesService } from '../../../../services/administrationService/origines.service';
-import { CodePostalService } from '../../../../services/administrationService/code-postal.service';
-import { CompetencesService } from '../../../../services/administrationService/competences.service';
-import { Competence } from '../../../../models/Competence';
-import { CandidatsService } from '../../../../services/candidats.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Candidate } from '../../../models/candidate';
+import { CodePostal } from '../../../models/CodePostal';
+import { Technologie } from '../../../models/Technologie';
+import { Origine } from '../../../models/Origine';
+import { TechnologieService } from '../../../services/administrationService/TechnologieService';
+import { OriginesService } from '../../../services/administrationService/origines.service';
+import { CodePostalService } from '../../../services/administrationService/code-postal.service';
+import { CompetencesService } from '../../../services/administrationService/competences.service';
+import { Competence } from '../../../models/Competence';
+import { CandidatsService } from '../../../services/candidats.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Entretien } from '../../../../models/Entretien';
-import { Lieu } from '../../../../models/Lieu';
-import { LieuxService } from '../../../../services/administrationService/Lieux.service.';
+import { Entretien } from '../../../models/Entretien';
+import { Lieu } from '../../../models/Lieu';
+import { LieuxService } from '../../../services/administrationService/Lieux.service.';
 import { NotifierService } from 'angular-notifier';
-import { Motif } from '../../../../models/Motif';
-import { MotifService } from '../../../../services/administrationService/motif.service';
-import { RoutingState } from '../../../../helper/routing-state.service';
-import { UtilisateurService } from '../../../../services/utilisateur.service';
-import { Disponibilite } from '../../../../models/enum/Disponibilite';
-import { HelperService } from '../../../../helper/helper.service';
-import { Profil } from '../../../../models/enum/Profil';
-import { EntretienService } from '../../../../services/entretien-service';
-import { Status } from '../../../../models/enum/Status';
-import { SessionFormation } from '../../../../models/SessionFormation';
-import { SessionsFormationsService } from '../../../../services/sessionService/sessions-formations.service';
-import { RegionService } from '../../../../services/administrationService/region.service';
+import { RoutingState } from '../../../helper/routing-state.service';
+import { UtilisateurService } from '../../../services/utilisateur.service';
+import { HelperService } from '../../../helper/helper.service';
+import { Profil } from '../../../models/enum/Profil';
+import { EntretienService } from '../../../services/entretien-service';
+import { Status } from '../../../models/enum/Status';
+import { SessionFormation } from '../../../models/SessionFormation';
+import { SessionsFormationsService } from '../../../services/sessionService/sessions-formations.service';
+import { RegionService } from '../../../services/administrationService/region.service';
 import { formatDate } from '@angular/common';
-import { SuiviService } from '../../../../services/suivi-service';
-import { Suivi } from '../../../../models/Suivi';
+import { SuiviService } from '../../../services/suivi-service';
+import { Suivi } from '../../../models/Suivi';
 declare var jQuery: any;
 
 @Component({
@@ -189,15 +186,6 @@ export class FicheEntrtienComponent implements OnInit {
     this.currentCandidat.suivi[clickObj.name] = clickObj.rating;
   }
 
-  private generateComp() {
-    this.competences.forEach((obj, i) => {
-      if (obj.selected) {
-        //delete obj.selected;
-        this.currentCandidat.candidatCompetence.push(obj);
-      }
-    });
-  }
-
   private verfierStatus() {
     let error = false;
     if (Status[this.currentCandidat.statut] == Status.VALIDE && (this.currentCandidat.sessionFormation == null || this.currentCandidat.sessionFormation == undefined)) {
@@ -263,7 +251,7 @@ export class FicheEntrtienComponent implements OnInit {
  async sauvgarderFicheEntrtien() {
    
     if (!this.verfierSuiviRelance() && !this.verfierStatus()) {
-      this.generateComp();
+      this.helperService.generateComp(this.currentCandidat,this.competences);
 
       //#region  Save Or Update Suivi
       this.currentCandidat.suivi.charge = this.userService.getConnetedUserInfo();

@@ -29,7 +29,7 @@ export const navItems = [
   },
   {
     name: 'Entretien',
-    url: '/listeEntretien',
+    url: '/entretien/list',
   },
   {
     name: 'Sessions Formations',
@@ -48,11 +48,11 @@ export const navItems = [
   },
   {
     name: 'Reporting',
-    url: '/listeReporting',
+    url: '/reporting/listeReporting',
   },
   {
     name: 'Reporting Sourceur',
-    url: '/reportingSourceur',
+    url: '/reporting/reportingSourceur',
   },
   {
     name: 'Administration',

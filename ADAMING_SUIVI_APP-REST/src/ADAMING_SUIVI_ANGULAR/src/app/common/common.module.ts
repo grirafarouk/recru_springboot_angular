@@ -1,15 +1,20 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RatingComponent } from './rating/rating.component';
+import { MonthYeatPickerComponent } from './month-year-picker/month-year-picker';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 
 @NgModule({
   imports: [
-    FormsModule
+    FormsModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    ReactiveFormsModule
   ],
-  declarations: [ RatingComponent  ],
+  declarations: [ RatingComponent,MonthYeatPickerComponent  ],
   exports: [
-    RatingComponent
+    RatingComponent,MonthYeatPickerComponent
   ]
 })
 export class CommonCustomModule { }
