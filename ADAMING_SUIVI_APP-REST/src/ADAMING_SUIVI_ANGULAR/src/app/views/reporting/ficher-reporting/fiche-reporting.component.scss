@@ -7,6 +7,13 @@ label {
     font-size: 15px;
     font-weight: bold;
     margin-right: 2px;
+}
+
+.label {
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 2px;
     margin-bottom: 2px
 }
 
@@ -22,14 +29,22 @@ h5 {
 .competences {
     border: 2px solid #C4C4C4;
     border-radius: 12px;
-    padding: 0px;
+    padding-left: 10px;
+    margin-right: 30px
 }
 
-.ng-select.custom  {
-    width: 100vh !important;
-}
 
 
 .modal-vlg{
     max-width: 90%;
 }
+
+
+
+.ng-select.custom  {
+    width: 100vh !important;
+}
+.checkbox:before {
+
+    margin-top: -1px;
+  }

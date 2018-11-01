@@ -131,4 +131,8 @@ export class FicheReportingComponent implements OnInit {
     console.log("aa")
     this.detailsModal.show();
   }
+
+  getStatusLabel(status){
+    return Status[status];
+  }
 }

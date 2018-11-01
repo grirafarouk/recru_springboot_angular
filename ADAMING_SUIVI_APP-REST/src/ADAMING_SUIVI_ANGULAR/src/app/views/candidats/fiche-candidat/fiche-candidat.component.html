@@ -216,32 +216,30 @@
                               <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
                                   id="inline-checkbox1" [value]="compt.id">
                           </label>
-                        <label >{{compt.libelle}}</label>
-                    <label class="form-check-label" for="inline-checkbox1">{{compt.libelle}}</label>
+                        <label style="margin-bottom: 0px">{{compt.libelle}}</label>
                   </div>
                 </div>
 
               </div>
-              <div class="row align-items-center" style="margin-bottom: 50px">
+            </div>
+            <div class="row align-items-center" >
                 <div class="col-7"></div>
                 <div class="col-5">
                   <button (click)="updateCandidats()" type="button" class="btn btn-block btn-primary">Modifier candidat</button>
                 </div>
               </div>
-              <div class="row" style="padding-bottom: 10px">
+              <div class="row" style="margin-top: 20px">
+                  <HR size="5" align="center" width="100%" />
+                </div>
+              <div class="row">
                 <div class="col-md-6 col-form-label">
                   <label class="form-check-label" style="padding-right: 30px" for="envoiMail">
                     Envoi e-mail:
                   </label> 
-                  <label class="label">
-                      <input class="label__checkbox" type="checkbox" [(ngModel)]="envoiMail" name="envoiMail" value="true" id="envoiMail ">
-                      <span class="label__text">
-                          <span class="label__check">
-                              <i class="fa fa-check icon"></i>
-                          </span>
-                      </span>
-                  </label>
+                  <label  class="label--checkbox">
+                      <input class="checkbox" type="checkbox" [(ngModel)]="envoiMail" name="envoiMail" value="true" id="envoiMail ">
 
+                  </label>
                 </div>
               </div>
 

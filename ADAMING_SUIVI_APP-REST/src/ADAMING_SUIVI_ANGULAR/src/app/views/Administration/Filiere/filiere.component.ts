@@ -10,7 +10,6 @@ import { TechnologieService } from "../../../services/administrationService/Tech
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { TypeFormationService } from "../../../services/administrationService/TypeFormationService";
 import { Formation } from "../../Sessions-Formations/formation";
-import { Session } from "inspector";
 import { SessionFormation } from "../../../models/SessionFormation";
 
 

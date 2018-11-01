@@ -16,7 +16,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="col-7"> 
+            <div class="col-7">
               <div *ngIf="pdfSource!=undefined">
                 <object style="margin-top: 20px" [data]="pdfSource" height="1500px" width="100%">
                   <param name="view" value="fitH" />
@@ -232,12 +232,12 @@
                     <label class="col-7 col-form-label">Mobilité: </label>
                     <div class="col-4 col-form-label">
                       <div class="form-check form-check-inline">
-                        <input [disabled]="true" class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.suivi.mobilite"
+                        <input [disabled]="true" class="form-check-input" name="mobiliteSuivi3" [(ngModel)]="currentCandidat.suivi.mobilite"
                           type="radio" id="inline-checkbox1" [value]="true">
                         <label class="form-check-label" for="inline-checkbox1">Oui</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input [disabled]="true" class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.suivi.mobilite"
+                        <input [disabled]="true" class="form-check-input" name="mobiliteSuivi3" [(ngModel)]="currentCandidat.suivi.mobilite"
                           type="radio" id="inline-checkbox2" [value]="false">
                         <label class="form-check-label" for="inline-checkbox2">Non</label>
                       </div>
@@ -373,7 +373,7 @@
                     <div class="form-group">
                       <label for="email">Relance</label>
                       <div class="col-12">
-                        <p class="form-control-static">{{currentCandidat.entretien.relance}}</p>
+                        <p class="form-control-static">{{currentCandidat.entretien.relance  == true ? 'Oui' :'Non'  }}</p>
                       </div>
                     </div>
                   </div>
@@ -390,7 +390,7 @@
                       <label for="email">Code Postal</label>
                       <div class="col-12">
                         <p class="form-control-static">{{currentCandidat.codePostal.code}}
-                          ({{currentCandidat.codePostal.VILLEJUIF}})</p>
+                          ({{currentCandidat.codePostal.ville}})</p>
                       </div>
                     </div>
                   </div>
@@ -477,82 +477,82 @@
                     </div>
                   </div>
                   <div class="form-group col-3">
-                      <label class="col-7 col-form-label">Mobilité</label>
-                      <div class="col-4 col-form-label">
-                        <div class="form-check form-check-inline">
-                          <input [disabled]="true" class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.mobiliteSrc"
-                            type="radio" id="inline-checkbox1" [value]="true">
-                          <label class="form-check-label" for="inline-checkbox1">Oui</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input [disabled]="true" class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.mobiliteSrc"
-                            type="radio" id="inline-checkbox2" [value]="false">
-                          <label class="form-check-label" for="inline-checkbox2">Non</label>
-                        </div>
+                    <label class="col-7 col-form-label">Mobilité</label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
+                          type="radio" id="inline-checkbox1" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox1">Oui</label>
                       </div>
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
+                          type="radio" id="inline-checkbox2" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox2">Non</label>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="form-group col-3">
-                        <label class="col-7 col-form-label">Pole Emploi</label>
-                        <div class="col-4 col-form-label">
-                          <div class="form-check form-check-inline">
-                            <input [disabled]="true" class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.entretien.directEmploi"
-                              type="radio" id="inline-checkbox1" [value]="true">
-                            <label class="form-check-label" for="inline-checkbox1">Oui</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input [disabled]="true" class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.entretien.directEmploi"
-                              type="radio" id="inline-checkbox2" [value]="false">
-                            <label class="form-check-label" for="inline-checkbox2">Non</label>
-                          </div>
-                        </div>
+                    <label class="col-7 col-form-label">Pole Emploi</label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="directEmploi" [(ngModel)]="currentCandidat.entretien.directEmploi"
+                          type="radio" id="inline-checkbox1" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox1">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="directEmploi" [(ngModel)]="currentCandidat.entretien.directEmploi"
+                          type="radio" id="inline-checkbox2" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox2">Non</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="col-6">
-                    <div class="row" >
-                        <div class="col-6">
-                        <div class="form-group">
-                          <label>Sourceur</label>
-                          <div class="col-12">
-                            <p class="form-control-static">{{
-                              currentCandidat.creePar.nom }} {{
-                              currentCandidat.creePar.prenom }}</p>
-                          </div>
-                        </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Sourceur</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{
+                          currentCandidat.creePar.nom }} {{
+                          currentCandidat.creePar.prenom }}</p>
                       </div>
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Chargé recrutement</label>
-                          <div class="col-12">
-                            <p class="form-control-static">{{currentCandidat.entretien.charge!=null ?
-                              currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ?
-                              currentCandidat.entretien.charge.prenom :""}}</p>
-                          </div>
-                        </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Chargé recrutement</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{currentCandidat.entretien.charge!=null ?
+                          currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ?
+                          currentCandidat.entretien.charge.prenom :""}}</p>
                       </div>
-                      <div class="form-group row competences">
-                          <div class="col-md-2 col-form-label" *ngFor="let compt of competences; let i = index">
-                              <div class="form-check form-check-inline mr-1">
-                                  <label class="label--checkbox">
-                                      <input  disabled class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
-                                          id="inline-checkbox1" [value]="compt.id">
-                                  </label>
-                                <label >{{compt.libelle}}</label>
-                              </div>
-                          </div>
-                        </div>
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Pertinence Cv</label>
-                          <div class="col-12">
-                            <p class="form-control-static">{{currentCandidat.entretien.pertinence}}</p>
-                          </div>
-                        </div>
+                    </div>
+                  </div>
+                  <div class="row competences">
+                    <div class="col-form-label col-md-3" *ngFor="let compt of competences; let i = index">
+                      <div class="form-check form-check-inline mr-1" style="padding-right: 10px">
+                        <label class="label--checkbox">
+                          <input disabled class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
+                            id="inline-checkbox1" [value]="compt.id">
+                        </label>
+                        <label>{{compt.libelle}}</label>
                       </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Pertinence Cv</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{currentCandidat.entretien.pertinence}}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+              </div>
             </div>
-          </div>
             <div class="row" style="margin-bottom: 20px;margin-right: 20px">
               <div class="col-12">
                 <label for="comEntrtien">Commentaire</label>
@@ -563,59 +563,168 @@
             <div class="row">
               <div class="col-6">
                 <div class="row">
-                  <div class="row">
-                      <label style="color: blue;font-weight:bold">Présentation générale</label>
-                    </div>
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Présentation:</label>
-                          <app-rating-disabled [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"></app-rating-disabled>
-                        </div>
+                  <label style="color: blue;font-weight:bold">Présentation générale</label>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Présentation</label>
                       </div>
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Savoir etre:</label>
-                          <app-rating-disabled [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'"></app-rating-disabled>
-                        </div>
-                      </div>
-                    </div>
-      
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Fiabilité:</label>
-                          <app-rating-disabled [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'"></app-rating-disabled>
-                        </div>
-                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"></app-rating-disabled>
                     </div>
                   </div>
-                    <div class="row">
-                      <label style="color: blue;font-weight:bold">Motivation</label>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Savoir etre</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'"></app-rating-disabled>
                     </div>
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Attrait pour l'informatique:</label>
-                          <app-rating-disabled [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'"></app-rating-disabled>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Fiabilité</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'"></app-rating-disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label style="color: blue;font-weight:bold">Motivation</label>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Attrait pour l'informatique</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'"></app-rating-disabled>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Prêt à la reconversion</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.notePret' [name]="'notePret'"></app-rating-disabled>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Mobilité</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'"></app-rating-disabled>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                      <div class="form-group">
+                        <label for="noteResultat">Statut</label>
+                        <div class="col-12">
+                          <p class="form-control-static">{{getStatusLabel(currentCandidat.statut)}}</p>
                         </div>
                       </div>
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Prêt à la reconversion:</label>
-                          <app-rating-disabled [rating]='currentCandidat.suivi.notePret' [name]="'notePret'"></app-rating-disabled>
+                    </div>
+                </div><!-- /row-->
+                <div class="row">
+                    <label style="color: blue;font-weight:bold">Autre critéres:</label>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="form-group">
+                        <label for="noteResultat">Résultat du test:</label>
+                        <div class="col-12">
+                          <p class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
                         </div>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="form-group">
-                          <label>Mobilité:</label>
-                          <app-rating-disabled [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'"></app-rating-disabled>
+                    <div class="col-6">
+                      <div class="form-group">
+                          <div>
+                              <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
+                        <app-rating-disabled [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'"></app-rating-disabled>
+                      </div>
+                    </div>
+    
+                    <div class="col-6">
+                      <div class="form-group">
+                          <div>
+                              <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label>
+                              </div>
+                        <app-rating-disabled [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'"></app-rating-disabled>
+                      </div>
+                    </div>
+                    <div class="col-6">
+                      <div class="form-group">
+                          <div>
+                              <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label>
+                              </div>
+                        <app-rating-disabled [rating]='currentCandidat.suivi.anglais' [name]="'anglais'"></app-rating-disabled>
+                      </div>
+                    </div>
+    
+                    <div class="col-sm-6">
+                      <div class="form-group row">
+                        <label class="col-7 col-form-label">Mobilité: </label>
+                        <div class="col-4 col-form-label">
+                          <div class="form-check form-check-inline">
+                            <input disabled class="form-check-input" name="mobiliteSuivi2" [(ngModel)]="currentCandidat.suivi.mobilite"
+                              type="radio" [value]="true">
+                            <label class="form-check-label" >Oui</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input disabled class="form-check-input" name="mobiliteSuivi2" [(ngModel)]="currentCandidat.suivi.mobilite"
+                              type="radio"  [value]="false">
+                            <label class="form-check-label">Non</label>
+                          </div>
+                        </div>
+                      </div>
+    
+                      <div class="form-group row">
+                        <label class="col-md-7 col-form-label">Mobilité Tout France:</label>
+                        <div class="col-md-4 col-form-label">
+                          <div class="form-check form-check-inline mr-1">
+                            <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
+                              name="mobilteTouFrance2" type="radio" [value]="true">
+                            <label class="form-check-label" >Oui</label>
+                          </div>
+                          <div class="form-check form-check-inline mr-1">
+                            <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
+                              name="mobilteTouFrance2" type="radio"  [value]="false">
+                            <label class="form-check-label" >Non</label>
+                          </div>
                         </div>
                       </div>
                     </div>
-              </div>
+    
+                    <div class="col-6">
+                      <div class="form-group row">
+                        <label class="col-7 col-form-label">Relancer: </label>
+                        <div class="col-4 col-form-label">
+                          <div class="form-check form-check-inline">
+                            <input [disabled]="true" class="form-check-input" name="suiviRelance2" [(ngModel)]="currentCandidat.suivi.relance"
+                              type="radio"  [value]="true">
+                            <label class="form-check-label" >Oui</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                            <input [disabled]="true" class="form-check-input" name="suiviRelance2" [(ngModel)]="currentCandidat.suivi.relance"
+                              type="radio"  [value]="false">
+                            <label class="form-check-label">Non</label>
+                          </div>
+                        </div>
+                      </div>
+               
+                      <div class="form-group">
+                        <label for="noteResultat">Date Relance</label>
+                        <div class="col-12">
+                          <p class="form-control-static">{{currentCandidat.suivi.dateRelance |date :'dd/M/yyyy'}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div> <!--/ row-->
+                  </div> <!-- col 6 -->
               <div class="col-6">
                 <div class="row" style="margin-bottom: 20px;margin-right: 20px">
                   <div class="col-12">

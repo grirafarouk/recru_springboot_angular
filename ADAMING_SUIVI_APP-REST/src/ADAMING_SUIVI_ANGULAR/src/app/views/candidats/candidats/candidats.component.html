@@ -131,8 +131,9 @@
                                                 <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
                                                     id="inline-checkbox1" [value]="compt.id">
                                             </label>
-                                          <label >{{compt.libelle}}</label>
-                            </div>
+                                            <label style="margin-bottom: 0px">{{compt.libelle}}</label>
+                                        </div>
+                                    </div>
 
                         </div>
                         <div class="row">
@@ -150,16 +151,11 @@
 
                         <div class="row align-items-center">
                             <div class="col-md-6 col-form-label">
-                                <div class="form-check">
-                                    <label class="label">
-                                        <input class="label__checkbox" type="checkbox" [(ngModel)]="candidate.cvAnonyme"
+                                <div class="form-check form-check-inline mr-1">
+                                    <label class="label--checkbox">
+                                            <input class="checkbox" type="checkbox" [(ngModel)]="candidate.cvAnonyme"
                                             name="cvAnonyme" value="true" id="cvanonyme ">
-                                        <span class="label__text">
-                                            <span class="label__check">
-                                                <i class="fa fa-check icon"></i>
-                                            </span>
-                                        </span>
-                                    </label>
+                                        </label>
                                     <label class="form-check-label" for="cvanonyme">
                                         CV anonyme
                                     </label>
