@@ -12,7 +12,7 @@ export class RatingComponent implements OnInit {
 
   inputName: string;
   ngOnInit() {
-    this.inputName = this.name + '_rating';
+    this.inputName = this.name + '_rating'+Math.random().toString(36).substring(7);
   }
   onClick(rating: number): void {
     this.rating = rating;

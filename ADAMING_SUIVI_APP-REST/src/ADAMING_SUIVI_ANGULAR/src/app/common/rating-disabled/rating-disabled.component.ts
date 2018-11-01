@@ -12,7 +12,7 @@ export class RatingDisabledComponent implements OnInit {
 
   inputName: string;
   ngOnInit() {
-    this.inputName = this.name + '_rating';
+    this.inputName = this.name + '_rating'+Math.random().toString(36).substring(7);
   }
 
 }
