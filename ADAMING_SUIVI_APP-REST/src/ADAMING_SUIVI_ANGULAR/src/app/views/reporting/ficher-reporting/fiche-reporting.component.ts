@@ -44,10 +44,13 @@ export class FicheReportingComponent implements OnInit {
   file;
   currentCandidat: Candidate;
   selectedRegions=[]
+  competences: Array<Competence> = []
+
+
   constructor(private route: ActivatedRoute, private candidatsService: CandidatsService,
     private sanitizer: DomSanitizer, private router: Router,
     private routingState: RoutingState,
-    private helperService: HelperService, ) { }
+    private helperService: HelperService, private competencesService: CompetencesService ) { }
 
   ngOnInit() {
 
@@ -64,7 +67,16 @@ export class FicheReportingComponent implements OnInit {
           }
           reader.readAsDataURL(res.data);
         })
-
+        this.competencesService.findAllCompetences().subscribe(data => {
+          this.competences = data;
+          this.currentCandidat.candidatCompetence.forEach((obj, i) => {
+            this.competences.forEach((obj2, i) => {
+              if (obj2.id == obj.id) {
+                obj2.selected = true;
+              }
+            });
+          });
+        })
        this.selectedRegions = []
         if (this.currentCandidat.suivi.regions != undefined) this.currentCandidat.suivi.regions.forEach(element => {
           this. selectedRegions.push(element.id + "");
