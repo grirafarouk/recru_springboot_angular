@@ -55,4 +55,8 @@ export class SessionFormationEnCoursService {
     return this.http.post(BACK_END_URL +'/formation/formationclotures', formation,httpOptions);
   }
 
+  getAllSessions(){
+    return this.http.get<any>(BACK_END_URL+'/sessionsformations/AllSessions');
+  }
+
 }
