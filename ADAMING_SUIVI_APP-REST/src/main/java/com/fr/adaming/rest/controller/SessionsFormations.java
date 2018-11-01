@@ -40,7 +40,7 @@ public class SessionsFormations {
 		return sessionFormationService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/AllSessions", method = RequestMethod.GET)
 	public Collection<SessionFormation> findAll() {
 		return sessionFormationService.findAll();
 	}

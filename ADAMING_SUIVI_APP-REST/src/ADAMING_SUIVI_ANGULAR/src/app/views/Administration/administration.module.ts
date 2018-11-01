@@ -23,6 +23,8 @@ import { clientSessionComponent } from './ClientSession/clientSession.component'
 import { motifHorsCibleComponent } from './MotifHorsCible/motifHorsCible.component';
 import { regionComponent } from './Region/region.component';
 import { BooleanPipe } from '../pipe/boolean.pipe';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { FiliereComponent } from './Filiere/filiere.component';
 
 
 
@@ -42,13 +44,11 @@ import { BooleanPipe } from '../pipe/boolean.pipe';
     OwlNativeDateTimeModule,
     NgSelectModule,
     ModalModule.forRoot(),
-    ReactiveFormsModule
-    
-
-
+    ReactiveFormsModule,
+    CollapseModule.forRoot()
   ],
   declarations: [  competenceComponent,utilisateursComponent,lieuxComponent,
-    origineCVComponent,technologiesComponent,typeFormationComponent,clientSessionComponent,
+    origineCVComponent,technologiesComponent,typeFormationComponent,FiliereComponent,clientSessionComponent,
   motifHorsCibleComponent,regionComponent,BooleanPipe]
 })
 export class administrationModule { }

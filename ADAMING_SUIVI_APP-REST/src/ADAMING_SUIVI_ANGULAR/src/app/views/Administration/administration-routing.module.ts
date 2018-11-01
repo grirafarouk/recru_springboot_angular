@@ -10,6 +10,7 @@ import { typeFormationComponent } from './TypeFormation/typeFormation.component'
 import { clientSessionComponent } from './ClientSession/clientSession.component';
 import { motifHorsCibleComponent } from './MotifHorsCible/motifHorsCible.component';
 import { regionComponent } from './Region/region.component';
+import { FiliereComponent } from './Filiere/filiere.component';
 
 
 const routes: Routes = [
@@ -53,6 +54,13 @@ const routes: Routes = [
   component: typeFormationComponent,
   data: {
     title: 'typeFormation'
+}
+},
+{
+  path: 'filiere',
+  component: FiliereComponent,
+  data: {
+    title: 'filiere'
 }
 },
 {

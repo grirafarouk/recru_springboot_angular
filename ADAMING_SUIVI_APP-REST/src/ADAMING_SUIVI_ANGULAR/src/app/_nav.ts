@@ -78,6 +78,10 @@ export const navItems = [
         url: '/administration/typeFormation',
       },
       {
+        name: 'filiere',
+        url: '/administration/filiere',
+      },
+      {
         name: 'clientSession',
         url: '/administration/clientSession',
       },
@@ -90,8 +94,8 @@ export const navItems = [
         url: '/administration/region',
       }
     ]
-  }
-  /*{
+  },
+  {
     title: true,
     name: 'Theme'
   },
@@ -310,5 +314,5 @@ export const navItems = [
     url: 'http://coreui.io/pro/angular/',
     icon: 'icon-layers',
     variant: 'danger'
-  }*/
+  }
 ];
