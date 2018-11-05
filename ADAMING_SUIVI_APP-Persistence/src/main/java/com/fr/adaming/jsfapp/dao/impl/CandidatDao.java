@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -356,6 +358,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			crit.createAlias("sessionFormation", "sf");
 			DaoUtils.addEqRestrictionIfNotNull(crit, "sf.id", sessionFormationDto.getId());
 		}
+		crit.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
 		return DaoUtils.castList(Candidat.class, crit.list());
 	}

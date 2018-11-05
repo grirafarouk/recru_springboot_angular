@@ -10,6 +10,8 @@ import { Technologie } from "../../../models/Technologie";
 import { TechnologieService } from "../../../services/administrationService/TechnologieService";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { TypeFormationService } from "../../../services/administrationService/TypeFormationService";
+import { Router } from "@angular/router";
+import { NAVIGATION_RULES } from "../../../helper/application.constant";
 
 
 @Component({
@@ -18,7 +20,7 @@ import { TypeFormationService } from "../../../services/administrationService/Ty
 })
 export class SessionsFormationsEncoursComponent implements OnInit {
 
-  constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
+  constructor(private router:Router,private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
   session: any = {}; 
   sessionFormations: any ;
@@ -79,11 +81,12 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       this.getListe();
     }
     collapsed(event: any): void {
-      console.log(event);
     }
 
     expanded(event: any): void {
-      console.log(event);
     }
 
+    openDetails(sessionFormation){
+      this.router.navigate([NAVIGATION_RULES.sessionsFormations.url+'/'+NAVIGATION_RULES.sessionsFormations.details.replace(':id',sessionFormation.id)]);
+    }
 }

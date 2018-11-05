@@ -9,6 +9,7 @@ import { TechnologieService } from "../../../services/administrationService/Tech
 import { HelperService } from "../../../helper/helper.service";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { Router } from "@angular/router";
+import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
 
 
 @Component({
@@ -35,7 +36,8 @@ export class listeNouveauxCandidatsComponent implements OnInit {
     {
       data:'numeroTel',
       title:'N° Téléphone',
-      visible:true
+      visible:true,
+      mask:PHONE_MASK_LABEL
     },
     {
       data:'email',
@@ -45,7 +47,8 @@ export class listeNouveauxCandidatsComponent implements OnInit {
     {
       data:'dateInscription',
       title:'Date inscription',
-      visible:true
+      visible:true,
+      dateFormat:DATE_FORMAT
     },
     {
       data:'technologie',
@@ -165,6 +168,6 @@ export class listeNouveauxCandidatsComponent implements OnInit {
   }
 
   openDetails(candidat){
-    this.router.navigate(["/candidats/details/"+candidat.id]);
+    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',candidat.id)]);
   }
 }

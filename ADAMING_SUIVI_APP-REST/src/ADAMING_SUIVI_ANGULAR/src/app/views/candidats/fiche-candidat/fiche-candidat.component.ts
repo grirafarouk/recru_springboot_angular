@@ -24,6 +24,7 @@ import { HelperService } from '../../../helper/helper.service';
 import { Profil } from '../../../models/enum/Profil';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
+import { NAVIGATION_RULES } from '../../../helper/application.constant';
 
 @Component({
   selector: 'app-fiche-candidat',
@@ -39,10 +40,10 @@ export class FicheCandidatComponent implements OnInit {
 
   @ViewChild("emailModalHorCible")
   public emailModalHorCible;
-  civilites= ["M","Mme"];
+  civilites = ["M", "Mme"];
 
   commentaireMotif = "";
-  minRelance = new Date();
+  minRelance = new Date((new Date().getMonth() + 1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear());
   timeEntretien: Date;
   codePostals: Array<CodePostal> = [];
   technologies: Array<Technologie> = []
@@ -149,7 +150,7 @@ export class FicheCandidatComponent implements OnInit {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
 
     }
-    else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
+   // else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
   }
 
   private entretienHeureFilter = (d: Date): boolean => {
@@ -173,15 +174,16 @@ export class FicheCandidatComponent implements OnInit {
     let errorCv = this.verifierCvAnym();
     if (!errorCv) {
       //#region get Competences
-      this.helperService.generateComp(this.currentCandidat,this.competences);
+      this.helperService.generateComp(this.currentCandidat, this.competences);
       //#endregion
       const candidateTemp: any = Object.assign({}, this.currentCandidat);
-      candidateTemp.entretien = null
-      candidateTemp.motif = null
-      candidateTemp.suivi = null
+      if (candidateTemp.entretien != null && (candidateTemp.entretien.id == 0 || candidateTemp.entretien.id == null || candidateTemp.entretien.id == undefined))
+        candidateTemp.entretien = null
+      if (candidateTemp.motif != null && (candidateTemp.motif.id == 0 || candidateTemp.motif.id == null || candidateTemp.motif.id == undefined)) candidateTemp.motif = null
+      if (candidateTemp.suivi != null && (candidateTemp.suivi.id == 0 || candidateTemp.suivi.id == null || candidateTemp.suivi.id == undefined)) candidateTemp.suivi = null
       this.candidatsService.updateCandidat(candidateTemp).subscribe(data => {
         this.notifierService.notify("success", "Candidat modifié avec success !")
-        this.router.navigate(["/candidats/listeNouveauxCandidats"]);
+        this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.listeNouveauxCandidats]);
 
       })
     }
@@ -286,10 +288,14 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private async sauvgarderFiche() {
-    this.currentCandidat.suivi = null
+  private async sauvgarderFiche(callback?) {
+    if (this.currentCandidat.motif != null && (this.currentCandidat.motif.id == 0 || this.currentCandidat.motif.id == null || this.currentCandidat.motif.id == undefined)) this.currentCandidat.motif = null
+      if (this.currentCandidat.suivi != null && (this.currentCandidat.suivi.id == 0 || this.currentCandidat.suivi.id == null || this.currentCandidat.suivi.id == undefined)) this.currentCandidat.suivi = null
+     
+    this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
+
     //#region get Competences
-    this.helperService.generateComp(this.currentCandidat,this.competences);
+    this.helperService.generateComp(this.currentCandidat, this.competences);
     //#endregion
     if (!this.verfierDispo() && !this.verfierRelance() && !this.verfierEntrtien()) {
       //#region Hors Cible 
@@ -330,10 +336,10 @@ export class FicheCandidatComponent implements OnInit {
         }
         this.currentCandidat.motif = null;
         await this.candidatsService.updateCandidat(this.currentCandidat).toPromise().then(data => {
+          callback(data.id)
         })
         //#endregion
       }
-      this.annuler()
     }
   }
 
@@ -454,4 +460,24 @@ export class FicheCandidatComponent implements OnInit {
     return msg
   }
 
+
+  private async sauvgarderFicheRedirtect() {
+    let fn = (id) => {
+      if (this.routingState.getPreviousUrl()=="/candidats")
+        this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.listeTousCandidats]);
+      else this.annuler();
+    }
+    await this.sauvgarderFiche(fn);
+  }
+
+  private async evaluerCandidat() {
+    let fn = (id) => {
+      this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',id)]);
+    }
+    await this.sauvgarderFiche(fn);
+  }
+
+  private dateNaissanceChangedHandler(){
+    this.currentCandidat.age= this.helperService.getAge(this.currentCandidat.dateNaissance)
+  }
 }

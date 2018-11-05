@@ -456,6 +456,22 @@ public class Candidat implements java.io.Serializable {
 //	public void setOps(Boolean ops) {
 //		this.ops = ops;
 //	}
+
+	@Override
+	public String toString() {
+		return "Candidat [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", civilite=" + civilite + ", adresse="
+				+ adresse + ", dateInscription=" + dateInscription + ", dateNaissance=" + dateNaissance
+				+ ", lieuNaissance=" + lieuNaissance + ", email=" + email + ", numeroTel=" + numeroTel + ", creePar="
+				+ creePar + ", technologie=" + technologie + ", idCv=" + idCv + ", codePostal=" + codePostal
+				+ ", origine=" + origine + ", entretien=" + entretien + ", suivi=" + suivi + ", sessionFormation="
+				+ sessionFormation + ", statut=" + statut + ", relancech=" + relancech + ", docConsult=" + docConsult
+				+ ", docRefus=" + docRefus + ", posteEnCours=" + posteEnCours + ", mobiliteSrc=" + mobiliteSrc
+				+ ", mobiliteLille=" + mobiliteLille + ", cvSource=" + cvSource + ", cvAnonyme=" + cvAnonyme + ", age="
+				+ age + ", nomCV=" + nomCV + ", diplome=" + diplome + ", dateObtentionDiplome=" + dateObtentionDiplome
+				+ ", motif=" + motif + ", emailSessionEnvoyer=" + emailSessionEnvoyer + ", emailSourceurEnvoyer="
+				+ emailSourceurEnvoyer + ", emailCandidatEnvoyer=" + emailCandidatEnvoyer + ", candidatCompetence="
+				+ candidatCompetence + "]";
+	}
 	
 	
 }

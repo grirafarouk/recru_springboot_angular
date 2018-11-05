@@ -15,6 +15,7 @@ import { UtilisateurService } from "../../../services/utilisateur.service";
 import { Router } from "@angular/router";
 import { Status } from "../../../models/enum/Status";
 import { HelperService } from "../../../helper/helper.service";
+import { NAVIGATION_RULES, PHONE_MASK } from "../../../helper/application.constant";
 
 @Component({
   templateUrl: 'candidats.component.html',
@@ -24,6 +25,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.candidatsService.folders = this.folders;
   }
+  loading=false;
   civilites= ["M","Mme"];
   candidate: Candidate;
   codePostals: Array<CodePostal> = [];
@@ -37,7 +39,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   currentFile: any;
   listNomCvs = []
   allFiles = []
-  mask: any[] = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+  mask: any[] = PHONE_MASK;
 
 
   constructor(private router:Router,private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
@@ -189,7 +191,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         numeroTel: this.candidate.numeroTel
       }
       this.candidatsService.rechercheNouveauxcandidats(candidateTemp,0,0).subscribe((data) => {
-        console.log(data)
         this.candidatsFound = data.results        
         this.notifierService.notify("info", "Nombre Candidat : " + data.total)
 
@@ -209,24 +210,24 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
   async onSubmit() {
     let fn =(e)=>{
-      this.router.navigateByUrl('/dashboard', {skipLocationChange: true}).then(()=>
-      this.router.navigate(["candidats"]));
+    this.annuler()
     }
   await this.saveCandidat(fn)
   }
   annuler(){
-    this.router.navigateByUrl('/dashboard', {skipLocationChange: true}).then(()=>
-    this.router.navigate(["candidats"]));
+    this.router.navigateByUrl(NAVIGATION_RULES.dashboard.url, {skipLocationChange: true}).then(()=>
+    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]));
   }
 
   async submitAndRedirect(){
     let fn =(id)=>{
-      this.router.navigate(["/candidats/details/"+id]);
+      this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',id)]);
     }
     await this.saveCandidat(fn)
   }
 
   async saveCandidat(callback){
+    this.loading=true;
     var error = false;
     //#region get Competences
     this.helperService.generateComp(this.candidate,this.competences);
@@ -313,6 +314,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")
+          this.loading=false;
           callback(data.id) 
         } else {
           this.notifierService.notify("error", "Erreur l'ors l'ajour")
@@ -321,5 +323,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         this.notifierService.notify("error", "Erreur l'ors l'ajour")
       })
     }
+    this.loading=false;
   }
 }

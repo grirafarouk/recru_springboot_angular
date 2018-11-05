@@ -1,147 +1,147 @@
-
 <div class="animated fadeIn">
     <div class="row">
-            <div class="card">
-                    <div class="card-header">
-                            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
-                    </div>
-                    <div class="card-body">
-                            <div class="row">      
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                      <label for="dateDebut" style="font-weight:bold">Date debut</label>
-                                      <input  
-                                        [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
-                                        [(ngModel)]="condidat.dateDebut" id="dateDebut">
-                                      <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
-                                    </div>
-                                  </div>
-                                  <div class="col-sm-2">
-                                        <div class="form-group">
-                                          <label for="dateFin" style="font-weight:bold">Date fin</label>
-                                          <input  
-                                            [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
-                                            [(ngModel)]="condidat.dateFin" id="dateFin">
-                                          <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
-                                        </div>
-                                      </div>
-                                      <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="form-col-form-label" for="dateEntretien" style="font-weight:bold">Date entretien:</label>
-                                                <input  [owlDateTimeFilter]="dateEntretienDateFilter"
-                                                    [owlDateTimeTrigger]="dateEntretien" [owlDateTime]="dateEntretien" class="form-control"
-                                                    name="dateEntretien" [(ngModel)]="condidat.dateEntretien" id="dateEntretien">
-                                                    <owl-date-time [pickerType]="'calendar'" #dateEntretien></owl-date-time>
-                                        </div>
-                                     </div>
-                                    
-                                            <div class="col-sm-2">
-                                                    <div class="form-group">
-                                                        <label for="profil" style="font-weight:bold">Type de profil:</label>
-                                                        <select  [(ngModel)]="condidat.technologie" class="form-control input-sm">
-                                                            <option value="">-- Sélectionner --</option>
-                                                            <option *ngFor="let tech of technologies" [value]="tech.libelle">{{ tech.libelle }}</option>
-                                                          </select>
-                                                    </div>
-                                            </div>
-                                             <div class="col-sm-2">
-                                                    <div class="form-group">
-                                                        <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
-                                                        <ng-select aria-required=""  
-                                                        id="region" [items]="region" (search)="codePostaleOnSearch($event)" 
-                                                            [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
-                                                           <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
-                            
-                                                       </ng-select>
-                                                    </div>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="form-group">
-                                                    <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
-                                                    <input type="text" class="form-control"   name="nomSourceur" [(ngModel)]="condidat.nomSourceur" id="nomSourceur">
-                                                    
-                                                </div>
-                                            </div>
-                                           
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
-                                            <input type="text" class="form-control"   name="prenomSourceur" [(ngModel)]="condidat.prenomSourceur" id="prenomSourceur">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom charge :</label>
-                                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomCharge"
-                                                id="nomSourceur">
-                
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom charge :</label>
-                                            <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomCharge"
-                                                id="prenomSourceur">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label for="profil" style="font-weight:bold">Lieu entretien:</label>
-                                            <select [(ngModel)]="condidat.lieuEntretien" class="form-control input-sm">
-                                                <option [ngValue]="undefined">--Séléctionner--</option>
-                                                <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label for="origineCV" style="font-weight:bold">Origine CV</label>
-                                            <select   [(ngModel)]="condidat.origine"   name="origineCV"
-                                             class="form-control" id="origineCV">
-                                                <option value="undefined">--Sélectionner--</option>
-                                                <option *ngFor="let origine of origines" [value]="origine.libelle">{{origine.libelle}}</option>
-                                            </select>
-                                           
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <label class="form-col-form-label" for="statut" style="font-weight:bold">Statut :</label>
-                                            <select [(ngModel)]="condidat.statut" name="statut" class="form-control"
-                                            id="statut">
-                                            <option [ngValue]="undefined">--Séléctionner--</option>
-                                            <option *ngFor="let refSt of refStatut" [value]="refSt.value">{{refSt.label}}</option>
-                                          </select>
-                                        </div>
-                               </div>
-                                        
-                                            
-                                            
-                                    </div>
-                    </div>
-                    <div class="card-footer">
-
-                            <div class="row align-items-center">
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-block btn-primary" (click)="rechercheCandidat()">Rechercher</button>
-                                </div>
-    
-                                <div class="col-2">
-                                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
-                                </div>
-                            </div>
-                        </div>
-                  </div>
-                  
-        <div class="card"> 
-                         
+        <div class="card">
             <div class="card-header">
-                    <label style="font-weight:bold;color:#546E7A;">Liste des nouveaux candidats</label>
+                <label style="font-weight:bold;color:#546E7A;">Recherche</label>
             </div>
-         
-              <div class="card-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="dateDebut" style="font-weight:bold">Date debut</label>
+                            <input [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
+                                [(ngModel)]="condidat.dateDebut" id="dateDebut">
+                            <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="dateFin" style="font-weight:bold">Date fin</label>
+                            <input [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
+                                [(ngModel)]="condidat.dateFin" id="dateFin">
+                            <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="dateEntretien" style="font-weight:bold">Date
+                                entretien:</label>
+                            <input [owlDateTimeFilter]="dateEntretienDateFilter" [owlDateTimeTrigger]="dateEntretien"
+                                [owlDateTime]="dateEntretien" class="form-control" name="dateEntretien" [(ngModel)]="condidat.dateEntretien"
+                                id="dateEntretien">
+                            <owl-date-time [pickerType]="'calendar'" #dateEntretien></owl-date-time>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="profil" style="font-weight:bold">Type de profil:</label>
+                            <select [(ngModel)]="condidat.technologie" class="form-control input-sm">
+                                <option value="">-- Sélectionner --</option>
+                                <option *ngFor="let tech of technologies" [value]="tech.libelle">{{ tech.libelle }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
+                            <ng-select aria-required="" id="region" [items]="region" (search)="codePostaleOnSearch($event)"
+                                [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
+                                <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
+
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur
+                                :</label>
+                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomSourceur"
+                                id="nomSourceur">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom
+                                Sourceur :</label>
+                            <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomSourceur"
+                                id="prenomSourceur">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom charge :</label>
+                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomCharge"
+                                id="nomSourceur">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom
+                                charge :</label>
+                            <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomCharge"
+                                id="prenomSourceur">
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="profil" style="font-weight:bold">Lieu entretien:</label>
+                            <select [(ngModel)]="condidat.lieuEntretien" class="form-control input-sm">
+                                <option [ngValue]="undefined">--Séléctionner--</option>
+                                <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="origineCV" style="font-weight:bold">Origine CV</label>
+                            <select [(ngModel)]="condidat.origine" name="origineCV" class="form-control" id="origineCV">
+                                <option value="undefined">--Sélectionner--</option>
+                                <option *ngFor="let origine of origines" [value]="origine.libelle">{{origine.libelle}}</option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="statut" style="font-weight:bold">Statut :</label>
+                            <select [(ngModel)]="condidat.statut" name="statut" class="form-control" id="statut">
+                                <option [ngValue]="undefined">--Séléctionner--</option>
+                                <option *ngFor="let refSt of refStatut" [value]="refSt.value">{{refSt.label}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="card-footer">
+
+                <div class="row align-items-center">
+                    <div class="col-2">
+                        <button type="button" class="btn btn-block btn-primary" (click)="rechercheCandidat()">Rechercher</button>
+                    </div>
+
+                    <div class="col-2">
+                        <button type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+
+            <div class="card-header">
+                <label style="font-weight:bold;color:#546E7A;">Liste des nouveaux candidats</label>
+            </div>
+
+            <div class="card-body">
                 <div class="form-group row" style="float: right">
                     <div class="col-md-12">
                         <div class="input-group">
@@ -165,24 +165,40 @@
                     </div>
                 </div>
                 <table class="table  table-striped">
-                  <thead >
-                    <tr>
-                        <th [hidden]="!col.visible" *ngFor="let col of columns"> {{col.title }}</th>
-                        <th style="width: 100px">ACTION</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let c of candidats| paginate: { itemsPerPage:10, currentPage: p }">
-                        <td [hidden]="!col.visible" *ngFor="let col of columns"> {{c[col.data] }}</td>
+                    <thead>
+                        <tr>
+                            <th [hidden]="!col.visible" *ngFor="let col of columns"> {{col.title }}</th>
+                            <th style="width: 100px">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of candidats| paginate: { itemsPerPage:10, currentPage: p }">
+                            <td [hidden]="!col.visible" *ngFor="let col of columns">
+                                <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered">
+                                    <div *ngIf="col.mask==undefined; else maskDiv">
+                                        <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
+                                                {{c[col.data] | date : col.dateFormat }} 
+                                        </div>
+                                      <ng-template #noDateDiv>  {{c[col.data] }}</ng-template>
+                                    </div>
+                                    <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
+                                </div>
+                                <ng-template #rendered>
+                                    <div *ngIf="col.html==true; else noHtml" [innerHTML]="col.rendered(c)"></div>
+                                    <ng-template #noHtml>
+                                        {{col.rendered(c)}}
+                                    </ng-template>
+                                </ng-template>
+                            </td>
 
-                        <td style="width: 100px"><button type="button" (click)="openDetails(c)" class="btn btn-outline-primary btn-sm">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button type="button" style="margin-left: 5px" (click)="downloadCV(c)" class="btn btn-outline-info btn-sm">
-                                <i class="fa fa-download"></i>
-                            </button></td>
-                    </tr>
-                  </tbody>
+                            <td style="width: 100px"><button type="button" (click)="openDetails(c)" class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button type="button" style="margin-left: 5px" (click)="downloadCV(c)" class="btn btn-outline-info btn-sm">
+                                    <i class="fa fa-download"></i>
+                                </button></td>
+                        </tr>
+                    </tbody>
                 </table>
                 <div class="panel-footer panel-default pager">
                     <ul class="pagination justify-content-center">
@@ -203,8 +219,8 @@
                         </li>
                     </ul>
                 </div>
-              </div>
-          
-          </div>
+            </div>
+            <ngx-loading [show]="loading" [config]=""></ngx-loading>
+        </div>
     </div>
 </div>

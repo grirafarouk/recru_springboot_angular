@@ -39,7 +39,7 @@ export class Candidate {
 	mobiliteLille: MobiliteSurLille;
 	cvSource: CVSource;
 	cvAnonyme: Boolean = false;
-	age: string;
+	age: number;
 	nomCV: string;
 	diplome: string;
 	dateObtentionDiplome: Date;

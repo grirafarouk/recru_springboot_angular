@@ -11,12 +11,14 @@ import { clientSessionComponent } from './ClientSession/clientSession.component'
 import { motifHorsCibleComponent } from './MotifHorsCible/motifHorsCible.component';
 import { regionComponent } from './Region/region.component';
 import { FiliereComponent } from './Filiere/filiere.component';
+import { CanActivateService } from '../../helper/can-activate.service';
 
 
 const routes: Routes = [
   {
     path: '',
     component: competenceComponent,
+    canActivate:[CanActivateService],
     data: {
       title: 'competences'
     }
@@ -24,6 +26,7 @@ const routes: Routes = [
   {
     path: 'utilisateurs',
     component: utilisateursComponent,
+    canActivate:[CanActivateService],
     data: {
       title: 'utilisateurs'
     }
@@ -31,6 +34,7 @@ const routes: Routes = [
   {
     path: 'lieux',
     component: lieuxComponent,
+    canActivate:[CanActivateService],
     data: {
       title: 'lieux'
     }
@@ -38,12 +42,14 @@ const routes: Routes = [
   {
     path: 'origineCV',
     component: origineCVComponent,
+    canActivate:[CanActivateService],
     data: {
       title: 'origineCV'
   }
 },
 {
   path: 'technologies',
+  canActivate:[CanActivateService],
   component: technologiesComponent,
   data: {
     title: 'technologie'
@@ -51,6 +57,7 @@ const routes: Routes = [
 },
 {
   path: 'typeFormation',
+  canActivate:[CanActivateService],
   component: typeFormationComponent,
   data: {
     title: 'typeFormation'
@@ -58,6 +65,7 @@ const routes: Routes = [
 },
 {
   path: 'filiere',
+  canActivate:[CanActivateService],
   component: FiliereComponent,
   data: {
     title: 'filiere'
@@ -65,6 +73,7 @@ const routes: Routes = [
 },
 {
   path: 'clientSession',
+  canActivate:[CanActivateService],
   component: clientSessionComponent,
   data: {
     title: 'clientSession'
@@ -74,6 +83,7 @@ const routes: Routes = [
 {
   path: 'motifHorsCible',
   component: motifHorsCibleComponent,
+  canActivate:[CanActivateService],
   data: {
     title: 'motifHorsCible'
 }
@@ -81,6 +91,7 @@ const routes: Routes = [
 },
 {
   path: 'region',
+  canActivate:[CanActivateService],
   component: regionComponent,
   data: {
     title: 'region'

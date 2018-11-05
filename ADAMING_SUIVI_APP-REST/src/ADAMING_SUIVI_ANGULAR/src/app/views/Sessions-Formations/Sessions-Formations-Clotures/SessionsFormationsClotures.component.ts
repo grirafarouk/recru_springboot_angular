@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
+import { Router } from "@angular/router";
 
 import { FormationService } from "../../../services/sessionService/formation.service";
 import { SessionFormationEnCoursService } from "../../../services/sessionService/session-formation-en-cours.service";
@@ -8,6 +9,7 @@ import { TechnologieService } from "../../../services/administrationService/Tech
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { TypeFormationService } from "../../../services/administrationService/TypeFormationService";
 import { Formation } from "../formation";
+import { NAVIGATION_RULES } from "../../../helper/application.constant";
 
 
 @Component({
@@ -16,7 +18,7 @@ import { Formation } from "../formation";
 })
 export class SessionsFormationsCloturesComponent implements OnInit {
 
-  constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
+  constructor(private router:Router,private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService:TypeFormationService) { }
   session: any = {}; 
   sessionFormations: any ;
@@ -78,12 +80,12 @@ export class SessionsFormationsCloturesComponent implements OnInit {
     this.getListe();
   }
   collapsed(event: any): void {
-    console.log(event);
   }
 
   expanded(event: any): void {
-    console.log(event);
   }
 
-
+  openDetails(sessionFormation){
+    this.router.navigate([NAVIGATION_RULES.sessionsFormations.url+'/'+NAVIGATION_RULES.sessionsFormations.details.replace(':id',sessionFormation.id)]);
+  }
 }

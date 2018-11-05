@@ -149,22 +149,21 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Présentation:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Présentation:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"></app-rating-disabled>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Savoir etre:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Savoir etre:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'"></app-rating-disabled>
                   </div>
                 </div>
               </div>
-
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Fiabilité:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Fiabilité:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'"></app-rating-disabled>
                   </div>
                 </div>
@@ -175,13 +174,13 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Attrait pour l'informatique:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Attrait pour l'informatique:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'"></app-rating-disabled>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Prêt à la reconversion:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Prêt à la reconversion:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.notePret' [name]="'notePret'"></app-rating-disabled>
                   </div>
                 </div>
@@ -189,12 +188,11 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Mobilité:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Mobilité:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'"></app-rating-disabled>
                   </div>
                 </div>
               </div>
-
               <div class="row">
                 <label style="color: blue;font-weight:bold">Autre critéres:</label>
               </div>
@@ -209,24 +207,22 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Cohérence du parcours:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'"></app-rating-disabled>
                   </div>
                 </div>
-
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Potentiel d’évolution:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'"></app-rating-disabled>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Anglais:</label>
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label></div>
                     <app-rating-disabled [rating]='currentCandidat.suivi.anglais' [name]="'anglais'"></app-rating-disabled>
                   </div>
                 </div>
-
                 <div class="col-sm-6">
                   <div class="form-group row">
                     <label class="col-7 col-form-label">Mobilité: </label>
@@ -243,7 +239,6 @@
                       </div>
                     </div>
                   </div>
-
                   <div class="form-group row">
                     <label class="col-md-7 col-form-label">Mobilité Tout France:</label>
                     <div class="col-md-4 col-form-label">
@@ -260,7 +255,6 @@
                     </div>
                   </div>
                 </div>
-
                 <div class="col-6">
                   <div class="form-group row">
                     <label class="col-7 col-form-label">Relancer: </label>
@@ -278,7 +272,6 @@
                     </div>
                   </div>
                 </div>
-
               </div>
               <div class="row" style="margin-bottom: 20px;margin-right: 20px">
                 <div class="col-12">
@@ -287,11 +280,7 @@
                     name="comEntrtien" rows="4" class="form-control"></textarea>
                 </div>
               </div>
-
-
-
             </div><!-- /.row -->
-
           </div><!-- /.body -->
           <div class="card-footer">
             <div class="row align-items-center">
@@ -313,8 +302,6 @@
         </div>
       </div>
     </div>
-
-
 
     <div bsModal #detailsModal="bs-modal" class="modal fade">
       <div class="modal-dialog modal-primary  modal-vlg" role="document">
@@ -373,7 +360,7 @@
                     <div class="form-group">
                       <label for="email">Relance</label>
                       <div class="col-12">
-                        <p class="form-control-static">{{currentCandidat.entretien.relance  == true ? 'Oui' :'Non'  }}</p>
+                        <p class="form-control-static">{{currentCandidat.entretien.relance == true ? 'Oui' :'Non' }}</p>
                       </div>
                     </div>
                   </div>
@@ -491,17 +478,16 @@
                       </div>
                     </div>
                   </div>
-
                   <div class="form-group col-3">
                     <label class="col-7 col-form-label">Pole Emploi</label>
                     <div class="col-4 col-form-label">
                       <div class="form-check form-check-inline">
-                        <input [disabled]="true" class="form-check-input" name="directEmploi" [(ngModel)]="currentCandidat.entretien.directEmploi"
+                        <input [disabled]="true" class="form-check-input" name="posteEnCours" [(ngModel)]="currentCandidat.posteEnCours"
                           type="radio" id="inline-checkbox1" [value]="true">
                         <label class="form-check-label" for="inline-checkbox1">Oui</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input [disabled]="true" class="form-check-input" name="directEmploi" [(ngModel)]="currentCandidat.entretien.directEmploi"
+                        <input [disabled]="true" class="form-check-input" name="posteEnCours" [(ngModel)]="currentCandidat.posteEnCours"
                           type="radio" id="inline-checkbox2" [value]="false">
                         <label class="form-check-label" for="inline-checkbox2">Non</label>
                       </div>
@@ -620,111 +606,117 @@
                     </div>
                   </div>
                   <div class="col-6">
-                      <div class="form-group">
-                        <label for="noteResultat">Statut</label>
-                        <div class="col-12">
-                          <p class="form-control-static">{{getStatusLabel(currentCandidat.statut)}}</p>
-                        </div>
+                    <div class="form-group">
+                      <label for="noteResultat">Statut</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{getStatusLabel(currentCandidat.statut)}}</p>
                       </div>
                     </div>
+                  </div>
                 </div><!-- /row-->
                 <div class="row">
-                    <label style="color: blue;font-weight:bold">Autre critéres:</label>
+                  <label style="color: blue;font-weight:bold">Autre critéres:</label>
+                </div>
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label for="noteResultat">Résultat du test:</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="row">
-                    <div class="col-6">
-                      <div class="form-group">
-                        <label for="noteResultat">Résultat du test:</label>
-                        <div class="col-12">
-                          <p class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'"></app-rating-disabled>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'"></app-rating-disabled>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <div>
+                        <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label>
+                      </div>
+                      <app-rating-disabled [rating]='currentCandidat.suivi.anglais' [name]="'anglais'"></app-rating-disabled>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group row">
+                      <label class="col-7 col-form-label">Mobilité: </label>
+                      <div class="col-4 col-form-label">
+                        <div class="form-check form-check-inline">
+                          <input disabled class="form-check-input" name="mobiliteSuivi2" [(ngModel)]="currentCandidat.suivi.mobilite"
+                            type="radio" [value]="true">
+                          <label class="form-check-label">Oui</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input disabled class="form-check-input" name="mobiliteSuivi2" [(ngModel)]="currentCandidat.suivi.mobilite"
+                            type="radio" [value]="false">
+                          <label class="form-check-label">Non</label>
                         </div>
                       </div>
                     </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                          <div>
-                              <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
-                        <app-rating-disabled [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'"></app-rating-disabled>
-                      </div>
-                    </div>
-    
-                    <div class="col-6">
-                      <div class="form-group">
-                          <div>
-                              <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label>
-                              </div>
-                        <app-rating-disabled [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'"></app-rating-disabled>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="form-group">
-                          <div>
-                              <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label>
-                              </div>
-                        <app-rating-disabled [rating]='currentCandidat.suivi.anglais' [name]="'anglais'"></app-rating-disabled>
-                      </div>
-                    </div>
-    
-                    <div class="col-sm-6">
-                      <div class="form-group row">
-                        <label class="col-7 col-form-label">Mobilité: </label>
-                        <div class="col-4 col-form-label">
-                          <div class="form-check form-check-inline">
-                            <input disabled class="form-check-input" name="mobiliteSuivi2" [(ngModel)]="currentCandidat.suivi.mobilite"
-                              type="radio" [value]="true">
-                            <label class="form-check-label" >Oui</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input disabled class="form-check-input" name="mobiliteSuivi2" [(ngModel)]="currentCandidat.suivi.mobilite"
-                              type="radio"  [value]="false">
-                            <label class="form-check-label">Non</label>
-                          </div>
+                    <div class="form-group row">
+                      <label class="col-md-7 col-form-label">Mobilité Tout France:</label>
+                      <div class="col-md-4 col-form-label">
+                        <div class="form-check form-check-inline mr-1">
+                          <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
+                            name="mobilteTouFrance2" type="radio" [value]="true">
+                          <label class="form-check-label">Oui</label>
                         </div>
-                      </div>
-    
-                      <div class="form-group row">
-                        <label class="col-md-7 col-form-label">Mobilité Tout France:</label>
-                        <div class="col-md-4 col-form-label">
-                          <div class="form-check form-check-inline mr-1">
-                            <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
-                              name="mobilteTouFrance2" type="radio" [value]="true">
-                            <label class="form-check-label" >Oui</label>
-                          </div>
-                          <div class="form-check form-check-inline mr-1">
-                            <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
-                              name="mobilteTouFrance2" type="radio"  [value]="false">
-                            <label class="form-check-label" >Non</label>
-                          </div>
+                        <div class="form-check form-check-inline mr-1">
+                          <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
+                            name="mobilteTouFrance2" type="radio" [value]="false">
+                          <label class="form-check-label">Non</label>
                         </div>
                       </div>
                     </div>
-    
-                    <div class="col-6">
-                      <div class="form-group row">
-                        <label class="col-7 col-form-label">Relancer: </label>
-                        <div class="col-4 col-form-label">
-                          <div class="form-check form-check-inline">
-                            <input [disabled]="true" class="form-check-input" name="suiviRelance2" [(ngModel)]="currentCandidat.suivi.relance"
-                              type="radio"  [value]="true">
-                            <label class="form-check-label" >Oui</label>
-                          </div>
-                          <div class="form-check form-check-inline">
-                            <input [disabled]="true" class="form-check-input" name="suiviRelance2" [(ngModel)]="currentCandidat.suivi.relance"
-                              type="radio"  [value]="false">
-                            <label class="form-check-label">Non</label>
-                          </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group row">
+                      <label class="col-7 col-form-label">Relancer: </label>
+                      <div class="col-4 col-form-label">
+                        <div class="form-check form-check-inline">
+                          <input [disabled]="true" class="form-check-input" name="suiviRelance2" [(ngModel)]="currentCandidat.suivi.relance"
+                            type="radio" [value]="true">
+                          <label class="form-check-label">Oui</label>
                         </div>
-                      </div>
-               
-                      <div class="form-group">
-                        <label for="noteResultat">Date Relance</label>
-                        <div class="col-12">
-                          <p class="form-control-static">{{currentCandidat.suivi.dateRelance |date :'dd/M/yyyy'}}</p>
+                        <div class="form-check form-check-inline">
+                          <input [disabled]="true" class="form-check-input" name="suiviRelance2" [(ngModel)]="currentCandidat.suivi.relance"
+                            type="radio" [value]="false">
+                          <label class="form-check-label">Non</label>
                         </div>
                       </div>
                     </div>
-                  </div> <!--/ row-->
-                  </div> <!-- col 6 -->
+                    <div class="form-group">
+                      <label for="noteResultat">Date Relance</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{currentCandidat.suivi.dateRelance |date :'dd/M/yyyy'}}</p>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="noteResultat">Affectation Candidat</label>
+                      <div class="col-12">
+                        <p class="form-control-static">{{currentCandidat.sessionFormation ?
+                          currentCandidat.sessionFormation.formation.typeFormation.libelle +' '+
+                          currentCandidat.sessionFormation.formation.technologie.libelle +' '+
+                          currentCandidat.sessionFormation.formation.lieu.libelle +' '+
+                          currentCandidat.sessionFormation.formation.nom : ''}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--/ row-->
+              </div> <!-- col 6 -->
               <div class="col-6">
                 <div class="row" style="margin-bottom: 20px;margin-right: 20px">
                   <div class="col-12">
@@ -733,10 +725,8 @@
                       name="comEntrtien" rows="2" class="form-control"></textarea>
                   </div>
                 </div>
-
                 <label for="comEntrtien">Mobilité regions:</label>
                 <div id="france-map" style="width: 400px; height: 400px"></div>
-
                 <div class="col-6">
                   <div class="form-group">
                     <label for="noteResultat">Mobilité Ville</label>
@@ -747,7 +737,6 @@
                 </div>
               </div>
             </div>
-
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" (click)="detailsModal.hide()">Annuler</button>

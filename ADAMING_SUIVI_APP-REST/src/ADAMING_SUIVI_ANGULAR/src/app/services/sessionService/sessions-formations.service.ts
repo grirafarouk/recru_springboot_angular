@@ -7,6 +7,14 @@ import { BACK_END_URL } from '../../helper/application.constant';
   providedIn: 'root'
 })
 export class SessionsFormationsService {
+  updateSession(session: any): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL+'/sessionsformations', session , httpOptions);
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -31,13 +39,13 @@ export class SessionsFormationsService {
     return this.http.post(BACK_END_URL+'/sessionsformations/nbreparticipants', session , httpOptions);
   }
 
-  getListCandidats(session): Observable<any>{
+  getListCandidats(session,page,size): Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })
     };
-    return this.http.post(BACK_END_URL+'/sessionsformations/listeCandidats', session , httpOptions);
+    return this.http.post(BACK_END_URL+'/sessionsformations/listeCandidats'+ "?page=" + page + "&size=" + size, session , httpOptions);
 
   }
 

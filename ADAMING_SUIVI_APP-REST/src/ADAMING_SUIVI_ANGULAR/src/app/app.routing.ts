@@ -12,11 +12,14 @@ import { AuthGuard } from './services/AuthGuard.service';
 import { ficheCvRelanceComponent } from './views/dashboard/ficheCvRelance/ficheCvRelance.component';
 import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
 import { FicheSessionFormationComponent } from './views/Sessions-Formations/FicheSessionFormation/FicheSessionFormation.component';
+import { CanActivateService } from './helper/can-activate.service';
+import { NAVIGATION_RULES } from './helper/application.constant';
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
+  
   },
   { 
     path: 'ficheCVRelance/:idUser', 
@@ -25,10 +28,6 @@ export const routes: Routes = [
   {
     path: 'ficheCandidatSession/:idSession',
     component: ficheCandidatSessionComponent
-  },
-  {
-    path: 'ficheSessionFormation/:id',
-    component: FicheSessionFormationComponent
   },
   {
     path: '404',
@@ -67,19 +66,19 @@ export const routes: Routes = [
     canActivate:[AuthGuard],
     children: [
       {
-      path: 'candidats',
-      loadChildren: './views/candidats/candidats.module#CandidatsModule'
-      },
+      path:  NAVIGATION_RULES.candidats.url,
+      loadChildren: './views/candidats/candidats.module#CandidatsModule',
+    },
       {
-        path: 'entretien',
+        path: NAVIGATION_RULES.entretien.url,
         loadChildren: './views/entretien/entretien.module#EntretienModule'
       },
       {
-        path: 'SessionsFormations',
+        path:  NAVIGATION_RULES.sessionsFormations.url,
         loadChildren: './views/Sessions-Formations/sessionFormations.module#SessionFormationsModule'
       },   
       {
-        path: 'reporting',
+        path: NAVIGATION_RULES.reporting.url,
         loadChildren: './views/reporting/reporting.module#ReportingModule'
       },
       {

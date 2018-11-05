@@ -10,6 +10,7 @@ import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
+import { NAVIGATION_RULES } from "../../../helper/application.constant";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -179,7 +180,7 @@ export class listeCandidatArelancerComponent implements OnInit {
   }
 
   openDetails(candidat){
-    this.router.navigate(["/candidats/details/"+candidat.id]);
+    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',candidat.id)]);
   }
 
   codePostaleOnSearch(value) {

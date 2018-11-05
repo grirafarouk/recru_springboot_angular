@@ -17,7 +17,6 @@ import { FicheReportingComponent } from './ficher-reporting/fiche-reporting.comp
 import { CommonCustomModule } from '../../common/common.module';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { NgxLoadingModule } from 'ngx-loading';
-import { AlertModule } from 'ngx-bootstrap/alert';
 
 @NgModule({
   imports: [
@@ -35,7 +34,9 @@ import { AlertModule } from 'ngx-bootstrap/alert';
     OwlNativeDateTimeModule,
     NgSelectModule,
     ModalModule.forRoot(),
-    CommonCustomModule
+    CommonCustomModule,
+    NgxLoadingModule.forRoot({}),
+
   ],
   declarations: [ReportingSourceurComponent,ListeReportingComponent,FicheReportingComponent    ]
 })

@@ -27,6 +27,7 @@ import { RegionService } from '../../../services/administrationService/region.se
 import { formatDate } from '@angular/common';
 import { SuiviService } from '../../../services/suivi-service';
 import { Suivi } from '../../../models/Suivi';
+import { NAVIGATION_RULES } from '../../../helper/application.constant';
 declare var jQuery: any;
 
 @Component({
@@ -102,7 +103,7 @@ export class FicheReportingComponent implements OnInit {
 
 
   private annuler() {
-    this.router.navigate([this.routingState.getPreviousUrl()]);
+    this.router.navigate([NAVIGATION_RULES.reporting.url+'/'+NAVIGATION_RULES.reporting.listeReporting]);
   }
 
 
@@ -128,7 +129,6 @@ export class FicheReportingComponent implements OnInit {
 
 
   showDetails() {
-    console.log("aa")
     this.detailsModal.show();
   }
 

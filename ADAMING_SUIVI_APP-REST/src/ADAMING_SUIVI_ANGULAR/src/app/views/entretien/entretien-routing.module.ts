@@ -4,19 +4,23 @@ import { Routes,
 import { listeEntretienComponent } from './listeEntretien/listeEntretien.component';
 import { CandidatDetailResolve } from '../candidats/fiche-candidat/CandidatDetailResolve';
 import { FicheEntrtienComponent } from './ficher-entretien/fiche-entrtien.component';
+import { CanActivateService } from '../../helper/can-activate.service';
+import { NAVIGATION_RULES } from '../../helper/application.constant';
 
 
 const routes: Routes = [
   {
-    path: 'list',
+    path: NAVIGATION_RULES.entretien.list,
     component: listeEntretienComponent,
+    canActivate:[CanActivateService],
     data: {
       title: 'Liste Entretien'
     }
   },
   {
-    path: 'details/:id',
+    path: NAVIGATION_RULES.entretien.details,
     component: FicheEntrtienComponent,
+    canActivate:[CanActivateService],
     data: {
       title: 'Entrtiens / '
     }  ,resolve: {

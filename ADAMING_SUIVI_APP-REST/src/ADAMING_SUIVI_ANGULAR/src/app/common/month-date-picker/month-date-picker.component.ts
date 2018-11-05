@@ -105,7 +105,6 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
   {
     $event.stopPropagation(); 
     let year=this.isyear?this.data.year+10*incr:this.data.year+incr;
-    console.log(year);
     this.data.year=year;
     this.incr=this.getIncr(year);
     this.dataTxt=this.formatData(this.data);
@@ -119,7 +118,6 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
 
   getIncr(year:number):number
   {
-    console.log("*",(year-year%10)-1);
     return (year-year%10)-1;
   }
   formatData(data:Idata):string

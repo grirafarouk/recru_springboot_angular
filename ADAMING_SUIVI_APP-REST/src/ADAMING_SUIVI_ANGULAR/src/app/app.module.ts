@@ -42,7 +42,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 
 import { ChartsModule } from 'ng2-charts/ng2-charts';
-import { HttpClientModule, HttpParams, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor } from './helper/JwtInterceptor.service';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
@@ -52,7 +52,6 @@ import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSe
 import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {  OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
-import { RoutingState } from './helper/routing-state.service';
 import { FicheSessionFormationComponent } from './views/Sessions-Formations/FicheSessionFormation/FicheSessionFormation.component';
 
 const notifierDefaultOptions: NotifierOptions = {
@@ -129,8 +128,7 @@ const notifierDefaultOptions: NotifierOptions = {
     LoginComponent,
     RegisterComponent,
     ficheCvRelanceComponent,
-    ficheCandidatSessionComponent,
-    FicheSessionFormationComponent
+    ficheCandidatSessionComponent
   ],
   providers: [{
     provide: LocationStrategy,

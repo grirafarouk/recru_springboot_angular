@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.FormationDto;
@@ -29,7 +32,8 @@ public class SessionsFormations {
 	@Autowired
 	private CandidatService candidatService;
 
-	public SessionFormation createOrUpdate(SessionFormation entity) {
+	@PostMapping()
+	public SessionFormation createOrUpdate(@RequestBody SessionFormation entity) {
 		return sessionFormationService.createOrUpdate(entity);
 	}
 
@@ -93,16 +97,18 @@ public class SessionsFormations {
 		return sessionFormationService.rechercherSessionsFormationEnCourParFormation(formationDto);
 	}
 
-	@RequestMapping(value = "/nbreparticipants", method = RequestMethod.POST)
-	public int compterNombrePartcicpants(@RequestBody SessionFormationDto sessFormDto) {
-		return candidatService.rechercherCandidatAvecSessionFormation(sessFormDto).size();
-	}
-
 	@RequestMapping(value = "/listeCandidats", method = RequestMethod.POST)
-	public List<Candidat> rechercherCandidatAvecSessionFormation(@RequestBody SessionFormationDto sessionFormationDto) {
+	public JSONObject rechercherCandidatAvecSessionFormation(@RequestBody SessionFormationDto sessionFormationDto,
+			@RequestParam int page, @RequestParam int size) {
 		List<Candidat> liste = new ArrayList<>(
 				candidatService.rechercherCandidatAvecSessionFormation(sessionFormationDto));
-		return liste;
+		JSONObject object = new JSONObject();
+		object.put("total", liste.size());
+		if (size == 0)
+			object.put("results", liste);
+		else
+			object.put("results", liste.subList(page, liste.size() < size + page ? liste.size() : page + size));
+		return object;
 	}
 
 }

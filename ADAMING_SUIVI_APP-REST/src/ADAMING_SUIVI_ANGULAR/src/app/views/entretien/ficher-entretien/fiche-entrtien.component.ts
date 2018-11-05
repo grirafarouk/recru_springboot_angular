@@ -27,6 +27,7 @@ import { RegionService } from '../../../services/administrationService/region.se
 import { formatDate } from '@angular/common';
 import { SuiviService } from '../../../services/suivi-service';
 import { Suivi } from '../../../models/Suivi';
+import { NAVIGATION_RULES } from '../../../helper/application.constant';
 declare var jQuery: any;
 
 @Component({
@@ -77,7 +78,6 @@ export class FicheEntrtienComponent implements OnInit {
     this.route.data
       .subscribe((data: { candidat: Candidate, title: string }) => {
         data.title = data.title + data.candidat.id;
-        console.log(data.candidat)
         this.currentCandidat = data.candidat;
         if (this.currentCandidat.entretien != undefined && this.currentCandidat.entretien != null)
           this.timeEntretien = this.currentCandidat.entretien.date;
@@ -262,7 +262,6 @@ export class FicheEntrtienComponent implements OnInit {
         // else
         //   this.notifierService.notify("success", "Ajout!, Candidat ajouté avec success !");
         data.dateRelance = new Date(data.dateRelance)
-        console.log(data)
         this.currentCandidat.suivi = data;
       });
       //#endregion
@@ -280,7 +279,11 @@ export class FicheEntrtienComponent implements OnInit {
        await this.candidatsService.updateCandidat(this.currentCandidat).toPromise().then(data => {
       })
       //#endregion
-      this.router.navigate([this.routingState.getPreviousUrl()]);
+      this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.list]);
     }
+  }
+
+  private dateNaissanceChangedHandler(){
+    this.currentCandidat.age= this.helperService.getAge(this.currentCandidat.dateNaissance)
   }
 }

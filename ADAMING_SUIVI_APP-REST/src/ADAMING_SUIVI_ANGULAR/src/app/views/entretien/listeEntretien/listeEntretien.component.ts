@@ -9,6 +9,8 @@ import { HelperService } from "../../../helper/helper.service";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { Router } from "@angular/router";
 import { CandidateDto } from "../../candidats/CandidateDto";
+import { NAVIGATION_RULES, DATE_FORMAT, PHONE_MASK_LABEL } from "../../../helper/application.constant";
+import { Status } from "../../../models/enum/Status";
 
 
 @Component({
@@ -50,17 +52,20 @@ export class listeEntretienComponent implements OnInit {
     {
       data:'dateInscription',
       title:'Date inscription',
-      visible:false
+      visible:false,
+      dateFormat : DATE_FORMAT
     },
     {
       data:'numeroTel',
       title:'N° Téléphone',
-      visible:true
+      visible:true,
+      mask:PHONE_MASK_LABEL
     },
     {
       data:'dateEntretien',
       title:'Date entretien',
-      visible:true
+      visible:true,
+      dateFormat : DATE_FORMAT
     },
     {
       data:'lieuEntretien',
@@ -85,7 +90,11 @@ export class listeEntretienComponent implements OnInit {
     {
       data:'statut',
       title:'Statut',
-      visible:true
+      visible:true,
+      html :false,
+      rendered : (e)=>{
+        return Status[e.statut]
+      }
     }
   ];
   public loading = false;
@@ -176,6 +185,6 @@ export class listeEntretienComponent implements OnInit {
   }
 
   openDetails(candidat){
-    this.router.navigate(["/entretien/details/"+candidat.id]);
+    this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',candidat.id)]);
   }
 }

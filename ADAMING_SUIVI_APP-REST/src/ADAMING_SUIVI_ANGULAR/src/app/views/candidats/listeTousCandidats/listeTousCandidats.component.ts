@@ -13,6 +13,9 @@ import { CodePostalService } from "../../../services/administrationService/code-
 import { CodePostal } from "../../../models/CodePostal";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
+import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
+import { Status } from "../../../models/enum/Status";
+import { Disponibilite } from "../../../models/enum/Disponibilite";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -35,7 +38,8 @@ export class listeTousCandidatsComponent implements OnInit {
     {
       data:'numeroTel',
       title:'N° Téléphone',
-      visible:true
+      visible:true,
+      mask:PHONE_MASK_LABEL
     },
     {
       data:'email',
@@ -45,17 +49,23 @@ export class listeTousCandidatsComponent implements OnInit {
     {
       data:'dateInscription',
       title:'Date inscription',
-      visible:true
+      visible:true,
+      dateFormat : DATE_FORMAT
     },
     {
       data:'statut',
       title:'Statut',
-      visible:false
+      visible:false,
+      html:false,
+      rendered : (e)=>{
+        return Status[e.statut]
+      }
     },
     {
       data:'dateRelance',
       title:'Date relance',
-      visible:true
+      visible:true,
+      dateFormat : DATE_FORMAT
     },
     {
       data:'technologie',
@@ -80,7 +90,8 @@ export class listeTousCandidatsComponent implements OnInit {
     {
       data:'dateEntretien',
       title:'Date entretien',
-      visible:true
+      visible:true,
+      dateFormat : DATE_FORMAT
     },
     {
       data:'lieuEntretien',
@@ -90,7 +101,11 @@ export class listeTousCandidatsComponent implements OnInit {
     {
       data:'disponibilite',
       title:'Disponible',
-      visible:true
+      visible:true,
+      html:false,
+      rendered : (e)=>{
+        return Disponibilite[e.disponibilite]
+      }
     },
     {
       data:'nomCharge',
@@ -198,7 +213,7 @@ export class listeTousCandidatsComponent implements OnInit {
   }
 
   openDetails(candidat){
-    this.router.navigate(["/candidats/details/"+candidat.id]);
+    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',candidat.id)]);
   }
 
   codePostaleOnSearch(value) {

@@ -170,9 +170,9 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="dateNaissance">Date de Naissance</label>
-                    <input [owlDateTimeTrigger]="dtdateNaissance" [owlDateTime]="dtdateNaissance" class="form-control"
+                    <input   [owlDateTimeTrigger]="dtdateNaissance" [owlDateTime]="dtdateNaissance" class="form-control"
                       name="dateNaissance" [(ngModel)]="currentCandidat.dateNaissance" id="dateNaissance">
-                    <owl-date-time [pickerType]="'calendar'" #dtdateNaissance></owl-date-time>
+                    <owl-date-time (afterPickerClosed)="dateNaissanceChangedHandler()" [pickerType]="'calendar'" #dtdateNaissance></owl-date-time>
                   </div>
                 </div>
               </div>
@@ -186,7 +186,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="age">Age</label>
-                    <input type="text" class="form-control" name="age" [(ngModel)]="currentCandidat.age" id="age">
+                    <input readonly type="text" class="form-control" name="age" [(ngModel)]="currentCandidat.age" id="age">
                   </div>
                 </div>
               </div>
@@ -288,14 +288,15 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Présentation:</label>
+                    <div>
+                    <label style="margin-right: 0px;margin-bottom: 0px">Présentation:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"
                       (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Savoir etre:</label>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Savoir etre:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
@@ -304,7 +305,7 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Fiabilité:</label>
+                   <div> <label style="margin-right: 0px;margin-bottom: 0px">Fiabilité:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
@@ -315,13 +316,13 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Attrait pour l'informatique:</label>
+                      <div>   <label v>Attrait pour l'informatique:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Prêt à la reconversion:</label>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Prêt à la reconversion:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.notePret' [name]="'notePret'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
@@ -329,7 +330,7 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Mobilité:</label>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Mobilité:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
@@ -348,7 +349,7 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Cohérence du parcours:</label>
+                      <div>  <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
@@ -357,13 +358,13 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Potentiel d’évolution:</label>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                    <label>Anglais:</label>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label></div>
                     <app-rating [rating]='currentCandidat.suivi.anglais' [name]="'anglais'" (ratingClick)='ratingComponentClick($event)'></app-rating>
                   </div>
                 </div>
@@ -424,9 +425,9 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
-                    <label for="dateNaissance">Date relance</label>
-                    <input [owlDateTimeTrigger]="suiviDateRelance" [owlDateTime]="suiviDateRelance" class="form-control"
-                      name="dateNaissance" [(ngModel)]="currentCandidat.suivi.dateRelance" id="suiviDateRelance">
+                    <label for="dateRelance">Date relance</label>
+                    <input [disabled]="currentCandidat.suivi.relance!=true" [owlDateTimeTrigger]="suiviDateRelance" [owlDateTime]="suiviDateRelance" class="form-control"
+                      name="dateRelance" [(ngModel)]="currentCandidat.suivi.dateRelance" id="suiviDateRelance">
                     <owl-date-time [pickerType]="'calendar'" #suiviDateRelance></owl-date-time>
                   </div>
                 </div>

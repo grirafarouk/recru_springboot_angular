@@ -43,6 +43,7 @@ import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
+import com.fr.adaming.jsfapp.enums.Statut;
 import com.fr.adaming.jsfapp.mapper.V_ListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.V_ReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
@@ -277,6 +278,7 @@ public class CandidatController {
 	public Candidat ajoutCandidat(@RequestBody Candidat entity, @RequestParam String login, @RequestParam String mime) {
 		Candidat candidat = null;
 		if (creerCv(entity, login, mime)) {
+			entity.setStatut(Statut.VIDE);
 			candidat = candidatService.createOrUpdate(entity);
 		}
 		return candidat;

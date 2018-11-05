@@ -45,6 +45,7 @@
     top: -0.375rem;
     margin: 0 .5rem 0 0;
     cursor: pointer;
+    background: transparent
   }
   .checkbox:before {
     -webkit-transition: all 0.3s ease-in-out;
@@ -77,7 +78,7 @@
     left: 0;
     width: 1.1rem;
     height: 1.1rem;
-    background: #fff;
+    background: c;
     cursor: pointer;
   }
   
@@ -141,7 +142,11 @@
     }
   }
   
-
+  input[type="checkbox"] {
+    appearance:none;
+    width: 11px;
+    height: 11px;
+     margin:0 10px 0 0;}
   input[type="radio"] {
     appearance:none;
     margin:0 20px;
@@ -187,4 +192,30 @@
     border: 2px solid #C4C4C4;
     border-radius: 12px;
     padding: 0px;
+}
+
+
+.imgAppreciation {
+  margin-left: 20%;
+}
+
+
+tbody{
+  overflow-wrap: break-word ;
+}
+
+tr{
+  max-width: 50px
+}
+
+
+
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+table td {
+  word-wrap: break-word;         /* All browsers since IE 5.5+ */
+  overflow-wrap: break-word;     /* Renamed property in CSS3 draft spec */
 }

@@ -96,7 +96,7 @@
                                     <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
                                     <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
                                     <td style="width: 10%">     
-                                        <a class="btn btn-default" [routerLink]="['/ficheSessionFormation', f.id]">
+                                        <a class="btn btn-default" (click)="openDetails(f)">
                                               <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
                                             </a>         
                                       </td>

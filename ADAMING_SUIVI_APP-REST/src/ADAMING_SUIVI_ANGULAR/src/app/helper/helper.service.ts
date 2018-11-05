@@ -4,12 +4,17 @@ import { Status } from "../models/enum/Status";
 import { Profil } from "../models/enum/Profil";
 import { Candidate } from "../models/Candidate";
 import { Competence } from "../models/Competence";
+import { navItems } from "../_nav";
+import { Observable } from "rxjs";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class HelperService {
+
+
+
 
   public buildDisponibiliteArray(): Object[] {
     return Object.keys(Disponibilite)
@@ -96,4 +101,58 @@ export class HelperService {
       }
     });
   }
+
+  public decodeEntities(encodedString) {
+    var textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    var value = textArea.value;
+    textArea.remove()
+    return value;
+  }
+
+  public hasAccess(item, profil) {
+    if (item.profils == undefined)
+      return true;
+    else {
+      if (item.profils.indexOf(Profil[profil]) == -1)
+        return false;
+      else return true;
+    }
+  }
+
+  public findNavItemByUrl(url) {
+    var elementFound = {};
+    navItems.forEach(element => {
+      if (element.url != undefined && element.url == url) {
+        elementFound = element;
+      }
+      else if (element.children != undefined) {
+        var childs = element.children;
+        for (let i = 0; i < childs.length; i++) {
+          if (childs[i].url != undefined && url == childs[i].url) {
+            elementFound = childs[i];
+          }
+        }
+        ;
+      }
+    });
+    return elementFound;
+  }
+
+
+  hasAccessByUrl(url: string, profil: any): boolean {
+    var item = this.findNavItemByUrl(url);
+    return this.hasAccess(item, profil)
+  }
+
+  public getAge(birthDate):number {
+    var today = new Date();
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
 }

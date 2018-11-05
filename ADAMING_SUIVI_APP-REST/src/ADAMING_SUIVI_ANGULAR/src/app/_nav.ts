@@ -1,128 +1,165 @@
+import { Profil } from "./models/enum/Profil";
+import { NAVIGATION_RULES } from "./helper/application.constant";
+
 export const navItems = [
   {
     name: 'Dashboard',
     url: '/dashboard',
-    icon: 'icon-speedometer'
+    icon: 'icon-speedometer',
+    profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
   },
   {
     icon: 'icon-people',
     name: 'Candidats',
-    url: '/candidats',
-     children: [
+    url: '/' + NAVIGATION_RULES.candidats.url,
+    children: [
       {
         name: 'Nouveaux Condidats',
-        url: '/candidats',
+        url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat,
+        icon: 'icon-user-follow',
       },
       {
         name: 'Liste Nouveaux Condidats',
-        url: '/candidats/listeNouveauxCandidats',
+        url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeNouveauxCandidats,
+        profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
+        icon: 'icon-list',
       },
       {
         name: 'Liste Tous Condidats',
-        url: '/candidats/listeTousCandidats',
+        url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeTousCandidats,
+        icon: 'icon-list',
+        profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
       },
       {
         name: 'Candidats A Relancer',
-        url: '/candidats/listeCandidatArelancer',
+        icon: 'icon-list',
+        url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeCandidatArelancer,
+        profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
       },
     ]
   },
   {
     name: 'Entretien',
-    url: '/entretien/list',
+    url: '/' + NAVIGATION_RULES.entretien.url + '/' + NAVIGATION_RULES.entretien.list,
+    icon: 'icon-note',
+    profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
+
   },
   {
     name: 'Sessions Formations',
     icon: 'icon-briefcase',
-    url: '/SessionsFormations',
-     children: [
+    url: '/' + NAVIGATION_RULES.sessionsFormations.url,
+    profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
+    children: [
       {
         name: 'Sessions formations en cours',
-        url: '/SessionsFormations',
+        icon:'icon-list',
+        url: '/' + NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.enCours,
       },
       {
         name: 'Sessions formations clotures',
-        url: '/SessionsFormations/SessionsFormationsClotures',
+        icon:'icon-list',
+        url: '/' + NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.clotures,
       }
     ]
   },
   {
     name: 'Reporting',
-    url: '/reporting/listeReporting',
+    url: '/' + NAVIGATION_RULES.reporting.url + '/' + NAVIGATION_RULES.reporting.listeReporting,
+    icon: 'icon-graph',
+    profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
   },
   {
     name: 'Reporting Sourceur',
-    url: '/reporting/reportingSourceur',
+    url: '/' + NAVIGATION_RULES.reporting.url + '/' + NAVIGATION_RULES.reporting.reportingSourceur,
+    icon: 'icon-pie-chart',
+    profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION],
   },
   {
     name: 'Administration',
     icon: 'icon-wrench',
     url: '/administration',
+    profils: [Profil.ADMINISTRATEUR],
     children: [
       {
         name: 'Competences',
         url: '/administration',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'Utilisateurs',
         url: '/administration/utilisateurs',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'lieux',
         url: '/administration/lieux',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'origineCV',
         url: '/administration/origineCV',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'technologies',
         url: '/administration/technologies',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'typeFormation',
         url: '/administration/typeFormation',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'filiere',
         url: '/administration/filiere',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'clientSession',
         url: '/administration/clientSession',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'motifHorsCible',
         url: '/administration/motifHorsCible',
+        profils: [Profil.ADMINISTRATEUR],
       },
       {
         name: 'region',
         url: '/administration/region',
+        profils: [Profil.ADMINISTRATEUR],
       }
     ]
   },
   {
     title: true,
-    name: 'Theme'
+    name: 'Theme',
+    profils: [Profil.ADMINISTRATEUR],
   },
   {
     name: 'Colors',
     url: '/theme/colors',
-    icon: 'icon-drop'
+    icon: 'icon-drop',
+    profils: [Profil.ADMINISTRATEUR],
   },
   {
     name: 'Typography',
     url: '/theme/typography',
+    profils: [Profil.ADMINISTRATEUR],
     icon: 'icon-pencil'
   },
   {
     title: true,
+    profils: [Profil.ADMINISTRATEUR],
     name: 'Components'
   },
   {
     name: 'Base',
     url: '/base',
     icon: 'icon-puzzle',
+    profils: [Profil.ADMINISTRATEUR],
     children: [
       {
         name: 'Cards',
@@ -185,6 +222,7 @@ export const navItems = [
     name: 'Buttons',
     url: '/buttons',
     icon: 'icon-cursor',
+    profils: [Profil.ADMINISTRATEUR],
     children: [
       {
         name: 'Buttons',
@@ -206,12 +244,14 @@ export const navItems = [
   {
     name: 'Charts',
     url: '/charts',
+    profils: [Profil.ADMINISTRATEUR],
     icon: 'icon-pie-chart'
   },
   {
     name: 'Icons',
     url: '/icons',
     icon: 'icon-star',
+    profils: [Profil.ADMINISTRATEUR],
     children: [
       {
         name: 'CoreUI Icons',
@@ -247,6 +287,7 @@ export const navItems = [
     name: 'Notifications',
     url: '/notifications',
     icon: 'icon-bell',
+    profils: [Profil.ADMINISTRATEUR],
     children: [
       {
         name: 'Alerts',
@@ -269,6 +310,7 @@ export const navItems = [
     name: 'Widgets',
     url: '/widgets',
     icon: 'icon-calculator',
+    profils: [Profil.ADMINISTRATEUR],
     badge: {
       variant: 'info',
       text: 'NEW'
@@ -280,11 +322,13 @@ export const navItems = [
   {
     title: true,
     name: 'Extras',
+    profils: [Profil.ADMINISTRATEUR],
   },
   {
     name: 'Pages',
     url: '/pages',
     icon: 'icon-star',
+    profils: [Profil.ADMINISTRATEUR],
     children: [
       {
         name: 'Login',
@@ -313,12 +357,14 @@ export const navItems = [
     url: 'http://coreui.io/angular/',
     icon: 'icon-cloud-download',
     class: 'mt-auto',
-    variant: 'success'
+    variant: 'success',
+    profils: [Profil.ADMINISTRATEUR],
   },
   {
     name: 'Try CoreUI PRO',
     url: 'http://coreui.io/pro/angular/',
     icon: 'icon-layers',
-    variant: 'danger'
+    variant: 'danger',
+    profils: [Profil.ADMINISTRATEUR],
   }
 ];

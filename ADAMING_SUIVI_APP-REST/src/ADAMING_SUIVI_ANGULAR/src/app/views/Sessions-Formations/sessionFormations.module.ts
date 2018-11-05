@@ -10,7 +10,7 @@ import { SessionsFormationsCloturesComponent } from './Sessions-Formations-Clotu
 import { AccordionModule } from 'ngx-accordion';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { SessionFormationsRoutingModule } from './sessionFormations-routing.module';
-//import { FicheSessionFormationComponent } from './FicheSessionFormation/FicheSessionFormation.component';
+import { FicheSessionFormationComponent } from './FicheSessionFormation/FicheSessionFormation.component';
 
 @NgModule({
   imports: [
@@ -23,11 +23,11 @@ import { SessionFormationsRoutingModule } from './sessionFormations-routing.modu
     AccordionModule,
     CollapseModule.forRoot(),
     SessionFormationsRoutingModule
-
   ],
   declarations: [
-    SessionsFormationsEncoursComponent,SessionsFormationsCloturesComponent,
-    //FicheSessionFormationComponent
+    SessionsFormationsEncoursComponent,
+    SessionsFormationsCloturesComponent,
+    FicheSessionFormationComponent
   ]
 })
 export class SessionFormationsModule { }
