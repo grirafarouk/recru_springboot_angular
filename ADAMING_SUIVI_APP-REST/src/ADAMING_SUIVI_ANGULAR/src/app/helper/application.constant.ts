@@ -1,8 +1,23 @@
 export const BACK_END_URL = "http://192.168.1.205:8090/api"
 export const BACK_END_URL_SECURITY = "http://192.168.1.205:8090"
 export const NAVIGATION_RULES = {
-    login : {url:'login'},
-    dashboard :{
+    error404: {
+        url: '404'
+    },
+    error500: {
+        url: '500'
+    },
+    restpwd: {
+        url: 'resetpwd'
+    },
+    login: {
+        url: 'login'
+    },
+    forgetpwd:
+    {
+        url: 'forgetpwd'
+    },
+    dashboard: {
         url: 'dashboard'
     },
     candidats: {
@@ -31,8 +46,8 @@ export const NAVIGATION_RULES = {
         details: 'details/:id'
     },
 };
-export const PHONE_MASK =[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
-export const PHONE_MASK_LABEL ="00-00-00-00";
+export const PHONE_MASK = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+export const PHONE_MASK_LABEL = "00-00-00-00";
 
-export const DATE_FORMAT="dd/M/yyyy";
+export const DATE_FORMAT = "dd/M/yyyy";
 

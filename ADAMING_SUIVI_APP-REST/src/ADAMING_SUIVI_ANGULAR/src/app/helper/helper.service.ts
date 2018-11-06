@@ -14,7 +14,7 @@ import { Observable } from "rxjs";
 export class HelperService {
 
 
-
+  errorMsg:string=""
 
   public buildDisponibiliteArray(): Object[] {
     return Object.keys(Disponibilite)

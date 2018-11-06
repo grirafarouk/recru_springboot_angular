@@ -12,9 +12,30 @@ import { Utilisateur } from '../models/Utilisateur';
   providedIn: 'root'
 })
 export class AuthenticationService {
+
   static AUTH_TOKEN = BACK_END_URL_SECURITY + '/oauth/token';
 
   constructor(private httpClient: HttpClient, private utilisateurService: UtilisateurService) { }
+
+
+  forgetPwd(email: any): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL_SECURITY + "/forgot-password", { email: email }, httpOptions)
+  }
+
+  resetPwd(body: any): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL_SECURITY + "/reset-password", body, httpOptions)
+  }
+
 
   login(login): Observable<any> {
     const body = `username=${encodeURIComponent(login.username)}&password=${encodeURIComponent(login.pwd)}&grant_type=password`;
@@ -30,18 +51,18 @@ export class AuthenticationService {
         if (data) {  // login successful if there's a jwt token in the response
           let tokenInfo = this.getDecodedAccessToken(data.access_token); // decode token
           localStorage.setItem(TOKEN_NAME, data.access_token);
-        await this.utilisateurService.getUser(tokenInfo.user_name).toPromise().then((user: Utilisateur) => {
+          await this.utilisateurService.getUser(tokenInfo.user_name).toPromise().then((user: Utilisateur) => {
             if (user) {
               var currentUser = {
                 token: data,
                 userInfo: user
               }
               localStorage.setItem(USER_NAME, JSON.stringify(currentUser))
-              
+
             }
             return user;
           })
-         
+
         }
         return data;
       }))
@@ -83,4 +104,9 @@ export class AuthenticationService {
     if (date === undefined) return false;
     return !(date.valueOf() > new Date().valueOf());
   }
+
+  public getRestPWDTokenState(token) {
+    return this.httpClient.get(BACK_END_URL_SECURITY + "/token-password?token="+token)
+  }
+
 }

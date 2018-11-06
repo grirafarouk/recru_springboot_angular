@@ -52,15 +52,7 @@ export class utilisateursComponent implements OnInit {
   }
 
   showEditModal(utilisateur: any){
-    this.utilisateur.id = utilisateur.id;
-    this.utilisateur.profil = utilisateur.profil;
-    this.utilisateur.nom = utilisateur.nom;
-    this.utilisateur.prenom = utilisateur.prenom;
-    this.utilisateur.numeroTelF = utilisateur.numeroTelF;
-    this.utilisateur.numeroTelP = utilisateur.numeroTelP;
-    this.utilisateur.email = utilisateur.email;
-    this.utilisateur.actif = utilisateur.actif;
-    this.utilisateur.reporting = utilisateur.reporting;
+    this.utilisateur = utilisateur;
     this.utilisateurEditModal.show();
 
   }

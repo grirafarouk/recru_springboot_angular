@@ -6,14 +6,15 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
+import { LoginComponent } from './views/security/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './services/AuthGuard.service';
 import { ficheCvRelanceComponent } from './views/dashboard/ficheCvRelance/ficheCvRelance.component';
 import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
-import { FicheSessionFormationComponent } from './views/Sessions-Formations/FicheSessionFormation/FicheSessionFormation.component';
-import { CanActivateService } from './helper/can-activate.service';
 import { NAVIGATION_RULES } from './helper/application.constant';
+import { ForgetPwdComponent } from './views/security/forget-password/forget-pwd.component';
+import { RestPwdComponent } from './views/security/reset-pwd/reset-pwd.component';
+import { TokenResolve } from './views/security/TokenResolve';
 export const routes: Routes = [
   {
     path: '',
@@ -44,11 +45,26 @@ export const routes: Routes = [
     }
   },
   {
-    path: 'login',
+    path: NAVIGATION_RULES.login.url,
     component: LoginComponent,
     data: {
       title: 'Login Page'
     }
+  },
+  {
+    path: NAVIGATION_RULES.forgetpwd.url,
+    component: ForgetPwdComponent,
+    data: {
+      title: 'Password Forget'
+    }
+  },
+  {
+    path: NAVIGATION_RULES.restpwd.url,
+    component: RestPwdComponent,
+    data: {
+      title: 'Password Forget'
+    },
+    resolve : [TokenResolve]
   },
   {
     path: 'register',

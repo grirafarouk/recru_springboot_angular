@@ -204,4 +204,6 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 			Date dateFin){
 		return utilisateurDao.rechercherReportingCVParTechnologieParSourceur(utilisateur,dateDebut,dateFin);
 	}
+
+
 }

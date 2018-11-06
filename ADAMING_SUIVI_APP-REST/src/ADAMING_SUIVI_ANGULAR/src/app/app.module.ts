@@ -18,7 +18,7 @@ import { DefaultLayoutComponent } from './containers';
 
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
+import { LoginComponent } from './views/security/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
@@ -53,6 +53,8 @@ import { HttpModule } from '@angular/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {  OWL_DATE_TIME_LOCALE } from 'ng-pick-datetime';
 import { FicheSessionFormationComponent } from './views/Sessions-Formations/FicheSessionFormation/FicheSessionFormation.component';
+import { ForgetPwdComponent } from './views/security/forget-password/forget-pwd.component';
+import { RestPwdComponent } from './views/security/reset-pwd/reset-pwd.component';
 
 const notifierDefaultOptions: NotifierOptions = {
   position: {
@@ -128,7 +130,9 @@ const notifierDefaultOptions: NotifierOptions = {
     LoginComponent,
     RegisterComponent,
     ficheCvRelanceComponent,
-    ficheCandidatSessionComponent
+    ficheCandidatSessionComponent,
+    ForgetPwdComponent,
+    RestPwdComponent
   ],
   providers: [{
     provide: LocationStrategy,
