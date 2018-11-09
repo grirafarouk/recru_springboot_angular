@@ -19,7 +19,7 @@ export class ficheCandidatSessionComponent implements OnInit {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.id = +params['idSession']; 
+      this.id = +params['id']; 
     });
       this.accueilService.getCandidatSession(this.id).subscribe(data => {
       this.CandidatSession = data;

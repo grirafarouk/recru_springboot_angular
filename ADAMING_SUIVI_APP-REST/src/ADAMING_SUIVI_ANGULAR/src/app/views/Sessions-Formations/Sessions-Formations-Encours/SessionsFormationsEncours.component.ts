@@ -12,6 +12,7 @@ import { LieuxService } from "../../../services/administrationService/Lieux.serv
 import { TypeFormationService } from "../../../services/administrationService/TypeFormationService";
 import { Router } from "@angular/router";
 import { NAVIGATION_RULES } from "../../../helper/application.constant";
+import { SessionsFormationsService } from "../../../services/sessionService/sessions-formations.service";
 
 
 @Component({
@@ -20,7 +21,9 @@ import { NAVIGATION_RULES } from "../../../helper/application.constant";
 })
 export class SessionsFormationsEncoursComponent implements OnInit {
 
-  constructor(private router:Router,private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
+  constructor(
+    private sessionFormationService:SessionsFormationsService,
+    private router:Router,private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
   session: any = {}; 
   sessionFormations: any ;
@@ -38,7 +41,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
   }
   rechercherSession(){
  
-    this.sessionFormationService.rechercherSessionFormationencours(this.formation).subscribe(data => 
+    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.formation).subscribe(data => 
       this.formations = data
      );
     }
@@ -61,13 +64,13 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       });
       this.formations = data;
       });
-      this.sessionFormationService.getSessionFormationEnCours(this.session).subscribe(data => {
+      this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
         this.sessionFormations = data;
-        /*for (let i = 0; i < this.sessionFormations.length; i++) {
-          let sf = this.sessionFormations[i];
-          this.sessionFormationService.NombreParticipants(sf).subscribe(resp => { 
-            this.t[i] = resp })
-        };*/
+        this.sessionFormations.forEach(element => {
+          this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
+            element.nombreParticipants = data;
+          })
+        });
   
       });
     }
@@ -80,11 +83,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       this.formation.typeFormation.libelle = null;
       this.getListe();
     }
-    collapsed(event: any): void {
-    }
 
-    expanded(event: any): void {
-    }
 
     openDetails(sessionFormation){
       this.router.navigate([NAVIGATION_RULES.sessionsFormations.url+'/'+NAVIGATION_RULES.sessionsFormations.details.replace(':id',sessionFormation.id)]);

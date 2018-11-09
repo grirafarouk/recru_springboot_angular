@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BACK_END_URL } from '../../helper/application.constant';
 
@@ -8,10 +8,10 @@ import { BACK_END_URL } from '../../helper/application.constant';
 })
 export class TypeFormationService {
 
-  constructor(private http: HttpClient) { }
-  
+  constructor(private httpClient: HttpClient) { }
+
   findAllTypeFormation(): Observable<any> {
-    return this.http.get(BACK_END_URL + "/typeformation");
+    return this.httpClient.get(BACK_END_URL + "/typeformation");
   }
   save(typeformation): Observable<any> {
 
@@ -20,7 +20,7 @@ export class TypeFormationService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(BACK_END_URL + "/typeformation/add", typeformation, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/typeformation/add", typeformation, httpOptions);
   }
   update(typeformation): Observable<any> {
     const httpOptions = {
@@ -28,8 +28,12 @@ export class TypeFormationService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(BACK_END_URL + "/typeformation/update" , typeformation, httpOptions);
-}
-  
+    return this.httpClient.post(BACK_END_URL + "/typeformation/update", typeformation, httpOptions);
+  }
+
+  delete(item): Observable<any> {
+    return this.httpClient.delete(BACK_END_URL + "/typeformation/" + item.id);
+  }
+
 }
 

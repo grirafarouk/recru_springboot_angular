@@ -23,12 +23,17 @@ export class LieuxService {
     };
     return this.httpClient.post(BACK_END_URL + "/lieu/add", lieu, httpOptions);
   }
+
   update(lieu): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/lieu/update" , lieu, httpOptions);
-}
+    return this.httpClient.post(BACK_END_URL + "/lieu/update", lieu, httpOptions);
+  }
+
+  delete(lieu): Observable<any> {
+    return this.httpClient.delete(BACK_END_URL + "/lieu/" + lieu.id);
+  }
 }

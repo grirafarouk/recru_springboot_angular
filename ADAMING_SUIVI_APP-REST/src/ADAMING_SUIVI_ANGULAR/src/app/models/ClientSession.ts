@@ -1,4 +1,4 @@
-export class ClienSession{
+export class ClientSession{
     id:number;
     libelle:String
 }

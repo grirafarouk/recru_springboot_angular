@@ -6,6 +6,7 @@ import { Candidate } from "../models/Candidate";
 import { Competence } from "../models/Competence";
 import { navItems } from "../_nav";
 import { Observable } from "rxjs";
+import { CandidateDto } from "../views/candidats/CandidateDto";
 
 
 @Injectable({
@@ -13,7 +14,10 @@ import { Observable } from "rxjs";
 })
 export class HelperService {
 
-
+  listNouveauxCandidatRecherche:CandidateDto=new CandidateDto();
+  listTousCandidatRecherche:CandidateDto=new CandidateDto();
+  listRelanceCandidatRecherche:CandidateDto=new CandidateDto();
+  
   errorMsg:string=""
 
   public buildDisponibiliteArray(): Object[] {

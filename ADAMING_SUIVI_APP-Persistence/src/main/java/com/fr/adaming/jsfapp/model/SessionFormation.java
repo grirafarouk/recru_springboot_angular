@@ -30,7 +30,7 @@ public class SessionFormation implements Serializable {
 	private Date dateDemarrage;
 	private Date dateFin;
 	private Formation formation;
-	private Boolean FActif;
+	private Boolean fActif;
 	private Integer nombrePlace;
 	private ClientSession client;
 
@@ -79,11 +79,11 @@ public class SessionFormation implements Serializable {
 
 	@Column(name = "F_Actif", nullable = false)
 	public Boolean getFActif() {
-		return FActif;
+		return fActif;
 	}
 
 	public void setFActif(Boolean fActif) {
-		FActif = fActif;
+		this.fActif = fActif;
 	}
 	@Column(name = "Nombre_Place", nullable = false)
 	public Integer getNombrePlace() {
@@ -102,4 +102,13 @@ public class SessionFormation implements Serializable {
 	public void setClient(ClientSession client) {
 		this.client = client;
 	}
+
+	@Override
+	public String toString() {
+		return "SessionFormation [id=" + id + ", dateDemarrage=" + dateDemarrage + ", dateFin=" + dateFin
+				+ ", formation=" + formation + ", fActif=" + fActif + ", nombrePlace=" + nombrePlace + ", client="
+				+ client + "]";
+	}
+	
+	
 }

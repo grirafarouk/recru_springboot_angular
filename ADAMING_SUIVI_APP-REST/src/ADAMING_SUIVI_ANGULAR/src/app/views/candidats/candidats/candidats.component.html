@@ -131,15 +131,16 @@
                                                 <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
                                                     id="inline-checkbox1" [value]="compt.id">
                                             </label>
-                                            <label style="margin-bottom: 0px">{{compt.libelle}}</label>
+                                            <label >{{compt.libelle}}</label>
                                         </div>
                                     </div>
 
                         </div>
                         <div class="row">
-                            <div class="col-md-10 "></div>
-                            <button (click)="recherchecandidate()" style="float: right;" type="button" class="btn btn-block btn-primary col-2 ">Rechercher</button>
-                        </div>
+                            <div class="col-10"></div>
+                            <div>
+                            <button (click)="recherchecandidate()"  type="button" class="btn btn-block btn-primary ">Rechercher</button>
+                        </div></div>
                         <div *ngIf="pdfSrc!=undefined">
                             <object style="margin-top: 20px" [data]="pdfSrc" height="450px" width="100%">
                                 <param name="view" value="fitH" />
@@ -150,28 +151,28 @@
                     <div class="card-footer">
 
                         <div class="row align-items-center">
-                            <div class="col-md-6 col-form-label">
+                            <div class="col-md-8 col-form-label">
                                 <div class="form-check form-check-inline mr-1">
                                     <label class="label--checkbox">
                                             <input class="checkbox" type="checkbox" [(ngModel)]="candidate.cvAnonyme"
                                             name="cvAnonyme" value="true" id="cvanonyme ">
                                         </label>
-                                    <label class="form-check-label" for="cvanonyme">
+                                    <label >
                                         CV anonyme
                                     </label>
                                 </div>
                             </div>
-                            <div class="col-2">
-                                <button type="button" (click)="annuler()" class="btn btn-block btn-primary">Annuler</button>
+                            <div >
+                                <button type="button" (click)="annuler()" class="btn btn-block btn-danger">Annuler</button>
                             </div>
 
-                            <div class="col-2">
+                            <div style="padding-left: 10px">
                                 <button (click)="submitAndRedirect()" [disabled]="pdfSrc==undefined" type="button"
-                                    class="btn btn-block btn-primary">Planifier
+                                    class="btn btn-block btn-success">Planifier
                                     Rdv</button>
                             </div>
-                            <div class="col-2">
-                                <button [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-primary">Enregistrer</button>
+                            <div style="padding-left: 10px">
+                                <button [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-success">Enregistrer</button>
                             </div>
                         </div>
                     </div>

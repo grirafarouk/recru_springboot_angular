@@ -49,9 +49,7 @@ export class FicheReportingComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private candidatsService: CandidatsService,
-    private sanitizer: DomSanitizer, private router: Router,
-    private routingState: RoutingState,
-    private helperService: HelperService, private competencesService: CompetencesService ) { }
+    private sanitizer: DomSanitizer, private router: Router ) { }
 
   ngOnInit() {
 
@@ -68,21 +66,6 @@ export class FicheReportingComponent implements OnInit {
           }
           reader.readAsDataURL(res.data);
         })
-        this.competencesService.findAllCompetences().subscribe(data => {
-          this.competences = data;
-          this.currentCandidat.candidatCompetence.forEach((obj, i) => {
-            this.competences.forEach((obj2, i) => {
-              if (obj2.id == obj.id) {
-                obj2.selected = true;
-              }
-            });
-          });
-        })
-       this.selectedRegions = []
-        if (this.currentCandidat.suivi.regions != undefined) this.currentCandidat.suivi.regions.forEach(element => {
-          this. selectedRegions.push(element.id + "");
-        });
-       // this.map.setSelectedRegions(selectedRegions);
       });
   }
 
@@ -104,27 +87,6 @@ export class FicheReportingComponent implements OnInit {
 
   private annuler() {
     this.router.navigate([NAVIGATION_RULES.reporting.url+'/'+NAVIGATION_RULES.reporting.listeReporting]);
-  }
-
-
-
-  ngAfterViewInit() {
-    this.map = jQuery('#france-map').vectorMap({
-      map: 'fr_regions_mill',
-      hoverOpacity: 0.5,
-      hoverColor: "#EC0000",
-      backgroundColor: "#ffffff",
-      color: "#FACC2E",
-      borderColor: "#000000",
-      selectedColor: "#EC0000",
-      multiSelectRegion: true,
-      selectedRegions:this.selectedRegions,
-      enableZoom: true,
-      showTooltip: true,
-      onRegionClick: function (event, code, region) {
-        event.preventDefault();
-      }
-    });
   }
 
 

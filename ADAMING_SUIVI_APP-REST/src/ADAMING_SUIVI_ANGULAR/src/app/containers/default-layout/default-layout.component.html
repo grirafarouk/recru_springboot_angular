@@ -1,11 +1,11 @@
-<app-header [fixed]="true" [navbarBrandFull]="{src: 'assets/img/avatars/adaming-conseil.png', width: 168, height: 40,alt: 'Adaming conseil'}"
-  [navbarBrandMinimized]="{src: 'assets/img/brand/sygnet.svg', width: 30, height: 30, alt: 'CoreUI Logo'}"
+<app-header [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/adaming-conseil.png', width: 140, height: 30,alt: 'Adaming conseil'}"
+  [navbarBrandMinimized]="{src: 'assets/img/brand/adaming.png', width: 40, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="''">
   <ul class="nav navbar-nav d-md-down-none">
-    <li class="nav-item px-3">
-      <span  style="color:red;font-family: 'Times New Roman', Times, serif;font-weight: bold;">{{getProfiilDisplay(userService.getConnetedUserInfo().profil)}}</span>
+    <li class="nav-item px-3 h3" style="color:rgb(233, 38, 38)">
+      {{getProfiilDisplay(userService.getConnetedUserInfo().profil)}}
     </li>
-    <li class="nav-item px-3"  style="color:black;font-family: 'Times New Roman', Times, serif;font-weight: bold;"> <span>{{ userService.getConnetedUserInfo().login}}</span>
+    <li class="nav-item px-3 h3">{{ userService.getConnetedUserInfo().login}}
     </li>
   </ul>
 
@@ -22,9 +22,21 @@
   </ul>
 </app-header>
 <div class="app-body">
-  <app-sidebar [fixed]="true" [display]="'lg'">
+  <app-sidebar  [fixed]="true" [display]="'lg'">
+    <div class="user" *ngIf="!sidebarMinimized" >
+      <div style="padding-left: 20px" class="row">
+        <div class="col-3">
+          <img height="50px" style="border-radius: 50em" src="/assets/img/avatars/7.jpg">
+        </div>
+        <div class="col-9" style="padding-top: 10px;padding-left: 25px">
+          {{ userService.getConnetedUserInfo().nom }} {{
+            userService.getConnetedUserInfo().prenom}}<br>
+           {{getProfiilDisplay(userService.getConnetedUserInfo().profil)}}
+        </div>
+      </div>
+    </div>
     <app-sidebar-nav [navItems]="navItems" [perfectScrollbar] [disabled]="sidebarMinimized"></app-sidebar-nav>
-    <app-sidebar-minimizer></app-sidebar-minimizer>
+    <app-sidebar-minimizer ></app-sidebar-minimizer>
   </app-sidebar>
   <!-- Main content -->
   <main class="main">

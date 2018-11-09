@@ -18,7 +18,9 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="prenom" style="font-weight:bold">Technologie :</label>
-                                <p class="form-control-static">{{ session?.formation.technologie.libelle }}</p>
+                                <div class="col-12">
+                                    <p class="form-control-static">{{ session?.formation.technologie.libelle }}</p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -88,7 +90,7 @@
             <div class="card-body">
                 <table class="table">
                     <thead>
-                        <tr >
+                        <tr>
                             <th> NOM
                             </th>
                             <th>PRENOM
@@ -114,18 +116,20 @@
                             <td>{{c.creePar.nom }} {{c.creePar.prenom }}</td>
                             <td>
                                 <label style="margin-left: 30%;" class="label--checkbox">
-                                    <input (change)="modelChanged(c,'docRefus')" class="checkbox" type="checkbox" [(ngModel)]="c.docConsult" />
+                                    <input (change)="modelChanged(c,'docRefus')" class="checkbox" type="checkbox"
+                                        [(ngModel)]="c.docConsult" />
                                 </label>
                             </td>
                             <td>
                                 <label style="margin-left: 30%;" class="label--checkbox">
-                                    <input (change)="modelChanged(c,'docConsult')" class="checkbox" type="checkbox" [(ngModel)]="c.docRefus" />
+                                    <input (change)="modelChanged(c,'docConsult')" class="checkbox" type="checkbox"
+                                        [(ngModel)]="c.docRefus" />
                                 </label>
                             </td>
-                            <td style="width: 100px"><button type="button" (click)="openDetails(c)" class="btn btn-outline-primary btn-sm">
+                            <td style="width: 100px"><button type="button" (click)="openDetails(c)" class="btn btn-outline-success btn-sm">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                               </td>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -152,7 +156,8 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-2">
-                        <button (click)="activerDesactiverSession()" type="button" class="btn btn-block btn-primary">{{session.factif != null && session.factif == true  ? 'Désactivée Session' :'Activée Session' }}</button>
+                        <button (click)="activerDesactiverSession()" type="button" class="btn btn-block btn-primary">{{session.factif
+                            != null && session.factif == true ? 'Désactivée Session' :'Activée Session' }}</button>
                     </div>
                     <div class="col-8"></div>
                     <div class="col-2">

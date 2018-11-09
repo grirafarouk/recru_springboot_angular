@@ -68,8 +68,7 @@
         </a>
         </div>
         <div class="card-body"
-             (collapsed)="collapsed($event)"
-             (expanded)="expanded($event)"
+             
              [collapse]="isCollapsed[i]">
              <div class="panel-body">
                     <table class="table  table-striped">
@@ -82,6 +81,7 @@
                                 <th>Type Formation</th>
                                 <th>Date Démarage</th>
                                 <th>Date Fin</th>
+                                <th>DNombre Participants	</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -95,6 +95,7 @@
                                     <td>{{f.formation.typeFormation.libelle}}</td>
                                     <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
                                     <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
+                                    <td>{{f.nombreParticipants  }}</td>
                                     <td style="width: 10%">     
                                         <a class="btn btn-default" (click)="openDetails(f)">
                                               <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>

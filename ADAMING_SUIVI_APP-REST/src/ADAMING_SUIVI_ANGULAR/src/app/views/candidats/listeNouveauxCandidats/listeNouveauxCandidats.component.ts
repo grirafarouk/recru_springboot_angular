@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidateDto } from "../CandidateDto";
 import { CandidatsService } from "../../../services/candidats.service";
@@ -9,7 +9,8 @@ import { TechnologieService } from "../../../services/administrationService/Tech
 import { HelperService } from "../../../helper/helper.service";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { Router } from "@angular/router";
-import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
+import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT, PHONE_MASK } from "../../../helper/application.constant";
+import { RoutingState } from "../../../helper/routing-state.service";
 
 
 @Component({
@@ -18,73 +19,95 @@ import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper
   styleUrls: ["listeNouveauxCandidats.component.css"]
 
 })
-export class listeNouveauxCandidatsComponent implements OnInit {
+export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
 
+  titleTable="List Nouveaux Condidats "
 
+  @ViewChild("table")
+  table;
   
-  columns =[
+  actions = {
+    visible:true,
+    title:'Actions',
+    items:[
     {
-      data:'nom',
-      title:'Nom',
-      visible:true
+      icon: 'fa fa-edit',
+      class: 'btn-outline-success btn btn-sm',
+      tooltip:'Détails',
+      action: (e) => {
+        this.openDetails(e);    
+      }
     },
     {
-      data:'prenom',
-      title:'Prenom',
-      visible:true
+      icon: 'fa fa-download',
+      class: 'btn-outline-warning btn btn-sm',
+      tooltip:'Telecharger CV',
+      action:
+        (e) => {
+          this.downloadCV(e);
+        }
+    }
+  ]
+  }
+
+  columns = [
+    {
+      data: 'nom',
+      title: 'Nom',
+      visible: true,
     },
     {
-      data:'numeroTel',
-      title:'N° Téléphone',
-      visible:true,
-      mask:PHONE_MASK_LABEL
+      data: 'prenom',
+      title: 'Prenom',
+      visible: true,
+      align:'center'
     },
     {
-      data:'email',
-      title:'Email',
-      visible:true
+      data: 'numeroTel',
+      title: 'N° Téléphone',
+      visible: true,
+      mask: PHONE_MASK_LABEL,
+      align:'center'
     },
     {
-      data:'dateInscription',
-      title:'Date inscription',
-      visible:true,
-      dateFormat:DATE_FORMAT
+      data: 'email',
+      title: 'Email',
+      visible: true
     },
     {
-      data:'technologie',
-      title:'Type de profil',
-      visible:true
+      data: 'dateInscription',
+      title: 'Date inscription',
+      visible: true,
+      dateFormat: DATE_FORMAT
     },
     {
-      data:'region',
-      title:'Région',
-      visible:true
+      data: 'technologie',
+      title: 'Type de profil',
+      visible: true
     },
     {
-      data:'nomSourceur',
-      title:'Nom sourceur',
-      visible:true
+      data: 'region',
+      title: 'Région',
+      visible: true
     },
     {
-      data:'prenomSourceur',
-      title:'Prénom sourceur',
-      visible:true
+      data: 'nomSourceur',
+      title: 'Nom sourceur',
+      visible: true
+    },
+    {
+      data: 'prenomSourceur',
+      title: 'Prénom sourceur',
+      visible: true
     }
   ]
 
 
-  public loading = false;
-  mask: any[] = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+  mask: any[] = PHONE_MASK;
   technologies = []
-  origines = []
-  competences = []
   candidats: any[];
 
-  pages = [];
-  size = 10;
-  currentPage = 1;
-  maxlenght = 0;
-  lastPage = 1;
+
 
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
@@ -93,81 +116,62 @@ export class listeNouveauxCandidatsComponent implements OnInit {
     { value: '3', text: 'Plus de 6 mois' }
   ];
 
-  constructor(private router:Router, private technologiesService: TechnologieService,
-    private candidatsService: CandidatsService, private helperService: HelperService,
-    private notifierService: NotifierService) { }
+  constructor(private router: Router,
+    private technologiesService: TechnologieService,
+    private candidatsService: CandidatsService, 
+    private helperService: HelperService,
+    private routingState: RoutingState,
+    private notifierService: NotifierService) {
+
+     }
 
   ngOnInit(): void {
-    this.rechercheCandidat();
+    if(this.routingState.getPreviousUrl().indexOf('details')>-1) 
+      this.condidat = this.helperService.listNouveauxCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
   }
-
-  rechercheCandidat() {
-    this.loading=true;
-    this.currentPage = 1;
-    let callBack = (e)=>{
-      this.notifierService.notify("info", "Nombre Candidat : " +  this.maxlenght)
-    }
-    this.doRechercheCandidat(callBack);
-
+  ngOnDestroy(): void {
+    this.helperService.listNouveauxCandidatRecherche = this.condidat;
   }
-
-  doRechercheCandidat(callBack?) {
-    let page = (this.currentPage - 1) * this.size;
-    this.candidatsService.rechercheNouveauxcandidats(this.condidat, page, this.size).subscribe(data => {
-      this.maxlenght = data.total;
-      this.candidats = data.results;
-      this.lastPage = Math.ceil(this.maxlenght / this.size)
-      this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
-      this.loading=false;
-      if(callBack) callBack();
-    },error=>{
-      this.loading=false
-    })
+  rechercheCandidat() {
+    let callBack = (e) => {
+      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+    }
+    this.table.setPage(1, callBack);
+  }
+  initTableFunction(){
+    this.rechercheCandidat()
+  }
+  recherche(item, page, size) {
+    return this.candidatsService.rechercheNouveauxcandidats(item, page, size)
   }
 
   reset() {
-    this.condidat.nom = null;
-    this.condidat.prenom = null;
-    this.condidat.numeroTel = null;
-    this.condidat.email = null;
-    this.condidat.dateInscription = null;
-    this.condidat.technologie = null;
-    this.condidat.nomSourceur = null;
-    this.condidat.prenomSourceur = null;
-    this.condidat.region = null;
-    this.condidat.dateInscription = null;
-    this.condidat.critereRecheche = null;
+    this.condidat = new CandidateDto();
     this.rechercheCandidat();
   }
 
-  setPage(p) {
-    this.loading=true;
-    this.currentPage = p;
-    this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
-    this.doRechercheCandidat();
-  }
 
 
-  downloadCV(candidat){
+  downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
-        var url = window.URL.createObjectURL(file.data);
-        var a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = url;
-        a.download =file.filename;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove(); // remove the element     
-       
+      var url = window.URL.createObjectURL(file.data);
+      var a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = file.filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove(); // remove the element     
+
     })
   }
 
-  openDetails(candidat){
-    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',candidat.id)]);
+  openDetails(candidat) {
+    this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
 }

@@ -33,5 +33,8 @@ export class ClientSessionService {
     return this.httpClient.post(BACK_END_URL + "/clientSession/update" , clientSession, httpOptions);
 }
 
+delete(clientSession): Observable<any> {
+  return this.httpClient.delete(BACK_END_URL + "/clientSession/" + clientSession.id);
+}
   
 }

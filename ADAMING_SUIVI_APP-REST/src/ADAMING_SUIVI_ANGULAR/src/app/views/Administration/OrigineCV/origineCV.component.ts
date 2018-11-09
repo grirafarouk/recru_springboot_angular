@@ -13,61 +13,105 @@ import { Origine } from "../../../models/Origine";
   styleUrls: ["origineCV.component.css"]
 })
 export class origineCVComponent implements OnInit {
-  @ViewChild("origineAddModal")
-  public origineAddModal;
-  @ViewChild("origineEditModal")
-  public origineEditModal;
-  ListOrigines=[];
-  origine:Origine
+
+  @ViewChild("origineDeleteModal")
+  public origineDeleteModal;
+
+  @ViewChild("origineModal")
+  public origineModal;
+
+  ListOrigines = [];
+  origine: Origine
+
+  columns = [
+    {
+      data: 'libelle',
+      title: 'Libellés'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    },
+    {
+      icon: 'fa fa-trash',
+      class: 'btn btn-outline-danger btn-sm',
+      tooltip: 'Delete',
+      action: (e) => {
+        this.showDeleteModal(e);
+      }
+    }
+  ]
 
 
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
-   private originesService: OriginesService,
-   private notifierService: NotifierService
-    ){}
+    private originesService: OriginesService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
-    this.origine= new Origine();
-
-    this.originesService.findAllOrigines().subscribe(data=>{
+    this.origine = new Origine();
+    this.originesService.findAllOrigines().subscribe(data => {
       this.ListOrigines = data;
     })
   }
-  showAddModal(){
+  showAddModal() {
     this.reset();
-    this.origineAddModal.show();
-
+    this.origineModal.show();
   }
-  showEditModal(origine: any){
-    this.origine.id = origine.id;
-    this.origine.libelle = origine.libelle;
-   
-    this.origineEditModal.show();
 
+  showEditModal(origine: any) {
+    this.origine = Object.assign({}, origine); 
+    this.origineModal.show();
   }
-  saveOrigine(){
+
+  showDeleteModal(origine: any): any {
+    this.origine =  Object.assign({}, origine); 
+    this.origineDeleteModal.show();
+  }
+
+  saveOrigine() {
+    if (this.origine.id > 0)
+      this.updateOrigine();
+    else this.createOrigine();
+  }
+
+  createOrigine() {
     this.originesService.save(this.origine).toPromise().then((data: Origine) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Origine CV ajouté avec succés !")
       }
     })
-    this.origineAddModal.hide();
+    this.origineModal.hide();
   }
 
-  updateOrigine(origine){
+  updateOrigine() {
     this.originesService.update(this.origine).toPromise().then((data: Origine) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Origine CV modifié avec succés !")
       }
     })
-    this.origineEditModal.hide();
+    this.origineModal.hide();
   }
-  
-  reset(){
-    this.origine.libelle=null;
+
+  deleteOrigine() {
+    this.originesService.delete(this.origine).toPromise().then((data: Origine) => {
+      this.ngOnInit();
+      if (data != null) {
+        this.notifierService.notify("success", "Origine CV Supprimer avec succés !")
+      }
+    })
+    this.origineDeleteModal.hide();
+  }
+
+  reset() {
+    this.origine= new Origine();
   }
 }

@@ -18,7 +18,7 @@
           <div class="row">
             <div class="col-7">
               <div *ngIf="pdfSource!=undefined">
-                <object style="margin-top: 20px" [data]="pdfSource" height="1500px" width="100%">
+                <object style="margin-top: 20px" [data]="pdfSource" height="900px" width="100%">
                   <param name="view" value="fitH" />
 
                 </object>
@@ -100,15 +100,16 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Region</label>
+                    <div class="col-12">
                     <p class="form-control-static">{{currentCandidat?.codePostal?.region}}</p>
-                  </div>
+                  </div>   </div>
                 </div>
 
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Ville</label>
-                    <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
-                  </div>
+                    <div class="col-12">   <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
+                  </div></div>
                 </div>
               </div>
               <div class="row">
@@ -202,20 +203,22 @@
                 </div>
               </div>
               <div class="form-group row">
-                <label class="col-3 col-form-label">Sourceur</label>
-                <div class="col-8">
-                  <p class="form-control-static">{{currentCandidat.creePar.nom}} {{currentCandidat.creePar.prenom}}</p>
+                <label class="col-4 col-form-label">Sourceur</label>
+                <div class="col-7">
+                  <p class="form-control-static" style="margin-top:8px">{{currentCandidat.creePar.nom}} {{currentCandidat.creePar.prenom}}</p>
                 </div>
+
+                
               </div>
               
               <div class="form-group row competences">
                 <div class="col-md-3 col-form-label" *ngFor="let compt of competences; let i = index">
                   <div class="form-check form-check-inline mr-1">
                       <div class="form-check form-check-inline mr-1">
-                          <label class="label--checkbox">
+                          <div class="label--checkbox">
                               <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
                                   id="inline-checkbox1" [value]="compt.id">
-                          </label>
+                          </div>
                         <label style="margin-bottom: 0px">{{compt.libelle}}</label>
                   </div>
                 </div>
@@ -223,9 +226,9 @@
               </div>
             </div>
             <div class="row align-items-center" >
-                <div class="col-7"></div>
-                <div class="col-5">
-                  <button (click)="updateCandidats()" type="button" class="btn btn-block btn-primary">Modifier candidat</button>
+                <div class="col-8"></div>
+                <div  >
+                  <button (click)="updateCandidats()" type="button" class="btn btn-block btn-success">Modifier candidat</button>
                 </div>
               </div>
               <div class="row" style="margin-top: 20px">
@@ -358,20 +361,23 @@
         </div>
         <div class="card-footer">
           <div class="row align-items-center">
-            <div class="col-md-4 col-form-label">
+            <div class="col-form-label"  [class]="showDetailsButton  ? 'col-md-6' : 'col-md-7' ">
             </div>
-            <div class="col-2">
-              <button type="button" [disabled]="file==undefined" (click)="downloadPDF()" class="btn btn-block btn-primary">Télécharger
+            <div [ngStyle] ="{'padding-left': (showDetailsButton) ? '35px' : '45px' } ">
+              <button type="button" [disabled]="file==undefined" (click)="downloadPDF()" class="btn btn-block btn-warning">Télécharger
                 Cv</button>
             </div>
-            <div class="col-2">
-              <button type="button" (click)="evaluerCandidat()"  [disabled]="currentCandidat.entretien.date==null || currentCandidat.entretien.date > minRelance" class="btn btn-block btn-primary">Evaluer Candidat</button>
+            <div *ngIf="showDetailsButton" style="padding-left: 5px">
+              <button type="button" (click)="showDetails()" class="btn btn-block btn-info">Plus de détail</button>
             </div>
-            <div class="col-2">
-              <button type="button" (click)="sauvgarderFicheRedirtect()" class="btn btn-block btn-primary">Sauvegarder</button>
+            <div style="padding-left: 5px" >
+              <button type="button" (click)="evaluerCandidat()"  [disabled]="currentCandidat.entretien.date==null || currentCandidat.entretien.date > minRelance" class="btn btn-block btn-success">Evaluer Candidat</button>
             </div>
-            <div class="col-2">
-              <button (click)="annuler()" type="button" class="btn btn-block btn-primary">Annuler</button>
+            <div style="padding-left: 5px" >
+              <button type="button" (click)="sauvgarderFicheRedirtect()" class="btn btn-block btn-success">Sauvegarder</button>
+            </div>
+            <div style="padding-left: 5px" >
+              <button (click)="annuler()" type="button" class="btn btn-block btn-danger">Annuler</button>
             </div>
           </div>
         </div>
@@ -513,3 +519,5 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+
+  <candidats-details-modal #detailsModal [currentCandidat]="currentCandidat" ></candidats-details-modal>

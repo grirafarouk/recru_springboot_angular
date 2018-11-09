@@ -13,61 +13,111 @@ import { TypeFormationService } from "../../../services/administrationService/Ty
   styleUrls: ["typeFormation.component.css"]
 })
 export class typeFormationComponent implements OnInit {
-  @ViewChild("typeFormationAddModal")
-  public typeFormationAddModal;
-  @ViewChild("typeFormationEditModal")
-  public typeFormationEditModal;
-  ListtTypeFormation=[];
-  typeFormation:TypeFormation
+
+  ListtTypeFormation = [];
+  typeFormation: TypeFormation
+
+
+  @ViewChild("deleteModal")
+  public deleteModal;
+
+  @ViewChild("typeFormationModal")
+  public typeFormationModal;
+
+
+  columns = [
+    {
+      data: 'libelle',
+      title: 'Libellés'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    },
+    {
+      icon: 'fa fa-trash',
+      class: 'btn btn-outline-danger btn-sm',
+      tooltip: 'Delete',
+      action: (e) => {
+        this.showDeleteModal(e);
+      }
+    }]
 
 
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
-   private typeFormationService: TypeFormationService,
-   private notifierService: NotifierService
-    ){}
+    private sanitizer: DomSanitizer,
+    private helperService: HelperService,
+    private typeFormationService: TypeFormationService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
-    this.typeFormation= new TypeFormation();
+    this.typeFormation = new TypeFormation();
 
-    this.typeFormationService.findAllTypeFormation().subscribe(data=>{
+    this.typeFormationService.findAllTypeFormation().subscribe(data => {
       this.ListtTypeFormation = data;
     })
   }
-  showAddModal(){
+
+  showAddModal() {
     this.reset();
-    this.typeFormationAddModal.show();
+    this.typeFormationModal.show();
 
   }
-  showEditModal(typeFormation: any){
-    this.typeFormation.id = typeFormation.id;
-    this.typeFormation.libelle = typeFormation.libelle;
-   
-    this.typeFormationEditModal.show();
+
+  showDeleteModal(typeFormation: any): any {
+    this.typeFormation = Object.assign({}, typeFormation);
+    this.deleteModal.show();
+  }
+
+  showEditModal(typeFormation: any) {
+    this.typeFormation = Object.assign({}, typeFormation);
+    this.typeFormationModal.show();
 
   }
-  saveTypeFormation(){
+
+  saveTypeFormation() {
+    if (this.typeFormation.id > 0)
+      this.updateTypeFormation();
+    else this.createTypeFormation();
+  }
+
+  createTypeFormation() {
     this.typeFormationService.save(this.typeFormation).toPromise().then((data: TypeFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Type Formation ajouté avec succés !")
       }
     })
-    this.typeFormationAddModal.hide();
+    this.typeFormationModal.hide();
   }
 
-  updateTypeFormation(typeFormation){
+  updateTypeFormation() {
     this.typeFormationService.update(this.typeFormation).toPromise().then((data: TypeFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Type Formation  modifié avec succés !")
       }
     })
-    this.typeFormationEditModal.hide();
+    this.typeFormationModal.hide();
   }
-  
-  reset(){
-    this.typeFormation.libelle = null;
+
+  delete() {
+    this.typeFormationService.delete(this.typeFormation).toPromise().then((data) => {
+      this.ngOnInit();
+      this.notifierService.notify("success", "Type Formatio Supprimer avec succés !")
+
+    })
+    this.deleteModal.hide();
+  }
+
+  reset() {
+    this.typeFormation = new TypeFormation();
   }
 }

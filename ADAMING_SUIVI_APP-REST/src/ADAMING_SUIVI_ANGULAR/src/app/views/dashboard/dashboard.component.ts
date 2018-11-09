@@ -8,6 +8,7 @@ import { SourceurTechnologies } from '../../models/SourceurTechnologies';
 import { AccueilService } from '../../services/accueilService/accueil.service';
 import { TechnologieService } from '../../services/administrationService/TechnologieService';
 import { first } from 'rxjs/operators';
+import { NAVIGATION_RULES } from '../../helper/application.constant';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -27,8 +28,9 @@ export class DashboardComponent implements OnInit {
    ];
   constructor(
     private accueilService: AccueilService,
-    private technologieService: TechnologieService
-            ) { }
+    private router:Router) {
+
+     }
 
   ngOnInit() {
     this.loadReportingChargeRelance();
@@ -55,5 +57,12 @@ export class DashboardComponent implements OnInit {
       }
     });
 
+  }
+  openDetailsSession(session){
+    this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCandidatSession.replace(":id",session.idSession)])
+  }
+
+  openDetailsCVRelance(charge){
+    this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCvRelance.replace(":id",charge.idUser)])
   }
 }

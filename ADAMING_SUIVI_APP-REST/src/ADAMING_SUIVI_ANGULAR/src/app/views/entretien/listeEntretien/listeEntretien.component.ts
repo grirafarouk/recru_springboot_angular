@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidatsService } from "../../../services/candidats.service";
 import { NotifierService } from "angular-notifier";
@@ -20,13 +20,40 @@ import { Status } from "../../../models/enum/Status";
 })
 export class listeEntretienComponent implements OnInit {
   
+
+  titleTable="List Entretien"
+
+  @ViewChild("table")
+  table;
+  
+  actions = {
+    visible:true,
+    title:'Actions',
+    items:[
+    {
+      icon: 'fa fa-edit',
+      class: 'btn-outline-success btn btn-sm',
+      tooltip:'Détails',
+      action: (e) => {
+        this.openDetails(e);    
+      }
+    },
+    {
+      icon: 'fa fa-download',
+      class: 'btn-outline-warning btn btn-sm',
+      tooltip:'Telecharger CV',
+      action:
+        (e) => {
+          this.downloadCV(e);
+        }
+    }
+  ]
+  }
+
   mask: any[] = [/\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/];
   technologies=[]
   origines=[]
-  competences=[]
-  candidats: any[];
-  page= 0;
-  size= 10;
+
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche : [
     { value: '1', text: 'Moins 1 mois' },
@@ -111,7 +138,6 @@ export class listeEntretienComponent implements OnInit {
     private lieuxService:LieuxService) {}
 
   ngOnInit(): void {
-    this.rechercheCandidat();
     this.technologiesService.findAllTechnologies().subscribe(data=>{
     this.technologies = data;
     })
@@ -120,37 +146,10 @@ export class listeEntretienComponent implements OnInit {
     })
   }
 
-  /*getListeCandidat(){
-    this.candidatsService.getCandidatEntretien(this.page,this.size).subscribe(data => this.candidats = data);
-  }
-  rechercheCandidat() {
-      this.candidatsService.rechercheNouveauxcandidats(this.condidat,0,this.size).subscribe(data=>{this.candidats = data
-        this.notifierService.notify("info","Nombre Candidat : "+data.length)
-      })
-   }*/
 
-   rechercheCandidat() {
-    this.loading=true;
-    this.currentPage = 1;
-    let callBack = (e)=>{
-      this.notifierService.notify("info", "Nombre Candidat : " +  this.maxlenght)
-    }
-    this.doRechercheCandidat(callBack);
-   }
 
-   doRechercheCandidat(callBack?){
-    let page = (this.currentPage - 1) * this.size;
-    this.candidatsService.rechercheCandidatAvecEntretien(this.condidat, page, this.size).subscribe(data => {
-      this.maxlenght = data.total;
-      this.candidats = data.results;
-      this.lastPage = Math.ceil(this.maxlenght / this.size)
-      this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
-      this.loading=false;
-      if(callBack) callBack();
-    },error=>{
-      this.loading=false
-    })
-   }
+
+
 
    reset(){
      this.condidat.nom=null;
@@ -162,12 +161,7 @@ export class listeEntretienComponent implements OnInit {
      this.condidat.prenomCharge = null;
      this.rechercheCandidat();
    }
-   setPage(p) {
-    this.loading=true;
-    this.currentPage = p;
-    this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
-    this.doRechercheCandidat();
-  }
+
   downloadCV(candidat){
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
@@ -183,7 +177,20 @@ export class listeEntretienComponent implements OnInit {
        
     })
   }
+  initTableFunction(){
+    this.rechercheCandidat()
+  }
+  rechercheCandidat() {
+    let callBack = (e) => {
+      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+    }
+    this.table.setPage(1, callBack);
+  }
 
+
+  recherche(item, page, size) {
+    return this.candidatsService.rechercheCandidatAvecEntretien(item, page, size)
+  }
   openDetails(candidat){
     this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',candidat.id)]);
   }

@@ -9,17 +9,15 @@
                             <div class="row">      
                                     <div class="col-sm-2">
                                             <div class="form-group">
-                                                <label for="profil" style="font-weight:bold">Sourceur :</label>
-                                                <select [(ngModel)]="sourceur.idUser"  class="form-control input-sm">
-                                                    <option value="">-- Sélectionner --</option>
-                                                    <option *ngFor="let sr of ListSourceur" [value]="sr.idUser">{{ sr.nomSourceur }}</option>
-                                                  </select>
+                                                <label for="profil" style="font-weight:bold">Sourceur :</label>                                              
+                                                  <ng-select bindValue="idUser"  bindLabel="nomSourceur" [items]="ListSourceur"   [(ngModel)]="sourceur.idUser" name="idUser"  >
+                                                    </ng-select>
                                             </div>
                                     </div>
                                 <div class="col-sm-2">
                                     <div class="form-group">
                                       <label for="dateDebut" style="font-weight:bold">Date debut</label>
-                                      <input  
+                                      <input  [(ngModel)]="dateDebut"  [max]="dateFin"
                                         [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
                                         id="dateDebut">
                                       <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
@@ -28,30 +26,24 @@
                                   <div class="col-sm-2">
                                         <div class="form-group">
                                           <label for="dateFin" style="font-weight:bold">Date fin</label>
-                                          <input  
+                                          <input  [min]="dateDebut" [max]="currentDate" [(ngModel)]="dateFin"
                                             [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
                                              id="dateFin">
                                           <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
                                         </div>
-                                      </div>
-                                      
-                                    
-                                          
-                                            
-                                            
-                                           
-                                </div>
-                               
+                                      </div>                                                                
+                                </div>                               
                     </div>
                     <div class="card-footer">
 
                             <div class="row align-items-center">
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherReportingSourceur()">Rechercher</button>
+                                <div class="col-10"></div>
+                                <div >
+                                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherReportingSourceur(sourceur)">Rechercher</button>
                                 </div>
-    
-                                <div class="col-2">
-                                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+        
+                                <div style="padding-left: 5px" >
+                                    <button type="button" class="btn btn-block btn-danger" (click)="reset()" style="float: right;">Réinitialiser</button>
                                 </div>
                             </div>
                         </div>
@@ -105,7 +97,7 @@
          
                 
                 <div class="card-body">
-                  <table class="table table-bordered table-striped" >
+                  <table class="table" >
                     <thead>
                       <tr>
                         <th>Sourceur</th>
@@ -117,11 +109,11 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let rep of ListReporting| paginate: { itemsPerPage:10, currentPage: p }">
-                        <td>{{rep.nomSourceur}}</td>
-                        <td>{{rep.nbrTotal}}</td>
-                        <td>{{rep.nbrDsipo}}</td>
-                        <td>{{rep.nbrHors}}</td>
-                        <td>{{rep.taux}}%</td>
+                        <td [ngStyle]="{'color' :( rep.taux < 80 )?'#ff6666' :''}">{{rep.nomSourceur}}</td>
+                        <td style=" text-align: center;  ">{{rep.nbrTotal}}</td>
+                        <td style=" text-align: center;  ">{{rep.nbrDsipo}}</td>
+                        <td style=" text-align: center;  " [class]="rep.taux_hors<20 ?'table-success':'table-danger'">{{rep.nbrHors}}</td>
+                        <td style=" text-align: center;  "  [class]="rep.taux>80 ?'table-success':'table-danger'">{{rep.taux}}%</td>
                         
                       </tr>
                     </tbody>

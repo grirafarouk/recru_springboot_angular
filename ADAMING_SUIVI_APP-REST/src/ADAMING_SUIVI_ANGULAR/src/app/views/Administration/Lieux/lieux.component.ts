@@ -13,17 +13,41 @@ import { Lieu } from "../../../models/Lieu";
   styleUrls: ["lieux.component.css"]
 })
 export class lieuxComponent implements OnInit {
-  @ViewChild("lieuAddModal")
-  public lieuAddModal;
-  @ViewChild("lieuEditModal")
-  public lieuEditModal;
+  @ViewChild("deleteModal")
+  public deleteModal;
+  @ViewChild("lieuModal")
+  public lieuModal;
   ListLieux=[];
   lieu:Lieu
-
+  columns = [
+    {
+      data: 'libelle',
+      title: 'Libellés'
+    },
+    {
+      data: 'adresseAdaming',
+      title: 'Adresses'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    },
+    {
+      icon: 'fa fa-trash',
+      class: 'btn btn-outline-danger btn-sm',
+      tooltip: 'Delete',
+      action: (e) => {
+        this.showDeleteModal(e);
+      }
+    }]
 
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
    private lieuxService: LieuxService,
    private notifierService: NotifierService
     ){}
@@ -37,39 +61,51 @@ export class lieuxComponent implements OnInit {
   }
   showAddModal(){
     this.reset();
-    this.lieuAddModal.show();
+    this.lieuModal.show();
 
   }
   showEditModal(lieu: any){
-    this.lieu.id = lieu.id;
-    this.lieu.libelle = lieu.libelle;
-    this.lieu.adresseAdaming=lieu.adresseAdaming;
-   
-    this.lieuEditModal.show();
+    this.lieu = Object.assign({}, lieu);
+    this.lieuModal.show();
 
   }
-  saveLieu(){
+  showDeleteModal(lieu: any): any {
+    this.lieu = Object.assign({}, lieu);
+    this.deleteModal.show();
+  }
+  saveLieu() {
+    if (this.lieu.id > 0)
+      this.updateLieu();
+    else this.createLieu();
+  }
+  createLieu(){
     this.lieuxService.save(this.lieu).toPromise().then((data: Lieu) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Lieu ajouté avec succés !")
       }
     })
-    this.lieuAddModal.hide();
+    this.lieuModal.hide();
   }
 
-  updateLieu(lieu){
+  updateLieu(){
     this.lieuxService.update(this.lieu).toPromise().then((data: Lieu) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Lieu modifié avec succés !")
       }
     })
-    this.lieuEditModal.hide();
+    this.lieuModal.hide();
   }
   
+  delete() {
+    this.lieuxService.delete(this.lieu).toPromise().then((data) => {
+      this.ngOnInit();
+      this.notifierService.notify("success", "Lieu Supprimer avec succés !")
+    })
+    this.deleteModal.hide();
+  }
   reset(){
-    this.lieu.libelle=null;
-    this.lieu.adresseAdaming=null;
+    this.lieu = new Lieu();
   }
 }

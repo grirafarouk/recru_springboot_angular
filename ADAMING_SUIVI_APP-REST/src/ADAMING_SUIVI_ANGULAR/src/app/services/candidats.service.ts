@@ -17,6 +17,9 @@ import { Suivi } from '../models/Suivi';
   providedIn: 'root'
 })
 export class CandidatsService {
+  destroyTempoFolder(loginuser): any {
+    return this.httpClient.get(BACK_END_URL+"/destroyTempoFolder/"+loginuser);
+  }
 
 
   constructor(private httpClient: HttpClient, private helperService: HelperService,

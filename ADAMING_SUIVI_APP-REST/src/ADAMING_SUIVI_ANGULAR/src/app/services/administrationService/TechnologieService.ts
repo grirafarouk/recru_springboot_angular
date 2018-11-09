@@ -8,12 +8,12 @@ import { BACK_END_URL } from '../../helper/application.constant';
 })
 export class TechnologieService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
   getTechnologiesByLibelle () {
-    return this.http.get<any>(BACK_END_URL+'/technologie/Libelle');
+    return this.httpClient.get<any>(BACK_END_URL+'/technologie/Libelle');
   }
   findAllTechnologies(): Observable<any> {
-    return this.http.get(BACK_END_URL + "/technologie");
+    return this.httpClient.get(BACK_END_URL + "/technologie");
   }
   save(technologie): Observable<any> {
 
@@ -22,7 +22,7 @@ export class TechnologieService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(BACK_END_URL + "/technologie/add", technologie, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/technologie/add", technologie, httpOptions);
   }
   update(technologie): Observable<any> {
     const httpOptions = {
@@ -30,8 +30,13 @@ export class TechnologieService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(BACK_END_URL + "/technologie/update" , technologie, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/technologie/update" , technologie, httpOptions);
 }
+
+delete(item): Observable<any> {
+  return this.httpClient.delete(BACK_END_URL + "/technologie/" + item.id);
+}
+
   
 }
 

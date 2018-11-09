@@ -1,109 +1,251 @@
 <div class="card">
     <div class="card-header">
-            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
+        <label style="font-weight:bold;color:#546E7A;">Recherche</label>
     </div>
     <div class="card-body">
-            <div class="row">      
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="nom">Code formation:</label>
-                            <input type="text" class="form-control"  name="code" [(ngModel)]="formation.code" id="code"> 
-                        </div>
-                    </div>  
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="nom">Nom formation:</label>
-                            <input type="text" class="form-control"  name="nom" [(ngModel)]="formation.nom" id="nom"> 
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label class="form-col-form-label" for="technologie">Technologie:</label>
-                            <select [(ngModel)]="formation.technologie.libelle"  name="technologie"  class="form-control" id="technologie">
-                                <option value="">--Sélectionner--</option>
-                                <option *ngFor="let tech of technologies" [value]="tech.libelle">{{tech.libelle}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="lieu">Lieu:</label>
-                                <select  [(ngModel)]="formation.lieu.libelle" class="form-control input-sm">
-                                    <option value="">-- Sélectionner --</option>
-                                    <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
-                                  </select>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
-                                    <select  [(ngModel)]="formation.typeFormation.libelle" class="form-control input-sm">
-                                        <option value="">-- Sélectionner --</option>
-                                        <option *ngFor="let type of typeFormation" [value]="type.libelle">{{ type.libelle }}</option>
-                                      </select>
-                                </div>
-                        </div>
-                                 
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label for="nom">Code formation:</label>
+                    <input type="text" class="form-control" name="code" [(ngModel)]="formation.code" id="code">
                 </div>
-              
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label for="nom">Nom formation:</label>
+                    <input type="text" class="form-control" name="nom" [(ngModel)]="formation.nom" id="nom">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="technologie">Technologie:</label>
+                    <select [(ngModel)]="formation.technologie.libelle" name="technologie" class="form-control" id="technologie">
+                        <option value="">--Sélectionner--</option>
+                        <option *ngFor="let tech of technologies" [value]="tech.libelle">{{tech.libelle}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="lieu">Lieu:</label>
+                    <select [(ngModel)]="formation.lieu.libelle" class="form-control input-sm">
+                        <option value="">-- Sélectionner --</option>
+                        <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
+                    <select [(ngModel)]="formation.typeFormation.libelle" class="form-control input-sm">
+                        <option value="">-- Sélectionner --</option>
+                        <option *ngFor="let type of typeFormation" [value]="type.libelle">{{ type.libelle }}</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
     </div>
     <div class="card-footer">
 
-            <div class="row align-items-center">
-                <div class="col-2">
-                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherSession()">Rechercher</button>
-                </div>
+        <div class="row align-items-center">
+            <div class="col-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="rechercherSession()">Rechercher</button>
+            </div>
 
+            <div class="col-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="panel panel-default" *ngFor="let formation of formations; let i = index">
+        <div class="card-header">
+            <a role="button" (click)="this.isCollapsed[i] = !this.isCollapsed[i]" href="#{{formation.id}}">
+                <span>{{formation.code}}</span>
+            </a>
+        </div>
+        <div class="card-body" (collapsed)="collapsed($event)" (expanded)="expanded($event)" [collapse]="isCollapsed[i]">
+            <div class="panel-body">
+                <table class="table  table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nom Formation</th>
+                            <th>Technologie</th>
+                            <th>Lieu</th>
+                            <th>Type Formation</th>
+                            <th>Date Démarage</th>
+                            <th>Date Fin</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let sessionF of sessionFormations; let i = index">
+                            <tr *ngIf="formation.id == sessionF.formation.id">
+                                <td>{{sessionF.formation.nom}}</td>
+                                <td>{{sessionF.formation.technologie.libelle}}</td>
+                                <td>{{sessionF.formation.lieu.libelle}}</td>
+                                <td>{{sessionF.formation.typeFormation.libelle}}</td>
+                                <td>{{sessionF.dateDemarrage | date :'dd/MM/yyyy'}}</td>
+                                <td>{{sessionF.dateFin | date :'dd/MM/yyyy' }}</td>
+                                <td style="width: 10%">
+                                    <label style="margin-left: 20px;" class="switch switch-label switch-outline-primary-alt">
+                                        <input type="checkbox" class="switch-input" [(ngModel)]="sessionF.factif"
+                                            (click)="activerDesactiverSession(sessionF)">
+                                        <span class="switch-slider" data-checked="on" data-unchecked="off"></span>
+                                    </label>
+                                    <button style="margin-top: -35px; margin-left: 10px;" (click)="showEditSessionModal(sessionF)"
+                                        placement="top" [tooltip]="Edit" class="btn btn-outline-success btn-sm">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
                 <div class="col-2">
-                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+                    <button type="button" (click)="showSessionFormationModal(formation)" class="btn btn-block btn-primary">Ajouter
+                        Session</button>
                 </div>
             </div>
         </div>
-  </div>
-<div class="card">
-      <div class="panel panel-default" *ngFor="let formation of formations; let i = index">
-      <div class="card-header">
-      <a  role="button" (click)="this.isCollapsed[i] = !this.isCollapsed[i]" href="#{{formation.id}}">
-              <span>{{formation.code}}</span>
-      </a>
-      </div>
-      <div class="card-body"
-           (collapsed)="collapsed($event)"
-           (expanded)="expanded($event)"
-           [collapse]="isCollapsed[i]">
-           <div class="panel-body">
-                  <table class="table  table-striped">
-                      <thead>
-                          <tr>
-                              <th>Nom Formation</th>
-                              <th>Technologie</th>
-                              <th>Lieu</th>
-                              <th>Type Formation</th>
-                              <th>Date Démarage</th>
-                              <th>Date Fin</th>
-                              <th>ACTION</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <ng-container *ngFor="let f of sessionFormations; let i = index">
-                              <tr *ngIf="formation.id == f.formation.id">
-                                  <td>{{f.formation.nom}}</td>
-                                  <td>{{f.formation.technologie.libelle}}</td>
-                                  <td>{{f.formation.lieu.libelle}}</td>
-                                  <td>{{f.formation.typeFormation.libelle}}</td>
-                                  <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
-                                  <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
-                                  <td style="width: 10%">     
-                                    <label class="switch switch-label switch-outline-primary-alt">
-                                        <input type="checkbox" class="switch-input" [(ngModel)]="f.factif" (click)="activerDesactiverSession($event)">
-                                        <span class="switch-slider" data-checked="on" data-unchecked="off"></span>
-                                      </label>
-                                    </td>
-                              </tr>
-                          </ng-container>
-                      </tbody>
-                  </table>
-              </div>
-      </div>
-  </div>
     </div>
+    <div class="card-footer">
+        <div class="col-2">
+            <button type="button" (click)="showFormationModal()" class="btn btn-block btn-primary">Ajouter
+                Session</button>
+        </div>
+    </div>
+</div>
+
+
+<div bsModal #FormationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-primary  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Lieux</h4>
+                <button type="button" class="close" (click)="FormationModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 52px">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Nom Formation :</label>
+                        <div class="col-md-8">
+                            <input class="form-control" [(ngModel)]="selectedFormation.nom" name="nomf" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Type de formation :</label>
+                        <div class="col-md-8">
+                            <ng-select [compareWith]="helperService.compareFn" name="typeFormation" [(ngModel)]="selectedFormation.typeFormation"
+                                [items]="typeFormation" bindLabel="libelle">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Technologie :</label>
+                        <div class="col-md-8">
+                            <ng-select [compareWith]="helperService.compareFn" name="technologie" [(ngModel)]="selectedFormation.technologie"
+                                [items]="technologies" bindLabel="libelle">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Lieu : </label>
+                        <div class="col-md-8 ">
+                            <ng-select [compareWith]="helperService.compareFn" name="lieu" [(ngModel)]="selectedFormation.lieu"
+                            [items]="lieux" bindLabel="libelle">
+                        </ng-select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="FormationModal.hide()">Annuler</button>
+                <button type="button" (click)="saveFormation()" class="btn btn-primary">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div bsModal #SessionFormationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-primary  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Lieux</h4>
+                <button type="button" class="close" (click)="SessionFormationModal.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="padding: 52px">
+                <form class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Nom Formation :</label>
+                        <div class="col-md-8">
+                            <input disabled class="form-control" [(ngModel)]="session.formation.nom" name="nomf" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Type de formation :</label>
+                        <div class="col-md-8">
+                            <input disabled class="form-control" [(ngModel)]="session.formation.typeFormation.libelle"
+                                name="typeFormation" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Technologie :</label>
+                        <div class="col-md-8">
+                            <input disabled class="form-control" [(ngModel)]="session.formation.technologie.libelle"
+                                name="technologie" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Lieu : </label>
+                        <div class="col-md-8 ">
+                            <input disabled class="form-control" [(ngModel)]="session.formation.lieu.libelle" name="lieu" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Date Debut :</label>
+                        <div class="col-md-8 ">
+                            <input [owlDateTimeTrigger]="dateDemarrage" [owlDateTime]="dateDemarrage" class="form-control"
+                                name="dateDemarrage" [(ngModel)]="session.dateDemarrage">
+                            <owl-date-time [pickerType]="'calendar'" #dateDemarrage></owl-date-time>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Date Fin :</label>
+                        <div class="col-md-8 "> <input [owlDateTimeTrigger]="dateFin" [owlDateTime]="dateFin" class="form-control"
+                                name="dateFin" [(ngModel)]="session.dateFin">
+                            <owl-date-time [pickerType]="'calendar'" #dateFin></owl-date-time>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Nombre de place :</label>
+                        <div class="col-md-8 ">
+                            <input type="number" class="form-control" [(ngModel)]="session.nombrePlace" name="nombrePlace" />
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-3 col-form-label">Client :</label>
+                        <div class="col-md-8 ">
+                            <ng-select [compareWith]="helperService.compareFn" name="clien" [(ngModel)]="session.client"
+                                [items]="listclientSession" bindLabel="libelle">
+                            </ng-select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="SessionFormationModal.hide()">Annuler</button>
+                <button type="button" (click)="saveSessioFormation()" class="btn btn-primary">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

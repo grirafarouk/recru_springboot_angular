@@ -7,6 +7,8 @@ import java.util.List;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,6 +111,14 @@ public class SessionsFormations {
 		else
 			object.put("results", liste.subList(page, liste.size() < size + page ? liste.size() : page + size));
 		return object;
+	}
+
+	@GetMapping("/nbreparticipants/{id}")
+	public int nbreparticipants(@PathVariable Long id) {
+		SessionFormationDto s = new SessionFormationDto();
+		s.setId(id);
+		List<Candidat> liste = new ArrayList<>(candidatService.rechercherCandidatAvecSessionFormation(s));
+		return liste.size();
 	}
 
 }

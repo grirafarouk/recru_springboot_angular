@@ -20,10 +20,40 @@ export class regionComponent implements OnInit {
   Listregion=[];
   region:Region
 
+  
+  
+  columns = [
+    {
+      data: 'code',
+      title: 'Libellés'
+    },
+    {
+      data: 'actif',
+      title: 'Actif',
+      boolean: true,
+      align: 'center',
+      width: '10%'
+    },
+    {
+      data: 'reporting',
+      title: 'Reporting',
+      boolean: true,
+      align: 'center',
+      width: '10%'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    }
+  ]
 
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
    private regionService: RegionService,
    private notifierService: NotifierService
     ){}
@@ -39,10 +69,7 @@ export class regionComponent implements OnInit {
     this.regionAddModal.show();
   }
   showEditModal(region: any){
-    this.region.id = region.id;
-    this.region.code = region.code;
-    this.region.actif = region.actif;
-    this.region.reporting = region.reporting;
+    this.region =Object.assign({}, region);
     this.regionEditModal.show();
   }
  

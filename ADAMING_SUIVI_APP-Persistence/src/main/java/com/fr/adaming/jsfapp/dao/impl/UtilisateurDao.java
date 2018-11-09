@@ -446,7 +446,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "SUM(case when (t.libelle = 'NTIC') then 1 else 0 end ) as NTIC,"
 				+ "SUM(case when (t.libelle <> 'NTIC' and t.libelle <> 'MAINFRAME ++' and t.libelle <> 'MAINFRAME') then 1 else 0 end) as AUTRE_TECHNO,"
 				+ "count(*) as TOTAL " + "FROM candidat c " + "JOIN utilisateur u on u.ID = c.CREE_PAR "
-				+ "JOIN technologie t on t.ID = c.TECHNOLOGIE WHERE c.DATE_INSCRIPTION < CURRENT_DATE AND c.DATE_INSCRIPTION >= (CURRENT_DATE + INTERVAL -1 DAY)) ";
+				+ "JOIN technologie t on t.ID = c.TECHNOLOGIE WHERE c.DATE_INSCRIPTION < CURRENT_DATE AND c.DATE_INSCRIPTION >= (CURRENT_DATE + INTERVAL -1 DAY) group by u.ID) ";
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		List<ReportingSourceurTechnologieDto> data = new ArrayList<>();
@@ -510,16 +510,14 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "(IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8) ),0)/SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_hors "
 				+ "FROM candidat c " + "LEFT JOIN entretien e on e.ID=c.ENTRETIEN "
 				+ "JOIN utilisateur u on u.ID = c.CREE_PAR ";
-//							if (dateDebut != null && dateFin != null && utilisateur!=null) {
-//								query +="WHERE  c.DATE_INSCRIPTION BETWEEN '"+
-//								df.format(dateDebut) + " 00:00:00' AND '"+
-//								df.format(dateFin) + " 23:59:59' "+
-//								" AND c.CREE_PAR = "+ utilisateur.getIdUser();
-//							}
-//							else 
 		if (utilisateur != null) {
 			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
 		}
+		if (dateDebut != null && dateFin != null && utilisateur != null) {
+			query += " AND  c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
+					+ df.format(dateFin) + " 23:59:59' ";
+		}
+
 		query += " group by u.ID) " + "as tmp group by ID )";
 
 		SQLQuery st = getSession().createSQLQuery(query);
@@ -634,16 +632,14 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		String query = "select "
 				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre "
 				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE ";
-//						if (dateDebut != null && dateFin != null && utilisateur!=null) {
-//							query +="WHERE  c.DATE_INSCRIPTION BETWEEN '"+
-//							df.format(dateDebut) + " 00:00:00' AND '"+
-//							df.format(dateFin) + " 23:59:59' "+
-//							" AND c.CREE_PAR = "+ utilisateur.getIdUser();
-//						}
-//						else 
 		if (utilisateur != null) {
-			query += " AND c.CREE_PAR = " + utilisateur.getIdUser();
+			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
 		}
+		if (dateDebut != null && dateFin != null && utilisateur != null) {
+			query += " AND  c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
+					+ df.format(dateFin) + " 23:59:59' ";
+		}
+
 		query += " GROUP BY t.ID ";
 		query += "ORDER BY t.ID";
 

@@ -33,7 +33,7 @@
                   <td>{{charge.nomCharge}}</td>
                   <td>{{charge.nombreCvRelance}}</td>
                   <td style="width: 10%">     
-                    <a class="btn btn-default" [routerLink]="['/ficheCVRelance', charge.idUser]">
+                    <a class="btn btn-default" (click)="openDetailsCVRelance(charge)" >
                           <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
                         </a>         
                   </td>
@@ -81,7 +81,7 @@
                   <td>{{session.taux_acceptation}}</td>
                   <td>{{session.taux_remplissage}}</td>
                   <td style="width: 10%">     
-                    <a class="btn btn-default" [routerLink]="['/ficheCandidatSession', session.idSession]">
+                    <a class="btn btn-default" (click)="openDetailsSession(session)">
                           <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
                         </a>         
                   </td>

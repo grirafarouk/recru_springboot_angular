@@ -14,6 +14,9 @@ import { SourceurReporting } from "../../../models/SourceurReporting";
 })
 export class ReportingSourceurComponent implements OnInit {
   
+  dateFin
+  dateDebut
+  currentDate = new Date();
   ListReporting=[]
   ListSourceur=[]
   pieChartData: number[] = [];
@@ -63,7 +66,7 @@ export class ReportingSourceurComponent implements OnInit {
     this.autresCv = 0;
     this.totalCVDisponible = 0;
     this.totalCVhorsCible = 0;
-    this.reportingSourceur.rechercheReportingSourceur(this.sourceur).subscribe(data =>{
+    this.reportingSourceur.rechercheReportingSourceur(this.sourceur,this.dateDebut,this.dateFin).subscribe(data =>{
       this.ListReporting = data;
       for( let i=0; i<this.ListReporting.length; i++)
       {      
@@ -74,13 +77,13 @@ export class ReportingSourceurComponent implements OnInit {
       this.pieChart2Data=[this.autresCv, this.totalCVDisponible, this.totalCVhorsCible]
     })
 
-    this.reportingSourceur.recherchemapTechnologieParSourceur(this.sourceur).subscribe(result =>{
+    this.reportingSourceur.recherchemapTechnologieParSourceur(this.sourceur,this.dateDebut,this.dateFin).subscribe(result =>{
       this.pieChartData = Object.values(result);
       for(var i=0;i<Object.keys(result).length;i++){
         this.pieChartLabels[i]=Object.keys(result)[i];
       }
     })
-
+    this.getChart();
   }
 
   private getChart(){

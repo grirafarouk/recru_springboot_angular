@@ -6,27 +6,7 @@
                         <label style="font-weight:bold;color:#546E7A;">Motif Hors Cible</label>
                 </div>
     <div class="card-body">
-        <table class="table table-bordered table-striped" >
-          <thead>
-            <tr>
-              <th>Libellés</th>
-              <th>Ation</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let motifHorsCible of ListmotifHorsCible| paginate: { itemsPerPage:10, currentPage: p }">
-              <td>{{motifHorsCible.libelle}}</td>
-              <td style="width: 120px">
-                <button type="button" (click)="showEditModal(motifHorsCible)" class="btn btn-outline-primary btn-sm">
-                <i class="fa fa-edit"></i>
-            </button>       
-            </tr>
-          </tbody>
-        </table>
-        <div class="panel-footer panel-default pager">
-          <pagination-controls (pageChange)="p =$event"></pagination-controls>
-        </div>
+      <custom-local-table [actions]="actions" [columns]="columns" [items]="ListmotifHorsCible"></custom-local-table>
       </div>
       <div class="card-footer">
           <div class="col-2">
@@ -37,13 +17,13 @@
 
 </div>
 
-<div bsModal #motifHorsCibleAddModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div bsModal #motifHorsCibleModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 aria-hidden="true">
 <div class="modal-dialog modal-primary  modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Motif HorsCible</h4>
-      <button type="button" class="close" (click)="motifHorsCibleAddModal.hide()" aria-label="Close">
+      <button type="button" class="close" (click)="motifHorsCibleModal.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -60,7 +40,7 @@ aria-hidden="true">
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="motifHorsCibleAddModal.hide()">Annuler</button>
+      <button type="button" class="btn btn-secondary" (click)="motifHorsCibleModal.hide()">Annuler</button>
       <button type="button" (click)="saveMotifHorsCible()"  class="btn btn-primary">Valider</button>
     </div>
   </div>
@@ -68,36 +48,29 @@ aria-hidden="true">
 </div>
 
 
-<div bsModal #motifHorsCibleEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-primary  modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title">Motif HorsCible</h4>
-      <button type="button" class="close" (click)="motifHorsCibleEditModal.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" style="padding: 52px">
-      <form class="form-horizontal">
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
-          <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="motifHorsCible.libelle" name="libelle" id="libelle"  />
 
-          </div>
-        </div>
-        
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="motifHorsCibleEditModal.hide()">Annuler</button>
-      <button type="button" (click)="updateMotifHorsCible(motifHorsCible)"  class="btn btn-primary">Valider</button>
+</div>
+</div>
+
+
+<div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger  modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Suppression</h4>
+        <button type="button" class="close" (click)="deleteModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 52px">
+       Êtes-vous sûr de vouloir supprimer ?
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteModal.hide()">Annuler</button>
+        <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+      </div>
     </div>
   </div>
-</div>
-</div>
-
-
-</div>
 </div>

@@ -20,23 +20,23 @@ export class ReportingSourceurService {
   getChartTechnologies(): Observable<any>  {
     return this.httpClient.get(BACK_END_URL+"/ReportingSourceur/mapTechnologieParSourceur");
   }
-  rechercheReportingSourceur(sourceur): Observable<any> {
+  rechercheReportingSourceur(sourceur,dateDebut,datFin): Observable<any> {
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/ReportingSourceur/RechercheReportingSourceur" ,sourceur, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/ReportingSourceur/RechercheReportingSourceur?dateDebut="+dateDebut.getTime()+"&dateFin="+datFin.getTime() ,sourceur, httpOptions);
   }
 
-  recherchemapTechnologieParSourceur (sourceur) {
+  recherchemapTechnologieParSourceur (sourceur,dateDebut,datFin) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/ReportingSourceur/RecherchemapTechnologieParSourceur", sourceur, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/ReportingSourceur/RecherchemapTechnologieParSourceur?dateDebut="+dateDebut.getTime()+"&dateFin="+datFin.getTime() , sourceur, httpOptions);
   }
   
 }

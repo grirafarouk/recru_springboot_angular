@@ -6,46 +6,29 @@
                         <label style="font-weight:bold;color:#546E7A;">Technologies</label>
                 </div>
     <div class="card-body">
-        <table class="table table-bordered table-striped" >
-          <thead>
-            <tr>
-              <th>Libellés</th>
-              <th>Reporting</th>
-              <th>Ation</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let technologie of ListTechnologies| paginate: { itemsPerPage:10, currentPage: p }">
-              <td>{{technologie.libelle}}</td>
-              <td>{{technologie.reporting| boolean}}</td>
-              <td style="width: 120px">
-                <button type="button" (click)="showEditModal(technologie)" class="btn btn-outline-primary btn-sm">
-                <i class="fa fa-edit"></i>
-            </button>       
-            </tr>
-          </tbody>
-        </table>
-        <div class="panel-footer panel-default pager">
-          <pagination-controls (pageChange)="p =$event"></pagination-controls>
-        </div>
-      </div>
+      <custom-local-table [actions]="actions" [columns]="columns" [items]="ListTechnologies"></custom-local-table>     
       <div class="card-footer">
           <div class="col-2">
               <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
             </div>
-          
         </div>
 
 </div>
 
-<div bsModal #technologieAddModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+
+
+
+</div>
+</div>
+
+
+<div bsModal #technologieModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
 aria-hidden="true">
 <div class="modal-dialog modal-primary  modal-lg" role="document">
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Technologies</h4>
-      <button type="button" class="close" (click)="technologieAddModal.hide()" aria-label="Close">
+      <button type="button" class="close" (click)="technologieModal.hide()" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -60,58 +43,41 @@ aria-hidden="true">
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Reporting :</label>
           <div class="col-md-8">
-              <input class="form-control" type="checkbox" [(ngModel)]="technologie.reporting" name="reporting" id="reporting"  />
-          </div>
+            <label class="label--checkbox">
+                <input   class="checkbox" type="checkbox" name="reporting" [(ngModel)]="technologie.reporting"
+                    [value]="technologie.reporting">
+            </label>
+        </div>
         </div>
       
       </form>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="technologieAddModal.hide()">Annuler</button>
+      <button type="button" class="btn btn-secondary" (click)="technologieModal.hide()">Annuler</button>
       <button type="button" (click)="saveTechnologie()"  class="btn btn-primary">Valider</button>
     </div>
   </div>
 </div>
 </div>
 
-
-<div bsModal #technologieEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-primary  modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title">Technologies</h4>
-      <button type="button" class="close" (click)="technologieEditModal.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" style="padding: 52px">
-      <form class="form-horizontal">
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
-          <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="technologie.libelle" name="libelle" id="libelle"  />
-
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="text-input">Reporting :</label>
-          <div class="col-md-8">
-              <input class="form-control" type="checkbox" [(ngModel)]="technologie.reporting" name="reporting" id="reporting"  />
-          </div>
-        </div>
-        
-        
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="technologieEditModal.hide()">Annuler</button>
-      <button type="button" (click)="updateTechnologie(technologie)"  class="btn btn-primary">Valider</button>
+<div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger  modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Suppression</h4>
+        <button type="button" class="close" (click)="deleteModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 52px">
+       Êtes-vous sûr de vouloir supprimer ?
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteModal.hide()">Annuler</button>
+        <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+      </div>
     </div>
   </div>
-</div>
-</div>
-
-
-</div>
 </div>

@@ -56,7 +56,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   logout() {
-    this.authenticationService.logout()
-    this.router.navigate([NAVIGATION_RULES.login.url])
+
+    this.router.navigate(["/"+NAVIGATION_RULES.login.url])
   }
 }

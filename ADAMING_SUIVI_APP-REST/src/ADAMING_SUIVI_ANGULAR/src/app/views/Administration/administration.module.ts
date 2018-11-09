@@ -25,6 +25,8 @@ import { regionComponent } from './Region/region.component';
 import { BooleanPipe } from '../pipe/boolean.pipe';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FiliereComponent } from './Filiere/filiere.component';
+import { CommonCustomModule } from '../../common/common.module';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 
 
@@ -45,10 +47,12 @@ import { FiliereComponent } from './Filiere/filiere.component';
     NgSelectModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,
-    CollapseModule.forRoot()
+    CollapseModule.forRoot(),
+    CommonCustomModule,
+    TooltipModule.forRoot()
   ],
   declarations: [  competenceComponent,utilisateursComponent,lieuxComponent,
     origineCVComponent,technologiesComponent,typeFormationComponent,FiliereComponent,clientSessionComponent,
-  motifHorsCibleComponent,regionComponent,BooleanPipe]
+  motifHorsCibleComponent,regionComponent]
 })
 export class administrationModule { }

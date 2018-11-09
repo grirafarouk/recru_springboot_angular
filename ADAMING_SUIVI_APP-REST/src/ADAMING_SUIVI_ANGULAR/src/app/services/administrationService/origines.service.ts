@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BACK_END_URL } from '../../helper/application.constant';
 
 @Injectable({
@@ -28,6 +28,11 @@ export class OriginesService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/origine/update" , origine, httpOptions);
-}
+    return this.httpClient.post(BACK_END_URL + "/origine/update", origine, httpOptions);
+  }
+
+  delete(origine): Observable<any> {
+
+    return this.httpClient.delete(BACK_END_URL + "/origine/"+origine.id );
+  }
 }

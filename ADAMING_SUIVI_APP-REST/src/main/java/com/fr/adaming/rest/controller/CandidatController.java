@@ -56,6 +56,7 @@ import com.fr.adaming.jsfapp.services.IUtilisateurService;
 import com.fr.adaming.jsfapp.services.IV_ListeCandidatsService;
 import com.fr.adaming.jsfapp.services.IV_ReportingCandidatService;
 import com.fr.adaming.jsfapp.services.impl.AlfrescoOpenCmis;
+import com.fr.adaming.jsfapp.utils.Utilitaire;
 import com.fr.adaming.util.ConvocationMail;
 import com.fr.adaming.util.EntretienMail;
 import com.fr.adaming.util.JavaMailApi;
@@ -323,6 +324,19 @@ public class CandidatController {
 	public Candidat updateCandidat(@RequestBody Candidat entity) {
 		Candidat candidat = candidatService.createOrUpdate(entity);
 		return candidat;
+	}
+
+	@GetMapping("destroyTempoFolder/{loginUser}")
+	public void destroyTempoFolder(@PathVariable String loginUser) {
+		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
+				+ File.separator + loginUser;
+		Path path = Paths.get(realPath);
+		if (path != null)
+			Utilitaire.deleteDir(path.toFile());
+		if (Paths.get(File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting")
+				.toFile().list().length == 0) {
+			Utilitaire.deleteDir(new File(File.separator + "opt"));
+		}
 	}
 
 	@RequestMapping(value = "convertWordToPdf", method = RequestMethod.POST)

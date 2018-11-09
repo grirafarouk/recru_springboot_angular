@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.ReportingListSourceurDto;
@@ -40,10 +41,10 @@ public class ReportingSourceur {
 
 	@RequestMapping(value = "/RechercheReportingSourceur", method = RequestMethod.POST)
 	public List<ReportingSourceurParDispoDto> RechercheReportingSourceur(
-			@RequestBody ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin) {
-
-		List<ReportingSourceurParDispoDto> listeReportingSourceur = new ArrayList<>(
-				utilisateurService.rechercherReportingSourceurParDispo(utilisateur, dateDebut, dateFin));
+			@RequestBody ReportingListSourceurDto utilisateur, @RequestParam Long dateDebut,
+			@RequestParam Long dateFin) {
+		List<ReportingSourceurParDispoDto> listeReportingSourceur = new ArrayList<>(utilisateurService
+				.rechercherReportingSourceurParDispo(utilisateur, new Date(dateDebut), new Date(dateFin)));
 		return listeReportingSourceur;
 	}
 
@@ -56,9 +57,10 @@ public class ReportingSourceur {
 
 	@RequestMapping(value = "/RecherchemapTechnologieParSourceur", method = RequestMethod.POST)
 	public HashMap<String, Integer> RechercheReportingCVParTechnologieParSourceur(
-			@RequestBody ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin) {
+			@RequestBody ReportingListSourceurDto utilisateur,  @RequestParam Long dateDebut,
+			@RequestParam Long dateFin) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map = utilisateurService.rechercherReportingCVParTechnologieParSourceur(utilisateur, dateDebut, dateFin);
+		map = utilisateurService.rechercherReportingCVParTechnologieParSourceur(utilisateur,new Date(dateDebut), new Date(dateFin));
 		return map;
 	}
 

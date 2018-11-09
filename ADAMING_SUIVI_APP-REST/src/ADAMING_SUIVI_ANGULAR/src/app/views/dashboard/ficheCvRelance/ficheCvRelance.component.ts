@@ -20,7 +20,7 @@ export class ficheCvRelanceComponent implements OnInit {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.id = +params['idUser']; 
+      this.id = +params['id']; 
     });
       this.accueilService.getCVRelanceByCharge(this.id).subscribe(data => {
       this.CVRelance = data;

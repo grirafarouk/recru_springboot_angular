@@ -30,13 +30,8 @@ export class SessionsFormationsService {
     return this.http.post<any>(BACK_END_URL+'/sessionsformations/sessionFormationEnCours',sessionFormation);
   }
 
-  NombreParticipants(session): Observable<any>{
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.http.post(BACK_END_URL+'/sessionsformations/nbreparticipants', session , httpOptions);
+  nombreParticipants(session): Observable<any>{
+    return this.http.get(BACK_END_URL+'/sessionsformations/nbreparticipants/'+ session.id);
   }
 
   getListCandidats(session,page,size): Observable<any>{

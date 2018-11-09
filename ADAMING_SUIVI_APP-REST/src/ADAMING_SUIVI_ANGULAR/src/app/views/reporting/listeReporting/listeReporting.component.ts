@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidatsService } from "../../../services/candidats.service";
 import { NotifierService } from "angular-notifier";
@@ -22,11 +22,41 @@ import { NAVIGATION_RULES, PHONE_MASK, PHONE_MASK_LABEL, DATE_FORMAT } from "../
 })
 export class ListeReportingComponent implements OnInit {
 
+  titleTable="List Reporting"
+
+  @ViewChild("table")
+  table;
+
+  actions = {
+    visible:true,
+    title:'Actions',
+    items:[
+    {
+      icon: 'fa fa-edit',
+      class: 'btn-outline-success btn btn-sm',
+      tooltip:'Détails',
+      action: (e) => {
+        this.openDetails(e);    
+      }
+    },
+    {
+      icon: 'fa fa-download',
+      class: 'btn-outline-warning btn btn-sm',
+      tooltip:'Telecharger CV',
+      action:
+        (e) => {
+          this.downloadCV(e);
+        }
+    }
+  ]
+  }
+
+
+  region: Array<Region> = [];
+  lieux = []
   mask: any[] = PHONE_MASK;
   technologies = []
   origines = []
-  competences = []
-  candidats: any[];
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
     { value: '1', text: 'Moins 1 mois' },
@@ -158,14 +188,7 @@ export class ListeReportingComponent implements OnInit {
       visible: false
     }
   ];
-  public loading = false;
-  pages = [];
-  size = 10;
-  currentPage = 1;
-  maxlenght = 0;
-  lastPage = 1;
-  region: Array<Region> = [];
-  lieux = []
+
 
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
@@ -174,7 +197,6 @@ export class ListeReportingComponent implements OnInit {
     private lieuxService: LieuxService, private router: Router) { }
 
   ngOnInit(): void {
-    this.rechercheCandidat();
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
@@ -186,49 +208,25 @@ export class ListeReportingComponent implements OnInit {
     })
   }
 
+
+  initTableFunction(){
+    this.rechercheCandidat()
+  }
   rechercheCandidat() {
-    this.loading = true;
-    this.currentPage = 1;
     let callBack = (e) => {
-      this.notifierService.notify("info", "Nombre Candidat : " + this.maxlenght)
+      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
     }
-    this.doRechercheCandidat(callBack);
+    this.table.setPage(1, callBack);
   }
 
-  doRechercheCandidat(callBack?) {
-    let page = (this.currentPage - 1) * this.size;
-    this.candidatsService.RechercheReporting(this.condidat, page, this.size).subscribe(data => {
-      this.maxlenght = data.total;
-      this.candidats = data.results;
-      this.lastPage = Math.ceil(this.maxlenght / this.size)
-      this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
-      this.loading = false;
-      if (callBack) callBack();
-    }, error => {
-      this.loading = false
-    })
+
+  recherche(item, page, size) {
+    return this.candidatsService.RechercheReporting(item, page, size)
   }
 
   reset() {
-    this.condidat.nom = null;
-    this.condidat.prenom = null;
-    this.condidat.numeroTel = null;
-    this.condidat.email = null;
-    this.condidat.dateInscription = null;
-    this.condidat.technologie = null;
-    this.condidat.nomSourceur = null;
-    this.condidat.prenomSourceur = null;
-    this.condidat.region = null;
-    this.condidat.dateInscription = null;
-    this.condidat.critereRecheche = null;
+    this.condidat = new CandidateDto()
     this.rechercheCandidat();
-  }
-
-  setPage(p) {
-    this.loading = true;
-    this.currentPage = p;
-    this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
-    this.doRechercheCandidat();
   }
 
   downloadCV(candidat) {

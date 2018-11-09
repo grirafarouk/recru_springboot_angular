@@ -13,63 +13,109 @@ import { TechnologieService } from "../../../services/administrationService/Tech
   styleUrls: ["technologies.component.css"]
 })
 export class technologiesComponent implements OnInit {
-  @ViewChild("technologieAddModal")
-  public technlogieAddModal;
-  @ViewChild("technologieEditModal")
-  public technlogieEditModal;
-  ListTechnologies=[];
-  technologie:Technologie
+  @ViewChild("deleteModal")
+  public deleteModal;
 
+  @ViewChild("technologieModal")
+  public technologieModal;
+
+
+  ListTechnologies = [];
+  technologie: Technologie
+
+  columns = [
+    {
+      data: 'libelle',
+      title: 'Libellés'
+    },
+    {
+      data: 'reporting',
+      title: 'Reporting',
+      boolean: true
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    },
+    {
+      icon: 'fa fa-trash',
+      class: 'btn btn-outline-danger btn-sm',
+      tooltip: 'Delete',
+      action: (e) => {
+        this.showDeleteModal(e);
+      }
+    }]
 
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
-   private technologieService: TechnologieService,
-   private notifierService: NotifierService
-    ){}
+    private technologieService: TechnologieService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
-    this.technologie= new Technologie();
+    this.technologie = new Technologie();
 
-    this.technologieService.findAllTechnologies().subscribe(data=>{
+    this.technologieService.findAllTechnologies().subscribe(data => {
       this.ListTechnologies = data;
     })
   }
-  showAddModal(){
+
+  showAddModal() {
     this.reset();
-    this.technlogieAddModal.show();
+    this.technologieModal.show();
 
   }
-  showEditModal(technologie: any){
-    this.technologie.id = technologie.id;
-    this.technologie.libelle = technologie.libelle;
-    this.technologie.reporting=technologie.reporting;
-   
-    this.technlogieEditModal.show();
+  showEditModal(technologie: any) {
+    this.technologie = Object.assign({}, technologie);
+    this.technologieModal.show();
 
   }
-  saveTechnologie(){
+
+  showDeleteModal(technologie: any): any {
+    this.technologie = Object.assign({}, technologie);
+    this.deleteModal.show();
+  }
+  saveTechnologie() {
+    if (this.technologie.id > 0)
+      this.updateTechnologie();
+    else this.createTechnologie();
+  }
+
+  createTechnologie() {
     this.technologieService.save(this.technologie).toPromise().then((data: Technologie) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Technologie ajouté avec succés !")
       }
     })
-    this.technlogieAddModal.hide();
+    this.technologieModal.hide();
   }
 
-  updateTechnologie(technologie){
+  updateTechnologie() {
     this.technologieService.update(this.technologie).toPromise().then((data: Technologie) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Technologie modifié avec succés !")
       }
     })
-    this.technlogieEditModal.hide();
+    this.technologieModal.hide();
   }
-  
-  reset(){
+
+  delete() {
+    this.technologieService.delete(this.technologie).toPromise().then((data) => {
+      this.ngOnInit();
+      this.notifierService.notify("success", "Technologie Supprimer avec succés !")
+
+    })
+    this.deleteModal.hide();
+  }
+  reset() {
     this.technologie.libelle = null;
-    this.technologie.reporting=null;
+    this.technologie.reporting = null;
   }
 }

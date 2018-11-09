@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
 import { HelperService } from "../../../helper/helper.service";
-import { ClienSession } from "../../../models/ClientSession";
+import { ClientSession } from "../../../models/ClientSession";
 import { ClientSessionService } from "../../../services/administrationService/clientSessionService";
 
 
@@ -13,58 +13,98 @@ import { ClientSessionService } from "../../../services/administrationService/cl
   styleUrls: ["clientSession.component.css"]
 })
 export class clientSessionComponent implements OnInit {
-  @ViewChild("clientSessionAddModal")
-  public clientSessionAddModal;
-  @ViewChild("clientSessionEditModal")
-  public clientSessionEditModal;
+  @ViewChild("deleteModal")
+  public deleteModal;
+  @ViewChild("clientSessionModal")
+  public clientSessionModal;
   ListclientSession=[];
-  clientSession:ClienSession
 
+  clientSession:ClientSession
+  columns = [
+    {
+      data: 'libelle',
+      title: 'Libellés'
+    },
+    {
+      data: 'adresseAdaming',
+      title: 'Adresses'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    },
+    {
+      icon: 'fa fa-trash',
+      class: 'btn btn-outline-danger btn-sm',
+      tooltip: 'Delete',
+      action: (e) => {
+        this.showDeleteModal(e);
+      }
+    }]
 
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
    private clientSessionService: ClientSessionService,
    private notifierService: NotifierService
     ){}
 
   ngOnInit(): void {
-    this.clientSession= new ClienSession();
+    this.clientSession= new ClientSession();
     this.clientSessionService.findAllClientSession().subscribe(data=>{
       this.ListclientSession = data;
     })
   }
+
+  showDeleteModal(clientSession: any): any {
+    this.clientSession = Object.assign({}, clientSession);
+    this.deleteModal.show();
+  }
+  saveClientSession() {
+    if (this.clientSession.id > 0)
+      this.updateClientSession();
+    else this.createClientSession();
+  }
+
   showAddModal(){
     this.reset();
-    this.clientSessionAddModal.show();
+    this.clientSessionModal.show();
   }
-  showEditModal(clientSession: any){
-    this.clientSession.id = clientSession.id;
-    this.clientSession.libelle = clientSession.libelle;
-   
-    this.clientSessionEditModal.show();
+  showEditModal(clientSession){
+    this.clientSession = Object.assign({}, clientSession);
+    this.clientSessionModal.show();
   }
-  saveClientSession(){
-    this.clientSessionService.save(this.clientSession).toPromise().then((data: ClienSession) => {
+  createClientSession(){
+    this.clientSessionService.save(this.clientSession).toPromise().then((data: ClientSession) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Client Session ajouté avec succés !")
       }
     })
-    this.clientSessionAddModal.hide();
+    this.clientSessionModal.hide();
   }
 
-  updateClientSession(clientSession){
-    this.clientSessionService.update(this.clientSession).toPromise().then((data: ClienSession) => {
+  updateClientSession(){
+    this.clientSessionService.update(this.clientSession).toPromise().then((data: ClientSession) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Client Session  modifié avec succés !")
       }
     })
-    this.clientSessionEditModal.hide();
+    this.clientSessionModal.hide();
   }
-  
+    delete() {
+    this.clientSessionService.delete(this.clientSession).toPromise().then((data) => {
+      this.ngOnInit();
+      this.notifierService.notify("success", "Client Session Supprimer avec succés !")
+    })
+    this.deleteModal.hide();
+  }
   reset(){
-    this.clientSession.libelle = null;
+    this.clientSession= new ClientSession();
   }
 }

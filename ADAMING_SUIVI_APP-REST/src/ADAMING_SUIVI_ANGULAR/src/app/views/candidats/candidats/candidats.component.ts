@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Candidate } from "../../../models/Candidate";
 import { CandidatsService } from "../../../services/candidats.service";
@@ -16,15 +16,22 @@ import { Router } from "@angular/router";
 import { Status } from "../../../models/enum/Status";
 import { HelperService } from "../../../helper/helper.service";
 import { NAVIGATION_RULES, PHONE_MASK } from "../../../helper/application.constant";
+import { TablesComponent } from "../../base/tables.component";
 
 @Component({
   templateUrl: 'candidats.component.html',
   styleUrls: ["candidats.component.css"]
 })
 export class CandidatsComponent implements OnInit, OnDestroy {
+
+
   ngOnDestroy(): void {
+
     this.candidatsService.folders = this.folders;
+    this.candidatsService.destroyTempoFolder(this.utilisateurService.getConnetedUserInfo().login).subscribe();
   }
+
+
   loading=false;
   civilites= ["M","Mme"];
   candidate: Candidate;
@@ -214,6 +221,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
   await this.saveCandidat(fn)
   }
+
   annuler(){
     this.router.navigateByUrl(NAVIGATION_RULES.dashboard.url, {skipLocationChange: true}).then(()=>
     this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]));

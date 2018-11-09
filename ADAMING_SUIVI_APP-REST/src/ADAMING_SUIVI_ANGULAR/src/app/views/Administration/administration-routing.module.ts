@@ -12,11 +12,12 @@ import { motifHorsCibleComponent } from './MotifHorsCible/motifHorsCible.compone
 import { regionComponent } from './Region/region.component';
 import { FiliereComponent } from './Filiere/filiere.component';
 import { CanActivateService } from '../../helper/can-activate.service';
+import { NAVIGATION_RULES } from '../../helper/application.constant';
 
 
 const routes: Routes = [
   {
-    path: '',
+    path: NAVIGATION_RULES.administration.competences,
     component: competenceComponent,
     canActivate:[CanActivateService],
     data: {
@@ -24,7 +25,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'utilisateurs',
+    path: NAVIGATION_RULES.administration.utilisateurs,
     component: utilisateursComponent,
     canActivate:[CanActivateService],
     data: {
@@ -32,7 +33,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'lieux',
+    path: NAVIGATION_RULES.administration.lieux,
     component: lieuxComponent,
     canActivate:[CanActivateService],
     data: {
@@ -40,7 +41,7 @@ const routes: Routes = [
     }
   },
   {
-    path: 'origineCV',
+    path:NAVIGATION_RULES.administration.origineCV,
     component: origineCVComponent,
     canActivate:[CanActivateService],
     data: {
@@ -48,7 +49,7 @@ const routes: Routes = [
   }
 },
 {
-  path: 'technologies',
+  path: NAVIGATION_RULES.administration.technologies,
   canActivate:[CanActivateService],
   component: technologiesComponent,
   data: {
@@ -56,7 +57,7 @@ const routes: Routes = [
 }
 },
 {
-  path: 'typeFormation',
+  path: NAVIGATION_RULES.administration.typeFormation,
   canActivate:[CanActivateService],
   component: typeFormationComponent,
   data: {
@@ -64,7 +65,7 @@ const routes: Routes = [
 }
 },
 {
-  path: 'filiere',
+  path: NAVIGATION_RULES.administration.filiere,
   canActivate:[CanActivateService],
   component: FiliereComponent,
   data: {
@@ -72,7 +73,7 @@ const routes: Routes = [
 }
 },
 {
-  path: 'clientSession',
+  path: NAVIGATION_RULES.administration.clientSession,
   canActivate:[CanActivateService],
   component: clientSessionComponent,
   data: {
@@ -81,7 +82,7 @@ const routes: Routes = [
 
 },
 {
-  path: 'motifHorsCible',
+  path: NAVIGATION_RULES.administration.motifHorsCible,
   component: motifHorsCibleComponent,
   canActivate:[CanActivateService],
   data: {
@@ -90,7 +91,7 @@ const routes: Routes = [
 
 },
 {
-  path: 'region',
+  path: NAVIGATION_RULES.administration.region,
   canActivate:[CanActivateService],
   component: regionComponent,
   data: {

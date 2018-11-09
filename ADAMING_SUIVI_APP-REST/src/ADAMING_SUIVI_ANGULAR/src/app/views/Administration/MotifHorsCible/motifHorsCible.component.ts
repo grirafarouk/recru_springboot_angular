@@ -13,17 +13,41 @@ import { MotifService } from "../../../services/administrationService/motif.serv
   styleUrls: ["motifHorsCible.component.css"]
 })
 export class motifHorsCibleComponent implements OnInit {
-  @ViewChild("motifHorsCibleAddModal")
-  public motifHorsCibleAddModal;
-  @ViewChild("motifHorsCibleEditModal")
-  public motifHorsCibleEditModal;
+  @ViewChild("deleteModal")
+  public deleteModal;
+
+  @ViewChild("motifHorsCibleModal")
+  public motifHorsCibleModal;
+  
   ListmotifHorsCible=[];
   motifHorsCible:Motif
 
 
+  columns = [
+    {
+      data: 'libelle',
+      title: 'Libellés'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    },
+    {
+      icon: 'fa fa-trash',
+      class: 'btn btn-outline-danger btn-sm',
+      tooltip: 'Delete',
+      action: (e) => {
+        this.showDeleteModal(e);
+      }
+    }]
+
   constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
    private motifHorsCibleService: MotifService,
    private notifierService: NotifierService
     ){}
@@ -36,34 +60,49 @@ export class motifHorsCibleComponent implements OnInit {
   }
   showAddModal(){
     this.reset();
-    this.motifHorsCibleAddModal.show();
+    this.motifHorsCibleModal.show();
   }
   showEditModal(motifHorsCible: any){
-    this.motifHorsCible.id = motifHorsCible.id;
-    this.motifHorsCible.libelle = motifHorsCible.libelle;
-   
-    this.motifHorsCibleEditModal.show();
+    this.motifHorsCible= Object.assign({}, motifHorsCible);
+    this.motifHorsCibleModal.show();
   }
-  saveMotifHorsCible(){
+
+  showDeleteModal(motifHorsCible: any): any {
+    this.motifHorsCible = Object.assign({}, motifHorsCible);
+    this.deleteModal.show();
+  }
+  saveMotifHorsCible() {
+    if (this.motifHorsCible.id > 0)
+      this.updateMotifHorsCible();
+    else this.createMotifHorsCible();
+  }
+  createMotifHorsCible(){
     this.motifHorsCibleService.save(this.motifHorsCible).toPromise().then((data: Motif) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Motif ajouté avec succés !")
       }
     })
-    this.motifHorsCibleAddModal.hide();
+    this.motifHorsCibleModal.hide();
   }
 
-  updateMotifHorsCible(clientSession){
+  updateMotifHorsCible(){
     this.motifHorsCibleService.update(this.motifHorsCible).toPromise().then((data: Motif) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Motif  modifié avec succés !")
       }
     })
-    this.motifHorsCibleEditModal.hide();
+    this.motifHorsCibleModal.hide();
   }
-  
+
+  delete() {
+    this.motifHorsCibleService.delete(this.motifHorsCible).toPromise().then((data) => {
+      this.ngOnInit();
+      this.notifierService.notify("success", "Lieu Supprimer avec succés !")
+    })
+    this.deleteModal.hide();
+  }
   reset(){
     this.motifHorsCible.libelle = null;
   }

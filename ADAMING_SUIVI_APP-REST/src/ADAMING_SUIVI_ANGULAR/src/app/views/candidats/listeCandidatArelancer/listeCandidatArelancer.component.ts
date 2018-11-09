@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidateDto } from "../CandidateDto";
 import { CandidatsService } from "../../../services/candidats.service";
@@ -11,19 +11,45 @@ import { Router } from "@angular/router";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
 import { NAVIGATION_RULES } from "../../../helper/application.constant";
+import { RoutingState } from "../../../helper/routing-state.service";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
   templateUrl: 'listeCandidatArelancer.component.html',
   
 })
-export class listeCandidatArelancerComponent implements OnInit {
+export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
 
-  public loading = false;
+  titleTable="List Condidats A relancer "
+
+  @ViewChild("table")
+  table;
+
+  actions = {
+    visible:true,
+    title:'Actions',
+    items:[
+    {
+      icon: 'fa fa-edit',
+      class: 'btn-outline-success btn btn-sm',
+      tooltip:'Détails',
+      action: (e) => {
+        this.openDetails(e);    
+      }
+    },
+    {
+      icon: 'fa fa-download',
+      class: 'btn-outline-warning btn btn-sm',
+      tooltip:'Telecharger CV',
+      action:
+        (e) => {
+          this.downloadCV(e);
+        }
+    }
+  ]
+  }
+
   technologies=[]
-  origines=[]
-  competences=[]
-  candidats: any[];
   refDisponibilite = this.helperService.buildDisponibiliteArray();
   region: Array<Region> = [];
   columns =[
@@ -93,11 +119,7 @@ export class listeCandidatArelancerComponent implements OnInit {
       visible:true
     }
   ]
-  pages = [];
-  size = 10;
-  currentPage = 1;
-  maxlenght = 0;
-  lastPage = 1;
+
   condidat: CandidateDto = new CandidateDto();
 
   constructor(
@@ -106,63 +128,39 @@ export class listeCandidatArelancerComponent implements OnInit {
     private helperService:HelperService,
     private notifierService:NotifierService,
     private technologiesService: TechnologieService,
-    private regionService: RegionService) {}
+    private routingState: RoutingState,
+    private regionService: RegionService) {
+
+    }
 
   ngOnInit(): void {
-    this.rechercheCandidat();
+    if(this.routingState.getPreviousUrl().indexOf('details')>-1)  
+      this.condidat = this.helperService.listRelanceCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
   }
+  ngOnDestroy(): void {
+    this.helperService.listRelanceCandidatRecherche = this.condidat;
+  }
   rechercheCandidat() {
-    this.loading=true;
-    this.currentPage = 1;
-    let callBack = (e)=>{
-      this.notifierService.notify("info", "Nombre Candidat : " +  this.maxlenght)
+    let callBack = (e) => {
+      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
     }
-    this.doRechercheCandidat(callBack);
-   }
-
-   doRechercheCandidat(callBack?){
-    let page = (this.currentPage - 1) * this.size;
-    this.candidatsService.rechercheCandidatArelancer(this.condidat, page, this.size).subscribe(data => {
-      this.maxlenght = data.total;
-      this.candidats = data.results;
-      this.lastPage = Math.ceil(this.maxlenght / this.size)
-      this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
-      this.loading=false;
-      if(callBack) callBack();
-    },error=>{
-      this.loading=false
-    })
-   }
+    this.table.setPage(1, callBack);
+  }
+  initTableFunction(){
+    this.rechercheCandidat()
+  }
+  recherche(item, page, size) {
+    return this.candidatsService.rechercheCandidatArelancer(item, page, size)
+  }
 
    reset() {
-    this.condidat.nom = null;
-    this.condidat.prenom = null;
-    this.condidat.numeroTel = null;
-    this.condidat.email = null;
-    this.condidat.dateInscription = null;
-    this.condidat.technologie = null;
-    this.condidat.nomSourceur = null;
-    this.condidat.prenomSourceur = null;
-    this.condidat.nomCharge = null;
-    this.condidat.prenomCharge = null;
-    this.condidat.disponibilite = null;
-    this.condidat.region = null;
-    this.condidat.dateRelance = null;
-    this.condidat.dateDebut = null;
-    this.condidat.dateFin = null;
+    this.condidat= new CandidateDto();
     this.rechercheCandidat();
   }
 
-  
-  setPage(p) {
-    this.loading=true;
-    this.currentPage = p;
-    this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
-    this.doRechercheCandidat();
-  }
   downloadCV(candidat){
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;

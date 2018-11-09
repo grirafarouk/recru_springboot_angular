@@ -13,70 +13,106 @@ import { Utilisateur } from "../../../models/Utilisateur";
   styleUrls: ["utilisateurs.component.css"]
 })
 export class utilisateursComponent implements OnInit {
-  @ViewChild("utilisateurAddModal")
-  public utilisateurAddModal;
-  @ViewChild("utilisateurEditModal")
-  public utilisateurEditModal;
-  ListUtilistaeur=[]
-  utilisateur:Utilisateur
+
+  @ViewChild("utilisateurModal")
+  public utilisateurModal;
+  ListUtilistaeur = []
+  utilisateur: Utilisateur
   refProfil = this.helperService.buildProfilArray();
 
-  constructor(
-   private sanitizer: DomSanitizer,
-   private helperService:HelperService,
-   private utilisateurService: UtilisateurService,
-   private notifierService: NotifierService
 
-    ){}
+
+  columns = [
+    {
+      data: 'login',
+      title: 'Login'
+    },
+    {
+      data: 'profil',
+      title: 'Profil',
+    },
+    {
+      data: 'actif',
+      title: 'Actif',
+      boolean: true,
+      align: 'center',
+      width: '10%'
+    },
+    {
+      data: 'reporting',
+      title: 'Reporting',
+      boolean: true,
+      align: 'center',
+      width: '10%'
+    }
+  ]
+  actions = [
+    {
+      icon: 'fa fa-edit',
+      class: 'btn btn-outline-success btn-sm',
+      tooltip: 'Edit',
+      action: (e) => {
+        this.showEditModal(e);
+      }
+    }
+  ]
+
+
+  constructor(
+    private sanitizer: DomSanitizer,
+    private helperService: HelperService,
+    private utilisateurService: UtilisateurService,
+    private notifierService: NotifierService
+
+  ) { }
 
   ngOnInit(): void {
-    this.utilisateur=new Utilisateur();
-    this.utilisateurService.getAllUser().subscribe(data=>{
+    this.utilisateur = new Utilisateur();
+    this.utilisateurService.getAllUser().subscribe(data => {
       this.ListUtilistaeur = data;
     })
   }
 
-  showAddModal(){
+  showAddModal() {
     this.reset();
-    this.utilisateurAddModal.show();
+    this.utilisateurModal.show();
   }
 
-  saveUtilisateur(){
+  createUtilisateur() {
     this.utilisateurService.save(this.utilisateur).toPromise().then((data: Utilisateur) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Utilisateur ajouté avec succés !")
       }
     })
-    this.utilisateurAddModal.hide();
+    this.utilisateurModal.hide();
   }
 
-  showEditModal(utilisateur: any){
-    this.utilisateur = utilisateur;
-    this.utilisateurEditModal.show();
+  showEditModal(utilisateur: any) {
+    this.utilisateur =  Object.assign({}, utilisateur);
+    this.utilisateurModal.show();
 
   }
 
-  updateUtilisateur(utilisateur){
+  updateUtilisateur() {
     this.utilisateurService.update(this.utilisateur).toPromise().then((data: Utilisateur) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Utilisateur  modifié avec succés !")
       }
     })
-    this.utilisateurEditModal.hide();
+    this.utilisateurModal.hide();
   }
-  
 
-  reset(){
-    this.utilisateur.profil = null;
-    this.utilisateur.nom = null;
-    this.utilisateur.prenom = null;
-    this.utilisateur.numeroTelF = null;
-    this.utilisateur.numeroTelP = null;
-    this.utilisateur.email = null;
-    this.utilisateur.actif = null;
-    this.utilisateur.reporting = null;
+
+  saveUtilisateur() {
+    if (this.utilisateur.id > 0)
+      this.updateUtilisateur();
+    else this.createUtilisateur();
+  }
+
+  reset() {
+    this.utilisateur = new Utilisateur();
   }
 
 }

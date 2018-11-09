@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
 
@@ -11,78 +11,164 @@ import { LieuxService } from "../../../services/administrationService/Lieux.serv
 import { TypeFormationService } from "../../../services/administrationService/TypeFormationService";
 import { Formation } from "../../Sessions-Formations/formation";
 import { SessionFormation } from "../../../models/SessionFormation";
+import { SessionsFormationsService } from "../../../services/sessionService/sessions-formations.service";
+import { ClientSessionService } from "../../../services/administrationService/clientSessionService";
+import { HelperService } from "../../../helper/helper.service";
 
 
 @Component({
   templateUrl: 'filiere.component.html',
-  styleUrls:["filiere.component.css"]
+  styleUrls: ["filiere.component.css"]
 })
 export class FiliereComponent implements OnInit {
 
-  constructor(private sessionFormationService: SessionFormationEnCoursService, private formationService: FormationService,
-    private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
-  session: SessionFormation= new SessionFormation(); 
-  sessionFormations: any ;
+  constructor(private clientSessionService: ClientSessionService, private helperService: HelperService,
+    private sessionFormationService: SessionsFormationsService, private notifierService: NotifierService, private sessionFormationEnCoursService: SessionFormationEnCoursService, private formationService: FormationService,
+    private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
+
+  @ViewChild("SessionFormationModal")
+  SessionFormationModal;
+
+  @ViewChild("FormationModal")
+  FormationModal;
+
+  session: SessionFormation = new SessionFormation();
+
+  selectedFormation: Formation = new Formation();
+
+  listclientSession = [];
+
+  sessionFormations: any;
   formations: any;
   t = [];
-  isCollapsed=[];
+  isCollapsed = [];
   formation: Formation = new Formation();
   technologies = [];
-  lieux=[];
-  typeFormation=[]
-  ngOnInit() { 
-    
+  lieux = [];
+  typeFormation = []
+  ngOnInit() {
+
     this.getListe();
   }
-  rechercherSession(){
- 
-    this.sessionFormationService.rechercherSessionFormationencours(this.formation).subscribe(data => 
-      this.formations = data
-     );
-    }
+  rechercherSession() {
 
-    getListe(){
-      this.typeFormationService.findAllTypeFormation().subscribe(data =>
-        this.typeFormation=data);
-      this.technologiesService.findAllTechnologies().subscribe(data => {
-        this.technologies = data;
-      });
-      this.technologiesService.findAllTechnologies().subscribe(data => {
-        this.technologies = data;
-      });
-      this.lieuxService.findAllLieux().subscribe(data=>{
-        this.lieux = data;
-      })
-      this.formationService.getAllFormations().subscribe(data =>{
+    this.sessionFormationEnCoursService.rechercherSessionFormationencours(this.formation).subscribe(data =>
+      this.formations = data
+    );
+  }
+
+  getListe() {
+    this.clientSessionService.findAllClientSession().subscribe(data => {
+      this.listclientSession = data;
+    })
+    this.typeFormationService.findAllTypeFormation().subscribe(data =>
+      this.typeFormation = data);
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    });
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    });
+    this.lieuxService.findAllLieux().subscribe(data => {
+      this.lieux = data;
+    })
+    this.formationService.getAllFormations().subscribe(data => {
       data.forEach(element => {
         this.isCollapsed.push(true)
       });
       this.formations = data;
-      });
-      this.sessionFormationService.getAllSessions().subscribe(data => {
-        this.sessionFormations = data;
-      });
-    }
+    });
+    this.sessionFormationEnCoursService.getAllSessions().subscribe(data => {
+      this.sessionFormations = data;
+    });
+  }
 
-    reset(){
-      this.formation.code=null;
-      this.formation.nom = null;
-      this.formation.technologie.libelle = null;
-      this.formation.lieu.libelle = null;
-      this.formation.typeFormation.libelle = null;
-      this.getListe();
-    }
-    collapsed(event: any): void {
-      console.log(event);
-    }
+  reset() {
+    this.formation = new Formation();
+    this.getListe();
+  }
 
-    expanded(event: any): void {
-      console.log(event);
+  collapsed(event: any): void {
+    // console.log(event);
+  }
+
+  expanded(event: any): void {
+    // console.log(event);
+  }
+
+  activerDesactiverSession(sessionF) {
+    if (sessionF.factif != null && sessionF.factif == true) {
+      this.notifierService.notify("success", "Succès !! " + "Session Désactivée !");
+      sessionF.factif = false;
     }
-
-    activerDesactiverSession(event: any){
-      console.log(event);
-
+    else {
+      sessionF.factif = true;
+      this.notifierService.notify("success", "Succès !! " + "Session Activée !");
     }
+    this.sessionFormationService.updateSession(sessionF).subscribe(data => {
 
+    })
+  }
+
+
+
+  showFormationModal(){
+    this.selectedFormation= new Formation();
+    this.FormationModal.show();
+  }
+
+  saveFormation(){
+    this.selectedFormation.code=this.selectedFormation.typeFormation.libelle+"-"+this.selectedFormation.technologie.libelle+"-"+this.selectedFormation.lieu.libelle;  
+    this.formationService.ajoutFormation(this.selectedFormation).subscribe(data=>{
+      this.notifierService.notify("success", "Formation ajouté ajouté avec succés !")
+      this.FormationModal.hide();
+      this.ngOnInit();
+    },error =>{
+      this.notifierService.notify("error", "Error!")
+    })
+  }
+
+  showSessionFormationModal(formation) {
+    this.session = new SessionFormation();
+    this.session.formation = formation;
+    this.SessionFormationModal.show();
+  }
+
+  showEditSessionModal(sessionF){
+    this.session =Object.assign({}, sessionF);
+    this.session.dateDemarrage= new Date(this.session.dateDemarrage);
+    this.session.dateFin= new Date(this.session.dateFin);
+    this.SessionFormationModal.show();
+  }
+
+  saveSessioFormation() {
+    if (this.session.id > 0)
+      this.updateSessionFormtation();
+    else
+      this.createSessionFormtaion();
+  }
+
+  createSessionFormtaion() {
+    this.sessionFormationService.updateSession(this.session).toPromise().then((data) => {
+      this.ngOnInit();
+      if (data != null) {
+        this.notifierService.notify("success", "Session ajouté ajouté avec succés !");
+      }
+      this.SessionFormationModal.hide();
+    },(error)=>{
+      this.notifierService.notify("error", "Error")
+    })
+  }
+
+  updateSessionFormtation() {
+    this.sessionFormationService.updateSession(this.session).toPromise().then((data) => {
+      this.ngOnInit();
+      if (data != null) {
+        this.notifierService.notify("success", "Session modifié ajouté avec succés !")
+      }
+      this.SessionFormationModal.hide();
+    },(error)=>{
+      this.notifierService.notify("error", "Error")
+    })
+  }
 }

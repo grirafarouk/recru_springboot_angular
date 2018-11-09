@@ -10,7 +10,6 @@ import { LoginComponent } from './views/security/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { AuthGuard } from './services/AuthGuard.service';
 import { ficheCvRelanceComponent } from './views/dashboard/ficheCvRelance/ficheCvRelance.component';
-import { ficheCandidatSessionComponent } from './views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
 import { NAVIGATION_RULES } from './helper/application.constant';
 import { ForgetPwdComponent } from './views/security/forget-password/forget-pwd.component';
 import { RestPwdComponent } from './views/security/reset-pwd/reset-pwd.component';
@@ -20,15 +19,6 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-  
-  },
-  { 
-    path: 'ficheCVRelance/:idUser', 
-    component: ficheCvRelanceComponent 
-  },
-  {
-    path: 'ficheCandidatSession/:idSession',
-    component: ficheCandidatSessionComponent
   },
   {
     path: '404',

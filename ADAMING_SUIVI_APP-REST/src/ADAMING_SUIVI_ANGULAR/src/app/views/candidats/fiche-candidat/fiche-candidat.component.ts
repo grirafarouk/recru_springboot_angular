@@ -33,7 +33,8 @@ import { NAVIGATION_RULES } from '../../../helper/application.constant';
 
 })
 export class FicheCandidatComponent implements OnInit {
-
+  @ViewChild("detailsModal")
+  public detailsModal;
 
   @ViewChild("emailModalDispo")
   public emailModalDispo;
@@ -41,6 +42,8 @@ export class FicheCandidatComponent implements OnInit {
   @ViewChild("emailModalHorCible")
   public emailModalHorCible;
   civilites = ["M", "Mme"];
+
+  public showDetailsButton 
 
   commentaireMotif = "";
   minRelance = new Date((new Date().getMonth() + 1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear());
@@ -76,6 +79,8 @@ export class FicheCandidatComponent implements OnInit {
     private userService: UtilisateurService, private helperService: HelperService) { }
 
   ngOnInit() {
+
+    this.showDetailsButton = this.routingState.getPreviousUrl().indexOf(NAVIGATION_RULES.candidats.listeTousCandidats)>-1
     this.route.data
       .subscribe((data: { candidat: Candidate, title: string }) => {
         data.title = data.title + data.candidat.id;
@@ -292,12 +297,13 @@ export class FicheCandidatComponent implements OnInit {
     if (this.currentCandidat.motif != null && (this.currentCandidat.motif.id == 0 || this.currentCandidat.motif.id == null || this.currentCandidat.motif.id == undefined)) this.currentCandidat.motif = null
       if (this.currentCandidat.suivi != null && (this.currentCandidat.suivi.id == 0 || this.currentCandidat.suivi.id == null || this.currentCandidat.suivi.id == undefined)) this.currentCandidat.suivi = null
      
-    this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
 
     //#region get Competences
     this.helperService.generateComp(this.currentCandidat, this.competences);
     //#endregion
     if (!this.verfierDispo() && !this.verfierRelance() && !this.verfierEntrtien()) {
+      this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
+
       //#region Hors Cible 
       if (this.currentCandidat.entretien.disponible == "hors_cible" && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {
         this.emailModalHorCible.show()
@@ -479,5 +485,9 @@ export class FicheCandidatComponent implements OnInit {
 
   private dateNaissanceChangedHandler(){
     this.currentCandidat.age= this.helperService.getAge(this.currentCandidat.dateNaissance)
+  }
+
+  showDetails() {
+    this.detailsModal.show();
   }
 }

@@ -3,6 +3,7 @@ package com.fr.adaming.jsfapp.dao.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -240,7 +241,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 				String nom = (String) o[0];
 				String lieu = (String) o[1];
 				String type = (String) o[2];
-				String date = (String) o[3];
+				String date=new String((byte[])  o[3]);
 				BigDecimal  affectaion = (BigDecimal) o[4];
 				BigDecimal  acceptation = (BigDecimal) o[5];
 				Integer  nombrePlace = (Integer) o[6];

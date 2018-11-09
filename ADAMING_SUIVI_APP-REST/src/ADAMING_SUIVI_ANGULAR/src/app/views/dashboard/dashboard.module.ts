@@ -7,6 +7,8 @@ import {CommonModule} from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ficheCandidatSessionComponent } from './ficheCandidatSession/ficheCandidatSession.component';
+import { ficheCvRelanceComponent } from './ficheCvRelance/ficheCvRelance.component';
 
 @NgModule({
   imports: [
@@ -18,6 +20,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
     BsDropdownModule,
     ButtonsModule.forRoot()
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [ DashboardComponent,ficheCandidatSessionComponent ,ficheCvRelanceComponent]
 })
 export class DashboardModule { }

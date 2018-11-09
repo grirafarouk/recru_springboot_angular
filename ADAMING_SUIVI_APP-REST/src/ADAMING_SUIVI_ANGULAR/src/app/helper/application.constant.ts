@@ -18,6 +18,8 @@ export const NAVIGATION_RULES = {
         url: 'forgetpwd'
     },
     dashboard: {
+        ficheCandidatSession:'ficheCandidatSession/:id',
+        ficheCvRelance:'ficheCvRelanceComponent/:id',
         url: 'dashboard'
     },
     candidats: {
@@ -45,6 +47,19 @@ export const NAVIGATION_RULES = {
         reportingSourceur: 'reportingSourceur',
         details: 'details/:id'
     },
+    administration : {
+        url: 'administration',
+        competences:'competences',
+        utilisateurs:'utilisateurs',
+        lieux:'lieux',
+        origineCV:'origineCV',
+        technologies:'technologies',
+        typeFormation:'typeFormation',
+        filiere:'filiere',
+        clientSession:'clientSession',
+        motifHorsCible:'motifHorsCible',
+        region:'region'
+    }
 };
 export const PHONE_MASK = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 export const PHONE_MASK_LABEL = "00-00-00-00";

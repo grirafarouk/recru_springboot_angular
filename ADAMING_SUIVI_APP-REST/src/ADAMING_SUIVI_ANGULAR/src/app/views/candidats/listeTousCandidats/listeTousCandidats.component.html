@@ -37,10 +37,8 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Type de profil:</label>
-                                <select [(ngModel)]="condidat.technologie" name="profil" class="form-control input-sm">
-                                    <option [ngValue]="undefined">--Séléctionner--</option>
-                                    <option *ngFor="let tech of technologies" [value]="tech.libelle">{{ tech.libelle }}</option>
-                                </select>
+                            <ng-select bindValue="libelle"  bindLabel="libelle" [items]="technologies" [(ngModel)]="condidat.technologie" name="technologie"  >
+                                </ng-select>
 
                         </div>
                     </div>
@@ -58,32 +56,25 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label for="profil" style="font-weight:bold">Lieu entretien:</label>
-                            <select [(ngModel)]="condidat.lieuEntretien" class="form-control input-sm">
-                                <option [ngValue]="undefined">--Séléctionner--</option>
-                                <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
-                            </select>
+                            <label for="profil" style="font-weight:bold">Lieu entretien:</label> 
+                            <ng-select bindValue="libelle"  bindLabel="libelle" [items]="lieux"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.lieuEntretien" name="lieuEntretien"  >
+                                </ng-select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
-                            <select [(ngModel)]="condidat.disponibilite" name="disponibilite" class="form-control"
-                            id="disponibilite">
-                            <option [ngValue]="undefined">--Séléctionner--</option>
-                            <option *ngFor="let refDis of refDisponibilite" [value]="refDis.value">{{refDis.label}}</option>
-                          </select>
+                            <label class="form-col-form-label"  style="font-weight:bold">Disponibilité:</label>
+
+                          <ng-select bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
+                            </ng-select>
                         </div>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
-                            <ng-select aria-required=""  
-                            id="region" [items]="region" (search)="codePostaleOnSearch($event)" 
+                            <label class="form-col-form-label"  style="font-weight:bold">Region:</label>
+                            <ng-select bindValue="code"  bindLabel="code" [items]="region" (search)="codePostaleOnSearch($event)" 
                                 [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
-                               <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
-
                            </ng-select>
 
                         </div>
@@ -132,11 +123,9 @@
                             <div class="col-sm-2">
                                     <div class="form-group">
                                         <label class="form-col-form-label" for="statut" style="font-weight:bold">Statut :</label>
-                                        <select [(ngModel)]="condidat.statut" name="statut" class="form-control"
-                                        id="statut">
-                                        <option [ngValue]="undefined">--Séléctionner--</option>
-                                        <option *ngFor="let refSt of refStatut" [value]="refSt.value">{{refSt.label}}</option>
-                                      </select>
+                                      
+                                      <ng-select bindValue="value"  bindLabel="label" [items]="refStatut"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.statut" name="disponibilite"  >
+                                        </ng-select>
                                     </div>
                            </div>
                 </div>
@@ -144,101 +133,18 @@
             <div class="card-footer">
 
                 <div class="row align-items-center">
-                    <div class="col-2">
-                        <button type="button" class="btn btn-block btn-primary" (click)="rechercheCandidat()">Rechercher</button>
-                    </div>
-
-                    <div class="col-2">
-                        <button type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
-                    </div>
-                </div>
-            </div>
-        </div>
- 
-        <div class="card">
-
-            <div class="card-header">
-                <label style="font-weight:bold;color:#546E7A;">Liste des nouveaux candidats</label>
-            </div>
-
-            <div class="card-body">
-                <div class="form-group row" style="float: right">
-                    <div class="col-md-12">
-                        <div class="input-group">
-                            <div autoClose="false" class="btn-group" style="float: right;" dropdown>
-                                <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                                    Colonnes <span class="caret"></span>
-                                </button>
-                                <ul (click)="$event.stopPropagation()" class="light" *dropdownMenu class="dropdown-menu"
-                                    role="menu">
-                                    <li role="menuitem" *ngFor="let col of columns"> <a style="padding-left: 0px" class="dropdown-item">
-                                            <label class="label--checkbox">
-                                                <input class="checkbox" [(ngModel)]="col.visible" type="checkbox" />
-                                            </label>
-                                            <label>{{col.title}}</label></a>
-                                    </li>
-
-                                </ul>
-                            </div>
-
+                        <div class="col-10"></div>
+                        <div >
+                            <button type="button" class="btn btn-block btn-primary" (click)="rechercheCandidat()">Rechercher</button>
                         </div>
-                    </div>
-                </div>
-                <table class="table  table-striped">
-                    <thead>
-                        <tr>
-                            <th [hidden]="!col.visible" *ngFor="let col of columns"> {{col.title }}</th>
-                            <th style="width: 100px">ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let c of candidats| paginate: { itemsPerPage:10, currentPage: p }">
-                                <td [hidden]="!col.visible" *ngFor="let col of columns"> <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered">
-                                        <div *ngIf="col.mask==undefined; else maskDiv">
-                                            <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
-                                                    {{c[col.data] | date : col.dateFormat }} 
-                                            </div>
-                                          <ng-template #noDateDiv>  {{c[col.data] }}</ng-template>
-                                        </div>
-                                        <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
-                                    </div>
-                                    <ng-template #rendered>
-                                        <div *ngIf="col.html==true; else noHtml" [innerHTML]="col.rendered(c)"></div>
-                                        <ng-template #noHtml>
-                                            {{col.rendered(c)}}
-                                        </ng-template>
-                                    </ng-template></td>
 
-                            <td style="width: 100px"><button type="button" (click)="openDetails(c)" class="btn btn-outline-primary btn-sm">
-                                    <i class="fa fa-edit"></i>
-                                </button>
-                                <button type="button" style="margin-left: 5px" (click)="downloadCV(c)" class="btn btn-outline-info btn-sm">
-                                    <i class="fa fa-download"></i>
-                                </button></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="panel-footer panel-default pager">
-                    <ul class="pagination justify-content-center">
-                        <li [class.disabled]="1==currentPage" class="page-item">
-                            <a (click)="setPage(1)" class="page-link">«</a>
-                        </li>
-                        <li [class.disabled]="1==currentPage" class="page-item">
-                            <a (click)="setPage(currentPage-1)" class="page-link">‹</a>
-                        </li>
-                        <li [class.active]="p==currentPage" class="page-item" *ngFor=" let p of pages">
-                            <a class="page-link" (click)="setPage(p)">{{p}}</a>
-                        </li>
-                        <li [class.disabled]="currentPage==lastPage" class="page-item">
-                            <a (click)="setPage(currentPage+1)" class="page-link">›</a>
-                        </li>
-                        <li [class.disabled]="currentPage==lastPage" class="page-item">
-                            <a (click)="setPage(lastPage)" class="page-link">»</a>
-                        </li>
-                    </ul>
+                        <div style="padding-left: 5px" >
+                            <button type="button" class="btn btn-block btn-danger" (click)="reset()" style="float: right;">Réinitialiser</button>
+                        </div>
                 </div>
             </div>
-          <ngx-loading [show]="loading" [config]=""></ngx-loading>
         </div>
+ <custom-table [item]="condidat" [actions]="actions" [title]="titleTable" [parent]="this" #table [columns]="columns" ></custom-table>
+       
     </div>
 </div>
