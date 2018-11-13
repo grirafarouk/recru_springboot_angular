@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        echo "PATH = ${JAVA_HOME}"
+                        echo "PATH  = ${JAVA_HOME}"
                         echo "MAVEN_HOME = ${MAVEN_HOME}"
                     '''
                     echo sh(script: 'env|sort', returnStdout: true)
