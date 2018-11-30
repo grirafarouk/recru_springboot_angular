@@ -1,5 +1,5 @@
-export const BACK_END_URL = "http://192.168.1.205:8090/api"
-export const BACK_END_URL_SECURITY = "http://192.168.1.205:8090"
+export const BACK_END_URL = "http://localhost:9190/ADAMING_SUIVI_APP-REST/api"
+export const BACK_END_URL_SECURITY = "http://localhost:9190/ADAMING_SUIVI_APP-REST"
 export const NAVIGATION_RULES = {
     error404: {
         url: '404'
@@ -35,6 +35,11 @@ export const NAVIGATION_RULES = {
         list: 'list',
         details: 'details/:id'
     },
+    sessionsFormationsAcceuil: {
+        url: 'sessionsFormationsAcceuil',
+        listAcceuil: 'listAcceuil',
+        details: 'details/:id'
+    },
     sessionsFormations: {
         url: 'sessionsFormations',
         enCours: 'enCours',
@@ -62,7 +67,7 @@ export const NAVIGATION_RULES = {
     }
 };
 export const PHONE_MASK = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
-export const PHONE_MASK_LABEL = "00-00-00-00";
+export const PHONE_MASK_LABEL = "00-00-00-00-00";
 
 export const DATE_FORMAT = "dd/M/yyyy";
 

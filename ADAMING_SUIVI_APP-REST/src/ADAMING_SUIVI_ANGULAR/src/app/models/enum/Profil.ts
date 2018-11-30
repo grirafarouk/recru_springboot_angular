@@ -4,4 +4,5 @@ export enum Profil {
     SOURCEUR = "Sourceur",
     COMMERCIAL = "Commercial",
     DIRECTION = "Direction",
+    PROFILSPECIAL="Profil spécial",
 }

@@ -117,9 +117,15 @@ public class V_ListecandidatsDao extends ManagerDao<V_ListeCandidats, Long> impl
 			}
 
 		}
-		query = query + " ORDER BY V_ListeCandidats.DATE_INSCRIPTION DESC LIMIT " + page + "," + size;
-		System.out.println(query);
+//		query = query + " ORDER BY V_ListeCandidats.DATE_INSCRIPTION DESC " + page + "," + size;
+//		System.out.println(query);
 		SQLQuery st = getSession().createSQLQuery(query);
+		if (size >= 0) {
+			st.setMaxResults(size);
+		}
+		if (page >= 0) {
+			st.setFirstResult(page);
+		}
 		@SuppressWarnings("unchecked")
 		List<V_ListeCandidats> liste = (List<V_ListeCandidats>) st.addEntity(V_ListeCandidats.class).list();
 

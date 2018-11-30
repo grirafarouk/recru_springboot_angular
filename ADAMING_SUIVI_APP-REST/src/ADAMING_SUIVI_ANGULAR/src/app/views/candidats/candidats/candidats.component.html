@@ -172,7 +172,7 @@
                                     Rdv</button>
                             </div>
                             <div style="padding-left: 10px">
-                                <button [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-success">Enregistrer</button>
+                                <button [disabled]="pdfSrc==undefined" type="button"  (click)="onSubmit()" class="btn btn-block btn-success">Enregistrer</button>
                             </div>
                         </div>
                     </div>

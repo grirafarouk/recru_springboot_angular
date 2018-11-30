@@ -1,0 +1,48 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      <label style="font-weight:bold;color:#546E7A;">Liste Candidats
+      </label>
+      </div>
+    <div class="card-body">
+      <table class="table table-bordered table-striped" >
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Numéro de Téléphone</th>
+            <th>Email</th>
+            <th>Nom sourceur</th>
+            <th>Prenom sourceur</th>
+            <th>Nom charge</th>
+            <th>Prenom charge</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let can of CandidatSession| paginate: { itemsPerPage:10, currentPage: p }">
+
+            <td>{{can.nom}}</td>
+            <td>{{can.prenom}}</td>
+            <td>{{can.numero}}</td>
+            <td>{{can.email}}</td>
+            <td>{{can.nomsourceur}}</td>
+            <td>{{can.prenomsourceur}}</td>
+            <td>{{can.nomcharge}}</td>
+            <td>{{can.prenomcharge}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer panel-default pager">
+        <pagination-controls (pageChange)="p =$event"></pagination-controls>
+      </div>
+      <button type="button" [routerLink]="['/sessionsFormationsAcceuil/listAcceuil']" class="btn btn-sm btn-default" style="float:right">
+        Retour
+      </button>
+      <button class="btn btn-sm" (click)="exportAsXLSX()"  style="float:left;width: 3%;background:#FFFFFF;">
+        <img src="../../assets/excel-icon.png">
+      </button>
+    </div>
+    
+  </div>
+  </div>
+  

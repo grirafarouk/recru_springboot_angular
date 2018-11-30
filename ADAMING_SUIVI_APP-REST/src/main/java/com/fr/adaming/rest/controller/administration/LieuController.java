@@ -51,7 +51,7 @@ public class LieuController {
 		return lieuService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public Collection<Lieu> findAll() {
 		return lieuService.findAll();
 	}

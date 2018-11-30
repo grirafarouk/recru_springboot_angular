@@ -8,7 +8,9 @@ import { NAVIGATION_RULES } from '../../../helper/application.constant';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: 'reset-pwd.component.html'
+  templateUrl: 'reset-pwd.component.html',
+  styleUrls: ["reset-pwd.component.css"]
+
 })
 export class RestPwdComponent implements OnInit {
 

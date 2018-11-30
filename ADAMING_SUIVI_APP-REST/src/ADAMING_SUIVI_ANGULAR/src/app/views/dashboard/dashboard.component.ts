@@ -9,6 +9,8 @@ import { AccueilService } from '../../services/accueilService/accueil.service';
 import { TechnologieService } from '../../services/administrationService/TechnologieService';
 import { first } from 'rxjs/operators';
 import { NAVIGATION_RULES } from '../../helper/application.constant';
+import { NotifierService } from 'angular-notifier';
+import { HelperService } from '../../helper/helper.service';
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -26,25 +28,47 @@ export class DashboardComponent implements OnInit {
       backgroundColor:["#FF7360","#6FC8CE","gray","#FFFCC4","#B9E8E0","#FFABF6","#01FBBA"]
     }
    ];
+   pages = [];
+   size = 10;
+   currentPage = 1;
+   maxlenght = 0;
+   lastPage = 1;
   constructor(
     private accueilService: AccueilService,
-    private router:Router) {
+    private router:Router, private notifierService: NotifierService,
+    private helperService: HelperService) {
 
      }
 
   ngOnInit() {
-    this.loadReportingChargeRelance();
+    this.doRechercheCandidat();
     this.loadSessionReporting();
     this.loadSourceurtechnologies();
     this.getChart();
   }
+  doRechercheCandidat() {
+    let page = (this.currentPage - 1) * this.size;
+    this.accueilService.getNombreCVRrelancer(page, this.size).subscribe(data => {
+      this.maxlenght = data.total;
+      this.ReportingChargeRelance = data.results;
+      this.lastPage = Math.ceil(this.maxlenght / this.size)
+      this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
+    })
+  }
 
-  private loadReportingChargeRelance() {
+  setPage(p) {
+    this.currentPage = p;
+    this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
+    this.doRechercheCandidat();
+  }
+
+  /*private loadReportingChargeRelance() {
     this.accueilService.getNombreCVRrelancer().subscribe(result => { this.ReportingChargeRelance = result });
+  }*/
+   private loadSessionReporting() {
+    this.accueilService.getSessionreporting().subscribe(result => {  this.Sessionreporting = result});
   }
-  private loadSessionReporting() {
-    this.accueilService.getSessionreporting().subscribe(result => { this.Sessionreporting = result });
-  }
+  
   private loadSourceurtechnologies() {
     this.accueilService.getSourceurTechnologies().subscribe(result => { this.Sourceurtechnologies = result });
   }

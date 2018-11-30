@@ -10,13 +10,13 @@ import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
-import { NAVIGATION_RULES } from "../../../helper/application.constant";
+import { NAVIGATION_RULES,DATE_FORMAT } from "../../../helper/application.constant";
 import { RoutingState } from "../../../helper/routing-state.service";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
   templateUrl: 'listeCandidatArelancer.component.html',
-  
+  styleUrls: ["listeCandidatArelancer.component.css"]
 })
 export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
 
@@ -76,7 +76,9 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     {
       data:'dateInscription',
       title:'Date inscription',
-      visible:false
+      visible:false,
+      dateFormat: DATE_FORMAT
+
     },
     {
       data:'technologie',
@@ -106,7 +108,9 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     {
       data:'dateRelance',
       title:'Date relance',
-      visible:true
+      visible:true,
+      dateFormat: DATE_FORMAT
+
     },
     {
       data:'nomCharge',
@@ -191,12 +195,18 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     else this.region = []
   }
   private updateDateRelance(date: Date) {
+    console.log("date relance"+date)
     this.condidat.dateRelance = date
   }
 
-  /*relanceHandleChange(event) {
-    if (this.condidat.relancer == true) {
+  relanceHandleChange(event) {
+    if (this.condidat.relancer == false) {
+      this.condidat.dateDebut = undefined
+      this.condidat.dateFin = undefined
+    }
+    else
+    {
       this.condidat.dateRelance = undefined
     }
-  }*/
+  }
 }

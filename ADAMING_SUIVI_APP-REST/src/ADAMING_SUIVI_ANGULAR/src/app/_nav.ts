@@ -3,6 +3,13 @@ import { NAVIGATION_RULES } from "./helper/application.constant";
 
 export const navItems = [
   {
+    name: 'Session Formation Accueil',
+    url: '/' + NAVIGATION_RULES.sessionsFormationsAcceuil.url + '/' + NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil,
+    icon:'fa fa-play',
+    profils: [Profil.PROFILSPECIAL],
+
+  },
+  {
     name: 'Dashboard',
     url: '/dashboard',
     icon: 'icon-speedometer',
@@ -12,10 +19,13 @@ export const navItems = [
     icon: 'icon-people',
     name: 'Candidats',
     url: '/' + NAVIGATION_RULES.candidats.url,
+    profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION,Profil.SOURCEUR],
+
     children: [
       {
         name: 'Nouveaux Condidats',
         url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat,
+        profils: [Profil.CHARGE, Profil.ADMINISTRATEUR, Profil.COMMERCIAL, Profil.DIRECTION,Profil.SOURCEUR],
         icon: 'fa fa-user-plus',
       },
       {
@@ -100,7 +110,7 @@ export const navItems = [
         profils: [Profil.ADMINISTRATEUR],
       },
       {
-        name: 'Oorigine CV',
+        name: 'Origine CV',
         icon:'fa fa-at',
         url: '/' + NAVIGATION_RULES.administration.url+'/'+NAVIGATION_RULES.administration.origineCV,
         profils: [Profil.ADMINISTRATEUR],

@@ -1,0 +1,50 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="card">
+          <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Sessions de formation</label>
+          </div>
+          <div class="card-body" >
+            <table class="table table-bordered table-striped table-sm ">
+              <thead>
+                <tr>
+                  <th>Nom de la formation</th>
+                  <th>Lieu de la formation</th>
+                  <th>Type de formation</th>
+                  <th>Date Démarrage</th>
+                  <th>Candidat validé par C.R.</th>
+                  <th>Candidat ayant accepté la formation</th>
+                  <th>Nombre de place</th>
+                  <th>Taux d'acceptation</th>
+                  <th>Taux de remplissage</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let session of Sessionreporting| paginate: { itemsPerPage:10, currentPage: p }">
+                  <td >{{session.nom_Formation}}</td>
+                  <td>{{session.lieu_Formation}}</td>
+                  <td>{{session.type_Formation}}</td>
+                  <td>{{session.date_demarrage}}</td>
+                  <td>{{session.candidat_affectation}}</td>
+                  <td>{{session.candidat_acceptation}}</td>
+                  <td>{{session.nombre_place}}</td>
+                  <td>{{session.taux_acceptation}} %</td>
+                  <td>{{session.taux_remplissage}} %</td>
+                  <td style="width: 10%">     
+                    <a class="btn btn-default" (click)="openDetailsSession(session)">
+                          <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
+                        </a>         
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="panel-footer panel-default pager">
+              <pagination-controls (pageChange)="p =$event"></pagination-controls>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  

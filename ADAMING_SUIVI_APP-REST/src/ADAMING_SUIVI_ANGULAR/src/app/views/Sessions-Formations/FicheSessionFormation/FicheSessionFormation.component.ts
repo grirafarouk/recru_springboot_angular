@@ -33,7 +33,6 @@ export class FicheSessionFormationComponent implements OnInit {
   loading = false;
 
   ngOnInit() {
-
     this.route.data
       .subscribe((data: { session: SessionFormation, title: string }) => {
         this.session = data.session;

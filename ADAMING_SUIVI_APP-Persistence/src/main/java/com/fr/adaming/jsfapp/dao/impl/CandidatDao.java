@@ -635,7 +635,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				String prenom = (String) o[1];
 				String numero = (String) o[2];
 				String email = (String) o[3];
-				String date = new String((byte []) o[4]);
+				String date = (String)o[4];
 				String technologie = (String) o[5];
 
 				data.add(new ReportingFicheCVRelance(nom, prenom, numero, email, date, technologie));

@@ -19,28 +19,22 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="technologie">Technologie:</label>
-                            <select [(ngModel)]="formation.technologie.libelle"  name="technologie"  class="form-control" id="technologie">
-                                <option value="">--Sélectionner--</option>
-                                <option *ngFor="let tech of technologies" [value]="tech.libelle">{{tech.libelle}}</option>
-                            </select>
+                            <ng-select  bindLabel="libelle" [items]="technologies" [(ngModel)]="formation.technologie" name="typeFormation"  >
+                            </ng-select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="lieu">Lieu:</label>
-                                <select  [(ngModel)]="formation.lieu.libelle" class="form-control input-sm">
-                                    <option value="">-- Sélectionner --</option>
-                                    <option *ngFor="let lieu of lieux" [value]="lieu.libelle">{{ lieu.libelle }}</option>
-                                  </select>
+                                  <ng-select  bindLabel="libelle" [items]="lieux" [(ngModel)]="formation.lieu" name="typeFormation"  >
+                                </ng-select>
                             </div>
                         </div>
                         <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
-                                    <select  [(ngModel)]="formation.typeFormation.libelle" class="form-control input-sm">
-                                        <option value="">-- Sélectionner --</option>
-                                        <option *ngFor="let type of typeFormation" [value]="type.libelle">{{ type.libelle }}</option>
-                                      </select>
+                                      <ng-select  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="formation.typeFormation" name="typeFormation"  >
+                                    </ng-select>
                                 </div>
                         </div>
                                  

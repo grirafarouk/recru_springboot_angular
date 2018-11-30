@@ -16,7 +16,7 @@ import { Status } from "../../../models/enum/Status";
 @Component({
   selector: 'ngbd-dropdown-basic',
   templateUrl: 'listeEntretien.component.html',
-  
+  styleUrls: ["listeEntretien.component.css"]
 })
 export class listeEntretienComponent implements OnInit {
   
@@ -122,6 +122,26 @@ export class listeEntretienComponent implements OnInit {
       rendered : (e)=>{
         return Status[e.statut]
       }
+    },
+    {
+      title: 'Appréciation',
+      visible: true,
+      html: true,
+      rendered: function (candidat): string {
+        if (candidat.noteTotale != null && candidat.noteTotale != undefined) {
+          if (candidat.noteTotale * 2 > 6) return '<img class="imgAppreciation" src="assets/img/appreciation/appreciation_valider.png">';
+          else if (candidat.noteTotale * 2 > 5) {
+            return '<img  class="imgAppreciation" src="assets/img/appreciation/appreciation_attente.png">';
+          }
+          else { return '<img  class="imgAppreciation" src="assets/img/appreciation/appreciation_refuser.png">' }
+        }
+        else return "";
+      }
+    },
+    {
+      data: 'noteTotale',
+      title: 'Note Totale',
+      visible: true
     }
   ];
   public loading = false;

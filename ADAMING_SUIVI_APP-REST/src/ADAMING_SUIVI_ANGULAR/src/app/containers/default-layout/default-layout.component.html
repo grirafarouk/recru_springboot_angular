@@ -1,11 +1,11 @@
-<app-header [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/adaming-conseil.png', width: 140, height: 30,alt: 'Adaming conseil'}"
+<app-header [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/adaming-conseil.png', width: 150, height: 40,alt: 'Adaming conseil'}"
   [navbarBrandMinimized]="{src: 'assets/img/brand/adaming.png', width: 40, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="''">
   <ul class="nav navbar-nav d-md-down-none">
-    <li class="nav-item px-3 h3" style="color:rgb(233, 38, 38)">
+    <li class="nav-item px-3 h5" style="color:rgb(233, 38, 38)">
       {{getProfiilDisplay(userService.getConnetedUserInfo().profil)}}
     </li>
-    <li class="nav-item px-3 h3">{{ userService.getConnetedUserInfo().login}}
+    <li class="nav-item px-3 h5">{{ userService.getConnetedUserInfo().login}}
     </li>
   </ul>
 
@@ -13,7 +13,7 @@
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
         dropdownToggle (click)="false">
-        <img src="assets/img/avatars/7.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" />
+        <img src="assets/img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
       </a>
       <div (click)="logout()" class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
         <a class="dropdown-item"><i class="fa fa-lock"></i> Logout</a>
@@ -26,7 +26,7 @@
     <div class="user" *ngIf="!sidebarMinimized" >
       <div style="padding-left: 20px" class="row">
         <div class="col-3">
-          <img height="50px" style="border-radius: 50em" src="/assets/img/avatars/7.jpg">
+          <img height="50px" style="border-radius: 50em" src="assets/img/avatars/user.png">
         </div>
         <div class="col-9" style="padding-top: 10px;padding-left: 25px">
           {{ userService.getConnetedUserInfo().nom }} {{

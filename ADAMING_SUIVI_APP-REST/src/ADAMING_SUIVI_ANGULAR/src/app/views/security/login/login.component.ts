@@ -33,7 +33,9 @@ export class LoginComponent implements OnInit {
     this.diableButton = true
     this.authenticationService.login(this.login).toPromise().then(
       data => {
-        if (Profil[this.userService.getConnetedUserInfo().profil] == Profil.SOURCEUR)
+        if (Profil[this.userService.getConnetedUserInfo().profil] == Profil.PROFILSPECIAL)
+          this.router.navigate([NAVIGATION_RULES.sessionsFormationsAcceuil.url+'/'+NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil]);
+        else if (Profil[this.userService.getConnetedUserInfo().profil] == Profil.SOURCEUR)
           this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]);
         else
           this.router.navigate([NAVIGATION_RULES.dashboard.url])

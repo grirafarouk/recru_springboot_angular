@@ -14,8 +14,8 @@ import { SourceurReporting } from "../../../models/SourceurReporting";
 })
 export class ReportingSourceurComponent implements OnInit {
   
-  dateFin
-  dateDebut
+  dateFin = Date();
+  dateDebut =  Date();
   currentDate = new Date();
   ListReporting=[]
   ListSourceur=[]
@@ -42,7 +42,12 @@ export class ReportingSourceurComponent implements OnInit {
     private notifierService:NotifierService) {}
 
   ngOnInit(): void {
-
+    this.autresCv = null;
+    this.totalCVDisponible = null;
+    this.totalCVhorsCible = null;
+    this.sourceur=new SourceurReporting();
+    this.dateDebut=null;
+    this.dateFin=null;
     this.reportingSourceur.findAllSourceur().subscribe(data=>{
       this.ListSourceur = data;
     })
@@ -79,11 +84,19 @@ export class ReportingSourceurComponent implements OnInit {
 
     this.reportingSourceur.recherchemapTechnologieParSourceur(this.sourceur,this.dateDebut,this.dateFin).subscribe(result =>{
       this.pieChartData = Object.values(result);
-      for(var i=0;i<Object.keys(result).length;i++){
+      if(Object.keys(result).length > 0)
+      { 
+        for(var i=0;i<Object.keys(result).length;i++)
+        {
         this.pieChartLabels[i]=Object.keys(result)[i];
+        }
       }
+      else{
+        this.pieChartData = [0,0,0,0,0,0,0];
+      }
+     
     })
-    this.getChart();
+    //this.getChart();
   }
 
   private getChart(){

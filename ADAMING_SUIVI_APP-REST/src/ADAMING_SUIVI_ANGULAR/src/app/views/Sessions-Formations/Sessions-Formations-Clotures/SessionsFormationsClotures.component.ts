@@ -57,8 +57,6 @@ export class SessionsFormationsCloturesComponent implements OnInit {
       this.formations = data;
 
     });
-
-
     this.sessionFormationEnCoursService.getSessionFormationClotures(this.session).subscribe(data => {
       this.sessionFormations = data;
       this.sessionFormations.forEach(element => {
@@ -70,7 +68,6 @@ export class SessionsFormationsCloturesComponent implements OnInit {
   }
 
   rechercherSession() {
-
     this.sessionFormationEnCoursService.rechercherSessionFormationenclotures(this.formation).subscribe(data =>
       this.formations = data
     );
@@ -78,11 +75,7 @@ export class SessionsFormationsCloturesComponent implements OnInit {
 
 
   reset() {
-    this.formation.code = null;
-    this.formation.nom = null;
-    this.formation.technologie.libelle = null;
-    this.formation.lieu.libelle = null;
-    this.formation.typeFormation.libelle = null;
+    this.formation=new Formation();
     this.getListe();
   }
   

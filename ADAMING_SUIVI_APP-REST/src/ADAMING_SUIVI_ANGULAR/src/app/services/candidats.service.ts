@@ -132,6 +132,12 @@ export class CandidatsService {
     return this.httpClient.get<any>(BACK_END_URL + '/nberNouveauxCandidats');
   }
 
+  sizeList() {
+
+    return this.httpClient.get<any>(BACK_END_URL + '/nberCandidats');
+  }
+
+
   getTousCandidats(page, size) {
     return this.httpClient.get<any>(BACK_END_URL + '/candidats/' + page + '/' + size);
   }

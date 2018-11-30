@@ -57,15 +57,15 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 				queryString += " and formation.NOM LIKE '%"
 						+ formationDto.getNom() + "%'";
 
-			if (formationDto.getTechnologie() != null) {
+			if (formationDto.getTechnologie() != null && formationDto.getTechnologie().getLibelle() !=null) {
 				queryString += " and technologie.libelle LIKE '%"
 						+ formationDto.getTechnologie().getLibelle() + "'";
 			}
-			if (formationDto.getLieu() != null) {
+			if (formationDto.getLieu() != null && formationDto.getLieu().getLibelle() !=null) {
 				queryString += " and lieu.libelle LIKE '%"
 						+ formationDto.getLieu().getLibelle() + "'";
 			}
-			if (formationDto.getTypeFormation() != null) {
+			if (formationDto.getTypeFormation() != null && formationDto.getTypeFormation().getLibelle() !=null) {
 				queryString += " and type_formation.libelle LIKE '%"
 						+ formationDto.getTypeFormation().getLibelle() + "'";
 			}
@@ -100,15 +100,15 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 				queryString += " and formation.NOM LIKE '%"
 						+ formationDto.getNom() + "%'";
 
-			if (formationDto.getTechnologie() != null) {
+			if (formationDto.getTechnologie() != null && formationDto.getTechnologie().getLibelle() !=null) {
 				queryString += " and technologie.libelle LIKE '%"
 						+ formationDto.getTechnologie().getLibelle() + "%'";
 			}
-			if (formationDto.getLieu() != null) {
+			if (formationDto.getLieu() != null && formationDto.getLieu().getLibelle() !=null) {
 				queryString += " and lieu.libelle LIKE '%"
 						+ formationDto.getLieu().getLibelle() + "%'";
 			}
-			if (formationDto.getTypeFormation() != null) {
+			if (formationDto.getTypeFormation() != null && formationDto.getTypeFormation().getLibelle() !=null) {
 				queryString += " and type_formation.libelle LIKE '%"
 						+ formationDto.getTypeFormation().getLibelle() + "%'";
 			}
@@ -176,8 +176,8 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 	}
 
 	public List<Formation> findAllFormationsEnCours() {
-		String queryString = "SELECT formation.ID, formation.CODE, formation.NOM, formation.LIEU, formation.TECHNOLOGIE, formation.TYPE_FORMATION FROM formation Inner Join session_formation ON formation.ID = session_formation.FORMATION WHERE session_formation.F_Actif =  1 ";
-				//"SELECT formation.ID, formation.CODE, formation.NOM, formation.LIEU, formation.TECHNOLOGIE, formation.TYPE_FORMATION FROM formation Inner Join session_formation ON formation.ID = session_formation.FORMATION WHERE session_formation.ID IS NOT NULL AND session_formation.F_Actif =  '1' group by formation.ID";
+		String queryString = //"SELECT formation.ID, formation.CODE, formation.NOM, formation.LIEU, formation.TECHNOLOGIE, formation.TYPE_FORMATION FROM formation Inner Join session_formation ON formation.ID = session_formation.FORMATION WHERE session_formation.F_Actif =  1 ";
+				"SELECT formation.ID, formation.CODE, formation.NOM, formation.LIEU, formation.TECHNOLOGIE, formation.TYPE_FORMATION FROM formation Inner Join session_formation ON formation.ID = session_formation.FORMATION WHERE session_formation.ID IS NOT NULL AND session_formation.F_Actif =  '1' group by formation.ID";
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 		@SuppressWarnings("unchecked")

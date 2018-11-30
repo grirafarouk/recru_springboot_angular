@@ -1,209 +1,69 @@
 <div class="animated fadeIn">
-
-        <div class="row">
-                <div class="card">
-                        <div class="card-header">
-                            <label style="font-weight:bold;color:#546E7A;">Ajout</label>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                    <div class="col-md-8">
-                                            <div class="row">
-                                                    <div style="margin-left: 15px">
-                                                            <input (change)="uploadFiles($event)"  accept=".xls, .xlsx, .pdf, .docx, .doc" style="display: none;" id="fileUpload" type="file" multiple />
-                                                            <button  onclick="document.getElementById('fileUpload').click();"  type="button"
-                                                              class="btn btn-block btn-outline-primary" >
-                                                              <i class="fa fa-plus"> </i> Selectionner</button>
-                                                          </div>
-                                                          <button type="button" style="margin-left: 20px" (click)="afficherPdf()" class="btn btn-outline-success">
-                                                                <i class="fa fa-upload"></i> OK
-                                                              </button>
-                                                              <button type="button" style="margin-left: 20px" (click)="pieceJoitesTemp=[]" [disabled]="pieceJoitesTemp.length==0" class="btn btn-outline-danger">
-                                                                <i class="fa fa-trash"> </i> 
-                                                                Annuler
-                                                              </button>
-                                              
-                                             
-                                            </div>
-                                            <div class="row" style="margin-top: 20px">
-                                                    <table class="table" *ngIf="pieceJoitesTemp.length>0">
-                                                        <thead>
-                                                        <tr>
-                                                            <th width="50%">Name</th>
-                                                            <th>Size</th>
-                                                            <th>Progress</th>
-                                                            <th>Status</th>
-                                                            <th></th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr *ngFor="let item of pieceJoitesTemp">
-                                                            <td><strong>{{ item?.file?.name }}</strong></td>
-                                                            <td  nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
-                                                            <td >
-                                                                <div class="progress" style="margin-bottom: 0;">
-                                                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-                                                                </div>
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <span *ngIf="item.status == 'loaded'"><i class="fa fa-check"></i></span>
-                                                                <span *ngIf="item.status=='error'"><i class="fa fa-close"></i></span>
-                                                                <span *ngIf="item.status=='notLoaded'"><i class="fa fa-upload"></i></span>                               
-                                                            </td>
-                                                            <td nowrap>                               
-                                                                    <i style="color:red" (click)="removeUploadedFile(item)" class="fa fa-trash-o"></i> 
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                           
-                                          </div>
-                                          <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="civilite">Civilité</label>
-                                                        <select [disabled]="candidateFound==false" required #civilite="ngModel" name="civilite"
-                                                        [(ngModel)]="candidate.civilite" class="form-control" id="civilite">
-                                                                <option value="M">M</option>
-                                                                <option value="Mme">Mme</option>
-                                                        </select> </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="nom">Nom</label>
-                                                        <input type="text" class="form-control"   name="nom"
-                                                            [(ngModel)]="candidate.nom" id="nom">                                        
-                                                          
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label class="form-col-form-label" for="prenom">Prenom</label>
-                                                        <input type="text" class="form-control"  name="prenom"
-                                                            [(ngModel)]="candidate.prenom" id="prenom">
-                                                       
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="email">Email</label>
-                                                        <input type="email"  class="form-control" name="email" [(ngModel)]="candidate.email"
-                                                            id="email">
-                                                            
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="telephone">Téléphone</label>
-                                                        <input type="text"  class="form-control"  mask='00-00-00-00-00'  name="telephone"
-                                                            [(ngModel)]="candidate.numeroTel" id="telephone">
-                                                           
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="origineCV">Origine CV</label>
-                                                        <select   [(ngModel)]="candidate.origine.id"    name="origineCV"
-                                                        [disabled]="candidateFound===false" class="form-control" id="origineCV">
-                                                            <option value="undefined">--Sélectionner--</option>
-                                                            <option *ngFor="let origine of origines" [value]="origine.id">{{origine.libelle}}</option>
-                                                        </select>
-                                                       
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="profil">Profil </label>
-                                                        <select [(ngModel)]="candidate.technologie.id"  name="technologie" [disabled]="candidateFound===false" class="form-control" id="profil">
-                                                            <option value="undefined">--Sélectionner--</option>
-                                                            <option *ngFor="let tech of technologies" [value]="tech.id">{{tech.libelle}}</option>
-                                                        </select>
-                                                         
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label for="codePostal">Code postal</label>
-                                                        <ng-select aria-required="" [disabled]="candidateFound==false" 
-                                                         id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)" 
-                                                             [ngModel]="candidate?.codePostal" (ngModelChange)="candidate.codePostal = $event" name="codePostal">
-                                                            <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
-                                                                {{codeP.ville}}</ng-option>
-                    
-                                                        </ng-select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Region</label>
-                                                        <p class="form-control-static">{{candidate?.codePostal?.region}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Ville</label>
-                                                        <p class="form-control-static">{{candidate?.codePostal?.ville}}</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row competences">
-                                                <div class="col-md-2 col-form-label" *ngFor="let compt of competences; let i = index">
-                                                    <div class="form-check form-check-inline mr-1">
-                                                        <input class="form-check-input" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected" id="inline-checkbox1" [value]="compt.id">
-                                                        <label class="form-check-label" for="inline-checkbox1">{{compt.libelle}}</label>
-                                                    </div>
-                                                </div>
-                    
-                                            </div>
-                                </div>
-                                <button type="button" style="margin-left: 20px" (click)="saveCandidat()"  class="btn btn-outline-success">
-                                        <i class="fa fa-upload"></i> sauv
-                                      </button>
-                            </div>
-                        </div>
-        
-
-<div class="row">
-    <div  class="col-12">
-    <div class="card">
+    <div class="row">
+      <div class="card">
         <div class="card-header">
-            <i class="fa fa-align-justify"></i> Candidats Trouvés
+          <label style="font-weight:bold;color:#546E7A;">Competences</label>
         </div>
         <div class="card-body">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>N° Téléphone</th>
-                        <th style="width: 120px">ACTION</th>
-
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let candidat of candidatsFound">
-                        <td>{{candidat.nom}}</td>
-                        <td>{{candidat.prenom}}</td>
-                        <td>{{candidat.numeroTel}}</td>
-                        <td style="width: 120px">
-                            <button type="button" style="margin-left: 5px" (click)="downloadCV(candidat)" class="btn btn-outline-info btn-sm">
-                                <i class="fa fa-download"></i>
-                            </button></td>
-                        
-                    </tr>
-                </tbody>
-            </table>
+          <custom-local-table [actions]="actions" [columns]="columns" [items]="ListCompetences"></custom-local-table>
+      </div>
+       <div class="card-footer">
+          <div class="col-2">
+            <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-</div>
-
-</div>
+  </div>
+  
+  <div bsModal #competenceDeleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-danger  modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Suppression</h4>
+          <button type="button" class="close" (click)="competenceDeleteModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 52px">
+         Êtes-vous sûr de vouloir supprimer ?
+           
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="competenceDeleteModal.hide()">Annuler</button>
+          <button type="button" (click)="deleteCompetence()" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div bsModal #competenceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-primary  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Competence</h4>
+          <button type="button" class="close" (click)="competenceModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 52px">
+          <form class="form-horizontal">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+              <div class="col-md-8">
+                <input class="form-control" [(ngModel)]="competence.libelle" name="libelle" id="libelle" />
+  
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="competenceModal.hide()">Annuler</button>
+          <button type="button" (click)="saveCompetence()" class="btn btn-primary">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

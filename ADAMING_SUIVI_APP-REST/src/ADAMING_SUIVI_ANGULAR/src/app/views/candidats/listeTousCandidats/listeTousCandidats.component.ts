@@ -23,7 +23,7 @@ import { RoutingState } from "../../../helper/routing-state.service";
 @Component({
   selector: 'list',
   templateUrl: 'listeTousCandidats.component.html',
-
+  styleUrls: ["listeTousCandidats.component.css"]
 })
 export class listeTousCandidatsComponent implements OnInit, OnDestroy {
 

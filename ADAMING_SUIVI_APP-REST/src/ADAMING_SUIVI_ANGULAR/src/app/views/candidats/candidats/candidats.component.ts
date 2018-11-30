@@ -28,7 +28,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
 
     this.candidatsService.folders = this.folders;
-    this.candidatsService.destroyTempoFolder(this.utilisateurService.getConnetedUserInfo().login).subscribe();
+    //this.candidatsService.destroyTempoFolder(this.utilisateurService.getConnetedUserInfo().login).subscribe();
   }
 
 
@@ -115,7 +115,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         categoryId: categoryId.join('_'),
         expanded: false,
         type: 'file',
-        icon: "assets/img/tree/file-pdf-regular.svg"
+        icon: "assets/img/tree/pdf-file.png"
       })
     });
     this.folders = structure;
@@ -133,7 +133,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
           file: element,
           expanded: false,
           type: 'folder',
-          icon: "assets/img/tree/folder-solid.svg"
+          icon: "assets/img/tree/iconfinder_folder.png"
         }
         if (ID.length > 1) {
           let tempId = []
@@ -161,10 +161,10 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
   }
   onItemExpanded(e) {
-    e.node.itemData.icon = "assets/img/tree/folder-open-solid.svg"
+    e.node.itemData.icon = "assets/img/tree/Icons_open.png"
   }
   onItemCollapsed(e) {
-    e.node.itemData.icon = "assets/img/tree/folder-solid.svg"
+    e.node.itemData.icon = "assets/img/tree/iconfinder_folder.png"
   }
   //#endregion
 
@@ -215,11 +215,11 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     else this.codePostals = []
   }
 
-  async onSubmit() {
+  onSubmit() {
     let fn =(e)=>{
     this.annuler()
     }
-  await this.saveCandidat(fn)
+  this.saveCandidat(fn)
   }
 
   annuler(){
@@ -227,14 +227,14 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]));
   }
 
-  async submitAndRedirect(){
+  submitAndRedirect(){
     let fn =(id)=>{
       this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',id)]);
     }
-    await this.saveCandidat(fn)
+    this.saveCandidat(fn)
   }
 
-  async saveCandidat(callback){
+  saveCandidat(callback){
     this.loading=true;
     var error = false;
     //#region get Competences
@@ -258,7 +258,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       }
       else {
         let cand
-        await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data });;
+        this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data });;
         if (cand != null) {
           this.notifierService.notify("error", "Email existe déjà  !")
           error = true;
@@ -270,7 +270,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       }
       else {
         let cand
-        await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
+        this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
         if (cand != null) {
           this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
           error = true;
@@ -284,7 +284,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       } else {
         if (this.candidate.email != "" && this.candidate.email != undefined) {
           let cand
-          await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
+          this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
           if (cand != null) {
             this.notifierService.notify("error", "Email existe déjà  !")
             error = true;
@@ -292,7 +292,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         }
         if (this.candidate.numeroTel != "" && this.candidate.numeroTel != undefined) {
           let cand;
-          await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
+          this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
           if (cand != null) {
             this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
             error = true;

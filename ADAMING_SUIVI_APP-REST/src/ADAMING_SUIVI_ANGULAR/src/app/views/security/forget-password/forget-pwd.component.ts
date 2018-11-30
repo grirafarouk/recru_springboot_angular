@@ -9,7 +9,9 @@ import { NAVIGATION_RULES } from '../../../helper/application.constant';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: 'forget-pwd.component.html'
+  templateUrl: 'forget-pwd.component.html',
+  styleUrls: ["forget-pwd.component.css"]
+
 })
 export class ForgetPwdComponent implements OnInit {
 

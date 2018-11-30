@@ -41,8 +41,24 @@
               </tbody>
             </table>
             <div class="panel-footer panel-default pager">
-              <pagination-controls (pageChange)="p =$event"></pagination-controls>
-            </div>
+              <ul class="pagination justify-content-center">
+                  <li [class.disabled]="1==currentPage" class="page-item">
+                      <a (click)="setPage(1)" class="page-link">«</a>
+                  </li>
+                  <li [class.disabled]="1==currentPage" class="page-item">
+                      <a (click)="setPage(currentPage-1)" class="page-link">‹</a>
+                  </li>
+                  <li [class.active]="p==currentPage" class="page-item" *ngFor=" let p of pages">
+                      <a class="page-link" (click)="setPage(p)">{{p}}</a>
+                  </li>
+                  <li [class.disabled]="currentPage==lastPage" class="page-item">
+                      <a (click)="setPage(currentPage+1)" class="page-link">›</a>
+                  </li>
+                  <li [class.disabled]="currentPage==lastPage" class="page-item">
+                      <a (click)="setPage(lastPage)" class="page-link">»</a>
+                  </li>
+              </ul>
+          </div>
           </div>
         </div>
       </div>
@@ -79,7 +95,7 @@
                   <td>{{session.candidat_acceptation}}</td>
                   <td>{{session.nombre_place}}</td>
                   <td>{{session.taux_acceptation}}</td>
-                  <td>{{session.taux_remplissage}}</td>
+                  <td>{{session.taux_remplissage}}%</td>
                   <td style="width: 10%">     
                     <a class="btn btn-default" (click)="openDetailsSession(session)">
                           <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
@@ -89,8 +105,24 @@
               </tbody>
             </table>
             <div class="panel-footer panel-default pager">
-              <pagination-controls (pageChange)="p =$event"></pagination-controls>
-            </div>
+              <ul class="pagination justify-content-center">
+                  <li [class.disabled]="1==currentPage" class="page-item">
+                      <a (click)="setPage(1)" class="page-link">«</a>
+                  </li>
+                  <li [class.disabled]="1==currentPage" class="page-item">
+                      <a (click)="setPage(currentPage-1)" class="page-link">‹</a>
+                  </li>
+                  <li [class.active]="p==currentPage" class="page-item" *ngFor=" let p of pages">
+                      <a class="page-link" (click)="setPage(p)">{{p}}</a>
+                  </li>
+                  <li [class.disabled]="currentPage==lastPage" class="page-item">
+                      <a (click)="setPage(currentPage+1)" class="page-link">›</a>
+                  </li>
+                  <li [class.disabled]="currentPage==lastPage" class="page-item">
+                      <a (click)="setPage(lastPage)" class="page-link">»</a>
+                  </li>
+              </ul>
+          </div>
           </div>
         </div>
       </div>
@@ -123,9 +155,28 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="panel-footer panel-default pager">
+               <!-- <div class="panel-footer panel-default pager">
                     <pagination-controls (pageChange)="p =$event"></pagination-controls>
-                  </div>
+                  </div>-->
+                  <div class="panel-footer panel-default pager">
+                    <ul class="pagination justify-content-center">
+                        <li [class.disabled]="1==currentPage" class="page-item">
+                            <a (click)="setPage(1)" class="page-link">«</a>
+                        </li>
+                        <li [class.disabled]="1==currentPage" class="page-item">
+                            <a (click)="setPage(currentPage-1)" class="page-link">‹</a>
+                        </li>
+                        <li [class.active]="p==currentPage" class="page-item" *ngFor=" let p of pages">
+                            <a class="page-link" (click)="setPage(p)">{{p}}</a>
+                        </li>
+                        <li [class.disabled]="currentPage==lastPage" class="page-item">
+                            <a (click)="setPage(currentPage+1)" class="page-link">›</a>
+                        </li>
+                        <li [class.disabled]="currentPage==lastPage" class="page-item">
+                            <a (click)="setPage(lastPage)" class="page-link">»</a>
+                        </li>
+                    </ul>
+                </div>
           </div>
         </div>
       </div>

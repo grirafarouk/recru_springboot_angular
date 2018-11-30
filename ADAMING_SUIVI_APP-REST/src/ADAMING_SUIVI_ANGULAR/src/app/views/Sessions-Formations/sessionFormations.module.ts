@@ -11,6 +11,7 @@ import { AccordionModule } from 'ngx-accordion';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { SessionFormationsRoutingModule } from './sessionFormations-routing.module';
 import { FicheSessionFormationComponent } from './FicheSessionFormation/FicheSessionFormation.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { FicheSessionFormationComponent } from './FicheSessionFormation/FicheSes
     CommonModule ,
     AccordionModule,
     CollapseModule.forRoot(),
-    SessionFormationsRoutingModule
+    SessionFormationsRoutingModule,
+    NgSelectModule
   ],
   declarations: [
     SessionsFormationsEncoursComponent,

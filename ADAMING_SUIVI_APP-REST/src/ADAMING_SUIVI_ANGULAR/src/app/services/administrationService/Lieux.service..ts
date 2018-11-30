@@ -12,7 +12,7 @@ export class LieuxService {
   constructor(private httpClient: HttpClient) { }
 
   findAllLieux(): Observable<any> {
-    return this.httpClient.get(BACK_END_URL + "/lieu");
+    return this.httpClient.get(BACK_END_URL + "/lieu/all");
   }
   save(lieu): Observable<any> {
 

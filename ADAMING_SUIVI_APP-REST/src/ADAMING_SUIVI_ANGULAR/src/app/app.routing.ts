@@ -80,6 +80,10 @@ export const routes: Routes = [
         loadChildren: './views/entretien/entretien.module#EntretienModule'
       },
       {
+        path: NAVIGATION_RULES.sessionsFormationsAcceuil.url,
+        loadChildren: './views/sessionsFormationsAcceuil/sessionsFormationsAcceuil.module#SessionsFormationsAcceuilModule'
+      },
+      {
         path:  NAVIGATION_RULES.sessionsFormations.url,
         loadChildren: './views/Sessions-Formations/sessionFormations.module#SessionFormationsModule'
       },   

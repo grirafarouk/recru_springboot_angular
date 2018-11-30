@@ -134,15 +134,20 @@ public class CandidatController {
 	@RequestMapping(value = "/RechercheTouscandidats", method = RequestMethod.POST)
 	public JSONObject rechercherTousCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
 			@RequestParam int size) {
-
-		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherTousCandidats(NCD));
 		JSONObject object = new JSONObject();
-		object.put("total", list.size());
-		if (size == 0)
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
-		else
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
-					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		
+		try {
+			List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherV_ListeCandidats(NCD, page, size));
+			object.put("total", NbreCandidat());
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list.subList(page, page + size)));
+		}
+		 catch(IndexOutOfBoundsException e) {
+			 List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherTousCandidats(NCD));
+				object.put("total", list.size());
+				object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
+						list.subList(page, list.size() < size + page ? list.size() : page + size)));
+         }
+		
 		return object;
 	}
 
@@ -241,7 +246,7 @@ public class CandidatController {
 		return vListeCandidatsService.nberCandidatsARelancer();
 	}
 
-	@RequestMapping(value = "/nberCandidats", method = RequestMethod.GET)
+//	@RequestMapping(value = "/nberCandidats", method = RequestMethod.GET)
 	public Number NbreCandidat() {
 		return vListeCandidatsService.nberCandidats();
 	}
@@ -326,18 +331,19 @@ public class CandidatController {
 		return candidat;
 	}
 
-	@GetMapping("destroyTempoFolder/{loginUser}")
-	public void destroyTempoFolder(@PathVariable String loginUser) {
-		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
-				+ File.separator + loginUser;
-		Path path = Paths.get(realPath);
-		if (path != null)
-			Utilitaire.deleteDir(path.toFile());
-		if (Paths.get(File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting")
-				.toFile().list().length == 0) {
-			Utilitaire.deleteDir(new File(File.separator + "opt"));
-		}
-	}
+//	@GetMapping("destroyTempoFolder/{loginUser}")
+//	public void destroyTempoFolder(@PathVariable String loginUser) {
+//		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
+//				+ File.separator + loginUser;
+//		Path path = Paths.get(realPath);
+//		if (path != null)
+//			Utilitaire.deleteDir(path.toFile());
+//		if (Paths.get(File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting")
+//				.toFile().list().length == 0) {
+//			Utilitaire.deleteDir(new File(File.separator + "reporting"));
+//		}
+	
+//	}
 
 	@RequestMapping(value = "convertWordToPdf", method = RequestMethod.POST)
 	public JSONObject convertWordToPdf(@RequestBody JSONObject fileJson) {

@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
@@ -38,18 +40,25 @@ public class AccueilController {
 		return map;
 	}
 
-	@RequestMapping(value = "/ReportingChargeRelance", method = RequestMethod.GET)
-	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
-		List<ReportingChargeRelanceDto> listeReportingChargeRelance = new ArrayList<>(
+	@RequestMapping(value = "/ReportingChargeRelance", method = RequestMethod.POST)
+	public JSONObject rechercherChargeParRelance(@RequestParam int page, @RequestParam int size) {
+		List<ReportingChargeRelanceDto> liste = new ArrayList<>(
 				utilisateurService.rechercherChargeParRelance());
-		return listeReportingChargeRelance;
+		JSONObject object = new JSONObject();
+		object.put("total", liste.size());
+		if (size == 0)
+			object.put("results", liste);
+		else
+			object.put("results", liste.subList(page, liste.size() < size + page ? liste.size() : page + size));
+		return object;
 	}
 
 	@RequestMapping(value = "/Sessionreporting", method = RequestMethod.GET)
 	public List<SessionFormationReportingDto> rechercherSessionreporting() {
-		List<SessionFormationReportingDto> listeReportingChargeRelance = new ArrayList<>(
+		List<SessionFormationReportingDto> liste = new ArrayList<>(
 				sessionFormationService.rechercherSessionreorting());
-		return listeReportingChargeRelance;
+	
+		return liste;
 	}
 
 	@RequestMapping(value = "/SourceurTechnologies", method = RequestMethod.GET)
