@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        echo "PATH = ${JAVA_HOME}"
+                        echo "PATH  = ${JAVA_HOME}"
                         echo "MAVEN_HOME = ${MAVEN_HOME}"
                     '''
                     echo sh(script: 'env|sort', returnStdout: true)
@@ -120,13 +120,13 @@ pipeline {
                             	def qualitygate = jsonParse(readFile('qualityGate.json'))
                             	echo qualitygate.toString()
                             	if ("ERROR".equals(qualitygate["projectStatus"]["status"])) {
-                                	for ( i = 0; i< 4; i++) {
+                                	for ( i = 0; i< 3; i++) {
                                 		echo qualitygate["projectStatus"]["conditions"][i]["status"]
                                 		if ( "ERROR".equals(qualitygate["projectStatus"]["conditions"][i]["status"])) {
                                 			x++         	
 	                                	}
                                 	}
-                                	if ( x > 1 ) {
+                                	if ( x > 2 ) {
                           	 			error "Quality Gate failer"
                             	    }
                             	echo  "Quality Gate success"
