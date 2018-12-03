@@ -236,15 +236,15 @@ table td {
 }
 
 .sidebar .nav-link.active {
-  background: rgb(77, 74, 74);
+  background: rgb(77, 74, 74); //black
 }
 
 .sidebar{
-  background-color: #737373;
+  background-color: #737373; //darkred
 }
 
 .sidebar .nav-link:hover{
-  background-color: darkslategrey
+  background-color: darkslategrey 
 }
 
 .sidebar .nav-link .nav-icon{
@@ -256,7 +256,7 @@ table td {
 }
 
 .sidebar-minimized .sidebar .sidebar-minimizer{
-  background-color: rgb(116, 9, 9);
+  background-color:#737373; // darkred;
 }
 
 .navbar-toggler d-lg-none{
@@ -267,3 +267,9 @@ table td {
 .cdk-overlay-container{
     z-index: 6999999999;
 }
+  
+  .cdk-global-scrollblock {
+      position: initial;
+      width: initial;
+      overflow: hidden;
+  }
