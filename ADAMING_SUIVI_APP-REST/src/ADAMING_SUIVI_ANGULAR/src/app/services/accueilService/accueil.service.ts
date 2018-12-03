@@ -9,13 +9,9 @@ import { Observable } from 'rxjs';
 export class AccueilService {
 
   constructor(private http: HttpClient) { }
-  getNombreCVRrelancer(page,size): Observable<any> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.http.post(BACK_END_URL+'/accueil/ReportingChargeRelance'+ "?page=" + page + "&size=" + size, httpOptions);
+  getNombreCVRrelancer() {
+    
+    return this.http.get<any>(BACK_END_URL+'/accueil/ReportingChargeRelance');
   }
   getSessionreporting() {
    

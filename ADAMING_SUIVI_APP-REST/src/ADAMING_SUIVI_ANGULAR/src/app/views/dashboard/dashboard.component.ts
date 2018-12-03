@@ -41,12 +41,12 @@ export class DashboardComponent implements OnInit {
      }
 
   ngOnInit() {
-    this.doRechercheCandidat();
+    this.loadReportingChargeRelance();
     this.loadSessionReporting();
     this.loadSourceurtechnologies();
     this.getChart();
   }
-  doRechercheCandidat() {
+  /*doRechercheCandidat() {
     let page = (this.currentPage - 1) * this.size;
     this.accueilService.getNombreCVRrelancer(page, this.size).subscribe(data => {
       this.maxlenght = data.total;
@@ -60,11 +60,11 @@ export class DashboardComponent implements OnInit {
     this.currentPage = p;
     this.pages = this.helperService.generatePages(this.currentPage, this.lastPage)
     this.doRechercheCandidat();
-  }
-
-  /*private loadReportingChargeRelance() {
-    this.accueilService.getNombreCVRrelancer().subscribe(result => { this.ReportingChargeRelance = result });
   }*/
+
+  private loadReportingChargeRelance() {
+    this.accueilService.getNombreCVRrelancer().subscribe(result => { this.ReportingChargeRelance = result });
+  }
    private loadSessionReporting() {
     this.accueilService.getSessionreporting().subscribe(result => {  this.Sessionreporting = result});
   }
