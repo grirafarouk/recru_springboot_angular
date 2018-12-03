@@ -125,6 +125,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   ]
 
   condidat: CandidateDto = new CandidateDto();
+  
 
   constructor(
     private router: Router,
@@ -199,7 +200,6 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     else this.region = []
   }
   private updateDateRelance(date: Date) {
-    console.log("date relance" + date)
     this.condidat.dateRelance = date
   }
 

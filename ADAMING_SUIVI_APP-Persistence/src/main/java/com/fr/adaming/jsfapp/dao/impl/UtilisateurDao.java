@@ -446,7 +446,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "SUM(case when (t.libelle = 'NTIC') then 1 else 0 end ) as NTIC,"
 				+ "SUM(case when (t.libelle <> 'NTIC' and t.libelle <> 'MAINFRAME ++' and t.libelle <> 'MAINFRAME') then 1 else 0 end) as AUTRE_TECHNO,"
 				+ "count(*) as TOTAL " + "FROM candidat c " + "JOIN utilisateur u on u.ID = c.CREE_PAR "
-				+ "JOIN technologie t on t.ID = c.TECHNOLOGIE WHERE c.DATE_INSCRIPTION < CURRENT_DATE AND c.DATE_INSCRIPTION >= (CURRENT_DATE + INTERVAL -1 DAY) group by u.ID) ";
+				+ "JOIN technologie t on t.ID = c.TECHNOLOGIE WHERE c.DATE_INSCRIPTION < CURRENT_DATE AND c.DATE_INSCRIPTION >= (CURRENT_DATE + INTERVAL -1 DAY)) ";
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		List<ReportingSourceurTechnologieDto> data = new ArrayList<>();

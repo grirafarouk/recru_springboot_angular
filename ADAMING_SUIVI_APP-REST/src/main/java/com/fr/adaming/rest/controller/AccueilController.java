@@ -40,17 +40,11 @@ public class AccueilController {
 		return map;
 	}
 
-	@RequestMapping(value = "/ReportingChargeRelance", method = RequestMethod.POST)
-	public JSONObject rechercherChargeParRelance(@RequestParam int page, @RequestParam int size) {
+	@RequestMapping(value = "/ReportingChargeRelance", method = RequestMethod.GET)
+	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
 		List<ReportingChargeRelanceDto> liste = new ArrayList<>(
 				utilisateurService.rechercherChargeParRelance());
-		JSONObject object = new JSONObject();
-		object.put("total", liste.size());
-		if (size == 0)
-			object.put("results", liste);
-		else
-			object.put("results", liste.subList(page, liste.size() < size + page ? liste.size() : page + size));
-		return object;
+		return liste;
 	}
 
 	@RequestMapping(value = "/Sessionreporting", method = RequestMethod.GET)
