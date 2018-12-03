@@ -220,8 +220,12 @@ export class ListeReportingComponent implements OnInit {
   }
 
 
-  recherche(item, page, size) {
-    return this.candidatsService.RechercheReporting(item, page, size)
+  recherche(item, page, size,allValue) {
+    return this.candidatsService.rechercheReporting(item, page, size)
+  }
+
+  rechercheNbr(item,allValue) {
+    return this.candidatsService.rechercheReportingNbr(item)
   }
 
   reset() {

@@ -144,8 +144,12 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   initTableFunction(){
     this.rechercheCandidat()
   }
-  recherche(item, page, size) {
+  recherche(item, page, size,allValue) {
     return this.candidatsService.rechercheNouveauxcandidats(item, page, size)
+  }
+
+  rechercheNbr(item,allValue){
+    return this.candidatsService.rechercheNouveauxcandidatsNbr(item) 
   }
 
   reset() {

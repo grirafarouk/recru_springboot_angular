@@ -208,9 +208,14 @@ export class listeEntretienComponent implements OnInit {
   }
 
 
-  recherche(item, page, size) {
-    return this.candidatsService.rechercheCandidatAvecEntretien(item, page, size)
+  recherche(item, page, size,allValue) {
+    return this.candidatsService.rechercheCandidatAvecEntretien(item, page, size,allValue)
   }
+
+  rechercheNbr(item,allValue) {
+    return this.candidatsService.rechercheCandidatAvecEntretienNbr(item,allValue)
+  }
+
   openDetails(candidat){
     this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',candidat.id)]);
   }

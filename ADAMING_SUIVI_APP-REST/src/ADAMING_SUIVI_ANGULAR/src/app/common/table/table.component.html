@@ -5,8 +5,20 @@
     </div>
 
     <div class="card-body">
-        <div class="form-group row" style="float: right">
-            <div class="col-md-12">
+
+        <div  *ngIf="enableAll==true"class="col-md-8 col-form-label">
+                <div class="form-check form-check-inline mr-1">
+                    <label class="label--checkbox">
+                            <input (change)="parent.initTableFunction()" class="checkbox" type="checkbox" [(ngModel)]="allValue"
+                            name="allValue" id="allValue ">
+                        </label>
+                    <label >
+                            All
+                    </label>
+                </div>
+            </div>
+        <div class="form-group" style="float: right">
+            <div class="col-md-8">
                 <div class="input-group">
                     <div autoClose="false" class="btn-group" style="float: right;" dropdown>
                         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">

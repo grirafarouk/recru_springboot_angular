@@ -195,10 +195,13 @@ titleTable="List Tous les Condidats "
   }
 
 
-  recherche(item, page, size) {
+  recherche(item, page, size,allValue) {
     return this.candidatsService.rechercheTouscandidats(item, page, size)
   }
 
+  rechercheNbr(item,allValue){
+    return this.candidatsService.rechercheTouscandidatsNbr(item) 
+  }
 
   reset() {
     this.condidat = new CandidateDto()

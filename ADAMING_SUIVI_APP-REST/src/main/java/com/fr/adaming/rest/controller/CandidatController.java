@@ -29,7 +29,6 @@ import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
@@ -56,7 +54,6 @@ import com.fr.adaming.jsfapp.services.IUtilisateurService;
 import com.fr.adaming.jsfapp.services.IV_ListeCandidatsService;
 import com.fr.adaming.jsfapp.services.IV_ReportingCandidatService;
 import com.fr.adaming.jsfapp.services.impl.AlfrescoOpenCmis;
-import com.fr.adaming.jsfapp.utils.Utilitaire;
 import com.fr.adaming.util.ConvocationMail;
 import com.fr.adaming.util.EntretienMail;
 import com.fr.adaming.util.JavaMailApi;
@@ -83,7 +80,6 @@ public class CandidatController {
 	private IV_ListeCandidatsService vListeCandidatsService;
 
 	private V_ListeCandidatsDto vListeCandidatsDto;
-	private V_ReportingCandidatDto vReportingCandidatDto;
 	private V_ListeCandidatsMapper vListeCandidatsMapper = Mappers.getMapper(V_ListeCandidatsMapper.class);
 	private V_ReportingCandidatMapper vReportingCandidatMapper = Mappers.getMapper(V_ReportingCandidatMapper.class);
 
@@ -95,82 +91,46 @@ public class CandidatController {
 		return candidatService.findAll();
 	}
 
-	public List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all) {
-		return candidatService.rechercherCandidats(candidatDto, all);
+	@RequestMapping(value = "/RechercheNouveauxcandidats", method = RequestMethod.POST)
+	public List<V_ListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD,
+			@RequestParam int page, @RequestParam int size) {
+
+		List<V_ListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherV_ListeNouveauxCandidats(NCD, page, size));
+		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
-	@RequestMapping(value = "/nouveauxcandidats/{page}/{size}", method = RequestMethod.GET)
-	public List<V_ListeCandidatsDto> findAllNouveauxCandidats(@PathVariable int page, @PathVariable int size) {
-
-		vListeCandidatsDto = new V_ListeCandidatsDto();
-		List<V_ListeCandidats> v_listeCandidats = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeNouveauxCandidats(vListeCandidatsDto, page, size));
-		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(v_listeCandidats);
-	}
-
-	@RequestMapping(value = "/rechercheNouveauxcandidats", method = RequestMethod.POST)
-	public JSONObject rechercherNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
-			@RequestParam int size) {
-		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
-		JSONObject object = new JSONObject();
-		object.put("total", list.size());
-		if (size == 0)
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
-		else
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
-					list.subList(page, list.size() < size + page ? list.size() : page + size)));
-		return object;
-	}
-
-	@RequestMapping(value = "/candidats/{page}/{size}", method = RequestMethod.GET)
-	public List<V_ListeCandidatsDto> findAllCandidats(@PathVariable int page, @PathVariable int size) {
-
-		vListeCandidatsDto = new V_ListeCandidatsDto();
-		List<V_ListeCandidats> v_listeCandidats = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeCandidats(vListeCandidatsDto, page, size));
-		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(v_listeCandidats);
+	@RequestMapping(value = "/RechercheNouveauxcandidatsNbr", method = RequestMethod.POST)
+	public Integer rechercheNouveauxcandidatsNbr(@RequestBody V_ListeCandidatsDto NCD) {
+		return vListeCandidatsService.rechercherV_ListeNouveauxCandidatsNbr(NCD);
 	}
 
 	@RequestMapping(value = "/RechercheTouscandidats", method = RequestMethod.POST)
-	public JSONObject rechercherTousCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
-			@RequestParam int size) {
-		JSONObject object = new JSONObject();
-		
-		try {
-			List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherV_ListeCandidats(NCD, page, size));
-			object.put("total", NbreCandidat());
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list.subList(page, page + size)));
-		}
-		 catch(IndexOutOfBoundsException e) {
-			 List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherTousCandidats(NCD));
-				object.put("total", list.size());
-				object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
-						list.subList(page, list.size() < size + page ? list.size() : page + size)));
-         }
-		
-		return object;
+	public List<V_ListeCandidatsDto> rechercherTousCandidats(@RequestBody V_ListeCandidatsDto NCD,
+			@RequestParam int page, @RequestParam int size) {
+
+		List<V_ListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherV_ListeCandidats(NCD, page, size));
+		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
+
 	}
 
-	@RequestMapping(value = "/candidatsarelancer/{page}/{size}", method = RequestMethod.GET)
-	public List<V_ListeCandidatsDto> findAllARelancer(@PathVariable int page, @PathVariable int size) {
-		vListeCandidatsDto = new V_ListeCandidatsDto();
-		List<V_ListeCandidats> v_listeCandidats = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeCandidatsARelancer(vListeCandidatsDto, page, size));
-		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(v_listeCandidats);
+	@RequestMapping(value = "/RechercheTouscandidatsNbr", method = RequestMethod.POST)
+	public Integer RechercheTouscandidatsNbr(@RequestBody V_ListeCandidatsDto NCD) {
+		return vListeCandidatsService.rechercherV_ListeCandidatsNbr(NCD);
 	}
 
-	@RequestMapping(value = "/RechercheCandidatsaRelancer", method = RequestMethod.POST)
-	public JSONObject findCandidatsaRelancer(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
-			@RequestParam int size) {
-		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherCandidatsARelancer(NCD));
-		JSONObject object = new JSONObject();
-		object.put("total", list.size());
-		if (size == 0)
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
-		else
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
-					list.subList(page, list.size() < size + page ? list.size() : page + size)));
-		return object;
+	@RequestMapping(value = "/RechercheCandidatARelancer", method = RequestMethod.POST)
+	public List<V_ListeCandidatsDto> RechercheCandidatARelancer(@RequestBody V_ListeCandidatsDto NCD,
+			@RequestParam int page, @RequestParam int size) {
+		List<V_ListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherV_ListeCandidatsARelancer(NCD, page, size));
+		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
+	}
+
+	@RequestMapping(value = "/RechercheCandidatARelancerNbr", method = RequestMethod.POST)
+	public Integer RechercheCandidatARelancerNbr(@RequestBody V_ListeCandidatsDto NCD) {
+		return vListeCandidatsService.rechercherV_ListeCandidatsARelancerNbr(NCD);
 	}
 
 	@RequestMapping(value = "/candidatavecentretien/{page}/{size}", method = RequestMethod.GET)
@@ -180,80 +140,35 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/RechercheCandidatavecentretien", method = RequestMethod.POST)
-	public JSONObject findCandidatavecentretien(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
-			@RequestParam int size) {
-		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.findCandidatAvecEntretien(NCD, false));
-		JSONObject object = new JSONObject();
-		object.put("total", list.size());
-		if (size == 0)
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
-		else
-			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
-					list.subList(page, list.size() < size + page ? list.size() : page + size)));
-		return object;
+	public List<V_ListeCandidatsDto> findCandidatavecentretien(@RequestBody V_ListeCandidatsDto NCD,
+			@RequestParam int page, @RequestParam int size, @RequestParam boolean allValue) {
+		List<V_ListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherCandidatAvecEntretien(NCD, page, size, allValue));
+		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
-	@RequestMapping(value = "/reporting/{page}/{size}", method = RequestMethod.GET)
-	public List<V_ReportingCandidatDto> findReportingCandidats(@PathVariable int page, @PathVariable int size) {
-
-		vReportingCandidatDto = new V_ReportingCandidatDto();
-		List<V_ReportingCandidat> v_listeCandidats = new ArrayList<>(
-				vReportingCandidatService.rechercherReportingCandidat(vReportingCandidatDto, page, size));
-		return vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(v_listeCandidats);
+	@RequestMapping(value = "/RechercheCandidatAvecEntretienNbr", method = RequestMethod.POST)
+	public Integer rechercheCandidatAvecEntretienNbr(@RequestBody V_ListeCandidatsDto NCD,
+			@RequestParam boolean allValue) {
+		return vListeCandidatsService.rechercherCandidatAvecEntretienNbr(NCD, allValue);
 	}
 
 	@RequestMapping(value = "/RechercheReporting", method = RequestMethod.POST)
-	public JSONObject rechercherReportingCandidat(@RequestBody V_ReportingCandidatDto NCD, @RequestParam int page,
-			@RequestParam int size) {
-		List<V_ReportingCandidat> list = new ArrayList<>(vReportingCandidatService.findReportingCandidat(NCD));
-		JSONObject object = new JSONObject();
-		object.put("total", list.size());
-		if (size == 0)
-			object.put("results", vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(list));
-		else
-			object.put("results", vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(
-					list.subList(page, list.size() < size + page ? list.size() : page + size)));
-		return object;
+	public List<V_ReportingCandidatDto> rechercherReportingCandidat(@RequestBody V_ReportingCandidatDto NCD,
+			@RequestParam int page, @RequestParam int size) {
+		List<V_ReportingCandidat> list = new ArrayList<>(
+				vReportingCandidatService.rechercherReportingCandidat(NCD, page, size));
+		return vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(list);
+	}
+
+	@RequestMapping(value = "/RechercheReportingNbr", method = RequestMethod.POST)
+	public Integer rechercheReportingNbr(@RequestBody V_ReportingCandidatDto NCD) {
+		return vReportingCandidatService.rechercherReportingCandidatNbr(NCD);
 	}
 
 	@GetMapping(value = "/getcandidatById/{id}", produces = "application/json")
 	public Candidat findById(@PathVariable Long id) {
 		return candidatService.findById(id);
-	}
-
-//	@RequestMapping(value = "/downloadNouveauxCandidats", method = RequestMethod.POST)
-//	public Model downloadNouveauxCandidats(Model model, @RequestBody V_ListeCandidatsDto NCD) {
-//
-//		List<V_ListeCandidats> v_listeCandidats = new ArrayList<>(
-//				v_ListeCandidatsService.rechercherV_ListeNouveauxCandidats(NCD));
-//
-//		model.addAttribute("candidats", v_listeCandidats);
-//		return model;
-//	}
-
-	@RequestMapping(value = "/downloadCandidatsaRelance", method = RequestMethod.POST)
-	public Model downloadCandidatsaRelance(Model model, @RequestBody V_ListeCandidatsDto NCD) {
-
-		List<V_ListeCandidats> v_listeCandidats = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeCandidatsARelancer(NCD));
-
-		model.addAttribute("candidats", v_listeCandidats);
-		return model;
-	}
-
-	@RequestMapping(value = "/count", method = RequestMethod.GET)
-	public Number NbreCandidataRelance() {
-		return vListeCandidatsService.nberCandidatsARelancer();
-	}
-
-//	@RequestMapping(value = "/nberCandidats", method = RequestMethod.GET)
-	public Number NbreCandidat() {
-		return vListeCandidatsService.nberCandidats();
-	}
-
-	@RequestMapping(value = "/nberNouveauxCandidats", method = RequestMethod.GET)
-	public Number NbreNouveauxCandidat() {
-		return vListeCandidatsService.nberNouveauxCandidats();
 	}
 
 	@RequestMapping(value = "/refDisponibilite", method = RequestMethod.GET)
@@ -342,7 +257,7 @@ public class CandidatController {
 //				.toFile().list().length == 0) {
 //			Utilitaire.deleteDir(new File(File.separator + "reporting"));
 //		}
-	
+
 //	}
 
 	@RequestMapping(value = "convertWordToPdf", method = RequestMethod.POST)

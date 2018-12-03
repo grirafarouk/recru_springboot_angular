@@ -1,6 +1,7 @@
 import { OnInit, Component, Input } from "@angular/core";
 import { NotifierService } from "angular-notifier";
 import { HelperService } from "../../helper/helper.service";
+import { all } from "q";
 
 
 @Component({
@@ -10,12 +11,12 @@ import { HelperService } from "../../helper/helper.service";
 export class CustomTableComponent implements OnInit {
 
 
-  @Input() 
+  @Input()
   parent
 
 
-@Input()
-title
+  @Input()
+  title
 
   @Input()
   item
@@ -26,6 +27,11 @@ title
   @Input()
   actions
 
+  @Input()
+  enableAll;
+
+  allValue=false;
+
   items
   pages = [];
   size = 10;
@@ -35,13 +41,13 @@ title
   loading = false;
   ngOnInit(): void {
     this.parent.initTableFunction()
-
+    
   }
 
 
   constructor(
     private notifierService: NotifierService, private helperService: HelperService) {
-    }
+  }
   setPage(p, callBack?) {
     this.loading = true;
     this.currentPage = p;
@@ -53,15 +59,21 @@ title
   doRechercheCandidat(callBack?) {
     let page = (this.currentPage - 1) * this.size;
     if (this.item == null) this.item = {}
-    this.parent.recherche(this.item, page, this.size).subscribe(data => {
-      this.maxlenght = data.total;
-      this.items = data.results;
-      this.lastPage = Math.ceil(this.maxlenght / this.size)
-      this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
+    this.parent.recherche(this.item, page, this.size,this.allValue).subscribe(data => {
+      this.items = data;
       this.loading = false;
-      if (callBack) callBack();
+
     }, error => {
       this.loading = false
     })
+    if (callBack) {
+      this.parent.rechercheNbr(this.item,this.allValue).subscribe(dataNbr => {
+        this.maxlenght = dataNbr;
+        this.lastPage = Math.ceil(this.maxlenght / this.size)
+        this.pages = this.helperService.generatePages(this.currentPage, this.lastPage);
+        callBack();
+      })
+    }
+
   }
 }

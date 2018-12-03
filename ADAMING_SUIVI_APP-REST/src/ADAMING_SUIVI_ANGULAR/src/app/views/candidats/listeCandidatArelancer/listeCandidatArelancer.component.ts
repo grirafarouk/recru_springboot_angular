@@ -10,7 +10,7 @@ import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
-import { NAVIGATION_RULES,DATE_FORMAT } from "../../../helper/application.constant";
+import { NAVIGATION_RULES, DATE_FORMAT } from "../../../helper/application.constant";
 import { RoutingState } from "../../../helper/routing-state.service";
 
 @Component({
@@ -20,125 +20,125 @@ import { RoutingState } from "../../../helper/routing-state.service";
 })
 export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
 
-  titleTable="List Condidats A relancer "
+  titleTable = "List Condidats A relancer "
 
   @ViewChild("table")
   table;
 
   actions = {
-    visible:true,
-    title:'Actions',
-    items:[
-    {
-      icon: 'fa fa-edit',
-      class: 'btn-outline-success btn btn-sm',
-      tooltip:'Détails',
-      action: (e) => {
-        this.openDetails(e);    
-      }
-    },
-    {
-      icon: 'fa fa-download',
-      class: 'btn-outline-warning btn btn-sm',
-      tooltip:'Telecharger CV',
-      action:
-        (e) => {
-          this.downloadCV(e);
+    visible: true,
+    title: 'Actions',
+    items: [
+      {
+        icon: 'fa fa-edit',
+        class: 'btn-outline-success btn btn-sm',
+        tooltip: 'Détails',
+        action: (e) => {
+          this.openDetails(e);
         }
-    }
-  ]
+      },
+      {
+        icon: 'fa fa-download',
+        class: 'btn-outline-warning btn btn-sm',
+        tooltip: 'Telecharger CV',
+        action:
+          (e) => {
+            this.downloadCV(e);
+          }
+      }
+    ]
   }
 
-  technologies=[]
+  technologies = []
   refDisponibilite = this.helperService.buildDisponibiliteArray();
   region: Array<Region> = [];
-  columns =[
+  columns = [
     {
-      data:'nom',
-      title:'Nom',
-      visible:true
+      data: 'nom',
+      title: 'Nom',
+      visible: true
     },
     {
-      data:'prenom',
-      title:'Prenom',
-      visible:true
+      data: 'prenom',
+      title: 'Prenom',
+      visible: true
     },
     {
-      data:'numeroTel',
-      title:'N° Téléphone',
-      visible:true
+      data: 'numeroTel',
+      title: 'N° Téléphone',
+      visible: true
     },
     {
-      data:'email',
-      title:'Email',
-      visible:true
+      data: 'email',
+      title: 'Email',
+      visible: true
     },
     {
-      data:'dateInscription',
-      title:'Date inscription',
-      visible:false,
+      data: 'dateInscription',
+      title: 'Date inscription',
+      visible: false,
       dateFormat: DATE_FORMAT
 
     },
     {
-      data:'technologie',
-      title:'Type de profil',
-      visible:false
+      data: 'technologie',
+      title: 'Type de profil',
+      visible: false
     },
     {
-      data:'region',
-      title:'Région',
-      visible:false
+      data: 'region',
+      title: 'Région',
+      visible: false
     },
     {
-      data:'nomSourceur',
-      title:'Nom sourceur',
-      visible:true
+      data: 'nomSourceur',
+      title: 'Nom sourceur',
+      visible: true
     },
     {
-      data:'prenomSourceur',
-      title:'Prénom sourceur',
-      visible:true
+      data: 'prenomSourceur',
+      title: 'Prénom sourceur',
+      visible: true
     },
     {
-      data:'disponibilite',
-      title:'Disponible',
-      visible:true
+      data: 'disponibilite',
+      title: 'Disponible',
+      visible: true
     },
     {
-      data:'dateRelance',
-      title:'Date relance',
-      visible:true,
+      data: 'dateRelance',
+      title: 'Date relance',
+      visible: true,
       dateFormat: DATE_FORMAT
 
     },
     {
-      data:'nomCharge',
-      title:'Nom charge',
-      visible:true
+      data: 'nomCharge',
+      title: 'Nom charge',
+      visible: true
     },
     {
-      data:'prenomCharge',
-      title:'Prénom charge',
-      visible:true
+      data: 'prenomCharge',
+      title: 'Prénom charge',
+      visible: true
     }
   ]
 
   condidat: CandidateDto = new CandidateDto();
 
   constructor(
-    private router:Router,
-    private candidatsService:CandidatsService,
-    private helperService:HelperService,
-    private notifierService:NotifierService,
+    private router: Router,
+    private candidatsService: CandidatsService,
+    private helperService: HelperService,
+    private notifierService: NotifierService,
     private technologiesService: TechnologieService,
     private routingState: RoutingState,
     private regionService: RegionService) {
 
-    }
+  }
 
   ngOnInit(): void {
-    if(this.routingState.getPreviousUrl().indexOf('details')>-1)  
+    if (this.routingState.getPreviousUrl().indexOf('details') > -1)
       this.condidat = this.helperService.listRelanceCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
@@ -153,36 +153,40 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     }
     this.table.setPage(1, callBack);
   }
-  initTableFunction(){
+  initTableFunction() {
     this.rechercheCandidat()
   }
-  recherche(item, page, size) {
+  recherche(item, page, size,allValue) {
     return this.candidatsService.rechercheCandidatArelancer(item, page, size)
   }
 
-   reset() {
-    this.condidat= new CandidateDto();
+  rechercheNbr(item,allValue) {
+    return this.candidatsService.rechercheCandidatArelancerNbr(item)
+  }
+  
+  reset() {
+    this.condidat = new CandidateDto();
     this.rechercheCandidat();
   }
 
-  downloadCV(candidat){
+  downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
-        var url = window.URL.createObjectURL(file.data);
-        var a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = url;
-        a.download =file.filename;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove(); // remove the element     
-       
+      var url = window.URL.createObjectURL(file.data);
+      var a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = file.filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove(); // remove the element     
+
     })
   }
 
-  openDetails(candidat){
-    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',candidat.id)]);
+  openDetails(candidat) {
+    this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
 
   codePostaleOnSearch(value) {
@@ -195,7 +199,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     else this.region = []
   }
   private updateDateRelance(date: Date) {
-    console.log("date relance"+date)
+    console.log("date relance" + date)
     this.condidat.dateRelance = date
   }
 
@@ -204,8 +208,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       this.condidat.dateDebut = undefined
       this.condidat.dateFin = undefined
     }
-    else
-    {
+    else {
       this.condidat.dateRelance = undefined
     }
   }

@@ -8,6 +8,6 @@ import com.fr.adaming.jsfapp.model.V_ReportingCandidat;
 public interface IV_ReportingCandidatService extends IManagerService<V_ReportingCandidat, Long> {
 	List<V_ReportingCandidat> rechercherReportingCandidat(V_ReportingCandidatDto reportingCandidatDto, int page,
 			int size);
-    List<V_ReportingCandidat> findReportingCandidat(V_ReportingCandidatDto v_ReportingcandidatDto);
-	
+	public Integer rechercherReportingCandidatNbr(V_ReportingCandidatDto ReportingCandidatDto);
+
 }

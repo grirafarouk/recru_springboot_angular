@@ -29,14 +29,14 @@ public class V_ReportingCandidatService extends ManagerService<V_ReportingCandid
 			int size) {
 		return v_ReportingCandidatDao.rechercherReportingCandidat(v_ReportingCandidatDto, page, size);
 	}
-	
-	@Override
-	public List<V_ReportingCandidat> findReportingCandidat(V_ReportingCandidatDto v_ReportingcandidatDto) {
-		return v_ReportingCandidatDao.findReportingCandidat(v_ReportingcandidatDto);
-	}
 
 	@Override
 	public IManagerDao<V_ReportingCandidat, Long> getDao() {
 		return v_ReportingCandidatDao;
+	}
+
+	@Override
+	public Integer rechercherReportingCandidatNbr(V_ReportingCandidatDto ReportingCandidatDto) {
+		return v_ReportingCandidatDao.rechercherReportingCandidatNbr(ReportingCandidatDto);
 	}
 }

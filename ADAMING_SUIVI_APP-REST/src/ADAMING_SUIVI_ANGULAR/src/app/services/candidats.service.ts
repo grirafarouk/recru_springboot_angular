@@ -13,12 +13,19 @@ import { Candidate } from '../models/Candidate';
 import { HelperService } from '../helper/helper.service';
 import { Suivi } from '../models/Suivi';
 
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
+
 @Injectable({
   providedIn: 'root'
 })
 export class CandidatsService {
   destroyTempoFolder(loginuser): any {
-    return this.httpClient.get(BACK_END_URL+"/destroyTempoFolder/"+loginuser);
+    return this.httpClient.get(BACK_END_URL + "/destroyTempoFolder/" + loginuser);
   }
 
 
@@ -26,15 +33,12 @@ export class CandidatsService {
     private utilisateurService: UtilisateurService, private http: Http) {
   }
   folders = []
-  create(candidate: Candidate, mime): Observable<any> {
+
+  public create(candidate: Candidate, mime): Observable<any> {
     candidate.nom = this.helperService.getClearString(candidate.nom)
     candidate.prenom = this.helperService.getClearString(candidate.prenom)
     candidate.diplome = this.helperService.getClearString(candidate.diplome)
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+
     return this.httpClient.post(BACK_END_URL + "/ajoutCandidat?mime=" + mime + "&login=" + this.utilisateurService.getConnetedUserInfo().login, candidate, httpOptions).pipe(map(async (data: any) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
@@ -50,16 +54,13 @@ export class CandidatsService {
       return data;
     }));
   }
-  updateCandidat(candidate: Candidate): Observable<any> {
+
+  public updateCandidat(candidate: Candidate): Observable<any> {
 
     candidate.nom = this.helperService.getClearString(candidate.nom)
     candidate.prenom = this.helperService.getClearString(candidate.prenom)
     candidate.diplome = this.helperService.getClearString(candidate.diplome)
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+
     return this.httpClient.put(BACK_END_URL + "/updateCandidat", candidate, httpOptions).pipe(map(async (data: any) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
@@ -76,27 +77,12 @@ export class CandidatsService {
     }))
 
   }
-  rechercheNouveauxcandidats(candidate, page, size): Observable<any> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/rechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
-  }
-
-
-  uploadWordFile(fileBase): Observable<any> {
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    };
+  public uploadWordFile(fileBase): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/convertWordToPdf", fileBase, httpOptions);
   }
-  getCandidatByEmail(email: String): Observable<Promise<Candidate>> {
+
+  public getCandidatByEmail(email: String): Observable<Promise<Candidate>> {
     return this.httpClient.get<Candidate>(BACK_END_URL + "/getCandidatByEmail/" + email + "/").pipe(map(async (data: Candidate) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
@@ -113,83 +99,63 @@ export class CandidatsService {
     }))
 
   }
-  getCandidatByNumTel(numTel: String): Observable<Candidate> {
+
+  public getCandidatByNumTel(numTel: String): Observable<Candidate> {
     return this.httpClient.get<Candidate>(BACK_END_URL + "/getCandidatByNumTel/" + numTel)
   }
 
-  getListNomCvs(): Observable<any> {
+  public getListNomCvs(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/getListNomCvs");
   }
 
+//#region  List Candidats
 
-
-  getNouveauxCandidats(page, size) {
-    return this.httpClient.get<any>(BACK_END_URL + '/nouveauxcandidats/' + page + '/' + size);
+  public rechercheNouveauxcandidats(candidate, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
   }
 
-  MaxLength() {
-
-    return this.httpClient.get<any>(BACK_END_URL + '/nberNouveauxCandidats');
-  }
-
-  sizeList() {
-
-    return this.httpClient.get<any>(BACK_END_URL + '/nberCandidats');
-  }
-
-
-  getTousCandidats(page, size) {
-    return this.httpClient.get<any>(BACK_END_URL + '/candidats/' + page + '/' + size);
-  }
-
-  rechercheTouscandidats(candidat, page, size): Observable<any> {
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+  public rechercheTouscandidats(candidat, page, size): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidats" + "?page=" + page + "&size=" + size, candidat, httpOptions);
   }
-  getCandidatArelancer(page, size) {
-    return this.httpClient.get<any>(BACK_END_URL + '/candidatsarelancer/' + page + '/' + size);
-  }
-  rechercheCandidatArelancer(candidat, page, size): Observable<any> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsaRelancer" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  public rechercheTouscandidatsNbr(candidat):Observable<any>{
+    return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidatsNbr", candidat, httpOptions);
   }
-  rechercheCandidatAvecEntretien(candidat, page, size): Observable<any> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  public rechercheNouveauxcandidatsNbr(candidat):Observable<any>{
+    return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidatsNbr", candidat, httpOptions);
   }
-  RechercheReporting(candidat, page, size): Observable<any> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    };
+  
+  public rechercheCandidatArelancerNbr(candidat):Observable<any>{
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancerNbr", candidat, httpOptions);
+  }
+  
+  public rechercheCandidatArelancer(candidat, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancer" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  }
+
+  public rechercheCandidatAvecEntretien(candidat, page, size,allValue): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" + "?page=" + page + "&size=" + size+"&allValue="+allValue, candidat, httpOptions);
+  }
+
+  public rechercheCandidatAvecEntretienNbr(candidat,allValue):Observable<any>{
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatAvecEntretienNbr?allValue="+allValue, candidat, httpOptions);
+  }
+
+
+  public rechercheReporting(candidat, page, size): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheReporting" + "?page=" + page + "&size=" + size, candidat, httpOptions);
   }
-  getCandidatEntretien(page, size) {
-    return this.httpClient.get<any>(BACK_END_URL + '/candidatavecentretien/' + page + '/' + size);
-  }
-  getReportingCandidat(page, size) {
-    return this.httpClient.get<any>(BACK_END_URL + '/reporting/' + page + '/' + size);
-  }
 
+  public rechercheReportingNbr(candidat):Observable<any>{
+    return this.httpClient.post(BACK_END_URL + "/RechercheReportingNbr", candidat, httpOptions);
+  }
+  
 
-  getCandidatById(id: number): Observable<any> {
+//#endregion
+
+  public getCandidatById(id: number): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/getcandidatById/" + id).pipe(map(async (data: any) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
@@ -209,7 +175,7 @@ export class CandidatsService {
     }))
   }
 
-  getCvCandidats(candidat): Observable<any> {
+  public getCvCandidats(candidat): Observable<any> {
     let token = localStorage.getItem(TOKEN_NAME);
     const headers = new Headers({ 'Authorization': `Bearer ${token}` });
     return this.http.post(BACK_END_URL + "/CVPDF", { id: candidat.id }, {
@@ -222,11 +188,11 @@ export class CandidatsService {
     })
   }
 
-  envoyerEmailHorsCibleCandidats(candidat, login, comMotif): Observable<any> {
+  public envoyerEmailHorsCibleCandidats(candidat, login, comMotif): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/envoyerEmailHorsCibleCandidats" + "?login=" + login + "&comMotif=" + comMotif, candidat)
   }
 
-  envoyerEmailDisboCandidats(emailEntrtien, login): Observable<any> {
+  public envoyerEmailDisboCandidats(emailEntrtien, login): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/envoyerEmailDispoCandidats" + "?login=" + login, emailEntrtien);
   }
 
