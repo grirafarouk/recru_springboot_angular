@@ -43,6 +43,11 @@ public class V_ListeCandidatsService extends ManagerService<V_ListeCandidats, Lo
 	}
 	
 	@Override
+	public List<V_ListeCandidats> rechercherNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto) {
+		return v_ListeCandidatsDao.rechercherNouveauxCandidats(v_ListeCandidatsDto);
+	}
+	
+	@Override
 	public List<V_ListeCandidats> rechercherCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size,Boolean all) {
 		return v_ListeCandidatsDao.rechercherCandidatAvecEntretien(v_ListeCandidatsDto,page,size, all);

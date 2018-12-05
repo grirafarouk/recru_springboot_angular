@@ -337,7 +337,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="entretienLieu">Lieu entretien</label>
-                    <ng-select  bindLabel="libelle" [items]="lieux"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
+                    <ng-select [disabled]="currentCandidat.entretien.relance==true"  bindLabel="libelle" [items]="lieux"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
                     </ng-select>
                   </div>
                 </div>

@@ -8,15 +8,13 @@
 
         <div  *ngIf="enableAll==true"class="col-md-8 col-form-label">
                 <div class="form-check form-check-inline mr-1">
+                    <label >Tous Candidats </label>
                     <label class="label--checkbox">
                             <input (change)="parent.initTableFunction()" class="checkbox" type="checkbox" [(ngModel)]="allValue"
                             name="allValue" id="allValue ">
                         </label>
-                    <label >
-                            All
-                    </label>
                 </div>
-            </div>
+        </div>
         <div class="form-group" style="float: right">
             <div class="col-md-8">
                 <div class="input-group">

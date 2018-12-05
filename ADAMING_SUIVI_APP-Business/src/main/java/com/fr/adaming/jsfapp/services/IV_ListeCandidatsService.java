@@ -20,7 +20,8 @@ public interface IV_ListeCandidatsService extends IManagerService<V_ListeCandida
 	public List<V_ListeCandidats> rechercherV_ListeCandidatsARelancer(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);
 	
-	
+	List<V_ListeCandidats> rechercherNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto);
+
 
 	public List<V_ListeCandidats> rechercherV_ListeCandidats(V_ListeCandidatsDto v_ListeCandidatsDto, int page, int size);
 

@@ -197,7 +197,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         email: this.candidate.email,
         numeroTel: this.candidate.numeroTel
       }
-      this.candidatsService.rechercheNouveauxcandidats(candidateTemp,0,0).subscribe((data) => {
+      this.candidatsService.rechercheAjoutNouveauxcandidats(candidateTemp,0,0).subscribe((data) => {
         this.candidatsFound = data.results        
         this.notifierService.notify("info", "Nombre Candidat : " + data.total)
 

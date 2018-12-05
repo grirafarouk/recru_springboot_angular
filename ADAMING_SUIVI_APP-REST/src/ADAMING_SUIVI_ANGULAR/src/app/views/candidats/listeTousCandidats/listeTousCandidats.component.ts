@@ -13,7 +13,7 @@ import { CodePostalService } from "../../../services/administrationService/code-
 import { CodePostal } from "../../../models/CodePostal";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
-import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
+import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT,PHONE_MASK } from "../../../helper/application.constant";
 import { Status } from "../../../models/enum/Status";
 import { Disponibilite } from "../../../models/enum/Disponibilite";
 import { RoutingState } from "../../../helper/routing-state.service";
@@ -155,6 +155,7 @@ titleTable="List Tous les Condidats "
   technologies = []
   lieux = []
 
+  mask: any[] = PHONE_MASK;
 
   region: Array<Region> = [];
   refStatut = this.helperService.buildStatutArray();

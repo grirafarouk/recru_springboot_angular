@@ -108,6 +108,9 @@ export class CandidatsService {
     return this.httpClient.get(BACK_END_URL + "/getListNomCvs");
   }
 
+  public rechercheAjoutNouveauxcandidats(candidate, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/rechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
+  }
 //#region  List Candidats
 
   public rechercheNouveauxcandidats(candidate, page, size): Observable<any> {
