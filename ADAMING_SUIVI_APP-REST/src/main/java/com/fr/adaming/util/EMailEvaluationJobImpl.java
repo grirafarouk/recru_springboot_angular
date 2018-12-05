@@ -57,9 +57,8 @@ public class EMailEvaluationJobImpl {
 			destinataires.add(utilisateur.getEmail());
 		}
 
-		destinataires.add("mfrikha@adaming.fr");
-		destinataires.add("cdridi@adaming.fr");
-		destinataires.add("hkhlifi@adaming.fr");
+		destinataires.add("moueslati@adaming.fr");
+		
 		// generer la flux de sortie de la piece jointe
 		if (candidatsEnAttentEvaluation != null
 				&& candidatsEnAttentEvaluation.size() >= 1) {

@@ -90,6 +90,20 @@ public class CandidatController {
 	public Collection<Candidat> all() {
 		return candidatService.findAll();
 	}
+	
+	@RequestMapping(value = "/rechercheNouveauxcandidats", method = RequestMethod.POST)
+	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
+			@RequestParam int size) {
+		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
+		JSONObject object = new JSONObject();
+		object.put("total", list.size());
+		if (size == 0)
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list));
+		else
+			object.put("results", vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(
+					list.subList(page, list.size() < size + page ? list.size() : page + size)));
+		return object;
+	}
 
 	@RequestMapping(value = "/RechercheNouveauxcandidats", method = RequestMethod.POST)
 	public List<V_ListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD,

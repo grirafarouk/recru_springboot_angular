@@ -25,6 +25,7 @@ public interface IV_ListeCandidatsDao extends IManagerDao<V_ListeCandidats, Long
 
 	public List<V_ListeCandidats> rechercherV_ListeNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);
+	List<V_ListeCandidats> rechercherNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto);
 
 	public Integer rechercherV_ListeNouveauxCandidatsNbr(V_ListeCandidatsDto v_ListeCandidatsDto);
 
