@@ -85,7 +85,7 @@ export class FicheCandidatComponent implements OnInit {
       .subscribe((data: { candidat: Candidate, title: string }) => {
         data.title = data.title + data.candidat.id;
         this.currentCandidat = data.candidat;
-        if (this.currentCandidat.entretien != undefined && this.currentCandidat.entretien != null)
+        if (this.currentCandidat.entretien != undefined && this.currentCandidat.entretien != null && this.currentCandidat.entretien.date!=null)
           this.timeEntretien = this.currentCandidat.entretien.date;
         this.codePostaleOnSearch(this.currentCandidat.codePostal.code)
         this.candidatsService.getCvCandidats(this.currentCandidat).subscribe(res => {
@@ -302,7 +302,7 @@ export class FicheCandidatComponent implements OnInit {
     this.helperService.generateComp(this.currentCandidat, this.competences);
     //#endregion
     if (!this.verfierDispo() && !this.verfierRelance() && !this.verfierEntrtien()) {
-      this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
+      if( this.currentCandidat.entretien.date!=undefined)this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
 
       //#region Hors Cible 
       if (this.currentCandidat.entretien.disponible == "hors_cible" && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {

@@ -108,7 +108,7 @@ export class CandidatsService {
     return this.httpClient.get(BACK_END_URL + "/getListNomCvs");
   }
 
-//#region  List Candidats
+  //#region  List Candidats
 
   public rechercheNouveauxcandidats(candidate, page, size): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
@@ -118,29 +118,29 @@ export class CandidatsService {
     return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidats" + "?page=" + page + "&size=" + size, candidat, httpOptions);
   }
 
-  public rechercheTouscandidatsNbr(candidat):Observable<any>{
+  public rechercheTouscandidatsNbr(candidat): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidatsNbr", candidat, httpOptions);
   }
 
-  public rechercheNouveauxcandidatsNbr(candidat):Observable<any>{
+  public rechercheNouveauxcandidatsNbr(candidat): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidatsNbr", candidat, httpOptions);
   }
 
-  
-  public rechercheCandidatArelancerNbr(candidat):Observable<any>{
+
+  public rechercheCandidatArelancerNbr(candidat): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancerNbr", candidat, httpOptions);
   }
-  
+
   public rechercheCandidatArelancer(candidat, page, size): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancer" + "?page=" + page + "&size=" + size, candidat, httpOptions);
   }
 
-  public rechercheCandidatAvecEntretien(candidat, page, size,allValue): Observable<any> {
-    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" + "?page=" + page + "&size=" + size+"&allValue="+allValue, candidat, httpOptions);
+  public rechercheCandidatAvecEntretien(candidat, page, size, allValue): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" + "?page=" + page + "&size=" + size + "&allValue=" + allValue, candidat, httpOptions);
   }
 
-  public rechercheCandidatAvecEntretienNbr(candidat,allValue):Observable<any>{
-    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatAvecEntretienNbr?allValue="+allValue, candidat, httpOptions);
+  public rechercheCandidatAvecEntretienNbr(candidat, allValue): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatAvecEntretienNbr?allValue=" + allValue, candidat, httpOptions);
   }
 
 
@@ -148,12 +148,12 @@ export class CandidatsService {
     return this.httpClient.post(BACK_END_URL + "/RechercheReporting" + "?page=" + page + "&size=" + size, candidat, httpOptions);
   }
 
-  public rechercheReportingNbr(candidat):Observable<any>{
+  public rechercheReportingNbr(candidat): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheReportingNbr", candidat, httpOptions);
   }
-  
 
-//#endregion
+
+  //#endregion
 
   public getCandidatById(id: number): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/getcandidatById/" + id).pipe(map(async (data: any) => {
@@ -166,8 +166,11 @@ export class CandidatsService {
           data.suivi = new Suivi();
         if (data.entretien == undefined || data.entretien == null)
           data.entretien = new Entretien();
-        else
+        else if (data.entretien.date != null)
           data.entretien.date = new Date(data.entretien.date);
+        else if (data.entretien.dateRelance != null)
+          data.entretien.dateRelance = new Date(data.entretien.dateRelance);
+
         if (data.motif == undefined || data.motif == null)
           data.motif = new Motif();
       }
