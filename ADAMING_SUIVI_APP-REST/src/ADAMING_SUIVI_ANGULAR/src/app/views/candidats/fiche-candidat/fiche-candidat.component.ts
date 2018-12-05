@@ -294,14 +294,15 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private async sauvgarderFiche(callback?) {
-    if (this.currentCandidat.motif != null && (this.currentCandidat.motif.id == 0 || this.currentCandidat.motif.id == null || this.currentCandidat.motif.id == undefined)) this.currentCandidat.motif = null
-      if (this.currentCandidat.suivi != null && (this.currentCandidat.suivi.id == 0 || this.currentCandidat.suivi.id == null || this.currentCandidat.suivi.id == undefined)) this.currentCandidat.suivi = null
-     
 
     //#region get Competences
     this.helperService.generateComp(this.currentCandidat, this.competences);
     //#endregion
     if (!this.verfierDispo() && !this.verfierRelance() && !this.verfierEntrtien()) {
+      if (this.currentCandidat.motif != null && (this.currentCandidat.motif.id == 0 || this.currentCandidat.motif.id == null || this.currentCandidat.motif.id == undefined)) this.currentCandidat.motif = null
+      if (this.currentCandidat.suivi != null && (this.currentCandidat.suivi.id == 0 || this.currentCandidat.suivi.id == null || this.currentCandidat.suivi.id == undefined)) this.currentCandidat.suivi = null
+     
+
       if( this.currentCandidat.entretien.date!=undefined)this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
 
       //#region Hors Cible 
