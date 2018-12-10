@@ -17,71 +17,80 @@ import { SessionsFormationsService } from "../../../services/sessionService/sess
 
 @Component({
   templateUrl: 'SessionsFormationsEncours.component.html',
-  styleUrls:["SessionsFormationsEncours.component.css"]
+  styleUrls: ["SessionsFormationsEncours.component.css"]
 })
 export class SessionsFormationsEncoursComponent implements OnInit {
 
   constructor(
-    private sessionFormationService:SessionsFormationsService,
-    private router:Router,private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
-    private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
-  session: any = {}; 
-  sessionFormations: any ;
+    private sessionFormationService: SessionsFormationsService,
+    private router: Router, private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
+    private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
+  session: any = {};
+  sessionFormations: any;
   formations: any;
   t = [];
-  isCollapsed=[];
+  isCollapsed = [];
   formation: Formation = new Formation();
   //session: Session=new Session();
   technologies = [];
-  lieux=[];
-  typeFormation=[]
-  ngOnInit() { 
-    
+  lieux = [];
+  typeFormation = []
+  ngOnInit() {
+
     this.getListe();
   }
-  rechercherSession(){
- 
-    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.formation).subscribe(data => 
-      this.formations = data
-     );
-    }
+  rechercherSession() {
 
-    getListe(){
-      this.typeFormationService.findAllTypeFormation().subscribe(data =>
-        this.typeFormation=data);
-      this.technologiesService.findAllTechnologies().subscribe(data => {
-        this.technologies = data;
-      });
-      this.technologiesService.findAllTechnologies().subscribe(data => {
-        this.technologies = data;
-      });
-      this.lieuxService.findAllLieux().subscribe(data=>{
-        this.lieux = data;
-      })
-      this.formationService.getListeformationencours().subscribe(data =>{
+    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.formation).subscribe(data =>
+      this.formations = data
+    );
+  }
+
+  getListe() {
+    this.typeFormationService.findAllTypeFormation().subscribe(data =>
+      this.typeFormation = data);
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    });
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    });
+    this.lieuxService.findAllLieux().subscribe(data => {
+      this.lieux = data;
+    })
+    this.formationService.getListeformationencours().subscribe(data => {
       data.forEach(element => {
         this.isCollapsed.push(true)
       });
       this.formations = data;
+    });
+    this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
+      this.sessionFormations = data;
+      this.sessionFormations.forEach(element => {
+        this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
+          element.nombreParticipants = data;
+        })
       });
-      this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
-        this.sessionFormations = data;
-        this.sessionFormations.forEach(element => {
-          this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
-            element.nombreParticipants = data;
-          })
-        });
-  
-      });
-    }
 
-    reset(){
-      this.formation=new Formation();
-      this.getListe();
-    }
+    });
+  }
+
+  reset() {
+    this.formation = new Formation();
+    this.getListe();
+  }
 
 
-    openDetails(sessionFormation){
-      this.router.navigate([NAVIGATION_RULES.sessionsFormations.url+'/'+NAVIGATION_RULES.sessionsFormations.details.replace(':id',sessionFormation.id)]);
+  openDetails(sessionFormation) {
+    this.router.navigate([NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.details.replace(':id', sessionFormation.id)]);
+  }
+
+
+  collapseExpand(i) {
+    for (let index = 0; index < this.isCollapsed.length; index++) {
+      if (index == i)
+        this.isCollapsed[i] = !this.isCollapsed[i]
+      else this.isCollapsed[index] = false;
     }
+  }
 }
