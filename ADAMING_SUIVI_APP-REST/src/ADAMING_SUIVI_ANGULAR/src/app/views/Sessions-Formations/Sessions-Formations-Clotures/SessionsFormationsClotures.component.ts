@@ -83,4 +83,12 @@ export class SessionsFormationsCloturesComponent implements OnInit {
   openDetails(sessionFormation) {
     this.router.navigate([NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.details.replace(':id', sessionFormation.id)]);
   }
+
+  collapseExpand(i) {
+    for (let index = 0; index < this.isCollapsed.length; index++) {
+      if (index == i)
+        this.isCollapsed[i] = !this.isCollapsed[i]
+      else this.isCollapsed[index] = true;
+    }
+  }
 }

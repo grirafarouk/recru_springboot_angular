@@ -66,17 +66,15 @@
             </div>
         </div>
   </div>
-<div class="card">
-        <div class="panel panel-default" *ngFor="let formation of formations; let i = index">
-        <div class="card-header">
-        <a  role="button" (click)="this.isCollapsed[i] = !this.isCollapsed[i]" href="#{{formation.id}}">
-                <span>{{formation.code}}</span>
-        </a>
+  <div class="card card-accordion">
+        <div  *ngFor="let formation of formations; let i = index">
+        <div class="card-header card-header-accordion"  [ngClass]="{'card-header-accordion-active':this.isCollapsed[i] === false}"
+        (click)="collapseExpand(i)" >
+                <h5>{{formation.code}}</h5>
+       
         </div>
-        <div class="card-body"
-             
-             [collapse]="isCollapsed[i]">
-             <div class="panel-body">
+        <div  [collapse]="isCollapsed[i]">
+             <div class="card-body"  >
                     <table class="table  table-striped">
                         <thead>
                             <tr>
