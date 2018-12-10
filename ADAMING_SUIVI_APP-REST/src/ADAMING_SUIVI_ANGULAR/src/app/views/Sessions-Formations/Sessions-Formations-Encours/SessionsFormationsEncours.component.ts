@@ -13,6 +13,7 @@ import { TypeFormationService } from "../../../services/administrationService/Ty
 import { Router } from "@angular/router";
 import { NAVIGATION_RULES } from "../../../helper/application.constant";
 import { SessionsFormationsService } from "../../../services/sessionService/sessions-formations.service";
+import { SessionFormation } from "../../../models/SessionFormation";
 
 
 @Component({
@@ -25,13 +26,13 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     private sessionFormationService:SessionsFormationsService,
     private router:Router,private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
-  session: any = {}; 
+  //session: any = {}; 
   sessionFormations: any ;
   formations: any;
   t = [];
   isCollapsed=[];
   formation: Formation = new Formation();
-  //session: Session=new Session();
+  session: SessionFormation = new SessionFormation();
   technologies = [];
   lieux=[];
   typeFormation=[]
@@ -41,7 +42,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
   }
   rechercherSession(){
  
-    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.formation).subscribe(data => 
+    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.session).subscribe(data => 
       this.formations = data
      );
     }

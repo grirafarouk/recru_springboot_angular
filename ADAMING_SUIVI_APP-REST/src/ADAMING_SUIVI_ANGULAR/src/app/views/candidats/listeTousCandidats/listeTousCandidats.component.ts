@@ -17,7 +17,11 @@ import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT,PHONE_MASK } from "../.
 import { Status } from "../../../models/enum/Status";
 import { Disponibilite } from "../../../models/enum/Disponibilite";
 import { RoutingState } from "../../../helper/routing-state.service";
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { UtilisateurService } from "../../../services/utilisateur.service";
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 
 @Component({
@@ -161,10 +165,16 @@ titleTable="List Tous les Condidats "
   refStatut = this.helperService.buildStatutArray();
   refDisponibilite = this.helperService.buildDisponibiliteArray();
   condidat: CandidateDto = new CandidateDto();
+  listSourceur: any[];
+  listCarge: any[];
+
+
 
   constructor(private router: Router, private candidatsService: CandidatsService, private routingState: RoutingState,
     private notifierService: NotifierService, private technologiesService: TechnologieService,
-    private lieuxService: LieuxService, private helperService: HelperService, private regionService: RegionService) {
+    private lieuxService: LieuxService, private helperService: HelperService, private regionService: RegionService,
+    private utilisateurService: UtilisateurService,
+  ) {
 
   }
 
@@ -177,6 +187,12 @@ titleTable="List Tous les Condidats "
     })
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
+    })
+    this.utilisateurService.getAllSourceurs().subscribe(data=>{
+      this.listSourceur=data
+    })
+    this.utilisateurService.getAllChages().subscribe(data=>{
+      this.listSourceur=data
     })
   }
 
@@ -241,5 +257,24 @@ titleTable="List Tous les Condidats "
 
   openDetails(candidat) {
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
+  }
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    console.log('worksheet',worksheet);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+  }
+  exportAsXLSX():void {
+    this.exportAsExcelFile(this.table.items, 'sample');
   }
 }

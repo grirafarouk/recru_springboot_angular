@@ -42,17 +42,14 @@ public class FormationService extends ManagerService<Formation, Long> implements
 	}
 
 	@Override
-	public List<Formation> rechercherFormationsEnCours(
-			FormationDto formationDto, SessionFormationDto searchDto) {
+	public List<Formation> rechercherFormationsEnCours(SessionFormationDto searchDto) {
 		return formationDao
-				.rechercherFormationsEnCours(formationDto, searchDto);
+				.rechercherFormationsEnCours(searchDto);
 	}
 
 	@Override
-	public List<Formation> rechercherFormationsClotures(
-			FormationDto formationDto, SessionFormationDto searchDto) {
-		return formationDao.rechercherFormationsClotures(formationDto,
-				searchDto);
+	public List<Formation> rechercherFormationsClotures(SessionFormationDto searchDto) {
+		return formationDao.rechercherFormationsClotures(searchDto);
 	}
 
 	public List<Formation> rechercherFormationParSessionFormation(

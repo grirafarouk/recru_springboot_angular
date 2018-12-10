@@ -12,9 +12,9 @@ public interface IFormationService extends IManagerService<Formation, Long> {
 
 	Formation rechercherSessionsFormationParCode(FormationDto formation);
 
-	List<Formation> rechercherFormationsEnCours(FormationDto formationDto, SessionFormationDto searchDto);
+	List<Formation> rechercherFormationsEnCours(SessionFormationDto searchDto);
 
-	List<Formation> rechercherFormationsClotures(FormationDto formationDto, SessionFormationDto searchDto);
+	List<Formation> rechercherFormationsClotures(SessionFormationDto searchDto);
 
 	List<Formation> rechercherFormationParSessionFormation(
 			FormationDto formationDto, SessionFormationDto sessionFormationDto);

@@ -7,35 +7,47 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom">Code formation:</label>
-                            <input type="text" class="form-control"  name="code" [(ngModel)]="formation.code" id="code"> 
+                            <input type="text" class="form-control"  name="code" [(ngModel)]="session.formation.code" id="code"> 
                         </div>
                     </div>  
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom">Nom formation:</label>
-                            <input type="text" class="form-control"  name="nom" [(ngModel)]="formation.nom" id="nom"> 
+                            <input type="text" class="form-control"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="technologie">Technologie:</label>
-                            <ng-select  bindLabel="libelle" [items]="technologies" [(ngModel)]="formation.technologie" name="typeFormation"  >
+                            <ng-select  bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie" name="typeFormation"  >
                             </ng-select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="lieu">Lieu:</label>
-                                  <ng-select  bindLabel="libelle" [items]="lieux" [(ngModel)]="formation.lieu" name="typeFormation"  >
+                                  <ng-select  bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu" name="typeFormation"  >
                                 </ng-select>
                             </div>
                         </div>
                         <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
-                                      <ng-select  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="formation.typeFormation" name="typeFormation"  >
+                                      <ng-select  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation" name="typeFormation"  >
                                     </ng-select>
                                 </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dateDemarrage" style="font-weight:bold">Date démarrage:</label>
+                               
+
+                                    <input  [owlDateTimeFilter]="dateDateFilter"
+                                    [owlDateTimeTrigger]="dateDemarrage" [owlDateTime]="dateDemarrage" class="form-control"
+                                    name="dateDemarrage" [(ngModel)]="session.dateDemarrage" id="dateDemarrage">
+                                    <owl-date-time [pickerType]="'calendar'" #dateDemarrage></owl-date-time>
+
+                            </div>
                         </div>
                                  
                 </div>

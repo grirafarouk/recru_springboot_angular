@@ -60,13 +60,13 @@ aria-hidden="true">
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Numéro Fixe :</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF"   />
+              <input class="form-control" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF"  mask="(+00)-0-00-00-00-00" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Numéro Portable:</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP"  />
+              <input class="form-control" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP" mask="(+00)-0-00-00-00-00" />
           </div>
         </div>
         <div class="form-group row">

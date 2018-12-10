@@ -11,7 +11,13 @@ import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { Router } from "@angular/router";
 import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT, PHONE_MASK } from "../../../helper/application.constant";
 import { RoutingState } from "../../../helper/routing-state.service";
-
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { UtilisateurService } from "../../../services/utilisateur.service";
+import { RegionService } from "../../../services/administrationService/region.service";
+import { Region } from "../../../models/region";
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -101,27 +107,27 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       visible: true
     }
   ]
-
-
   mask: any[] = PHONE_MASK;
   technologies = []
   candidats: any[];
-
-
-
+  listSourceur: any[];
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
     { value: '1', text: 'Moins 1 mois' },
     { value: '2', text: 'Entre 1 et 6 mois' },
     { value: '3', text: 'Plus de 6 mois' }
   ];
+  region: Array<Region> = [];
+
 
   constructor(private router: Router,
     private technologiesService: TechnologieService,
     private candidatsService: CandidatsService, 
     private helperService: HelperService,
     private routingState: RoutingState,
-    private notifierService: NotifierService) {
+    private notifierService: NotifierService,
+    private utilisateurService: UtilisateurService,
+    private regionService: RegionService) {
 
      }
 
@@ -130,6 +136,9 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       this.condidat = this.helperService.listNouveauxCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
+    }),
+    this.utilisateurService.getAllSourceurs().subscribe(data=>{
+      this.listSourceur=data
     })
   }
   ngOnDestroy(): void {
@@ -177,5 +186,38 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
 
   openDetails(candidat) {
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
+  }
+
+  public exportAsExcelFile(json: any[], excelFileName: string): void {
+    
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    console.log('worksheet',worksheet);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, this.titleTable);
+  }
+  exportAsXLSX():void {
+    if(this.columns)
+    {
+      console.log("data "+this.table.items.results)
+    this.exportAsExcelFile(this.table.items, 'sample');
+    }
+  }
+
+  codePostaleOnSearch(value) {
+    if (value != "")
+      this.regionService.completeRegion(value).subscribe(data => {
+        data.forEach(element => {
+          this.region = [...  this.region, element]
+        });
+      })
+    else this.region = []
   }
 }

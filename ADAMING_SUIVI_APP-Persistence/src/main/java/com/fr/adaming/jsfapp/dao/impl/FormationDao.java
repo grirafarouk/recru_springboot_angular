@@ -42,34 +42,34 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 	}
 
 	@Override
-	public List<Formation> rechercherFormationsEnCours(FormationDto formationDto,
+	public List<Formation> rechercherFormationsEnCours(
 			SessionFormationDto searchDto) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String queryString = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  AND session_formation.F_Actif =  '1'";
 
-		if (formationDto != null) {
-			if (formationDto.getCode() != null
-					&& !formationDto.getCode().isEmpty())
+		if (searchDto != null) {
+			if (searchDto.getFormation().getCode() != null
+					&& !searchDto.getFormation().getCode().isEmpty())
 				queryString += " and formation.CODE LIKE '%"
-						+ formationDto.getCode() + "%'";
-			if (formationDto.getNom() != null
-					&& !formationDto.getNom().isEmpty())
+						+ searchDto.getFormation().getCode() + "%'";
+			if (searchDto.getFormation().getNom() != null
+					&& !searchDto.getFormation().getNom().isEmpty())
 				queryString += " and formation.NOM LIKE '%"
-						+ formationDto.getNom() + "%'";
+						+ searchDto.getFormation().getNom() + "%'";
 
-			if (formationDto.getTechnologie() != null && formationDto.getTechnologie().getLibelle() !=null) {
+			if (searchDto.getFormation().getTechnologie() != null && searchDto.getFormation().getTechnologie().getLibelle() !=null) {
 				queryString += " and technologie.libelle LIKE '%"
-						+ formationDto.getTechnologie().getLibelle() + "'";
+						+ searchDto.getFormation().getTechnologie().getLibelle() + "'";
 			}
-			if (formationDto.getLieu() != null && formationDto.getLieu().getLibelle() !=null) {
+			if (searchDto.getFormation().getLieu() != null && searchDto.getFormation().getLieu().getLibelle() !=null) {
 				queryString += " and lieu.libelle LIKE '%"
-						+ formationDto.getLieu().getLibelle() + "'";
+						+ searchDto.getFormation().getLieu().getLibelle() + "'";
 			}
-			if (formationDto.getTypeFormation() != null && formationDto.getTypeFormation().getLibelle() !=null) {
+			if (searchDto.getFormation().getTypeFormation() != null && searchDto.getFormation().getTypeFormation().getLibelle() !=null) {
 				queryString += " and type_formation.libelle LIKE '%"
-						+ formationDto.getTypeFormation().getLibelle() + "'";
+						+ searchDto.getFormation().getTypeFormation().getLibelle() + "'";
 			}
-			if (searchDto != null && searchDto.getDatedemarrage() != null) {
+			if (searchDto.getDatedemarrage() != null) {
 				queryString += " AND DATE(session_formation.DATE_DEMARRAGE) = '"
 						+ df.format(searchDto.getDateDemarrage()) + "'";
 			}
@@ -85,34 +85,34 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 	}
 
 	@Override
-	public List<Formation> rechercherFormationsClotures(FormationDto formationDto,
+	public List<Formation> rechercherFormationsClotures(
 			SessionFormationDto searchDto) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		String queryString = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  AND session_formation.F_Actif =  '0'";
 
-		if (formationDto != null) {
-			if (formationDto.getCode() != null
-					&& !formationDto.getCode().isEmpty())
+		if (searchDto != null) {
+			if (searchDto.getFormation().getCode() != null
+					&& !searchDto.getFormation().getCode().isEmpty())
 				queryString += " and formation.CODE LIKE '%"
-						+ formationDto.getCode() + "%'";
-			if (formationDto.getNom() != null
-					&& !formationDto.getNom().isEmpty())
+						+ searchDto.getFormation().getCode() + "%'";
+			if (searchDto.getFormation().getNom() != null
+					&& !searchDto.getFormation().getNom().isEmpty())
 				queryString += " and formation.NOM LIKE '%"
-						+ formationDto.getNom() + "%'";
+						+ searchDto.getFormation().getNom() + "%'";
 
-			if (formationDto.getTechnologie() != null && formationDto.getTechnologie().getLibelle() !=null) {
+			if (searchDto.getFormation().getTechnologie() != null && searchDto.getFormation().getTechnologie().getLibelle() !=null) {
 				queryString += " and technologie.libelle LIKE '%"
-						+ formationDto.getTechnologie().getLibelle() + "%'";
+						+ searchDto.getFormation().getTechnologie().getLibelle() + "'";
 			}
-			if (formationDto.getLieu() != null && formationDto.getLieu().getLibelle() !=null) {
+			if (searchDto.getFormation().getLieu() != null && searchDto.getFormation().getLieu().getLibelle() !=null) {
 				queryString += " and lieu.libelle LIKE '%"
-						+ formationDto.getLieu().getLibelle() + "%'";
+						+ searchDto.getFormation().getLieu().getLibelle() + "'";
 			}
-			if (formationDto.getTypeFormation() != null && formationDto.getTypeFormation().getLibelle() !=null) {
+			if (searchDto.getFormation().getTypeFormation() != null && searchDto.getFormation().getTypeFormation().getLibelle() !=null) {
 				queryString += " and type_formation.libelle LIKE '%"
-						+ formationDto.getTypeFormation().getLibelle() + "%'";
+						+ searchDto.getFormation().getTypeFormation().getLibelle() + "'";
 			}
-			if (searchDto != null && searchDto.getDatedemarrage() != null) {
+			if (searchDto.getDatedemarrage() != null) {
 				queryString += " AND DATE(session_formation.DATE_DEMARRAGE) = '"
 						+ df.format(searchDto.getDateDemarrage()) + "'";
 			}

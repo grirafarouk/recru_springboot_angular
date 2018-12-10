@@ -12,6 +12,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { SessionFormationsRoutingModule } from './sessionFormations-routing.module';
 import { FicheSessionFormationComponent } from './FicheSessionFormation/FicheSessionFormation.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { OwlDateTimeModule,OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 @NgModule({
   imports: [
@@ -24,7 +25,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     AccordionModule,
     CollapseModule.forRoot(),
     SessionFormationsRoutingModule,
-    NgSelectModule
+    NgSelectModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   declarations: [
     SessionsFormationsEncoursComponent,

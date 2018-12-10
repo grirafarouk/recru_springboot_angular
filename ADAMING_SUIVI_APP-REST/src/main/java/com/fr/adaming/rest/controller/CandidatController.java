@@ -410,7 +410,7 @@ public class CandidatController {
 			}
 			System.out.println(pjList);
 //		convocationMail.envoyerMail(objet, content, dst, "drh@adaming.fr",destinataireEnCci,destinataireEnCcitwo, pjList);
-			convocationMail.envoyerMail(objet, content, dst, "achref.cherif@hotmail.com", dest.get(0), dest.get(1),
+			convocationMail.envoyerMail(objet, content, dst, "moueslati@adaming.fr", dest.get(0), dest.get(1),
 					pjList);
 			convocationMail.setEmailEntretien(false);
 		} catch (IOException e) {

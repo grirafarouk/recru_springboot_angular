@@ -62,17 +62,16 @@ public class FormationController {
 	}
 
 	@RequestMapping(value = "/formationencours", method = RequestMethod.POST)
-	public List<Formation> rechercherFormationsEnCours(@RequestBody FormationDto formationDto,
+	public List<Formation> rechercherFormationsEnCours(@RequestBody
 			SessionFormationDto searchDto) {
 
-		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsEnCours(formationDto, searchDto));
+		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsEnCours(searchDto));
 		return liste;
 	}
 
 	@RequestMapping(value = "/formationclotures", method = RequestMethod.POST)
-	public List<Formation> rechercherFormationsClotures(@RequestBody FormationDto formationDto,
-			SessionFormationDto searchDto) {
-		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsClotures(formationDto, searchDto));
+	public List<Formation> rechercherFormationsClotures(@RequestBody SessionFormationDto searchDto) {
+		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsClotures(searchDto));
 		return liste;
 	}
 

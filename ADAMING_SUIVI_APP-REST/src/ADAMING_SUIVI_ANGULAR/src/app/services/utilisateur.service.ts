@@ -47,5 +47,14 @@ export class UtilisateurService {
         };
         return this.httpClient.post(BACK_END_URL + "/utilisateurs/update" , utilisateur, httpOptions);
     }
+    
+    getAllSourceurs():Observable<any>{
+        return this.httpClient.get(BACK_END_URL +"/utilisateurs/usersourceur");
+    }
+
+    getAllChages():Observable<any>{
+        return this.httpClient.get(BACK_END_URL +"/utilisateurs/usercharge");
+    }
+
 
 }
