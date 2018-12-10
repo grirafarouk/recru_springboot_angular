@@ -45,8 +45,8 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 	public List<Formation> rechercherFormationsEnCours(
 			SessionFormationDto searchDto) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String queryString = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  AND session_formation.F_Actif =  '1'";
-
+		String queryString = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  ";
+		queryString+= " and (select count(*) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1' )>0";
 		if (searchDto != null) {
 			if (searchDto.getFormation().getCode() != null
 					&& !searchDto.getFormation().getCode().isEmpty())
@@ -70,13 +70,16 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 						+ searchDto.getFormation().getTypeFormation().getLibelle() + "'";
 			}
 			if (searchDto.getDatedemarrage() != null) {
-				queryString += " AND DATE(session_formation.DATE_DEMARRAGE) = '"
-						+ df.format(searchDto.getDateDemarrage()) + "'";
+				queryString += " and '"
+						+ df.format(searchDto.getDateDemarrage()) + "'  in (select DATE(DATE_DEMARRAGE ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1') " ;
+			}
+			if (searchDto.getDateFin() != null) {
+				queryString += " and '"
+						+ df.format(searchDto.getDateDemarrage()) + "'  in (select DATE(DATE_FIN ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1') " ;
 			}
 		}
 		queryString = queryString + " group by formation.ID ";
 		SQLQuery st = getSession().createSQLQuery(queryString);
-
 		@SuppressWarnings("unchecked")
 		List<Formation> liste = (List<Formation>) st.addEntity(Formation.class)
 				.list();
@@ -88,7 +91,8 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 	public List<Formation> rechercherFormationsClotures(
 			SessionFormationDto searchDto) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		String queryString = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  AND session_formation.F_Actif =  '0'";
+		String queryString = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  ";
+		queryString+= " and (select count(*) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '0' )>0";
 
 		if (searchDto != null) {
 			if (searchDto.getFormation().getCode() != null
@@ -113,8 +117,12 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 						+ searchDto.getFormation().getTypeFormation().getLibelle() + "'";
 			}
 			if (searchDto.getDatedemarrage() != null) {
-				queryString += " AND DATE(session_formation.DATE_DEMARRAGE) = '"
-						+ df.format(searchDto.getDateDemarrage()) + "'";
+				queryString += " and '"
+						+ df.format(searchDto.getDateDemarrage()) + "'  in (select DATE(DATE_DEMARRAGE ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '0') " ;
+			}
+			if (searchDto.getDateFin() != null) {
+				queryString += " and '"
+						+ df.format(searchDto.getDateDemarrage()) + "'  in (select DATE(DATE_FIN ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '0') " ;
 			}
 		}
 		queryString = queryString + " group by formation.ID ";

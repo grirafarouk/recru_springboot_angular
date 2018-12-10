@@ -16,7 +16,7 @@ export class SessionFormationEnCoursService {
         'Content-Type':'application/json'
       })
     };
-    return this.http.post(BACK_END_URL +'/sessionsformations/sessionFormationEnCoursparformation', sfec , httpOptions);
+    return this.http.post(BACK_END_URL +'/sessionsformations/sessionFormationEnCours', sfec , httpOptions);
   }
 
   getSessionFormationClotures(sfec){

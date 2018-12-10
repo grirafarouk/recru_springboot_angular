@@ -51,35 +51,34 @@ export class SessionsFormationsCloturesComponent implements OnInit {
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
-    this.formationService.getListeformationclotures().subscribe(data => {
+    this.rechercherSession();
+  }
+
+  rechercherSession() {
+    this.sessionFormationEnCoursService.rechercherSessionFormationenclotures(this.session).subscribe(data => {
+      this.isCollapsed = [];
       data.forEach(element => {
         this.isCollapsed.push(true)
       });
       this.formations = data;
-
-    });
-    this.sessionFormationEnCoursService.getSessionFormationClotures(this.session).subscribe(data => {
-      this.sessionFormations = data;
-      this.sessionFormations.forEach(element => {
-        this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
-          element.nombreParticipants = data;
-        })
+      this.sessionFormationEnCoursService.getSessionFormationClotures(this.session).subscribe(data => {
+        this.sessionFormations = data;
+        this.sessionFormations.forEach(element => {
+          this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
+            element.nombreParticipants = data;
+          })
+        });
       });
-    });
-  }
-
-  rechercherSession() {
-    this.sessionFormationEnCoursService.rechercherSessionFormationenclotures(this.session).subscribe(data =>
-      this.formations = data
+    }
     );
   }
 
 
   reset() {
-    this.formation=new Formation();
+    this.formation = new Formation();
     this.getListe();
   }
-  
+
   openDetails(sessionFormation) {
     this.router.navigate([NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.details.replace(':id', sessionFormation.id)]);
   }

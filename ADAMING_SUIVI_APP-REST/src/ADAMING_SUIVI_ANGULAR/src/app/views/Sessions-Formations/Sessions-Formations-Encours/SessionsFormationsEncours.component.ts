@@ -23,11 +23,11 @@ import { SessionFormation } from "../../../models/SessionFormation";
 export class SessionsFormationsEncoursComponent implements OnInit {
 
   constructor(
-    private sessionFormationService:SessionsFormationsService,
-    private router:Router,private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
-    private technologiesService: TechnologieService,private lieuxService:LieuxService,private typeFormationService: TypeFormationService) { }
+    private sessionFormationService: SessionsFormationsService,
+    private router: Router, private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
+    private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
   //session: any = {}; 
-  sessionFormations: any ;
+  sessionFormations: any;
 
   formations: any;
   t = [];
@@ -41,11 +41,22 @@ export class SessionsFormationsEncoursComponent implements OnInit {
 
     this.getListe();
   }
-  rechercherSession(){
- 
-    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.session).subscribe(data => 
-
-      this.formations = data
+  rechercherSession() {
+    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.session).subscribe(data => {
+      this.isCollapsed = [];
+      data.forEach(element => {
+        this.isCollapsed.push(true)
+      });
+      this.formations = data;
+      this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
+        this.sessionFormations = data;
+        this.sessionFormations.forEach(element => {
+          this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
+            element.nombreParticipants = data;
+          })
+        });
+      });
+    }
     );
   }
 
@@ -61,21 +72,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
-    this.formationService.getListeformationencours().subscribe(data => {
-      data.forEach(element => {
-        this.isCollapsed.push(true)
-      });
-      this.formations = data;
-    });
-    this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
-      this.sessionFormations = data;
-      this.sessionFormations.forEach(element => {
-        this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
-          element.nombreParticipants = data;
-        })
-      });
-
-    });
+   this.rechercherSession();
   }
 
   reset() {
@@ -93,7 +90,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     for (let index = 0; index < this.isCollapsed.length; index++) {
       if (index == i)
         this.isCollapsed[i] = !this.isCollapsed[i]
-      else this.isCollapsed[index] = false;
+      else this.isCollapsed[index] = true;
     }
   }
 }
