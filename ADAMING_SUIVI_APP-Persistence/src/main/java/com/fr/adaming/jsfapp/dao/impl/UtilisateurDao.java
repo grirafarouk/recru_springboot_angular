@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -412,7 +411,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		SQLQuery st = getSession().createSQLQuery(query);
 		List<ReportingChargeRelanceDto> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				String nom = (String) o[0];
@@ -451,7 +450,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		SQLQuery st = getSession().createSQLQuery(query);
 		List<ReportingSourceurTechnologieDto> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				String nom = (String) o[0];
@@ -480,7 +479,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 		List<ReportingListSourceurDto> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				BigInteger idUser = (BigInteger) o[0];
@@ -512,19 +511,20 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "JOIN utilisateur u on u.ID = c.CREE_PAR ";
 		if (utilisateur != null) {
 			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
+			if (dateDebut != null) {
+				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+			}
+			if (dateFin != null) {
+				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+			}
 		}
-		if (dateDebut != null && dateFin != null && utilisateur != null) {
-			query += " AND  c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-					+ df.format(dateFin) + " 23:59:59' ";
-		}
-
 		query += " group by u.ID) " + "as tmp group by ID )";
 
 		SQLQuery st = getSession().createSQLQuery(query);
 
 		List<ReportingSourceurParDispoDto> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				BigInteger idUser = (BigInteger) o[0];
@@ -568,7 +568,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 		List<ReportingSourceurParDispoDto> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				BigInteger idUser = (BigInteger) o[0];
@@ -610,7 +610,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				String nom = (String) o[0];
@@ -634,18 +634,21 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE ";
 		if (utilisateur != null) {
 			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
+			if (dateDebut != null) {
+				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+			}
+			if (dateFin != null) {
+				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+			}
 		}
-		if (dateDebut != null && dateFin != null && utilisateur != null) {
-			query += " AND  c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-					+ df.format(dateFin) + " 23:59:59' ";
-		}
+
 
 		query += " GROUP BY t.ID ";
 		query += "ORDER BY t.ID";
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if (!dataObject.isEmpty()) {
 			for (Object[] o : dataObject) {
 				String nom = (String) o[0];

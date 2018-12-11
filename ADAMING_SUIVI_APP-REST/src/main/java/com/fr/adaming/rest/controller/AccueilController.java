@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
@@ -42,16 +40,14 @@ public class AccueilController {
 
 	@RequestMapping(value = "/ReportingChargeRelance", method = RequestMethod.GET)
 	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
-		List<ReportingChargeRelanceDto> liste = new ArrayList<>(
-				utilisateurService.rechercherChargeParRelance());
+		List<ReportingChargeRelanceDto> liste = new ArrayList<>(utilisateurService.rechercherChargeParRelance());
 		return liste;
 	}
 
 	@RequestMapping(value = "/Sessionreporting", method = RequestMethod.GET)
 	public List<SessionFormationReportingDto> rechercherSessionreporting() {
-		List<SessionFormationReportingDto> liste = new ArrayList<>(
-				sessionFormationService.rechercherSessionreorting());
-	
+		List<SessionFormationReportingDto> liste = new ArrayList<>(sessionFormationService.rechercherSessionreorting());
+
 		return liste;
 	}
 

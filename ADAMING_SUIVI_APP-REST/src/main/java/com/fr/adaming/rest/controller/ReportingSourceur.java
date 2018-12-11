@@ -41,10 +41,11 @@ public class ReportingSourceur {
 
 	@RequestMapping(value = "/RechercheReportingSourceur", method = RequestMethod.POST)
 	public List<ReportingSourceurParDispoDto> RechercheReportingSourceur(
-			@RequestBody ReportingListSourceurDto utilisateur, @RequestParam Long dateDebut,
-			@RequestParam Long dateFin) {
-		List<ReportingSourceurParDispoDto> listeReportingSourceur = new ArrayList<>(utilisateurService
-				.rechercherReportingSourceurParDispo(utilisateur, new Date(dateDebut), new Date(dateFin)));
+			@RequestBody ReportingListSourceurDto utilisateur, @RequestParam(required = false) Long dateDebut,
+			@RequestParam(required = false) Long dateFin) {
+		List<ReportingSourceurParDispoDto> listeReportingSourceur = new ArrayList<>(
+				utilisateurService.rechercherReportingSourceurParDispo(utilisateur,
+						dateDebut != null ? new Date(dateDebut) : null, dateFin != null ? new Date(dateFin) : null));
 		return listeReportingSourceur;
 	}
 
@@ -57,10 +58,11 @@ public class ReportingSourceur {
 
 	@RequestMapping(value = "/RecherchemapTechnologieParSourceur", method = RequestMethod.POST)
 	public HashMap<String, Integer> RechercheReportingCVParTechnologieParSourceur(
-			@RequestBody ReportingListSourceurDto utilisateur,  @RequestParam Long dateDebut,
-			@RequestParam Long dateFin) {
+			@RequestBody ReportingListSourceurDto utilisateur, @RequestParam(required = false) Long dateDebut,
+			@RequestParam(required = false) Long dateFin) {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		map = utilisateurService.rechercherReportingCVParTechnologieParSourceur(utilisateur,new Date(dateDebut), new Date(dateFin));
+		map = utilisateurService.rechercherReportingCVParTechnologieParSourceur(utilisateur,
+				dateDebut != null ? new Date(dateDebut) : null, dateFin != null ? new Date(dateFin) : null);
 		return map;
 	}
 
