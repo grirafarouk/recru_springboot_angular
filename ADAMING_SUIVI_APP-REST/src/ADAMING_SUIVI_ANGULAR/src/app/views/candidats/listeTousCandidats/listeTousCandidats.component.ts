@@ -192,7 +192,7 @@ titleTable="List Tous les Condidats "
       this.listSourceur=data
     })
     this.utilisateurService.getAllChages().subscribe(data=>{
-      this.listSourceur=data
+      this.listCarge=data
     })
   }
 

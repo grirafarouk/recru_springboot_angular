@@ -12,6 +12,7 @@ import { RegionService } from "../../../services/administrationService/region.se
 import { Region } from "../../../models/region";
 import { NAVIGATION_RULES, DATE_FORMAT } from "../../../helper/application.constant";
 import { RoutingState } from "../../../helper/routing-state.service";
+import { UtilisateurService } from "../../../services/utilisateur.service";
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -125,7 +126,8 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   ]
 
   condidat: CandidateDto = new CandidateDto();
-  
+  listSourceur: any[];
+  listCarge: any[];
 
   constructor(
     private router: Router,
@@ -134,7 +136,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     private notifierService: NotifierService,
     private technologiesService: TechnologieService,
     private routingState: RoutingState,
-    private regionService: RegionService) {
+    private regionService: RegionService,private utilisateurService: UtilisateurService) {
 
   }
 
@@ -143,6 +145,12 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       this.condidat = this.helperService.listRelanceCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
+    })
+    this.utilisateurService.getAllSourceurs().subscribe(data=>{
+      this.listSourceur=data
+    })
+    this.utilisateurService.getAllChages().subscribe(data=>{
+      this.listCarge=data
     })
   }
   ngOnDestroy(): void {

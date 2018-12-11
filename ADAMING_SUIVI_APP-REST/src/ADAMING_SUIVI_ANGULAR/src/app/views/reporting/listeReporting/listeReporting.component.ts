@@ -14,6 +14,7 @@ import { Router } from "@angular/router";
 import { NAVIGATION_RULES, PHONE_MASK, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { UtilisateurService } from "../../../services/utilisateur.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -191,13 +192,14 @@ export class ListeReportingComponent implements OnInit {
       visible: false
     }
   ];
-
+  listSourceur: any[];
+  listCarge: any[];
 
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
     private notifierService: NotifierService, private competencesService: CompetencesService,
     private helperService: HelperService, private regionService: RegionService,
-    private lieuxService: LieuxService, private router: Router) { }
+    private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
     this.technologiesService.findAllTechnologies().subscribe(data => {
@@ -208,6 +210,12 @@ export class ListeReportingComponent implements OnInit {
     })
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
+    })
+    this.utilisateurService.getAllSourceurs().subscribe(data=>{
+      this.listSourceur=data
+    })
+    this.utilisateurService.getAllChages().subscribe(data=>{
+      this.listCarge=data
     })
   }
 
