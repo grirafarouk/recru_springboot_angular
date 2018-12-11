@@ -71,3 +71,5 @@ export const PHONE_MASK_LABEL = "00-00-00-00-00";
 
 export const DATE_FORMAT = "dd/M/yyyy";
 
+export const DATE_FORMAT_MOMENT = "DD/MM/YYYY"
+
