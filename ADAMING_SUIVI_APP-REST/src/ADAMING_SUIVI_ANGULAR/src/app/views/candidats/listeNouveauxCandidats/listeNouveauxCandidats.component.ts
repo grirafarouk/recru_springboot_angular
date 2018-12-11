@@ -204,11 +204,12 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     FileSaver.saveAs(data, this.titleTable);
   }
   exportAsXLSX():void {
-    if(this.columns)
-    {
-      console.log("data "+this.table.items.results)
-    this.exportAsExcelFile(this.table.items, 'sample');
-    }
+
+    this.candidatsService.rechercheNouveauxcandidats(this.table.item, 0, this.table.maxlenght).subscribe(data=>{
+      this.exportAsExcelFile(data, 'sample');
+
+    })
+    
   }
 
   codePostaleOnSearch(value) {

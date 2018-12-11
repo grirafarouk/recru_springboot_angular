@@ -50,7 +50,7 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label for="profil" style="font-weight:bold">Type de profil:</label>
-                                <ng-select bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
+                                <ng-select placeholder="--Sélectionner--"  bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
                                     </ng-select>
                                 
                             </div>
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
                                 
-                                    <ng-select bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
+                                    <ng-select placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
                                     </ng-select>
 
                             </div>
@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
                                 
-                                    <ng-select bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
+                                    <ng-select placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
                                     </ng-select>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                                 <label class="form-col-form-label" for="region" style="font-weight:bold">Fraicheur CV:</label>
                                 
 
-                                <ng-select
+                                <ng-select placeholder="--Sélectionner--"
                                 [(ngModel)]="condidat.critereRecheche" name="critereRecheche">
                                 <ng-option [value]="1">Moins 1 mois</ng-option>
                                 <ng-option [value]="2">Entre 1 et 6 mois</ng-option>

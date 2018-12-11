@@ -45,7 +45,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Type de profil:</label>
-                            <ng-select bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
+                            <ng-select placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
                                 </ng-select>
                             
 
@@ -55,34 +55,35 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Nom sourceur :</label>
-                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomSourceur"
-                                id="nomSourceur">
+                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
+                            <ng-select placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
+                            </ng-select>
+                                
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Prenom sourceur :</label>
-                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.prenomSourceur"
-                                id="nomSourceur">
+                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
+                            <ng-select placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="nomCharge" style="font-weight:bold">Nom charge :</label>
+                       
+                                <ng-select placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomCharge" name="nomCharge"  >
+                                </ng-select>
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom charge :</label>
-                            <input type="text" class="form-control" name="nomSourceur" [(ngModel)]="condidat.nomCharge"
-                                id="nomSourceur">
-
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom
-                                charge :</label>
-                            <input type="text" class="form-control" name="prenomSourceur" [(ngModel)]="condidat.prenomCharge"
-                                id="prenomSourceur">
+                            <label class="form-col-form-label" for="prenomCharge" style="font-weight:bold">Prenom charge :</label>
+                           
+                                <ng-select placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomCharge" name="prenomCharge"  >
+                                </ng-select>
                         </div>
                     </div>
 
@@ -90,7 +91,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
                            
-                            <ng-select bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
+                            <ng-select placeholder="--Sélectionner--" bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
                                 </ng-select>
                            
                         </div>

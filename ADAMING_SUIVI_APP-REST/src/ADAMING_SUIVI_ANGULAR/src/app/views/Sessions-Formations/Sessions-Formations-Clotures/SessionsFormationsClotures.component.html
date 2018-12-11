@@ -19,21 +19,21 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="technologie">Technologie:</label>
-                            <ng-select  bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie" name="typeFormation"  >
+                            <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie" name="typeFormation"  >
                             </ng-select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="lieu">Lieu:</label>
-                                  <ng-select  bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu" name="typeFormation"  >
+                                  <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu" name="typeFormation"  >
                                 </ng-select>
                             </div>
                         </div>
                         <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
-                                      <ng-select  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation" name="typeFormation"  >
+                                      <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation" name="typeFormation"  >
                                     </ng-select>
                                 </div>
                         </div>

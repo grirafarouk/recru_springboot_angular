@@ -11,6 +11,7 @@ import { Router } from "@angular/router";
 import { CandidateDto } from "../../candidats/CandidateDto";
 import { NAVIGATION_RULES, DATE_FORMAT, PHONE_MASK_LABEL } from "../../../helper/application.constant";
 import { Status } from "../../../models/enum/Status";
+import { UtilisateurService } from "../../../services/utilisateur.service";
 
 
 @Component({
@@ -150,12 +151,13 @@ export class listeEntretienComponent implements OnInit {
   lastPage = 1;
   pages = [];
   lieux=[]
+  listCarge: any[];
 
 
   constructor(private originesService:OriginesService,private technologiesService:TechnologieService,
     private sanitizer: DomSanitizer,private candidatsService:CandidatsService,  private router:Router,
     private notifierService:NotifierService,private competencesService:CompetencesService,private helperService:HelperService,
-    private lieuxService:LieuxService) {}
+    private lieuxService:LieuxService,    private utilisateurService: UtilisateurService) {}
 
   ngOnInit(): void {
     this.technologiesService.findAllTechnologies().subscribe(data=>{
@@ -163,6 +165,9 @@ export class listeEntretienComponent implements OnInit {
     })
     this.lieuxService.findAllLieux().subscribe(data=>{
       this.lieux = data;
+    })
+    this.utilisateurService.getAllChages().subscribe(data=>{
+      this.listCarge=data
     })
   }
 
