@@ -41,7 +41,7 @@ pipeline {
 				    	script {
                             if (gitlabBranch.equals("Integration")) {
                                 sh 'mvn clean compile -P env-int'
-                            } else if (gitlabBranch.equals("master")) {
+                            } else if (gitlabBranch.equals("master") || gitlabActionType.equals("TAG_PUSH")) {
                                 sh 'mvn clean compile -P env-prod'
                             } else {
 				        	    sh 'mvn clean compile'
@@ -54,8 +54,8 @@ pipeline {
 						script {
                             if (gitlabBranch.equals("Integration")) {
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
-                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build'
-                            } else if (gitlabBranch.equals("master")) {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build --configuration staging'
+                            } else if (gitlabBranch.equals("master") || gitlabActionType.equals("TAG_PUSH") ) {
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build --configuration production'
                             } else {
@@ -191,10 +191,10 @@ pipeline {
                     sh '''
 						git checkout master
 						mvn release:clean
-						mvn -B release:prepare
+						mvn -B -P env-prod release:prepare
 						git add pom.xml.releaseBackup
 						git stash
-						mvn -B release:perform
+						mvn -B -P env-prod release:perform
 					'''
                 }
         	}
@@ -242,7 +242,7 @@ pipeline {
                         expression { env.gitlabBranch == 'Integration'}
                     }
                     steps {
-                        sh "mvn tomcat7:redeploy -P release -Dmaven.tomcat.url=${env.IntURL}/manager/text -Dtomcat.username=${env.IntUSERNAME} -Dtomcat.password=${env.IntPASSWORD}"
+                        sh "mvn tomcat7:redeploy -P env-int -Dmaven.tomcat.url=${env.IntURL}/manager/text -Dtomcat.username=${env.IntUSERNAME} -Dtomcat.password=${env.IntPASSWORD}"
                     }
                     post {
                         success {
@@ -326,15 +326,3 @@ def showChangeLog() {
         }
     }
 } 
-@NonCPS
-def affectChangeLog(String body) {
-    def changeLogSets = currentBuild.rawBuild.changeSets
-    for (int i = 0; i < changeLogSets.size(); i++) {
-        def entries = changeLogSets[i].items
-        for (int j = 0; j < entries.length; j++) {
-            def entry = entries[j]
-            body = body+ "\nDéveloppeur: ${entry.author}\t le: ${new Date(entry.timestamp)}: ${entry.msg}"
-        }
-    }
-    return body 
-}
