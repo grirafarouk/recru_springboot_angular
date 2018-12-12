@@ -49,7 +49,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     ReactiveFormsModule,
     CollapseModule.forRoot(),
     CommonCustomModule,
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
   ],
   declarations: [  competenceComponent,utilisateursComponent,lieuxComponent,
     origineCVComponent,technologiesComponent,typeFormationComponent,FiliereComponent,clientSessionComponent,

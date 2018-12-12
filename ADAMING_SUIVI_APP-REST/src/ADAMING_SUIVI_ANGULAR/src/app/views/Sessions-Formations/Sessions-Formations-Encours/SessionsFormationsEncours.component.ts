@@ -26,7 +26,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     private sessionFormationService: SessionsFormationsService,
     private router: Router, private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
-  //session: any = {}; 
+  //sessionn: any = {}; 
   sessionFormations: any;
 
   formations: any;
@@ -76,7 +76,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
   }
 
   reset() {
-    this.formation = new Formation();
+    this.session = new SessionFormation();
     this.getListe();
   }
 

@@ -11,12 +11,13 @@ import { Region } from "../../../models/region";
 import { LieuxService } from "../../../services/administrationService/Lieux.service.";
 import { CandidateDto } from "../../candidats/CandidateDto";
 import { Router } from "@angular/router";
-import { NAVIGATION_RULES, PHONE_MASK, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
+import { NAVIGATION_RULES, PHONE_MASK, PHONE_MASK_LABEL, DATE_FORMAT, DATE_FORMAT_MOMENT } from "../../../helper/application.constant";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { UtilisateurService } from "../../../services/utilisateur.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
+import * as _moment from 'moment';
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -275,9 +276,10 @@ export class ListeReportingComponent implements OnInit {
   }
 
   public exportAsExcelFile(json: any[], excelFileName: string): void {
-    
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    console.log('worksheet',worksheet);
+    var cell = worksheet["A1"]
+    cell.s =   { alignment: {textRotation: 90 }, font: {sz: 14, bold: true, color: "#FF00FF" }} ;
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
@@ -287,9 +289,29 @@ export class ListeReportingComponent implements OnInit {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
     });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    FileSaver.saveAs(data, this.titleTable);
   }
-  exportAsXLSX():void {
-    this.exportAsExcelFile(this.table.items, 'sample');
+  exportAsXLSX(): void {
+
+    this.candidatsService.rechercheReporting(this.table.item, 0, this.table.maxlenght).subscribe(data => {
+      var cleanData = [];
+      data.forEach(element => {
+        var cleanItem = {}
+        this.columns.forEach(col => {
+          if (element[col.data] != null) {
+            if (col.dateFormat != undefined)
+              cleanItem[col.title] = _moment(element[col.data]).format(DATE_FORMAT_MOMENT);
+            else if (col.mask != undefined && element[col.data].indexOf("-") == -1) {
+              cleanItem[col.title] = element[col.data].replace(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).*/, "$1-$2-$3-$4-$5");
+            }
+            else cleanItem[col.title] = element[col.data];
+          }
+        })
+        cleanData.push(cleanItem);
+      });
+      this.exportAsExcelFile(cleanData, 'sample');
+
+    })
+
   }
 }

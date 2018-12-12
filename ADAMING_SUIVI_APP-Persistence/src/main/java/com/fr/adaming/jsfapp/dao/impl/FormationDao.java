@@ -75,7 +75,7 @@ public class FormationDao extends ManagerDao<Formation, Long> implements
 			}
 			if (searchDto.getDateFin() != null) {
 				queryString += " and '"
-						+ df.format(searchDto.getDateDemarrage()) + "'  in (select DATE(DATE_FIN ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1') " ;
+						+ df.format(searchDto.getDateFin()) + "'  in (select DATE(DATE_FIN ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1') " ;
 			}
 		}
 		queryString = queryString + " group by formation.ID ";
