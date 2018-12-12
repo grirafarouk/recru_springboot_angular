@@ -124,6 +124,13 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+        	<resource>
+            	<directory>${basedir}/src/main/resources</directory>
+            	<filtering>true</filtering>
+        	</resource>
+    	</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -143,10 +150,45 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>${project.name}</finalName>
+					<finalName>${project.artifactId}</finalName>
 					<executable>true</executable>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+			<properties>
+				<environnement>Environnement de développement</environnement>
+				<database.url>jdbc\:mysql\://127.0.0.1\:3306/adamingsuivi?createDatabaseIfNotExist=true</database.url>
+				<database.username>root</database.username>
+				<database.password></database.password>
+				<app.url></app.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-int</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>int</value>
+				</property>
+			</activation>
+			<properties>
+				<environnement>Environnement d'intégration</environnement>
+				<database.url>jdbc\:mysql\://46.105.157.97\:3306/adamingsuivi</database.url>
+				<database.username>suivirec</database.username>
+				<database.password>AcknrXl33</database.password>
+				<app.url></app.url>
+			</properties>
+		</profile>
+	</profiles>
 </project>

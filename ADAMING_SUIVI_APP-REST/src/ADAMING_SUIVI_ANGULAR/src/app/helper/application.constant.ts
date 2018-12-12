@@ -1,5 +1,7 @@
-export const BACK_END_URL = "http://localhost:9190/ADAMING_SUIVI_APP-REST/api"
-export const BACK_END_URL_SECURITY = "http://localhost:9190/ADAMING_SUIVI_APP-REST"
+import { environment } from "../../environments/environment";
+
+export const BACK_END_URL = environment.BACK_END_URL + "/ADAMING_SUIVI_APP-REST/api"
+export const BACK_END_URL_SECURITY = environment.BACK_END_URL + "/ADAMING_SUIVI_APP-REST"
 export const NAVIGATION_RULES = {
     error404: {
         url: '404'
