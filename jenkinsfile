@@ -251,9 +251,7 @@ pipeline {
                                 emailext (
                                     body: env.MAIL_BODY, 
                                     subject: 'Nouvelle livraison du projet: '+env.gitlabSourceRepoName, 
-                                    to: 'mfrikha@adaming.fr',
-                                    cc: 'bzhioua@adaming.fr; exploitation@adaming.fr'
-                                  
+                                    to: 'ibenali@adaming.fr'
                                 )
                             }
                         }
