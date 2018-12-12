@@ -234,6 +234,17 @@ pipeline {
                 }
             }
         }
+        stage ('install') {
+            steps {
+                script {
+                    if (gitlabBranch.equals('Integration')) {
+                        sh 'mvn install -P env-int'
+                    } else if (gitlabBranch.equals('master')) {
+                        sh 'mvn install -P env-prod'
+                    }
+                }
+            }
+        }
         stage ('Deploy') {
         	when {expression {env.gitlabBranch == 'Integration' || env.gitlabActionType == 'TAG_PUSH'} }
             parallel {
