@@ -55,7 +55,7 @@ pipeline {
                             if (gitlabBranch.equals("Integration")) {
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build'
-                            } else if (gitlabBranch.equals("master") {
+                            } else if (gitlabBranch.equals("master")) {
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
                                 sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build --configuration production'
                             } else {
