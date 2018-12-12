@@ -8,41 +8,76 @@ pipeline {
         stage ('Initialize') {
             steps {
                 script {
-                    sh '''
-                        echo "PATH  = ${JAVA_HOME}"
-                        echo "MAVEN_HOME = ${MAVEN_HOME}"
-                    '''
-                    echo sh(script: 'env|sort', returnStdout: true)
-                    env.MAIL_BODY = "Bonjour "+env.gitlabUserName+"\n\tBranche : "+env.gitlabTargetBranch+"\n\tSuite à : "+env.GIT_COMMIT+"\n\n"
-                    env.BUILD_STAGE = 0
-                    env.TEST_STAGE = 0
-                    env.SONAR_STAGE = 0
-                    env.QG_STAGE = 0
+
                     if ("java@adaming.fr".equals(env.gitlabUserEmail)){
                         env.gitlabUserEmail = "ibenali@adaming.fr"
                     }
+                    if ("Jenkins adaming".equals(env.gitlabUserName)) {
+                        currentBuild.result = 'ABORTED'
+                        error "No need to continue"
+                    }
+                    sh '''
+                        echo "PATH = ${JAVA_HOME}"
+                        echo "MAVEN_HOME = ${MAVEN_HOME}"
+                        git checkout Developpement && git pull && mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep '^[0-9].[0-9].[0-9]*-SNAPSHOT' | sed -n 's_-SNAPSHOT__p' | sed -e 's/^/ACTUAL_VERSION=/' > version.txt
+					'''
+					stash includes: "version.txt", name: 'project-actual-version'
+					def vs = getProperties("version.txt")
+					env.ACTUAL_VERSION = vs.getProperty('ACTUAL_VERSION')
                     def serverProperties = jsonParse(readFile('../serversProperties.json'))
+                	env.IntURL = serverProperties["ADAMING_SUIVI"]["integration"]["url"]
+                    env.IntUSERNAME = serverProperties["ADAMING_SUIVI"]["integration"]["username"]
+                    env.IntPASSWORD = serverProperties["ADAMING_SUIVI"]["integration"]["password"]
+                    env.ProdURL = serverProperties["ADAMING_SUIVI"]["production"]["url"]
+                    env.ProdUSERNAME = serverProperties["ADAMING_SUIVI"]["production"]["username"]
+                    env.ProdPASSWORD = serverProperties["ADAMING_SUIVI"]["production"]["password"]
                 }
             }
         }
         stage ('Build') {
-            steps {
-                script {
-                    sh 'mvn -U clean package'
-                }
-            }
-            post {
-                success {
-                    script {
-                        env.BUILD_STAGE = 1
-                    }
-                }
-                failure {
-                    script {
-                        env.BUILD_STAGE = -1
-                    }
-                }
-            }
+        	parallel {
+        		stage ('Backend') {
+					steps {
+				    	script {
+                            if (gitlabBranch.equals("Integration")) {
+                                sh 'mvn clean compile -P env-int'
+                            } else if (gitlabBranch.equals("master")) {
+                                sh 'mvn clean compile -P env-prod'
+                            } else {
+				        	    sh 'mvn clean compile'
+                            }
+                        }
+					}
+		 		}
+		 		stage ('Frontend') {
+					steps {
+						script {
+                            if (gitlabBranch.equals("Integration")) {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build'
+                            } else if (gitlabBranch.equals("master") {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build --configuration production'
+                            } else {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build'
+                            }
+                        }
+					}
+		 		}
+        	}
+        	post {
+		    	failure {
+		        	script {
+		        		env.MAIL_BODY = "\n\nProject BUILD KO, veillez revoir votre commit pour corriger cette erreur.\n\nCordialement\nJENKINS"
+                        emailext (
+                        body: env.MAIL_BODY, 
+                        subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                        to: gitlabUserEmail
+                        )
+		            }
+		        }
+		    }
         }
         stage ('Tests') {
             parallel {
@@ -54,14 +89,14 @@ pipeline {
                         }
                     }
                     post {
-                        success {
-                            script {
-                                env.TEST_STAGE = 1
-                            }
-                        }
                         failure {
                             script {
-                                env.TEST_STAGE = -1
+                                env.MAIL_BODY = "\n\nTest unitaire (mvn test) KO, veillez revoir votre commit pour corriger cette erreur.\n\nCordialement\nJENKINS"
+                                emailext (
+                                    body: env.MAIL_BODY, 
+                                    subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                                    to: gitlabUserEmail
+                                )
                             }
                         }
                     }
@@ -84,14 +119,14 @@ pipeline {
                        		}
                 		}
                         post {
-                            success {
-                                script {
-                                    env.SONAR_STAGE = 1
-                                }
-                            }
                             failure {
                                 script {
-                                    env.SONAR_STAGE = -1
+                                    env.MAIL_BODY = "\n\nScan Sonar (mvn sonar:sonar) KO, veillez revoir votre commit pour corriger cette erreur(il s'agit d'une erreur dans le code pas d'une mauvaise qualité de code).\n\nCordialement\nJENKINS"
+                                    emailext (
+                                        body: env.MAIL_BODY, 
+                                        subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                                        to: gitlabUserEmail
+                                    )
                                 }
                             }
                         }
@@ -106,7 +141,7 @@ pipeline {
                     	if(env.gitlabBranch == 'Developpement') {
                         	withSonarQubeEnv('SonarQube') {
                             	def ceTask
-                            	def x = 0
+                            	env.x = 0
                             	timeout(time: 1, unit: 'MINUTES') {
                                 	waitUntil {
                                     	sh 'curl -u $SONAR_AUTH_TOKEN: $SONAR_CE_TASK_URL -o ceTask.json'
@@ -120,14 +155,14 @@ pipeline {
                             	def qualitygate = jsonParse(readFile('qualityGate.json'))
                             	echo qualitygate.toString()
                             	if ("ERROR".equals(qualitygate["projectStatus"]["status"])) {
-                                	for ( i = 0; i< 3; i++) {
+                                	for ( i = 0; i< qualitygate["projectStatus"]["conditions"].size(); i++) {
                                 		echo qualitygate["projectStatus"]["conditions"][i]["status"]
                                 		if ( "ERROR".equals(qualitygate["projectStatus"]["conditions"][i]["status"])) {
-                                			x++         	
+                                			env.x++         	
 	                                	}
                                 	}
-                                	if ( x > 2 ) {
-                          	 			error "Quality Gate failer"
+                                	if ( env.x.toInteger() > 1  ) {
+                          	 			error "Quality Gate failure"
                             	    }
                             	echo  "Quality Gate success"
                         	    }
@@ -137,14 +172,109 @@ pipeline {
                 }
             }
             post {
+                failure {
+                    script {
+                        env.MAIL_BODY = "\n\nQualité gate :\n\tLa qualité du code que vous avez soumis a eu un indice de ${5.minus(env.x.toInteger())}/5 le minimum accepté est 4/5.\nVous trouvez un rapport complet sur l'url : ${env.SONAR_REPORT_URL}\n\nCordialement\nJENKINS"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: gitlabUserEmail
+                        )
+                    }
+                }
+            }
+        }
+        stage ('Nexus') {
+			when {expression {env.gitlabBranch == 'master'} }
+			steps {
+                script {
+                    sh '''
+						git checkout master
+						mvn release:clean
+						mvn -B release:prepare
+						git add pom.xml.releaseBackup
+						git stash
+						mvn -B release:perform
+					'''
+                }
+        	}
+            post {
                 success {
                     script {
-                        env.QG_STAGE = 1
+						sh '''
+							git checkout Developpement
+							git merge master
+							git push origin Developpement
+						'''
+                        env.MAIL_BODY = "\n Déposition d'artifact relatif au projet: "+env.gitlabSourceRepoName+" dans notre instance Nexus.\n\nCordialement\nJenkins"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Notice du Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: 'exploitation@adaming.fr'
+                        )
                     }
                 }
                 failure {
                     script {
-                        env.QG_STAGE = -1
+						def actualVersion = "v" + env.ACTUAL_VERSION
+						echo actualVersion
+						sh '''
+							git push -d origin $actualVersion 2> errors
+							git tag -d $actualVersion 2>> errors
+							git stash pop
+							mvn release:rollback
+						'''
+                        env.MAIL_BODY = "\n\nNexus :\n\tKO\n\nCordialement\nJENKINS"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: gitlabUserEmail
+                        )
+                    }
+                }
+            }
+        }
+        stage ('Deploy') {
+        	when {expression {env.gitlabBranch == 'Integration' || env.gitlabActionType == 'TAG_PUSH'} }
+            parallel {
+                stage ('Integration') {
+                    when {
+                        expression { env.gitlabBranch == 'Integration'}
+                    }
+                    steps {
+                        sh "mvn tomcat7:redeploy -P release -Dmaven.tomcat.url=${env.IntURL}/manager/text -Dtomcat.username=${env.IntUSERNAME} -Dtomcat.password=${env.IntPASSWORD}"
+                    }
+                    post {
+                        success {
+                            script {
+                                env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST \tOK\n\nCordialement\nJENKINS\n"
+                                emailext (
+                                    body: env.MAIL_BODY, 
+                                    subject: 'Nouvelle livraison du projet: '+env.gitlabSourceRepoName, 
+                                    to: 'mfrikha@adaming.fr',
+                                    cc: 'bzhioua@adaming.fr; exploitation@adaming.fr'
+                                  
+                                )
+                            }
+                        }
+                        failure {
+                            script {
+                                env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST :\n\tKO\n\nCordialement\nJENKINS"
+                                emailext (
+                                    body: env.MAIL_BODY, 
+                                    subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                                    to: gitlabUserEmail
+                                )
+                            }
+                        }
+                    }
+                }
+                stage ('Production') {
+                    when {
+                        expression {env.gitlabActionType == 'TAG_PUSH'}
+                    }
+                    steps {
+                        sh "mvn tomcat7:redeploy -P env-prod -Dmaven.tomcat.url=${env.ProdURL}/manager/text -Dtomcat.username=${env.ProdUSERNAME} -Dtomcat.password=${env.ProdPASSWORD}"
                     }
                 }
             }
@@ -153,33 +283,6 @@ pipeline {
     post {
         always {
             script {
-                echo sh(script: 'env|sort', returnStdout: true)
-                if (env.BUILD_STAGE == 1) {
-                    env.MAIL_BODY = env.MAIL_BODY+" Compilation (mvn compile) s'est bien déroulé.\n"
-                    if (env.gitlabBranch.equals("Developpement")) {
-                        if (env.TEST_STAGE == -1) {
-                            env.MAIL_BODY = env.MAIL_BODY+" mvn test KO.\n"
-                        } else if (env.TEST_STAGE == 1) {
-                            env.MAIL_BODY = env.MAIL_BODY+" mvn test s'est bien déroulé.\n"
-                        } else {
-                            env.MAIL_BODY = env.MAIL_BODY+" mvn test s'est pas déroulé.\n"
-                        }
-                        if (env.SONAR_STAGE == 1) {
-                            env.MAIL_BODY = env.MAIL_BODY+" Sonar scan s'est bien déroulé.\n"
-                            if (env.QG_STAGE == 1) {
-                                env.MAIL_BODY = env.MAIL_BODY+" Sonar Quality Gate a retourné un résultat positif.\n"
-                            } else {
-                                env.MAIL_BODY = env.MAIL_BODY+" Sonar Quality Gate a retourné un résultat négatif voila l'url vers le rapport "+env.SONAR_REPORT_URL+" .\n si vous n'avez pas de login essayer avec votre mail @adaming.fr && mot de passe : adaming@2018 sinon demander via ServiceNow un compte Sonar"
-                            }
-                        } else {
-                            env.MAIL_BODY = env.MAIL_BODY+" Sonar scan KO.\n"
-                        }
-                    } 
-                }else if (env.BUILD_STAGE == -1) {
-                    env.MAIL_BODY = env.MAIL_BODY+"  Compilation (mvn compile) KO.\n"
-                }else {
-                    env.MAIL_BODY = env.MAIL_BODY+"  échec dans le script du pipeline.\n"
-                }
                 showChangeLog()
                 cleanWs()
             }

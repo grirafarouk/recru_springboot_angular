@@ -190,5 +190,21 @@
 				<app.url></app.url>
 			</properties>
 		</profile>
+		<profile>
+			<id>env-prod</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+			<properties>
+				<environnement>Environnement Provisoire de production</environnement>
+				<database.url>jdbc\:mysql\://46.105.157.97\:3306/adamingsuivi</database.url>
+				<database.username>suivirec</database.username>
+				<database.password>AcknrXl33</database.password>
+				<app.url></app.url>
+			</properties>
+		</profile>
 	</profiles>
 </project>
