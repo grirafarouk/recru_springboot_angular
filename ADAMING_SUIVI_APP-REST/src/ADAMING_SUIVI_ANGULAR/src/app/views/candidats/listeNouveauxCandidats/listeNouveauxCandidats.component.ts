@@ -12,7 +12,7 @@ import * as FileSaver from 'file-saver';
 import { UtilisateurService } from "../../../services/utilisateur.service";
 import { RegionService } from "../../../services/administrationService/region.service";
 import * as _moment from 'moment';
-
+import * as XLSXStyle from 'xlsx-style';
 import { Region } from "../../../models/region";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -189,11 +189,21 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   public exportAsExcelFile(json: any[], excelFileName: string): void {
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    var cell = worksheet["A1"]
-    cell.s =   { alignment: {textRotation: 90 }, font: {sz: 14, bold: true, color: "#FF00FF" }} ;
+    this.wrapAndCenterCell(worksheet.B2);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+     // Use XLSXStyle instead of XLSX write function which property writes cell styles.
+     //const excelBuffer: any = XLSXStyle.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private wrapAndCenterCell(cell: XLSX.CellObject) {
+    const wrapAndCenterCellStyle = { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' } };
+    this.setCellStyle(cell, wrapAndCenterCellStyle);
+  }
+
+  private setCellStyle(cell: XLSX.CellObject, style: {}) {
+    cell.s = style;
   }
 
   private saveAsExcelFile(buffer: any, fileName: string): void {

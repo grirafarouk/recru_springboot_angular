@@ -75,7 +75,7 @@ export class SessionsFormationsCloturesComponent implements OnInit {
 
 
   reset() {
-    this.formation = new Formation();
+    this.session = new SessionFormation();
     this.getListe();
   }
 

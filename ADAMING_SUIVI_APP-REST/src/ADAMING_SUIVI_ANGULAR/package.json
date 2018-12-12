@@ -71,6 +71,7 @@
     "stream": "0.0.2",
     "ts-helpers": "^1.1.2",
     "xlsx": "^0.13.0",
+    "xlsx-style": "^0.8.13",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

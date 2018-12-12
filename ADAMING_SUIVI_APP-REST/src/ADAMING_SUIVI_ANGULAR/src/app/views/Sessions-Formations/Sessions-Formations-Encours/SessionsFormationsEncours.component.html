@@ -20,7 +20,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="technologie">Technologie:</label>
                            
-                            <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie" name="technologie"  >
+                            <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie.libelle" name="technologie"  >
                             </ng-select>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                             <div class="form-group">
                                 <label class="form-col-form-label" for="lieu">Lieu:</label>
                                 
-                                  <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu" name="lieu"  >
+                                  <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu.libelle" name="lieu"  >
                             </ng-select>
                             </div>
                         </div>
@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
                                    
-                                      <ng-select placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation" name="typeFormation"  >
+                                      <ng-select placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation"  >
                                     </ng-select>
                                 </div>
                         </div>

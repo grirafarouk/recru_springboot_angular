@@ -22,7 +22,7 @@ import { HelperService } from "../../../helper/helper.service";
 })
 export class FiliereComponent implements OnInit {
 
-  constructor(private clientSessionService: ClientSessionService, private helperService: HelperService,
+  constructor(private clientSessionService: ClientSessionService, private helperService: HelperService,private sessionFormationEnCourService: SessionFormationEnCoursService,
     private sessionFormationService: SessionsFormationsService, private notifierService: NotifierService, private sessionFormationEnCoursService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
 
@@ -51,9 +51,16 @@ export class FiliereComponent implements OnInit {
     this.getListe();
   }
   rechercherSession() {
-
-    this.sessionFormationEnCoursService.rechercherSessionFormationencours(this.formation).subscribe(data =>
-      this.formations = data
+    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.session).subscribe(data => {
+      this.isCollapsed = [];
+      data.forEach(element => {
+        this.isCollapsed.push(true)
+      });
+      this.formations = data;
+      this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
+        this.sessionFormations = data;
+      });
+    }
     );
   }
 
@@ -84,7 +91,7 @@ export class FiliereComponent implements OnInit {
   }
 
   reset() {
-    this.formation = new Formation();
+    this.session = new SessionFormation();
     this.getListe();
   }
 
@@ -170,5 +177,12 @@ export class FiliereComponent implements OnInit {
     },(error)=>{
       this.notifierService.notify("error", "Error")
     })
+  }
+  collapseExpand(i) {
+    for (let index = 0; index < this.isCollapsed.length; index++) {
+      if (index == i)
+        this.isCollapsed[i] = !this.isCollapsed[i]
+      else this.isCollapsed[index] = true;
+    }
   }
 }

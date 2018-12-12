@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Candidate } from '../../../models/candidate';
+import { Candidate } from '../../../models/Candidate';
 import { CodePostal } from '../../../models/CodePostal';
 import { Technologie } from '../../../models/Technologie';
 import { Origine } from '../../../models/Origine';
