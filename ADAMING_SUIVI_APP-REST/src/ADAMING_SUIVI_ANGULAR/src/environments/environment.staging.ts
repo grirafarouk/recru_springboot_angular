@@ -1,4 +1,4 @@
 export const environment = {
     production : false,
-    "BACK_END_URL" : "http://192.168.1.248:9292"
+    "BACK_END_URL" : "http://46.105.157.96:8085"
 };
