@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>ADAMING_SUIVI_APP</artifactId>
 		<groupId>com.fr.adaming</groupId>
-		<version>${snapshot-version}</version>
+		<version>1.4.26-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>ADAMING_SUIVI_APP-Common</artifactId>
