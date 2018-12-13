@@ -20,6 +20,7 @@ import { RoutingState } from "../../../helper/routing-state.service";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { UtilisateurService } from "../../../services/utilisateur.service";
+import { ExcelService } from "../../../services/excel.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 import * as _moment from 'moment';
@@ -175,7 +176,8 @@ titleTable="List Tous les Condidats "
     private notifierService: NotifierService, private technologiesService: TechnologieService,
     private lieuxService: LieuxService, private helperService: HelperService, private regionService: RegionService,
     private utilisateurService: UtilisateurService,
-  ) {
+    private excelService:ExcelService) {
+
 
   }
 
@@ -259,45 +261,11 @@ titleTable="List Tous les Condidats "
   openDetails(candidat) {
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
-
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
-
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    var cell = worksheet["A1"]
-    cell.s =   { alignment: {textRotation: 90 }, font: {sz: 14, bold: true, color: "#FF00FF" }} ;
-    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, excelFileName);
-  }
-
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, this.titleTable);
-  }
-  exportAsXLSX(): void {
-
+  
+  public exportAsXLSX():void {
     this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
-      var cleanData = [];
-      data.forEach(element => {
-        var cleanItem = {}
-        this.columns.forEach(col => {
-          if (element[col.data] != null) {
-            if (col.dateFormat != undefined)
-              cleanItem[col.title] = _moment(element[col.data]).format(DATE_FORMAT_MOMENT);
-            else if (col.mask != undefined && element[col.data].indexOf("-") == -1) {
-              cleanItem[col.title] = element[col.data].replace(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).*/, "$1-$2-$3-$4-$5");
-            }
-            else cleanItem[col.title] = element[col.data];
-          }
-        })
-        cleanData.push(cleanItem);
-      });
-      this.exportAsExcelFile(cleanData, 'sample');
-
+      this.excelService.exportAsExcelFile(data,this.titleTable,this.columns);
     })
-
   }
 
 }

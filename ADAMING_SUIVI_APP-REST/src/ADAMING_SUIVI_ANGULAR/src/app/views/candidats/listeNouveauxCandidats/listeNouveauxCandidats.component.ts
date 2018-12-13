@@ -7,15 +7,12 @@ import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
 import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT, PHONE_MASK, DATE_FORMAT_MOMENT } from "../../../helper/application.constant";
 import { RoutingState } from "../../../helper/routing-state.service";
-import * as XLSX from 'xlsx';
-import * as FileSaver from 'file-saver';
 import { UtilisateurService } from "../../../services/utilisateur.service";
 import { RegionService } from "../../../services/administrationService/region.service";
 import * as _moment from 'moment';
-import * as XLSXStyle from 'xlsx-style';
 import { Region } from "../../../models/region";
+import { ExcelService } from "../../../services/excel.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.xlsx';
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -125,7 +122,8 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     private routingState: RoutingState,
     private notifierService: NotifierService,
     private utilisateurService: UtilisateurService,
-    private regionService: RegionService) {
+    private regionService: RegionService,
+    private excelService:ExcelService) {
 
   }
 
@@ -159,14 +157,14 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     return this.candidatsService.rechercheNouveauxcandidatsNbr(item)
   }
 
-  reset() {
+  public reset() {
     this.condidat = new CandidateDto();
     this.rechercheCandidat();
   }
 
 
 
-  downloadCV(candidat) {
+  public downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
       var url = window.URL.createObjectURL(file.data);
@@ -182,61 +180,18 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     })
   }
 
-  openDetails(candidat) {
+  public openDetails(candidat) {
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
 
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    this.wrapAndCenterCell(worksheet.B2);
-    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-     // Use XLSXStyle instead of XLSX write function which property writes cell styles.
-     //const excelBuffer: any = XLSXStyle.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, excelFileName);
-  }
-
-  private wrapAndCenterCell(cell: XLSX.CellObject) {
-    const wrapAndCenterCellStyle = { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' } };
-    this.setCellStyle(cell, wrapAndCenterCellStyle);
-  }
-
-  private setCellStyle(cell: XLSX.CellObject, style: {}) {
-    cell.s = style;
-  }
-
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, this.titleTable);
-  }
-  exportAsXLSX(): void {
-
+  public exportAsXLSX(): void {
     this.candidatsService.rechercheNouveauxcandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
-      var cleanData = [];
-      data.forEach(element => {
-        var cleanItem = {}
-        this.columns.forEach(col => {
-          if (element[col.data] != null) {
-            if (col.dateFormat != undefined)
-              cleanItem[col.title] = _moment(element[col.data]).format(DATE_FORMAT_MOMENT);
-            else if (col.mask != undefined && element[col.data].indexOf("-") == -1) {
-              cleanItem[col.title] = element[col.data].replace(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).*/, "$1-$2-$3-$4-$5");
-            }
-            else cleanItem[col.title] = element[col.data];
-          }
-        })
-        cleanData.push(cleanItem);
-      });
-      this.exportAsExcelFile(cleanData, 'sample');
-
+      this.excelService.exportAsExcelFile(data,this.titleTable,this.columns);
     })
-
   }
 
-  codePostaleOnSearch(value) {
+  public codePostaleOnSearch(value) {
     if (value != "")
       this.regionService.completeRegion(value).subscribe(data => {
         data.forEach(element => {
