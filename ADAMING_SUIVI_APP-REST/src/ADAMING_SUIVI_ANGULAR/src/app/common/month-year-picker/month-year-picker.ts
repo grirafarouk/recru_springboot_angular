@@ -45,31 +45,41 @@ import {
 })
 export class MonthYeatPickerComponent implements OnInit {
   ngOnInit(): void {
-    if (this.innerValue != undefined) this.dateTime = new FormControl(moment(this.innerValue))
-    
-  }
-  @Input()
-  private innerValue: Date;
+    if (this._innerValue != undefined) this.dateTime = new FormControl(moment(this._innerValue))
 
-  private  _disabled: boolean;
+  }
+
+  @Input()
+  set innerValue(date: Date) {
+    this._innerValue=date;
+    this.dateTime.setValue(this._innerValue)
+  }
+
+  private _innerValue: Date;
+
+  get innerValue(): Date {
+    return this._innerValue
+  }
+
+  private _disabled: boolean;
 
   get disabled(): boolean {
     // transform value for display
     return this._disabled
   }
-  
+
   @Input()
   set disabled(disabled: boolean) {
     disabled ? this.dateTime.disable() : this.dateTime.enable();
     this._disabled = disabled;
   }
 
-
   @Output() changed = new EventEmitter<Date>();
 
-
   public dateTime = new FormControl(moment(null));
+
   chosenYearHandler(normalizedYear: Moment) {
+    this.dateTime = new FormControl(moment());
     const ctrlValue = this.dateTime.value;
     ctrlValue.year(normalizedYear.year());
     this.dateTime.setValue(ctrlValue);
@@ -82,7 +92,5 @@ export class MonthYeatPickerComponent implements OnInit {
     this.changed.emit(ctrlValue.toDate())
     datepicker.close();
   }
-
-
 
 }
