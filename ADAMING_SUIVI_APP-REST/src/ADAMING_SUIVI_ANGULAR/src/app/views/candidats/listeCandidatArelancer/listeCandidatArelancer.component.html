@@ -116,12 +116,12 @@
                             <label class="col-7 col-form-label" style="font-weight:bold">Relancer: </label>
                             <div class="col-4 col-form-label">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" name="relance" [(ngModel)]="condidat.relancer" type="radio"
+                                    <input class="form-check-input" name="relance" [(ngModel)]="relance" type="radio"
                                     (change)="relanceHandleChange($event)" id="inline-checkbox5" [value]="true">
                                     <label class="form-check-label" for="inline-checkbox5">PERIODE</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" name="relance" [(ngModel)]="condidat.relancer" type="radio"
+                                    <input class="form-check-input" name="relance" [(ngModel)]="relance" type="radio"
                                     (change)="relanceHandleChange($event)" id="inline-checkbox6" [value]="false">
                                     <label class="form-check-label" for="inline-checkbox6">MOIS</label>
                                 </div>
@@ -132,7 +132,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateDebut" style="font-weight:bold">Date debut</label>
-                            <input [disabled]="condidat.relancer==false" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
+                            <input [disabled]="relance==false" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
                                 [(ngModel)]="condidat.dateDebut" id="dateDebut">
                             <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
                         </div>
@@ -140,7 +140,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateFin" style="font-weight:bold">Date fin</label>
-                            <input [disabled]="condidat.relancer==false" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
+                            <input [disabled]="relance==false" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
                                 [(ngModel)]="condidat.dateFin" id="dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
                         </div>
@@ -148,7 +148,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Mois de relance:</label>
-                            <month-year-picker [disabled]="condidat.relancer==true" (changed)="updateDateRelance($event)" [innerValue]="condidat.dateRelance"></month-year-picker>
+                            <month-year-picker [disabled]="relance==true" (changed)="updateDateRelance($event)" [innerValue]="condidat.dateRelance"></month-year-picker>
 
                         </div>
                     </div>
