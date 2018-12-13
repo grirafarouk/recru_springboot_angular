@@ -1,7 +1,7 @@
 import { environment } from "../../environments/environment";
 
-export const BACK_END_URL = environment.BACK_END_URL + "/ADAMING_SUIVI_APP-REST/api"
-export const BACK_END_URL_SECURITY = environment.BACK_END_URL + "/ADAMING_SUIVI_APP-REST"
+export const BACK_END_URL = environment.BACK_END_URL + "/api"
+export const BACK_END_URL_SECURITY = environment.BACK_END_URL 
 export const NAVIGATION_RULES = {
     error404: {
         url: '404'
