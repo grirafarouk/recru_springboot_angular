@@ -250,8 +250,8 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 				BigDecimal  tauxAccep = (BigDecimal) o[7];
 				BigDecimal  taux = (BigDecimal) o[8];
 				BigInteger idSession = (BigInteger) o[9]; 
-				tauxAccep = tauxAccep.setScale(0, RoundingMode.HALF_UP);
-				taux = taux.setScale(0, RoundingMode.HALF_UP);
+				tauxAccep = tauxAccep.setScale(2, RoundingMode.HALF_UP);
+				taux = taux.setScale(2, RoundingMode.HALF_UP);
 
 				data.add(new SessionFormationReportingDto(nom,lieu,type,date,affectaion,acceptation,nombrePlace,tauxAccep,taux,idSession));
 				
