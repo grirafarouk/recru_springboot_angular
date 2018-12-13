@@ -241,9 +241,11 @@ export class ListeReportingComponent implements OnInit {
   }
 
   reset() {
-    this.condidat = new CandidateDto()
+    this.condidat = new CandidateDto();
+    this.table.item= this.condidat;
     this.rechercheCandidat();
   }
+
 
   downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {

@@ -157,10 +157,12 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     return this.candidatsService.rechercheNouveauxcandidatsNbr(item)
   }
 
-  public reset() {
+  reset() {
     this.condidat = new CandidateDto();
+    this.table.item= this.condidat;
     this.rechercheCandidat();
   }
+
 
 
 

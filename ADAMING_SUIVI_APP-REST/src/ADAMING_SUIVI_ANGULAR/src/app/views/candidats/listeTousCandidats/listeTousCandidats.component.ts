@@ -222,11 +222,13 @@ titleTable="List Tous les Condidats "
   rechercheNbr(item,allValue){
     return this.candidatsService.rechercheTouscandidatsNbr(item) 
   }
-
+  
   reset() {
-    this.condidat = new CandidateDto()
+    this.condidat = new CandidateDto();
+    this.table.item= this.condidat;
     this.rechercheCandidat();
   }
+
 
   downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
@@ -261,7 +263,7 @@ titleTable="List Tous les Condidats "
   openDetails(candidat) {
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
-  
+
   public exportAsXLSX():void {
     this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
       this.excelService.exportAsExcelFile(data,this.titleTable,this.columns);

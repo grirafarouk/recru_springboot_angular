@@ -176,16 +176,12 @@ export class listeEntretienComponent implements OnInit {
 
 
 
-   reset(){
-     this.condidat.nom=null;
-     this.condidat.prenom = null;
-     this.condidat.numeroTel = null;
-     this.condidat.dateEntretien = null;
-     this.condidat.lieuEntretien = null;
-     this.condidat.nomCharge = null;
-     this.condidat.prenomCharge = null;
-     this.rechercheCandidat();
-   }
+  reset() {
+    this.condidat = new CandidateDto();
+    this.table.item= this.condidat;
+    this.rechercheCandidat();
+  }
+
 
   downloadCV(candidat){
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {

@@ -175,6 +175,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   
   reset() {
     this.condidat = new CandidateDto();
+    this.table.item= this.condidat;
     this.rechercheCandidat();
   }
 

@@ -5,33 +5,35 @@
     </div>
 
     <div class="card-body">
-
-        <div  *ngIf="enableAll==true"class="col-md-8 col-form-label">
-                <div class="form-check form-check-inline mr-1">
-                    <label >Tous Candidats </label>
-                    <label class="label--checkbox">
+        <div style="width: 100%;display: inline-flex;margin-bottom: 10px">
+            <div style="width: 90%">
+                <div *ngIf="enableAll==true">
+                    <div class="form-check form-check-inline mr-1">
+                        <label style="margin:0 20px">Tous Candidats </label>
+                        <label class="label--checkbox">
                             <input (change)="parent.initTableFunction()" class="checkbox" type="checkbox" [(ngModel)]="allValue"
-                            name="allValue" id="allValue ">
+                                name="allValue" id="allValue ">
                         </label>
+                    </div>
                 </div>
-        </div>
-        <div class="form-group" style="float: right">
-            <div class="col-md-8">
+            </div>
+            <div>
                 <div class="input-group">
-                    <div autoClose="false" class="btn-group" style="float: right;" dropdown>
+                    <div autoClose="false" class="btn-group" dropdown>
                         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                             Colonnes <span class="caret"></span>
                         </button>
-                        <ul  (click)="$event.stopPropagation()" class="light" *dropdownMenu class="dropdown-menu"
-                            role="menu">
-                            <li style="height: 30px" role="menuitem" *ngFor="let col of columns"> <a style="padding: 0px ;height: 35px" class="dropdown-item">
+                        <ul (click)="$event.stopPropagation()" class="light" *dropdownMenu class="dropdown-menu" role="menu">
+                            <li style="height: 30px" role="menuitem" *ngFor="let col of columns"> <a style="padding: 0px ;height: 35px"
+                                    class="dropdown-item">
                                     <label class="label--checkbox">
                                         <input class="checkbox" [(ngModel)]="col.visible" type="checkbox" />
                                     </label>
                                     <label>{{col.title}}</label></a>
                             </li>
 
-                            <li *ngIf="actions!=null && actions.items.length >0" style="height: 30px" role="menuitem" > <a style="padding: 0px ;height: 35px" class="dropdown-item">
+                            <li *ngIf="actions!=null && actions.items.length >0" style="height: 30px" role="menuitem">
+                                <a style="padding: 0px ;height: 35px" class="dropdown-item">
                                     <label class="label--checkbox">
                                         <input class="checkbox" [(ngModel)]="actions.visible" type="checkbox" />
                                     </label>
@@ -40,41 +42,45 @@
 
                         </ul>
                     </div>
-
                 </div>
             </div>
         </div>
         <table class="table  table-striped">
             <thead>
                 <tr>
-                    <th  [ngStyle]="{'width': (col.width!=undefined) ? col.width :'' }" [hidden]="!col.visible" *ngFor="let col of columns"> {{col.title }}</th>
-                    <th [hidden]="actions==null ||!actions.visible"  *ngIf="actions!=null && actions.items.length >0" [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">{{actions.title}}</th>
+                    <th [ngStyle]="{'width': (col.width!=undefined) ? col.width :'' }" [hidden]="!col.visible" *ngFor="let col of columns">
+                        {{col.title }}</th>
+                    <th [hidden]="actions==null ||!actions.visible" *ngIf="actions!=null && actions.items.length >0"
+                        [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">{{actions.title}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let c of items| paginate: { itemsPerPage:10, currentPage: p }">
-                        <td [hidden]="!col.visible" *ngFor="let col of columns"> 
-                            <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered" [ngStyle]="{'text-align': (col.align!=undefined) ? col.align :'' }">
-                                <div *ngIf="col.mask==undefined; else maskDiv">
-                                    <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
-                                            {{c[col.data] | date : col.dateFormat }} 
-                                    </div>
-                                  <ng-template #noDateDiv>  {{c[col.data] }}</ng-template>
+                    <td [hidden]="!col.visible" *ngFor="let col of columns">
+                        <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered" [ngStyle]="{'text-align': (col.align!=undefined) ? col.align :'' }">
+                            <div *ngIf="col.mask==undefined; else maskDiv">
+                                <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
+                                    {{c[col.data] | date : col.dateFormat }}
                                 </div>
-                                <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
+                                <ng-template #noDateDiv> {{c[col.data] }}</ng-template>
                             </div>
-                            <ng-template #rendered>
-                                <div *ngIf="col.html==true; else noHtml" [innerHTML]="col.rendered(c)"></div>
-                                <ng-template #noHtml>
-                                    {{col.rendered(c)}}
-                                </ng-template>
-                            </ng-template></td>
+                            <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
+                        </div>
+                        <ng-template #rendered>
+                            <div *ngIf="col.html==true; else noHtml" [innerHTML]="col.rendered(c)"></div>
+                            <ng-template #noHtml>
+                                {{col.rendered(c)}}
+                            </ng-template>
+                        </ng-template>
+                    </td>
 
-                    <td [hidden]="actions==null ||!actions.visible" *ngIf="actions!=null && actions.items.length >0" [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">                
-                        <button  style="margin-left: 3px"  placement="top" [tooltip]="action.tooltip==undefined ?'':action.tooltip" *ngFor="let action of actions.items" type="button" (click)="action.action(c)"  [class]="action.class">
+                    <td [hidden]="actions==null ||!actions.visible" *ngIf="actions!=null && actions.items.length >0"
+                        [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">
+                        <button style="margin-left: 3px" placement="top" [tooltip]="action.tooltip==undefined ?'':action.tooltip"
+                            *ngFor="let action of actions.items" type="button" (click)="action.action(c)" [class]="action.class">
                             <i [class]="action.icon"></i>
-                        </button> 
-                        </td>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -98,5 +104,5 @@
             </ul>
         </div>
     </div>
-  <!--<ngx-loading [show]="loading" [config]=""></ngx-loading>-->
+    <!--<ngx-loading [show]="loading" [config]=""></ngx-loading>-->
 </div>
