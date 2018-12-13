@@ -293,7 +293,7 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private async sauvgarderFiche(callback?) {
+  private async sauvgarderFiche() {
 
     //#region get Competences
     this.helperService.generateComp(this.currentCandidat, this.competences);
@@ -343,7 +343,7 @@ export class FicheCandidatComponent implements OnInit {
         }
         this.currentCandidat.motif = null;
         await this.candidatsService.updateCandidat(this.currentCandidat).toPromise().then(data => {
-          callback(data.id)
+         if(this.callback!=null) this.callback(data.id)
         })
         //#endregion
       }
@@ -467,21 +467,23 @@ export class FicheCandidatComponent implements OnInit {
     return msg
   }
 
+  
+public callback=null;
 
   private async sauvgarderFicheRedirtect() {
-    let fn = (id) => {
+    this.callback = (id) => {
       if (this.routingState.getPreviousUrl()=="/candidats")
         this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.listeTousCandidats]);
       else this.annuler();
     }
-    await this.sauvgarderFiche(fn);
+    await this.sauvgarderFiche();
   }
 
   private async evaluerCandidat() {
-    let fn = (id) => {
+    this.callback = (id) => {
       this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',id)]);
     }
-    await this.sauvgarderFiche(fn);
+    await this.sauvgarderFiche();
   }
 
   private dateNaissanceChangedHandler(){
