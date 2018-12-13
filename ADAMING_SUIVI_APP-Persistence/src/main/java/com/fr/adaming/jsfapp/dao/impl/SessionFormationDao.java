@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,12 +102,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 						+ df.format(sessionFormationDto.getDateDemarrage())
 						+ " 23:59:59'";
 			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
 		}
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -128,12 +131,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 						+ df.format(sessionFormationDto.getDateDemarrage())
 						+ " 23:59:59'";
 			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
 		}
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -148,7 +155,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -168,12 +175,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 						+ df.format(sessionFormationDto.getDateDemarrage())
 						+ " 23:59:59'";
 			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
 		}
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -189,7 +200,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -205,7 +216,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -235,7 +246,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		
 		List<SessionFormationReportingDto> data = new  ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if(!dataObject.isEmpty())
 		{
 			for(Object [] o : dataObject)
@@ -285,7 +296,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		
 		List<SessionFormationReportingDto> data = new  ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if(!dataObject.isEmpty())
 		{
 			for(Object [] o : dataObject)

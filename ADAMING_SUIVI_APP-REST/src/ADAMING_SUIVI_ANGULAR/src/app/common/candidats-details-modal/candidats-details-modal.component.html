@@ -304,7 +304,7 @@
                   <div class="form-group">
                     <label for="noteResultat">Statut</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{getStatusLabel(currentCandidat.statut)}}</p>
+                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static">{{getStatusLabel(currentCandidat.statut)}}</p>
                     </div>
                   </div>
                 </div>
@@ -317,7 +317,7 @@
                   <div class="form-group">
                     <label for="noteResultat">Résultat du test:</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
+                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
                     </div>
                   </div>
                 </div>
@@ -345,7 +345,7 @@
                   </div>
                 </div>
                 <div class="col-sm-6">
-                  <div class="form-group row">
+                  <div class="form-group row" *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined">
                     <label class="col-7 col-form-label">Mobilité: </label>
                     <div class="col-4 col-form-label">
                       <div class="form-check form-check-inline">
@@ -376,7 +376,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined">
                   <div class="form-group row">
                     <label class="col-7 col-form-label">Relancer: </label>
                     <div class="col-4 col-form-label">
@@ -413,7 +413,7 @@
               <!--/ row-->
             </div> <!-- col 6 -->
             <div class="col-6">
-              <div class="row" style="margin-bottom: 20px;margin-right: 20px">
+              <div class="row" style="margin-bottom: 20px;margin-right: 20px" *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined">
                 <div class="col-12">
                   <label for="comEntrtien">Commentaire</label>
                   <textarea style="margin-left: 20px;" disabled="true" id="comEntrtien" [(ngModel)]="currentCandidat.suivi.commentaire"
