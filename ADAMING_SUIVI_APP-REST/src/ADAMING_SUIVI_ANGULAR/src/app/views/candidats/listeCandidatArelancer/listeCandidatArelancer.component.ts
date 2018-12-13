@@ -128,6 +128,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   condidat: CandidateDto = new CandidateDto();
   listSourceur: any[];
   listCarge: any[];
+  relance: boolean;
 
   constructor(
     private router: Router,
@@ -212,7 +213,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   }
 
   relanceHandleChange(event) {
-    if (this.condidat.relancer == false) {
+    if (this.relance == false) {
       this.condidat.dateDebut = undefined
       this.condidat.dateFin = undefined
     }
