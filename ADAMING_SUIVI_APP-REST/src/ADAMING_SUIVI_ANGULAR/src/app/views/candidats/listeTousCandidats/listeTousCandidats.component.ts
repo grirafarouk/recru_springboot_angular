@@ -20,6 +20,7 @@ import { RoutingState } from "../../../helper/routing-state.service";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { UtilisateurService } from "../../../services/utilisateur.service";
+import { ExcelService } from "../../../services/excel.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 
@@ -174,7 +175,8 @@ titleTable="List Tous les Condidats "
     private notifierService: NotifierService, private technologiesService: TechnologieService,
     private lieuxService: LieuxService, private helperService: HelperService, private regionService: RegionService,
     private utilisateurService: UtilisateurService,
-  ) {
+    private excelService:ExcelService) {
+
 
   }
 
@@ -259,22 +261,10 @@ titleTable="List Tous les Condidats "
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
 
-  public exportAsExcelFile(json: any[], excelFileName: string): void {
-    
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    console.log('worksheet',worksheet);
-    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    this.saveAsExcelFile(excelBuffer, excelFileName);
-  }
 
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], {
-      type: EXCEL_TYPE
-    });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-  }
-  exportAsXLSX():void {
-    this.exportAsExcelFile(this.table.items, 'sample');
+  public exportAsXLSX():void {
+    this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
+      this.excelService.exportAsExcelFile(data,this.titleTable,this.columns);
+    })
   }
 }
