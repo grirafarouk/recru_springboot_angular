@@ -37,6 +37,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="civilite">Civilité</label>
+                                    <label style="color: firebrick">*</label>
                                     <ng-select [items]="civilites" [disabled]="candidateFound==false" required
                                         #civilite="ngModel" name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
 
@@ -46,6 +47,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
+                                    <label style="color: firebrick">*</label>
                                     <input type="text" class="form-control" name="nom" [(ngModel)]="candidate.nom" id="nom">
 
                                 </div>
@@ -53,6 +55,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="prenom">Prenom</label>
+                                    <label style="color: firebrick">*</label>
                                     <input type="text" class="form-control" name="prenom" [(ngModel)]="candidate.prenom"
                                         id="prenom">
 
@@ -63,6 +66,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="email">Email</label>
+                                    <label style="color: firebrick">*</label>
                                     <input type="email" class="form-control" name="email" [(ngModel)]="candidate.email"
                                         id="email">
 
@@ -71,6 +75,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
+                                    <label style="color: firebrick">*</label>
                                     <input type="text" class="form-control" [textMask]="{mask: mask}" name="telephone"
                                         [(ngModel)]="candidate.numeroTel" id="telephone">
 
@@ -79,6 +84,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="origineCV">Origine CV</label>
+                                    <label style="color: firebrick">*</label>
                                     <ng-select placeholder="--Sélectionner--" bindValue="id" bindLabel="libelle" [items]="origines" [(ngModel)]="candidate.origine.id"
                                         name="origineCV" [disabled]="candidateFound===false" id="origineCV">
                                     </ng-select>
@@ -90,6 +96,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="profil">Profil </label>
+                                    <label style="color: firebrick">*</label>
                                     <ng-select placeholder="--Sélectionner--" bindValue="id" bindLabel="libelle" [items]="technologies" [(ngModel)]="candidate.technologie.id"
                                         name="technologie" [disabled]="candidateFound===false" id="profil">
                                     </ng-select>
@@ -99,6 +106,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="codePostal">Code postal</label>
+                                    <label style="color: firebrick">*</label>
                                     <ng-select aria-required="" [disabled]="candidateFound==false" id="codePostal"
                                         [items]="codePostals" (search)="codePostaleOnSearch($event)" [ngModel]="candidate?.codePostal"
                                         (ngModelChange)="candidate.codePostal = $event" name="codePostal">
@@ -113,12 +121,14 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Region</label>
+                                    <label style="color: firebrick">*</label>
                                     <p class="form-control-static">{{candidate?.codePostal?.region}}</p>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Ville</label>
+                                    <label style="color: firebrick">*</label>
                                     <p class="form-control-static">{{candidate?.codePostal?.ville}}</p>
                                 </div>
                             </div>
