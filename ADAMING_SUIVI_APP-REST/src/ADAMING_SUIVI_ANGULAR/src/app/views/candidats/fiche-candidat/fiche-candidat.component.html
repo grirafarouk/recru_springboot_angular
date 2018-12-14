@@ -115,8 +115,8 @@
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-7 col-form-label">Mobilité: </label>
-                    <div class="col-4 col-form-label">
+                    <label class="col-5 col-form-label">Mobilité: </label>
+                    <div class="col-7 col-form-label">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
                           type="radio" id="inline-checkbox1" [value]="true">
@@ -132,8 +132,8 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-md-7 col-form-label">Pole Emploi: </label>
-                    <div class="col-md-4 col-form-label">
+                    <label class="col-md-5 col-form-label">Pole Emploi: </label>
+                    <div class="col-md-7 col-form-label">
                       <div class="form-check form-check-inline mr-1">
                         <input class="form-check-input" [(ngModel)]="currentCandidat.posteEnCours" name="poleEmploi"
                           type="radio" id="inline-checkbox3" [value]="true">
@@ -265,13 +265,13 @@
                 </div>
                 <div class="col-6">
                   <div class="form-group row">
-                    <label class="col-7 col-form-label">Relancer
+                    <label class="col-5 col-form-label">Relancer
                         <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='PREAVIS'||currentCandidat.entretien.disponible=='message_vocal'
                     ||currentCandidat.entretien.disponible=='envoi_de_la_plaquette'||currentCandidat.entretien.disponible=='EN_ATTENTE_FORMATION'
                     ||currentCandidat.entretien.disponible=='mail_envoye'">*</label>
                     </label>
                   
-                    <div class="col-4 col-form-label">
+                    <div class="col-7 col-form-label">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="relance" (change)="relanceHandleChange($event)"
                           [(ngModel)]="currentCandidat.entretien.relance" type="radio" id="inline-checkbox5" [value]="true">
@@ -328,8 +328,8 @@
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-7 col-form-label">Confirmation Rdv</label>
-                    <div class="col-4 col-form-label">
+                    <label class="col-5 col-form-label">Confirmation Rdv</label>
+                    <div class="col-7 col-form-label">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="confirmation" [(ngModel)]="currentCandidat.entretien.confirmation"
                           type="radio" id="inline-checkbox1" [value]="true">

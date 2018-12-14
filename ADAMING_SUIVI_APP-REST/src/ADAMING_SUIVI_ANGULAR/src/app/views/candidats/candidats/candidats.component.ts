@@ -235,6 +235,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   }
 
   saveCandidat(callback){
+    const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.loading=true;
     var error = false;
     //#region get Competences
@@ -252,7 +253,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       error = true;
     }
     if (!this.candidate.cvAnonyme) {
-      if (this.candidate.email == "" || this.candidate.email == undefined) {
+      if (this.candidate.email == "" || this.candidate.email == undefined || !validEmailRegEx.test(this.candidate.email)) {
         this.notifierService.notify("error", " Écrivez un email valide")
         error = true;
       }
@@ -333,4 +334,5 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
     this.loading=false;
   }
+
 }
