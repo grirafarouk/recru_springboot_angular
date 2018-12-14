@@ -51,7 +51,7 @@ export class AuthenticationService {
         if (data) {  // login successful if there's a jwt token in the response
           let tokenInfo = this.getDecodedAccessToken(data.access_token); // decode token
           localStorage.setItem(TOKEN_NAME, data.access_token);
-          await this.utilisateurService.getUser(tokenInfo.user_name).toPromise().then((user: Utilisateur) => {
+          await this.utilisateurService.getUserByLogin(tokenInfo.user_name).toPromise().then((user: Utilisateur) => {
             if (user) {
               var currentUser = {
                 token: data,

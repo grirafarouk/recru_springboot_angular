@@ -89,7 +89,7 @@ export class utilisateursComponent implements OnInit {
   }
 
   showEditModal(utilisateur: any) {
-    this.utilisateur =  Object.assign({}, utilisateur);
+    this.utilisateur = Object.assign({}, utilisateur);
     this.utilisateurModal.show();
 
   }
@@ -105,12 +105,27 @@ export class utilisateursComponent implements OnInit {
   }
 
 
-  saveUtilisateur() {
-    if (this.utilisateur.id > 0)
-      this.updateUtilisateur();
-    else this.createUtilisateur();
-  }
+  async saveUtilisateur() {
+    let error = false;
+    let user
+    await this.utilisateurService.getUserByEmail(this.utilisateur.email).toPromise().then(data => { user = data });;
+    if (user != null && user.id!=this.utilisateur.id) {
+      this.notifierService.notify("error", "Email existe déjà  !")
+      error = true;
+    }
 
+    await this.utilisateurService.getUserByLogin(this.utilisateur.login).toPromise().then(data => { user = data });;
+    if (user != null && user.id!=this.utilisateur.id) {
+      this.notifierService.notify("error", "Login existe déjà  !")
+      error = true;
+    }
+    if (!error) {
+      if (this.utilisateur.id > 0)
+        this.updateUtilisateur();
+      else this.createUtilisateur();
+    }
+  }
+  
   reset() {
     this.utilisateur = new Utilisateur();
   }
