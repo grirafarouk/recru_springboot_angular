@@ -92,6 +92,16 @@ titleTable="List Tous les Condidats "
     },
     {
       data: 'statut',
+      title: 'Délai Traitement	',
+      visible: true,
+      html: false,
+      rendered: (e) => {
+        return e.dateEntretien != null && e.dateInscription!=null 
+        ?Math.ceil((new Date(   _moment(e.dateEntretien).format("MM/DD/YYYY")   ).getTime() -    new Date(   _moment(e.dateInscription).format("MM/DD/YYYY")   ).getTime()) / (1000 * 3600 * 24))+" (J)" : " - "
+      }
+    },
+    {
+      data: 'statut',
       title: 'Statut',
       visible: false,
       html: false,
