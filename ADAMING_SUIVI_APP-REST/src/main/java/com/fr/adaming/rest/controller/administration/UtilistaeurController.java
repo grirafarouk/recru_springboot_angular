@@ -88,7 +88,7 @@ public class UtilistaeurController {
 		return utilisateurService.findByLogin(login);
 	}
 
-	@RequestMapping(value = "/email/{email}", method = RequestMethod.GET)
+	@RequestMapping(value = "/email/{email}/", method = RequestMethod.GET)
 	public Utilisateur findByEmail(@PathVariable String email) {
 		return utilisateurService.findByEmail(email);
 	}

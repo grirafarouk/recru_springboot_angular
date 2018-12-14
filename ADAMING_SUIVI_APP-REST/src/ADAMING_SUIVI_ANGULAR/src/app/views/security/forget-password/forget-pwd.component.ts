@@ -33,7 +33,6 @@ export class ForgetPwdComponent implements OnInit {
     this.authenticationService.forgetPwd(this.email).toPromise().then(
       data => {
         this.diableButton = false;
-        console.log(data)
         if (data.result == "success")
           this.notifierService.notify('success', "Un e-mail a été envoyé à l'adresse " +this.email
           							+ ", il contient un lien sur lequel il vous faudra cliquer afin de réinitialiser votre mot de passe.");

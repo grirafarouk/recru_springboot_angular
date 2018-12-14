@@ -166,7 +166,12 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 		DaoUtils.addEqRestrictionIfNotNull(crit, "email", email);
 
-		return (Utilisateur) crit.uniqueResult();
+		List<Utilisateur> liste = DaoUtils.castList(Utilisateur.class, crit.list());
+
+		if (CollectionUtils.isNotEmpty(liste)) {
+			return liste.get(0);
+		}
+		return null;
 	}
 
 	@Override
