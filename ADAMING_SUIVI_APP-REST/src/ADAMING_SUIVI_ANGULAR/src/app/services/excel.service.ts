@@ -36,6 +36,10 @@ export class ExcelService {
           else if (col.mask != undefined && element[col.data].indexOf("-") == -1) {
             cleanItem[col.title] = element[col.data].replace(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).*/, "$1-$2-$3-$4-$5");
           }
+          else if(col.rendered) {
+            if(col.html==false)
+            cleanItem[col.title]=col.rendered(element)
+          }
           else cleanItem[col.title] = element[col.data];
 
           if(cleanCol[col.data]==null) cleanCol[col.data]=col.title.length;
