@@ -10,7 +10,7 @@ import { HelperService } from "../../../helper/helper.service";
 import { Router } from "@angular/router";
 import { RegionService } from "../../../services/administrationService/region.service";
 import { Region } from "../../../models/region";
-import { NAVIGATION_RULES, DATE_FORMAT } from "../../../helper/application.constant";
+import { NAVIGATION_RULES, DATE_FORMAT, PHONE_MASK } from "../../../helper/application.constant";
 import { RoutingState } from "../../../helper/routing-state.service";
 import { UtilisateurService } from "../../../services/utilisateur.service";
 
@@ -129,6 +129,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   listSourceur: any[];
   listCarge: any[];
   relance: boolean;
+  mask: any[] = PHONE_MASK;
 
   constructor(
     private router: Router,

@@ -2,7 +2,7 @@
         <thead>
           <tr>
             <th [ngStyle]="{'width': (col.width!=undefined) ? col.width :'' }" *ngFor="let col of columns">{{col.title}}</th>
-            <th [ngStyle]="{ 'width' :( actions.length>1)  ? (actions.length*60)+'px' : '70px'}">Ation</th>
+            <th [ngStyle]="{ 'width' :( actions.length>1)  ? (actions.length*60)+'px' : '70px'}">Action</th>
 
           </tr>
         </thead>

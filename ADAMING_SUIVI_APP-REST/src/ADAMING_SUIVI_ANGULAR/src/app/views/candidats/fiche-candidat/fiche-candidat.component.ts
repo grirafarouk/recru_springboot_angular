@@ -24,7 +24,7 @@ import { HelperService } from '../../../helper/helper.service';
 import { Profil } from '../../../models/enum/Profil';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
-import { NAVIGATION_RULES } from '../../../helper/application.constant';
+import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
 
 @Component({
   selector: 'app-fiche-candidat',
@@ -69,6 +69,8 @@ export class FicheCandidatComponent implements OnInit {
     msg: ""
 
   }
+  mask: any[] = PHONE_MASK;
+
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
     private codePostalService: CodePostalService, private originesService: OriginesService,
@@ -176,8 +178,29 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private updateCandidats() {
-    let errorCv = this.verifierCvAnym();
-    if (!errorCv) {
+    const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var error = false;
+    if (this.currentCandidat.nom == "" || this.currentCandidat.nom == undefined) {
+      this.notifierService.notify("error", " Écrivez un nom valide")
+      error = true;
+    }
+    if (this.currentCandidat.prenom == "" || this.currentCandidat.prenom == undefined) {
+      this.notifierService.notify("error", " Écrivez un prenom valide")
+      error  = true;
+    }
+    if (this.currentCandidat.email == "" || this.currentCandidat.email == undefined || !validEmailRegEx.test(this.currentCandidat.email)) {
+      this.notifierService.notify("error", " Écrivez un email valide")
+      error  = true;
+    }
+    if (this.currentCandidat.numeroTel == "" || this.currentCandidat.numeroTel == undefined) {
+      this.notifierService.notify("error", " Écrivez un numero Tel valide")
+      error  = true;
+    }
+    if (this.currentCandidat.origine.id == undefined) {
+      this.notifierService.notify("error", " Écrivez Choisir un Origine CV valide")
+      error  = true;
+    }
+    if (!error) {
       //#region get Competences
       this.helperService.generateComp(this.currentCandidat, this.competences);
       //#endregion
@@ -342,7 +365,7 @@ export class FicheCandidatComponent implements OnInit {
           this.currentCandidat.statut = Status[Status.VIDE]
         }
         this.currentCandidat.motif = null;
-        await this.candidatsService.updateCandidat(this.currentCandidat).toPromise().then(data => {
+        await this.candidatsService.updateficheCandidat(this.currentCandidat).toPromise().then(data => {
          if(this.callback!=null) this.callback(data.id)
         })
         //#endregion
@@ -353,7 +376,7 @@ export class FicheCandidatComponent implements OnInit {
   private envoiMailHorCibleFunction() {
     if (this.currentCandidat.motif != undefined && this.currentCandidat.motif != undefined && this.commentaireMotif != "") {
       this.candidatsService.envoyerEmailHorsCibleCandidats(this.currentCandidat, this.userService.getConnetedUserInfo().login, this.commentaireMotif).subscribe(data => {
-        this.notifierService.notify("success", "Mail envoyer avec success");
+        this.notifierService.notify("success", "Mail envoyé avec succès");
         this.currentCandidat.motif = new Motif();
         this.commentaireMotif = ""
         this.emailModalHorCible.hide();
@@ -369,7 +392,7 @@ export class FicheCandidatComponent implements OnInit {
 
   private envoiMailDispoFunction() {
     this.candidatsService.envoyerEmailDisboCandidats(this.emailEntrtien, this.userService.getConnetedUserInfo().login).subscribe(data => {
-      this.notifierService.notify("success", "Mail envoyer avec success");
+      this.notifierService.notify("success", "Mail envoyé avec succès");
       this.currentCandidat.emailCandidatEnvoyer = true;
       this.emailModalDispo.hide();
       this.emailEntrtien = {

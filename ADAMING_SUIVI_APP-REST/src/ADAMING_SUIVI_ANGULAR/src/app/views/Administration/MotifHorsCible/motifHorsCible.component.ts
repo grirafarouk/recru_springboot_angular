@@ -80,7 +80,7 @@ export class motifHorsCibleComponent implements OnInit {
     this.motifHorsCibleService.save(this.motifHorsCible).toPromise().then((data: Motif) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Motif ajouté avec succés !")
+        this.notifierService.notify("success", "Motif ajoutée avec succès !")
       }
     })
     this.motifHorsCibleModal.hide();
@@ -90,7 +90,7 @@ export class motifHorsCibleComponent implements OnInit {
     this.motifHorsCibleService.update(this.motifHorsCible).toPromise().then((data: Motif) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Motif  modifié avec succés !")
+        this.notifierService.notify("success", "Motif  modifiée avec succès !")
       }
     })
     this.motifHorsCibleModal.hide();
@@ -99,7 +99,7 @@ export class motifHorsCibleComponent implements OnInit {
   delete() {
     this.motifHorsCibleService.delete(this.motifHorsCible).toPromise().then((data) => {
       this.ngOnInit();
-      this.notifierService.notify("success", "Lieu Supprimer avec succés !")
+      this.notifierService.notify("success", "Motif supprimé  avec succès !")
     })
     this.deleteModal.hide();
   }

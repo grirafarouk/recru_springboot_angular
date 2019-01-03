@@ -25,6 +25,11 @@ export class AccueilService {
   getChart() {
     return this.http.get<any>(BACK_END_URL+'/accueil/map');
   }
+
+  getNombreTechnologieParCandidat(): Observable<any> {
+    return this.http.get<any>(BACK_END_URL+'/accueil/NombreTechnologieParCandidat');
+  }
+
   getCVRelanceByCharge(id){
     return this.http.get<any>(BACK_END_URL+'/accueil/CandidatParCharge?idcharge='+ id);
   }

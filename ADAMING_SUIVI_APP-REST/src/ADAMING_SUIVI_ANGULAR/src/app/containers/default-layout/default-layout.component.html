@@ -1,4 +1,4 @@
-<app-header [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/adaming-conseil.png', width: 150, height: 40,alt: 'Adaming conseil'}"
+<app-header [fixed]="true" [navbarBrandFull]="{src: 'assets/img/brand/adaming-conseil.png', width: 150, height: 30,alt: 'Adaming conseil'}"
   [navbarBrandMinimized]="{src: 'assets/img/brand/adaming.png', width: 40, height: 30, alt: 'CoreUI Logo'}"
   [sidebarToggler]="'lg'" [asideMenuToggler]="''">
   <ul class="nav navbar-nav d-md-down-none">
@@ -10,14 +10,13 @@
   </ul>
 
   <ul class="nav navbar-nav ml-auto">
-    <li class="nav-item dropdown" dropdown placement="bottom right">
-      <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
-        dropdownToggle (click)="false">
-        <img src="assets/img/avatars/user.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
+    <li class="nav-item px-5" dropdown placement="bottom right">
+      <a class="nav-link" style="font-weight: bold;" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+        dropdownToggle (click)="logout()">
+        <img style="height: 20px;" src="assets/img/avatars/deconnect.png" class="img-avatar" alt="admin@bootstrapmaster.com" />
+        Déconnexion
       </a>
-      <div (click)="logout()" class="dropdown-menu dropdown-menu-right" *dropdownMenu aria-labelledby="simple-dropdown">
-        <a class="dropdown-item"><i class="fa fa-lock"></i> Logout</a>
-      </div>
+      
     </li>
   </ul>
 </app-header>

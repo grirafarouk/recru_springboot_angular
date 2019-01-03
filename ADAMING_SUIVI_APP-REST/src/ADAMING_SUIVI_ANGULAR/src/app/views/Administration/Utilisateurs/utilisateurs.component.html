@@ -34,13 +34,13 @@ aria-hidden="true">
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Login:</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.login" name="login"  />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.login" name="login"  />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Profil:</label>
           <div class="col-md-8">
-              <ng-select placeholder="--Sélectionner--" [items]="refProfil" bindLabel="label" bindValue="value" [(ngModel)]="utilisateur.profil" name="profil"
+              <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [items]="refProfil" bindLabel="label" bindValue="value" [(ngModel)]="utilisateur.profil" name="profil"
                      >
                     </ng-select>
           </div>
@@ -48,37 +48,37 @@ aria-hidden="true">
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Nom:</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.nom" name="nom"  />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.nom" name="nom"  />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Prénom:</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.prenom" name="prenom"   />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.prenom" name="prenom"   />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Numéro Fixe :</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF"  mask="(+00)-0-00-00-00-00" />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF"  mask="(+00)-0-00-00-00-00" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Numéro Portable:</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP" mask="(+00)-0-00-00-00-00" />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP" mask="(+00)-0-00-00-00-00" />
           </div>
         </div>
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Email:</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="utilisateur.email" name="email"   />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.email" name="email"   />
           </div>
         </div>
         <div *ngIf="!utilisateur.id>0" class="form-group row">
             <label class="col-md-3 col-form-label" >Mot de passe:</label>
             <div class="col-md-8">
-                <input class="form-control" type="password" [(ngModel)]="utilisateur.password" name="password" />
+                <input class="form-control" style="font-weight: bold;color: black;" type="password" [(ngModel)]="utilisateur.password" name="password" />
             </div>
           </div>
         <div class="form-group row">

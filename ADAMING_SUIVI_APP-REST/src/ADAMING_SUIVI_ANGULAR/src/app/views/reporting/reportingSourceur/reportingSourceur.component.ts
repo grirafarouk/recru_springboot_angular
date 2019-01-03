@@ -3,6 +3,8 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
 import { ReportingSourceurService } from "../../../services/reportingSourceurService/ReportingSourceur/reportingSourceur.service";
 import { SourceurReporting } from "../../../models/SourceurReporting";
+import { ChartColors } from '../../../helper/application.constant';
+import 'chart.piecelabel.js';
 
 
 
@@ -22,21 +24,13 @@ export class ReportingSourceurComponent implements OnInit {
   pieChartData: number[] = [];
   pieChartLabels: string[]=[];
   pieChartType = 'pie';
-  ChartColors : any[]=[
-    {
-      backgroundColor:["#FF7360","#6FC8CE","gray","#FFFCC4","#B9E8E0","#FFABF6","#01FBBA"]
-    }
-   ];
+  ChartColors : any[]=ChartColors
    autresCv = null;
    totalCVDisponible = null;
    totalCVhorsCible = null;
    pieChart2Data= [];
    pieChart2Labels=["Autres", "CV disponibles", "CV hors cible"];
-   Chart2Colors : any[]=[
-    {
-      backgroundColor:["#FF7360","#6FC8CE","gray"]
-    }
-   ];
+   Chart2Colors : any[]=ChartColors
    sourceur:SourceurReporting = new SourceurReporting();
   constructor(private sanitizer: DomSanitizer,private reportingSourceur :ReportingSourceurService,
     private notifierService:NotifierService) {}
@@ -66,6 +60,28 @@ export class ReportingSourceurComponent implements OnInit {
     this.getChart();
  
   }
+
+  chartOptions = {
+    pieceLabel: {
+      render: function (args) {
+        const value = args.value;
+        var tooltipPercentage = Math.round((value / 40958) * 100)
+        return tooltipPercentage + '%';
+      }
+    }
+  }
+
+  chartOptions2 = {
+    pieceLabel: {
+      render: function (args) {
+        const value = args.value;
+        var tooltipPercentage = Math.round((value / 38715) * 100)
+        return tooltipPercentage + '%';
+      }
+    }
+  }
+
+
 
   rechercherReportingSourceur(sourceur){
     this.autresCv = 0;
@@ -109,12 +125,8 @@ export class ReportingSourceurComponent implements OnInit {
 
   }
 
- 
-
   reset(){
     this.ngOnInit();
   }
 
-
-  
 }

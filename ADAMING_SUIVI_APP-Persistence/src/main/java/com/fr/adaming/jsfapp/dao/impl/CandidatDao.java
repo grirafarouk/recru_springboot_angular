@@ -33,6 +33,7 @@ import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.dto.SyntheseCandidatDto;
 import com.fr.adaming.jsfapp.dto.UtilisateurDto;
+import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
@@ -616,6 +617,15 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		}
 
 		return map;
+	}
+	
+	@Override
+	public Integer NombreTechnologieParCandidat() {
+		String query = "select count(*) " + 
+				"FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE " + 
+				"WHERE c.ENTRETIEN is NULL and c.STATUT=2";
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
 	}
 
 	@Override

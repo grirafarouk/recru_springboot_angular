@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label for="civilite">Civilité</label>
                                     <label style="color: firebrick">*</label>
-                                    <ng-select [items]="civilites" [disabled]="candidateFound==false" required
+                                    <ng-select [items]="civilites"  required style="font-weight: bold;"
                                         #civilite="ngModel" name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
 
                                     </ng-select>
@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" name="nom" [(ngModel)]="candidate.nom" id="nom">
+                                    <input type="text" class="form-control" name="nom" style="font-weight: bold;color: black;" [(ngModel)]="candidate.nom" id="nom">
 
                                 </div>
                             </div>
@@ -56,7 +56,7 @@
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="prenom">Prenom</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" name="prenom" [(ngModel)]="candidate.prenom"
+                                    <input type="text" class="form-control" style="font-weight: bold;color: black;" name="prenom" [(ngModel)]="candidate.prenom"
                                         id="prenom">
 
                                 </div>
@@ -67,7 +67,7 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="email" class="form-control" name="email" [(ngModel)]="candidate.email"
+                                    <input type="email" class="form-control" style="font-weight: bold;color: black;" name="email" [(ngModel)]="candidate.email"
                                         id="email">
 
                                 </div>
@@ -76,7 +76,7 @@
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" [textMask]="{mask: mask}" name="telephone"
+                                    <input type="text" class="form-control" style="font-weight: bold;color: black;" [textMask]="{mask: mask}" name="telephone"
                                         [(ngModel)]="candidate.numeroTel" id="telephone">
 
                                 </div>
@@ -85,7 +85,7 @@
                                 <div class="form-group">
                                     <label for="origineCV">Origine CV</label>
                                     <label style="color: firebrick">*</label>
-                                    <ng-select placeholder="--Sélectionner--" bindValue="id" bindLabel="libelle" [items]="origines" [(ngModel)]="candidate.origine.id"
+                                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="origines" [(ngModel)]="candidate.origine.id"
                                         name="origineCV" [disabled]="candidateFound===false" id="origineCV">
                                     </ng-select>
 
@@ -97,7 +97,7 @@
                                 <div class="form-group">
                                     <label for="profil">Profil </label>
                                     <label style="color: firebrick">*</label>
-                                    <ng-select placeholder="--Sélectionner--" bindValue="id" bindLabel="libelle" [items]="technologies" [(ngModel)]="candidate.technologie.id"
+                                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="technologies" [(ngModel)]="candidate.technologie.id"
                                         name="technologie" [disabled]="candidateFound===false" id="profil">
                                     </ng-select>
 
@@ -107,8 +107,8 @@
                                 <div class="form-group">
                                     <label for="codePostal">Code postal</label>
                                     <label style="color: firebrick">*</label>
-                                    <ng-select aria-required="" [disabled]="candidateFound==false" id="codePostal"
-                                        [items]="codePostals" (search)="codePostaleOnSearch($event)" [ngModel]="candidate?.codePostal"
+                                    <ng-select aria-required="" style="font-weight: bold;" [disabled]="candidateFound==false" id="codePostal"
+                                        [items]="codePostals" (search)="codePostaleOnSearch($event)" [ngModel]="candidate.codePostal"
                                         (ngModelChange)="candidate.codePostal = $event" name="codePostal">
                                         <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
                                             {{codeP.ville}}</ng-option>
@@ -122,14 +122,14 @@
                                 <div class="form-group">
                                     <label>Region</label>
                                     <label style="color: firebrick">*</label>
-                                    <p class="form-control-static">{{candidate?.codePostal?.region}}</p>
+                                    <p class="form-control-static" style="font-weight: bold;">{{candidate?.codePostal?.region}}</p>
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label>Ville</label>
                                     <label style="color: firebrick">*</label>
-                                    <p class="form-control-static">{{candidate?.codePostal?.ville}}</p>
+                                    <p class="form-control-static" style="font-weight: bold;">{{candidate?.codePostal?.ville}}</p>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +139,7 @@
                                     <div class="form-check form-check-inline mr-1">
                                             <label class="label--checkbox">
                                                 <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
-                                                    id="inline-checkbox1" [value]="compt.id">
+                                                    id="inline-checkbox1" [value]="compt.id" [disabled]="candidateFound===false">
                                             </label>
                                             <label >{{compt.libelle}}</label>
                                         </div>
@@ -182,7 +182,7 @@
                                     Rdv</button>
                             </div>
                             <div style="padding-left: 10px">
-                                <button [disabled]="pdfSrc==undefined" type="button"  (click)="onSubmit()" class="btn btn-block btn-success">Enregistrer</button>
+                                <button  [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-primary">Enregistrer</button>
                             </div>
                         </div>
                     </div>
@@ -218,10 +218,10 @@
                                 <td>{{candidat.prenom}}</td>
                                 <td>{{candidat.numeroTel}}</td>
                                 <td>{{candidat.email}}</td>
-                                <td>{{candidat.dateInscription}}</td>
+                                <td>{{candidat.dateInscription| date :'dd/MM/yyyy'}}</td>
                                 <td>{{candidat.statut}}</td>
                                 <td>{{candidat.technologie}}</td>
-                                <td>{{candidat.nomCharge }} {{candidat.prenomSourceur}}</td>
+                                <td>{{candidat.nomSourceur }} {{candidat.prenomSourceur}}</td>
                             </tr>
                         </tbody>
                     </table>

@@ -107,6 +107,22 @@ export class utilisateursComponent implements OnInit {
 
   async saveUtilisateur() {
     let error = false;
+    if (this.utilisateur.login == "" || this.utilisateur.login == undefined) {
+      this.notifierService.notify("error", " Écrivez un login valide")
+      error  = true;
+    }
+    if (this.utilisateur.profil == undefined) {
+      this.notifierService.notify("error", " Écrivez un profil valide")
+      error  = true;
+    }
+    if (this.utilisateur.nom == "" || this.utilisateur.nom == undefined) {
+      this.notifierService.notify("error", " Écrivez un nom valide")
+      error  = true;
+    }
+    if (this.utilisateur.prenom == "" || this.utilisateur.prenom == undefined) {
+      this.notifierService.notify("error", " Écrivez un prenom valide")
+      error  = true;
+    }
     let user
     await this.utilisateurService.getUserByEmail(this.utilisateur.email).toPromise().then(data => { user = data });;
     if (user != null && user.id!=this.utilisateur.id) {

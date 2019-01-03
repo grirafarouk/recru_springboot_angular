@@ -54,6 +54,7 @@ import com.fr.adaming.jsfapp.services.IUtilisateurService;
 import com.fr.adaming.jsfapp.services.IV_ListeCandidatsService;
 import com.fr.adaming.jsfapp.services.IV_ReportingCandidatService;
 import com.fr.adaming.jsfapp.services.impl.AlfrescoOpenCmis;
+import com.fr.adaming.jsfapp.utils.Utilitaire;
 import com.fr.adaming.util.ConvocationMail;
 import com.fr.adaming.util.EntretienMail;
 import com.fr.adaming.util.JavaMailApi;
@@ -220,7 +221,7 @@ public class CandidatController {
 	}
 
 	private Boolean creerCv(Candidat candidat, String login, String mime) {
-		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
+		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
 				+ File.separator + login + File.separator;
 		FileInputStream fileInputStream = null;
 		try {
@@ -259,20 +260,22 @@ public class CandidatController {
 		Candidat candidat = candidatService.createOrUpdate(entity);
 		return candidat;
 	}
+	
 
-//	@GetMapping("destroyTempoFolder/{loginUser}")
-//	public void destroyTempoFolder(@PathVariable String loginUser) {
-//		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
-//				+ File.separator + loginUser;
-//		Path path = Paths.get(realPath);
-//		if (path != null)
-//			Utilitaire.deleteDir(path.toFile());
-//		if (Paths.get(File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting")
-//				.toFile().list().length == 0) {
-//			Utilitaire.deleteDir(new File(File.separator + "reporting"));
-//		}
+	@GetMapping("destroyTempoFolder/{loginUser}")
+	public void destroyTempoFolder(@PathVariable String loginUser) {
+		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
+				+ File.separator + loginUser;
+		Path path = Paths.get(realPath);
+		if (path != null)
+			Utilitaire.deleteDir(path.toFile());
+		if (Paths.get(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting")
+				.toFile().list().length == 0) {
+			Utilitaire.deleteDir(new File(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
+					+ File.separator + loginUser));
+		}
 
-//	}
+	}
 
 	@RequestMapping(value = "convertWordToPdf", method = RequestMethod.POST)
 	public JSONObject convertWordToPdf(@RequestBody JSONObject fileJson) {
@@ -281,7 +284,7 @@ public class CandidatController {
 		String value64 = fileJson.get("value").toString();
 		String loginUser = fileJson.get("loginUser").toString();
 
-		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
+		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
 				+ File.separator + loginUser;
 		byte[] data = Base64.getDecoder().decode(value64);
 		InputStream inStream = new ByteArrayInputStream(data);
@@ -351,7 +354,7 @@ public class CandidatController {
 	public Candidat getCandidatByEmail(@PathVariable String email) {
 		return candidatService.rechercherCandidatParEmail(email);
 	}
-
+	
 	@GetMapping("/getCandidatByNumTel/{numTe}")
 	public Candidat getCandidatByNumTel(@PathVariable String numTe) {
 		return candidatService.rechercherCandidatParNumTel(numTe);
@@ -361,6 +364,14 @@ public class CandidatController {
 	public List<String> getListNomCvs() {
 		return candidatService.rechercherNomCv();
 	}
+	@RequestMapping(value = "/updateficheCandidat", method = RequestMethod.PUT)
+	public Candidat updateficheCandidat(@RequestBody Candidat entity) {
+		entity.setStatut(Statut.EN_ATTENTE_EVALUATION);
+		Candidat candidat = candidatService.createOrUpdate(entity);
+		return candidat;
+	}
+
+
 
 	@PostMapping("/envoyerEmailHorsCibleCandidats")
 	public void envoyerEmailHorsCibleCandidats(@RequestBody Candidat candidat, @RequestParam String login,
@@ -376,6 +387,15 @@ public class CandidatController {
 		eMailApi.envoyerMail(objet, content, dst, connectedUser.getEmail(), "", "", pjList);
 		eMailApi.setEmailEntretienHorsCible(false);
 	}
+	
+	@RequestMapping(value = "/updateficheEntretien", method = RequestMethod.PUT)
+	public Candidat updateficheEntretien(@RequestBody Candidat entity) {
+		entity.setStatut(Statut.EN_ATTENTE_AFFECTATION);
+
+		Candidat candidat = candidatService.createOrUpdate(entity);
+		return candidat;
+	}
+	
 
 	@PostMapping("/envoyerEmailDispoCandidats")
 	public void envoyerEmailDispoCandidats(@RequestBody EntretienMail entretienMail, @RequestParam String login) {

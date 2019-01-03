@@ -78,32 +78,57 @@ export class competenceComponent implements OnInit {
     else this.createCompetence();
   }
 
-  createCompetence() {
+  async createCompetence() {
+    var error = false;
+
+    if (this.competence.libelle == "" || this.competence.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez une competence valide")
+      error  = true;
+    }
+    else {
+      let comp
+      await this.competencesService.getCompetenceByLibelle(this.competence.libelle).toPromise().then(data => { comp = data });
+      if (comp != null) {
+        this.notifierService.notify("error", "competence existe déjà  !")
+        error  = true;
+      }
+    }
+
+    if(!error)
+    {
     this.competencesService.save(this.competence).toPromise().then((data: Competence) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Competence ajouté avec succés !")
+        this.notifierService.notify("success", "Compétence ajoutée avec succès !")
       }
     })
+  }
     this.competenceModal.hide();
   }
 
   updateCompetence() {
+    var error = false;
+
+    if (this.competence.libelle == "" || this.competence.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez une competence valide")
+      error  = true;
+    }
+    if(!error)
+    {
     this.competencesService.update(this.competence).toPromise().then((data: Competence) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Competence modifié avec succés !")
+        this.notifierService.notify("success", "Compétence modifiée avec succès !")
       }
     })
+  }
     this.competenceModal.hide();
   }
 
   deleteCompetence() {
     this.competencesService.delete(this.competence).toPromise().then((data: Competence) => {
       this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Competence Supprimer avec succés !")
-      }
+        this.notifierService.notify("success", "Compétence supprimée avec succès !")
     })
     this.competenceDeleteModal.hide();
   }

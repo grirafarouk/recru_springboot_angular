@@ -97,7 +97,7 @@ export class listeEntretienComponent implements OnInit {
     },
     {
       data:'lieuEntretien',
-      title:'Lieu entretienr',
+      title:'Lieu entretien',
       visible:true
     },
     {
@@ -140,7 +140,7 @@ export class listeEntretienComponent implements OnInit {
       }
     },
     {
-      data: 'noteTotale',
+      data: 'noteTotale' ,
       title: 'Note Totale',
       visible: true
     }

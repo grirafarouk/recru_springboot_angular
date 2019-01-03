@@ -82,7 +82,7 @@ export class lieuxComponent implements OnInit {
     this.lieuxService.save(this.lieu).toPromise().then((data: Lieu) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Lieu ajouté avec succés !")
+        this.notifierService.notify("success", "Lieu ajouté avec succès !")
       }
     })
     this.lieuModal.hide();
@@ -92,7 +92,7 @@ export class lieuxComponent implements OnInit {
     this.lieuxService.update(this.lieu).toPromise().then((data: Lieu) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Lieu modifié avec succés !")
+        this.notifierService.notify("success", "Lieu modifié avec succès !")
       }
     })
     this.lieuModal.hide();
@@ -101,7 +101,7 @@ export class lieuxComponent implements OnInit {
   delete() {
     this.lieuxService.delete(this.lieu).toPromise().then((data) => {
       this.ngOnInit();
-      this.notifierService.notify("success", "Lieu Supprimer avec succés !")
+      this.notifierService.notify("success", "Lieu supprimé  avec succès !")
     })
     this.deleteModal.hide();
   }
