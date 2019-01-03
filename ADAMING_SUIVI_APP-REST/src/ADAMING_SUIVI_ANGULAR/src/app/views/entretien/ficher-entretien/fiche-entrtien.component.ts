@@ -27,7 +27,7 @@ import { RegionService } from '../../../services/administrationService/region.se
 import { formatDate } from '@angular/common';
 import { SuiviService } from '../../../services/suivi-service';
 import { Suivi } from '../../../models/Suivi';
-import { NAVIGATION_RULES } from '../../../helper/application.constant';
+import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
 declare var jQuery: any;
 
 @Component({
@@ -60,6 +60,11 @@ export class FicheEntrtienComponent implements OnInit {
   refDisponibilite = this.helperService.buildDisponibiliteArray();
   file;
   currentCandidat: Candidate;
+  mask: any[] = PHONE_MASK;
+  currentDate=new Date();
+  currenttime:any;
+  evaluationtime:any;
+  disabledtime = false;
 
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
@@ -129,6 +134,21 @@ export class FicheEntrtienComponent implements OnInit {
         });
       });
     })
+    this.testDisabled() ;
+  }
+
+  private testDisabled() {
+    this.evaluationtime=this.currentCandidat.entretien.date.getHours()+":"+this.currentCandidat.entretien.date.getMinutes();
+    this.currenttime = this.currentDate.getHours()+":"+this.currentDate.getMinutes();
+    if((this.timeEntretien.getMonth()==this.currentDate.getMonth()) 
+        && (this.evaluationtime > this.currenttime) )
+    {
+      this.disabledtime=true;
+    }
+    else
+    {
+      this.disabledtime=false;
+    }
   }
 
   private codePostaleOnSearch(value) {
@@ -195,6 +215,18 @@ export class FicheEntrtienComponent implements OnInit {
     return error;
   }
 
+  private verfierSuivinoteResultat() {
+    let error = false;
+
+    if (this.currentCandidat.suivi.noteResultat < 0 || this.currentCandidat.suivi.noteResultat > 45) {
+      this.notifierService.notify("error", "Résultat du test n’est pas compris entre les valeurs attendues 0 et 45.")
+      error = true;
+    }
+
+    return error;
+    //#endregion
+  }
+
   private verfierSuiviRelance() {
     let error = false;
 
@@ -248,13 +280,69 @@ export class FicheEntrtienComponent implements OnInit {
     this.regionFranceModal.show();
   }
 
+
+  numberOnly(): boolean {
+    if (this.currentCandidat.suivi.noteResultat <= 45 && this.currentCandidat.suivi.noteResultat >= 0) {
+      return true;
+    }else{
+      this.notifierService.notify("error", "Résultat du test n’est pas compris entre les valeurs attendues 0 et 45.")
+    return false;
+  }
+
+  }
+
  async sauvgarderFicheEntrtien() {
-   
-    if (!this.verfierSuiviRelance() && !this.verfierStatus()) {
+  var error = false;
+  if (this.currentCandidat.suivi.notePresentation == undefined) {
+    this.notifierService.notify("error", " Présentation champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.noteSavoir == undefined) {
+    this.notifierService.notify("error", " Savoir etre champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.noteFiabilite == undefined) {
+    this.notifierService.notify("error", " Fiabilité champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.noteAttrait == undefined) {
+    this.notifierService.notify("error", " Attrait pour l'informatique champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.notePret == undefined) {
+    this.notifierService.notify("error", " Prêt à la reconversion champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.noteMobilite == undefined) {
+    this.notifierService.notify("error", " Mobilité champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.noteCoherence == undefined) {
+    this.notifierService.notify("error", " Cohérence du parcours champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.notePistes == undefined) {
+    this.notifierService.notify("error", " Potentiel d’évolution champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.anglais == undefined) {
+    this.notifierService.notify("error", " Anglais champs obligatoire")
+    error = true;
+  }
+  if (this.currentCandidat.suivi.mobilite == undefined) {
+    this.notifierService.notify("error", " mobiliteSuivi : erreur de validation. Vous devez indiquer une valeur.")
+    error = true;
+  }
+  
+    if (!this.verfierSuiviRelance() && !this.verfierStatus() && !this.verfierSuivinoteResultat()) {
+     
+
+
       this.helperService.generateComp(this.currentCandidat,this.competences);
 
       //#region  Save Or Update Suivi
       this.currentCandidat.suivi.charge = this.userService.getConnetedUserInfo();
+      if (!error) {
 
       await this.suiviService.createOrUpdate(this.currentCandidat.suivi).toPromise().then((data: Suivi) => {
         // if (this.currentCandidat.suivi.id > 0)
@@ -276,11 +364,13 @@ export class FicheEntrtienComponent implements OnInit {
        //#endregion
       //#region  Update Candidat
       this.currentCandidat.motif = null;
-       await this.candidatsService.updateCandidat(this.currentCandidat).toPromise().then(data => {
+       await this.candidatsService.updateficheEntretien(this.currentCandidat).toPromise().then(data => {
       })
+    
       //#endregion
       this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.list]);
     }
+  }
   }
 
   private dateNaissanceChangedHandler(){

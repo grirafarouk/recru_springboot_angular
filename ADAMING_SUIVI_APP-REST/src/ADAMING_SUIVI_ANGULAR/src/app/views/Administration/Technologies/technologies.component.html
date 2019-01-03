@@ -9,7 +9,7 @@
       <custom-local-table [actions]="actions" [columns]="columns" [items]="ListTechnologies"></custom-local-table>     
       <div class="card-footer">
           <div class="col-2">
-              <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
+              <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">ajouter</button>
             </div>
         </div>
 
@@ -37,7 +37,7 @@ aria-hidden="true">
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
           <div class="col-md-8">
-              <input class="form-control" [(ngModel)]="technologie.libelle" name="libelle" id="libelle"  />
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="technologie.libelle" name="libelle" id="libelle"  />
           </div>
         </div>
         <div class="form-group row">

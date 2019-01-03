@@ -7,10 +7,10 @@
             <div class="col-4">
               <h5>Information:</h5>
             </div>
-            <div class="col-2"><label>Nom: </label><span class="field">{{currentCandidat.nom}}</span></div>
-            <div class="col-2"><label>Prénom: </label><span class="field">{{currentCandidat.prenom}}</span></div>
-            <div class="col-2"><label>Age: </label><span class="field">{{currentCandidat.age}}</span></div>
-            <div class="col-2"><label>Tél: </label><span class="field">{{currentCandidat.numeroTel | mask:
+            <div class="col-2"><label>Nom: </label><span class="nav-item px-3" style="font-weight: bold;">{{currentCandidat.nom}}</span></div>
+            <div class="col-2"><label>Prénom: </label><span class="nav-item px-3" style="font-weight: bold;">{{currentCandidat.prenom}}</span></div>
+            <div class="col-2"><label>Age: </label><span class="nav-item px-3" style="font-weight: bold;">{{currentCandidat.age}}</span></div>
+            <div class="col-2"><label>Tél: </label><span class="nav-item px-3" style="font-weight: bold;">{{currentCandidat.numeroTel | mask:
                 '00-00-00-00-00'}}</span></div>
           </div>
         </div>
@@ -29,7 +29,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="civilite">Civilité</label>
-                    <ng-select  bindValue="id" bindLabel="libelle" [items]="civilites" required #civilite="ngModel" name="civilite" [(ngModel)]="currentCandidat.civilite" 
+                    <label style="color: firebrick">*</label>
+                    <ng-select  bindValue="id" style="font-weight: bold;color: black;" bindLabel="libelle" [items]="civilites" required #civilite="ngModel" name="civilite" [(ngModel)]="currentCandidat.civilite" 
                       id="civilite">
                       
                     </ng-select> </div>
@@ -37,7 +38,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="nom">Nom</label>
-                    <input type="text" class="form-control" name="nom" [(ngModel)]="currentCandidat.nom" id="nom">
+                    <label style="color: firebrick">*</label>
+                    <input type="text" style="font-weight: bold;color: black;" class="form-control" name="nom" [(ngModel)]="currentCandidat.nom" id="nom">
 
                   </div>
                 </div>
@@ -46,14 +48,16 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label class="form-col-form-label" for="prenom">Prenom</label>
-                    <input type="text" class="form-control" name="prenom" [(ngModel)]="currentCandidat.prenom" id="prenom">
+                    <label style="color: firebrick">*</label>
+                    <input type="text" style="font-weight: bold;color: black;" class="form-control" name="prenom" [(ngModel)]="currentCandidat.prenom" id="prenom">
 
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" name="email" [(ngModel)]="currentCandidat.email" id="email">
+                    <label style="color: firebrick">*</label>
+                    <input type="email" style="font-weight: bold;color: black;" class="form-control" name="email" [(ngModel)]="currentCandidat.email" id="email">
                   </div>
                 </div>
               </div>
@@ -61,7 +65,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="telephone">Téléphone</label>
-                    <input type="text" class="form-control" mask='00-00-00-00-00' name="telephone" [(ngModel)]="currentCandidat.numeroTel"
+                    <label style="color: firebrick">*</label>
+                    <input type="text" style="font-weight: bold;color: black;" class="form-control" [textMask]="{mask: mask}" name="telephone" [(ngModel)]="currentCandidat.numeroTel"
                       id="telephone">
 
                   </div>
@@ -69,7 +74,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="origineCV">Origine CV</label>
-                    <ng-select   bindLabel="libelle" [items]="origines"   [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.origine" name="origineCV" id="origineCV">
+                    <label style="color: firebrick">*</label>
+                    <ng-select   bindLabel="libelle" style="font-weight: bold;color: black;" [items]="origines"   [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.origine" name="origineCV" id="origineCV">
                     </ng-select>
 
                   </div>
@@ -79,14 +85,16 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="profil">Profil </label>
-                    <ng-select   bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.technologie" name="technologie"  id="profil">
+                    <label style="color: firebrick">*</label>
+                    <ng-select   bindLabel="libelle" style="font-weight: bold;color: black;" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.technologie" name="technologie"  id="profil">
                     </ng-select>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="codePostal">Code postal</label>
-                    <ng-select aria-required="" id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)"
+                    <label style="color: firebrick">*</label>
+                    <ng-select aria-required="" style="font-weight: bold;color: black;" id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)"
                       [ngModel]="currentCandidat?.codePostal" (ngModelChange)="currentCandidat.codePostal = $event"
                       name="codePostal">
                       <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
@@ -100,32 +108,35 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Region</label>
+                    <label style="color: firebrick">*</label>
                     <div class="col-12">
-                    <p class="form-control-static">{{currentCandidat?.codePostal?.region}}</p>
+                    <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.codePostal?.region}}</p>
                   </div>   </div>
                 </div>
 
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label>Ville</label>
-                    <div class="col-12">   <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
+                    <label style="color: firebrick">*</label>
+                    <div class="col-12">   <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.codePostal?.ville}}</p>
                   </div></div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group row">
-                    <label class="col-5 col-form-label">Mobilité: </label>
-                    <div class="col-7 col-form-label">
+                    <label class="col-4 col-form-label">Mobilité: </label>
+                    <label style="color: firebrick">*</label>
+                    <div class="col-6 col-form-label">
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
-                          type="radio" id="inline-checkbox1" [value]="true">
-                        <label class="form-check-label" for="inline-checkbox1">Oui</label>
+                        <input class="form-check-input"  [(ngModel)]="currentCandidat.mobiliteSrc" name="mobilite"
+                          type="radio" id="inline-checkboxmobilite1" [value]="true">
+                        <label class="form-check-label" for="inline-checkboxmobilite1">Oui</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
-                          type="radio" id="inline-checkbox2" [value]="false">
-                        <label class="form-check-label" for="inline-checkbox2">Non</label>
+                        <input class="form-check-input"  [(ngModel)]="currentCandidat.mobiliteSrc" name="mobilite"
+                          type="radio" id="inline-checkboxmobilite2" [value]="false">
+                        <label class="form-check-label" for="inline-checkboxmobilite2">Non</label>
                       </div>
                     </div>
                   </div>
@@ -133,7 +144,8 @@
                 <div class="col-sm-6">
                   <div class="form-group row">
                     <label class="col-md-5 col-form-label">Pole Emploi: </label>
-                    <div class="col-md-7 col-form-label">
+                    <label style="color: firebrick">*</label>
+                    <div class="col-md-6 col-form-label">
                       <div class="form-check form-check-inline mr-1">
                         <input class="form-check-input" [(ngModel)]="currentCandidat.posteEnCours" name="poleEmploi"
                           type="radio" id="inline-checkbox3" [value]="true">
@@ -150,19 +162,19 @@
               </div>
 
               <div class="row" style="margin-top: 20px">
-
-              </div>
+                  <HR size="5" align="center" width="100%" />
+             </div>
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="adresse">Adresse</label>
-                    <input type="text" class="form-control" name="adresse" [(ngModel)]="currentCandidat.adresse" id="adresse">
+                    <input type="text" style="font-weight: bold;color: black;" class="form-control" name="adresse" [(ngModel)]="currentCandidat.adresse" id="adresse">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="dateNaissance">Date de Naissance</label>
-                    <input   [owlDateTimeTrigger]="dtdateNaissance" [owlDateTime]="dtdateNaissance" class="form-control"
+                    <input style="font-weight: bold;color: black;"  [owlDateTimeTrigger]="dtdateNaissance" [owlDateTime]="dtdateNaissance" class="form-control"
                       name="dateNaissance" [(ngModel)]="currentCandidat.dateNaissance" id="dateNaissance">
                     <owl-date-time (afterPickerClosed)="dateNaissanceChangedHandler()"  [pickerType]="'calendar'" #dtdateNaissance></owl-date-time>
 
@@ -175,13 +187,13 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="diplome">Diplome</label>
-                    <input type="text" class="form-control" name="diplome" [(ngModel)]="currentCandidat.diplome" id="diplome">
+                    <input type="text" style="font-weight: bold;color: black;" class="form-control" name="diplome" [(ngModel)]="currentCandidat.diplome" id="diplome">
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="age">Age</label>
-                    <input readonly type="text" class="form-control" name="age" [(ngModel)]="currentCandidat.age" id="age">
+                    <input readonly type="text" style="font-weight: bold;color: black;" class="form-control" name="age" [(ngModel)]="currentCandidat.age" id="age">
                   </div>
                 </div>
               </div>
@@ -191,13 +203,13 @@
                   <div class="form-group">
                     <label for="dateObtentionDiplome">Date d'obtention du diplôme</label>
 
-                    <month-year-picker (changed)="updateDateObtentionDiplome($event)" [innerValue]="currentCandidat.dateObtentionDiplome"></month-year-picker>
+                    <month-year-picker  (changed)="updateDateObtentionDiplome($event)" [innerValue]="currentCandidat.dateObtentionDiplome"></month-year-picker>
                   </div>
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="lieuNaissance">Lieu de Naissance</label>
-                    <input type="text" class="form-control" name="lieuNaissance" [(ngModel)]="currentCandidat.lieuNaissance"
+                    <input type="text" style="font-weight: bold;color: black;" class="form-control" name="lieuNaissance" [(ngModel)]="currentCandidat.lieuNaissance"
                       id="lieuNaissance">
                   </div>
                 </div>
@@ -205,7 +217,7 @@
               <div class="form-group row">
                 <label class="col-4 col-form-label">Sourceur</label>
                 <div class="col-7">
-                  <p class="form-control-static" style="margin-top:8px">{{currentCandidat.creePar.nom}} {{currentCandidat.creePar.prenom}}</p>
+                  <p class="form-control-static" style="margin-top:8px" style="font-weight: bold;color: black;">{{currentCandidat.creePar.nom}} {{currentCandidat.creePar.prenom}}</p>
                 </div>
 
                 
@@ -249,7 +261,7 @@
               <div class="form-group row">
                 <label class="col-4 col-form-label">Chargé recrutement</label>
                 <div class="col-7">
-                  <p class="form-control-static"  style="margin-top:8px">{{currentCandidat.entretien.charge!=null ? currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ? currentCandidat.entretien.charge.prenom :""}}</p>
+                  <p class="form-control-static"  style="margin-top:8px;font-weight: bold;color: black;">{{currentCandidat.entretien.charge!=null ? currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ? currentCandidat.entretien.charge.prenom :""}}</p>
                 </div>
               </div>
 
@@ -258,7 +270,7 @@
                   <div class="form-group">
                     <label for="entretienDispo">Disponible</label>
                     <label style="color: firebrick">*</label>
-                    <ng-select placeholder="--Sélectionner--" bindValue="value"  bindLabel="label" [items]="refDisponibilite"   [(ngModel)]="currentCandidat.entretien.disponible" name="entretienDispo"
+                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="value"  bindLabel="label" [items]="refDisponibilite"   [(ngModel)]="currentCandidat.entretien.disponible" name="entretienDispo"
                       id="entretienDispo">
                     </ng-select>
                   </div>
@@ -291,7 +303,7 @@
                   <div class="form-group">
                     <label for="entretienDate">Date entretien</label>
                     <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='DISPONIBLE'">*</label>
-                    <input [disabled]="currentCandidat.entretien.relance==true" [owlDateTimeFilter]="entretienDateFilter"
+                    <input style="font-weight: bold;color: black;" [disabled]="currentCandidat.entretien.relance==true" [owlDateTimeFilter]="entretienDateFilter"
                       [min]="minRelance" [owlDateTimeTrigger]="dtentretienDate" [owlDateTime]="dtentretienDate" class="form-control"
                       name="entretienDate" [(ngModel)]="currentCandidat.entretien.date" id="entretienDate">
                     <owl-date-time [pickerType]="'calendar'" #dtentretienDate></owl-date-time>
@@ -305,7 +317,7 @@
                     <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='PREAVIS'||currentCandidat.entretien.disponible=='message_vocal'
                     ||currentCandidat.entretien.disponible=='envoi_de_la_plaquette' ||currentCandidat.entretien.disponible=='EN_ATTENTE_FORMATION'
                     ||currentCandidat.entretien.disponible=='mail_envoye'">*</label>
-                    <input [disabled]="currentCandidat.entretien.relance==false" [min]="minRelance"
+                    <input [disabled]="currentCandidat.entretien.relance==false" [min]="minRelance" style="font-weight: bold;color: black;"
                       [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="entretienDateRelance"
                       [(ngModel)]="currentCandidat.entretien.dateRelance" id="entretienDateRelance">
                     <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
@@ -317,8 +329,8 @@
                   <div class="form-group">
                     <label for="timeEntretien">Heure entretien</label>
                     <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='DISPONIBLE'">*</label>
-                    <input [disabled]="currentCandidat.entretien.relance==true" [owlDateTimeFilter]="entretienHeureFilter"
-                      class="form-control" placeholder="Time:" [(ngModel)]="timeEntretien" [owlDateTimeTrigger]="dt2"
+                    <input style="font-weight: bold;color: black;" [disabled]="currentCandidat.entretien.relance==true" [owlDateTimeFilter]="entretienHeureFilter"
+                      class="form-control" placeholder="Heure entretien" [(ngModel)]="timeEntretien" [owlDateTimeTrigger]="dt2"
                       [owlDateTime]="dt2">
                     <owl-date-time (afterPickerClosed)="afterHeurePickerClosed()" [pickerType]="'timer'" #dt2></owl-date-time>
                   </div>
@@ -349,7 +361,7 @@
                   <div class="form-group">
                     <label for="entretienLieu">Lieu entretien</label>
                     <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='DISPONIBLE'">*</label>
-                    <ng-select placeholder="--Sélectionner--" [disabled]="currentCandidat.entretien.relance==true"  bindLabel="libelle" [items]="lieux"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
+                    <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" [disabled]="currentCandidat.entretien.relance==true"  bindLabel="libelle" [items]="lieux"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
                     </ng-select>
                   </div>
                 </div>
@@ -358,7 +370,7 @@
                   <div class="form-group">
                     <label for="entretienPertinence">Pertinence Cv</label>
                     <label style="color: firebrick">*</label>
-                    <ng-select placeholder="--Sélectionner--"  [items]="pertinenecesValeurs"   [(ngModel)]="currentCandidat.entretien.pertinence" name="entretienPertinence" 
+                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [items]="pertinenecesValeurs"   [(ngModel)]="currentCandidat.entretien.pertinence" name="entretienPertinence" 
                       id="entretienPertinence">
                      </ng-select>
                   </div>
@@ -366,7 +378,7 @@
               </div>
               <div class="row" style="margin-top: 20px">
                 <div class="col-12">
-                  <textarea  id="comEntrtien" [(ngModel)]="currentCandidat.entretien.commentaire" name="comEntrtien" rows="4" class="form-control"></textarea>
+                  <textarea style="font-weight: bold;color: black;"  id="comEntrtien" [(ngModel)]="currentCandidat.entretien.commentaire" name="comEntrtien" rows="4" class="form-control"></textarea>
                 </div>
                </div>
             </div>
@@ -413,7 +425,7 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="text-input">Motif </label>
               <div class="col-md-8">
-                <ng-select  bindLabel="libelle" [items]="motifs"   [(ngModel)]="currentCandidat.motif" name="motif"  id="motif">
+                <ng-select style="font-weight: bold;color: black;"  bindLabel="libelle" [items]="motifs"   [(ngModel)]="currentCandidat.motif" name="motif"  id="motif">
                  </ng-select>
               </div>
             </div>
@@ -450,23 +462,23 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="candidatEmail">E-mail Candidat</label>
               <div class="col-md-8">
-                <input class="form-control" name="candidatEmail" id="candidatEmail" [(ngModel)]="emailEntrtien?.candidat.email" />
+                <input class="form-control" style="font-weight: bold;color: black;" name="candidatEmail" id="candidatEmail" [(ngModel)]="emailEntrtien?.candidat.email" />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="distCopie0">Destinataire en Cci</label>
               <div class="col-md-8">
-                <input class="form-control" name="distCopie0" id="distCopie0" [(ngModel)]="emailEntrtien.distCopie[0]" />
+                <input class="form-control" style="font-weight: bold;color: black;" name="distCopie0" id="distCopie0" [(ngModel)]="emailEntrtien.distCopie[0]" />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="distCopie1">Destinataire en Cci</label>
               <div class="col-md-8">
-                <input class="form-control" name="distCopie1" id="distCopie1" [(ngModel)]="emailEntrtien.distCopie[1]" />
+                <input class="form-control" style="font-weight: bold;color: black;" name="distCopie1" id="distCopie1" [(ngModel)]="emailEntrtien.distCopie[1]" />
               </div>
             </div>
             <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="distCopie1">Destinataire en Cci</label>
+              <label class="col-md-3 col-form-label" for="distCopie1">Piece jointe</label>
               <div class="col-md-8">
                 <div class="row">
                   <div style="margin-left: 15px">
@@ -520,7 +532,7 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="text-input">Message </label>
               <div class="col-md-8 ">
-                <textarea id="commentaireMotif" [(ngModel)]="emailEntrtien.msg" name="commentaireMotif" rows="4" class="form-control"></textarea>
+                <textarea style="font-weight: bold;color: black;" id="commentaireMotif" [(ngModel)]="emailEntrtien.msg" name="commentaireMotif" rows="4" class="form-control"></textarea>
               </div>
             </div>
           </form>

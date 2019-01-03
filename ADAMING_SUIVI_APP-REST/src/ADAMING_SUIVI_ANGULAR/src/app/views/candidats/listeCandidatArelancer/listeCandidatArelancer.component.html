@@ -9,27 +9,27 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Nom:</label>
-                            <input type="text" class="form-control" name="nom" [(ngModel)]="condidat.nom" id="nom">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="nom" [(ngModel)]="condidat.nom" id="nom">
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Prénom :</label>
-                            <input type="text" class="form-control" name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N° téléphone:</label>
-                            <input type="text" class="form-control" name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel" [textMask]="{mask: mask}">
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
-                            <input type="text" class="form-control" name="email" [(ngModel)]="condidat.email" id="email">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="email" [(ngModel)]="condidat.email" id="email">
 
                         </div>
                     </div>
@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date
                                 Inscription:</label>
-                            <input type="text" class="form-control" name="dateInscription" [(ngModel)]="condidat.dateInscription"
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="dateInscription" [(ngModel)]="condidat.dateInscription"
                                 id="dateInscription">
 
                         </div>
@@ -45,7 +45,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Type de profil:</label>
-                            <ng-select placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
                                 </ng-select>
                             
 
@@ -56,7 +56,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
-                            <ng-select placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
                             </ng-select>
                                 
 
@@ -65,7 +65,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
-                            <ng-select placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
                             </ng-select>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="nomCharge" style="font-weight:bold">Nom charge :</label>
                        
-                                <ng-select placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomCharge" name="nomCharge"  >
+                                <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomCharge" name="nomCharge"  >
                                 </ng-select>
 
                         </div>
@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenomCharge" style="font-weight:bold">Prenom charge :</label>
                            
-                                <ng-select placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomCharge" name="prenomCharge"  >
+                                <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomCharge" name="prenomCharge"  >
                                 </ng-select>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
                            
-                            <ng-select placeholder="--Sélectionner--" bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
                                 </ng-select>
                            
                         </div>
@@ -99,7 +99,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
-                            <ng-select aria-required="" id="region" [items]="region" (search)="codePostaleOnSearch($event)"
+                            <ng-select style="font-weight: bold;color: black;" aria-required="" id="region" [items]="region" (search)="codePostaleOnSearch($event)"
                                 [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
                                 <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
 
@@ -132,7 +132,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateDebut" style="font-weight:bold">Date debut</label>
-                            <input [disabled]="relance==false" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
+                            <input style="font-weight: bold;color: black;" [disabled]="relance==false" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
                                 [(ngModel)]="condidat.dateDebut" id="dateDebut">
                             <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
                         </div>
@@ -140,7 +140,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateFin" style="font-weight:bold">Date fin</label>
-                            <input [disabled]="relance==false" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
+                            <input style="font-weight: bold;color: black;" [disabled]="relance==false" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
                                 [(ngModel)]="condidat.dateFin" id="dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
                         </div>

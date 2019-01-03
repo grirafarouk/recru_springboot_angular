@@ -9,7 +9,7 @@
       </div>
        <div class="card-footer">
           <div class="col-2">
-            <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Sauvegarder</button>
+            <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Ajouter </button>
           </div>
         </div>
       </div>
@@ -43,7 +43,7 @@
     <div class="modal-dialog modal-primary  modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Competence</h4>
+          <h4 class="modal-title">Competences</h4>
           <button type="button" class="close" (click)="competenceModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -53,7 +53,7 @@
             <div class="form-group row">
               <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
               <div class="col-md-8">
-                <input class="form-control" [(ngModel)]="competence.libelle" name="libelle" id="libelle" />
+                <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="competence.libelle" name="libelle" id="libelle" />
   
               </div>
             </div>

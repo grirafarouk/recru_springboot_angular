@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.ReportingSourceurTechnologieDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationReportingDto;
+import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.services.ICandidatService;
 import com.fr.adaming.jsfapp.services.ISessionFormationService;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
@@ -42,6 +44,11 @@ public class AccueilController {
 	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
 		List<ReportingChargeRelanceDto> liste = new ArrayList<>(utilisateurService.rechercherChargeParRelance());
 		return liste;
+	}
+	
+	@RequestMapping(value = "/NombreTechnologieParCandidat", method = RequestMethod.GET)
+	public Integer NombreTechnologieParCandidat() {
+		return candidatService.NombreTechnologieParCandidat();
 	}
 
 	@RequestMapping(value = "/Sessionreporting", method = RequestMethod.GET)

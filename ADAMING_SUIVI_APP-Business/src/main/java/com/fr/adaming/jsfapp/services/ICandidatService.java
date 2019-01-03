@@ -70,6 +70,8 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 	
 	HashMap<String, Integer> nbrCVParTechnologie();
 	
+	Integer NombreTechnologieParCandidat() ;
+
 	List<ReportingFicheCVRelance> rechercherCandidatParCharge(int idcharge);
 	
     List<ReportingFicheSourceur> rechercherCandidatSessionAccueil(int idsession);

@@ -79,7 +79,36 @@ export class CandidatsService {
   }
 
   public uploadWordFile(fileBase): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json',
+      })
+    }; 
+
     return this.httpClient.post(BACK_END_URL + "/convertWordToPdf", fileBase, httpOptions);
+  }
+
+  public updateficheCandidat(candidate: Candidate): Observable<any> {
+
+    candidate.nom = this.helperService.getClearString(candidate.nom)
+    candidate.prenom = this.helperService.getClearString(candidate.prenom)
+    candidate.diplome = this.helperService.getClearString(candidate.diplome)
+
+    return this.httpClient.put(BACK_END_URL + "/updateficheCandidat", candidate, httpOptions).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+
   }
 
   public getCandidatByEmail(email: String): Observable<Promise<Candidate>> {
@@ -98,6 +127,34 @@ export class CandidatsService {
       return data;
     }))
 
+  }
+
+  public updateficheEntretien(candidate: Candidate): Observable<any> {
+
+    candidate.nom = this.helperService.getClearString(candidate.nom)
+    candidate.prenom = this.helperService.getClearString(candidate.prenom)
+    candidate.diplome = this.helperService.getClearString(candidate.diplome)
+
+    return this.httpClient.put(BACK_END_URL + "/updateficheEntretien", candidate, httpOptions).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+
+  }
+
+
+  searchCandidatByEmail(email): any {
+    return this.httpClient.get(BACK_END_URL + "/getCandidatByEmail/" + email);
   }
 
   public getCandidatByNumTel(numTel: String): Observable<Candidate> {

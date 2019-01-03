@@ -209,17 +209,17 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
-          this.codePostals = [...  this.codePostals, element]
+          this.codePostals = [element,...  this.codePostals]
         });
       })
     else this.codePostals = []
   }
 
-  onSubmit() {
+  async  onSubmit() {
     let fn =(e)=>{
     this.annuler()
     }
-  this.saveCandidat(fn)
+    await  this.saveCandidat(fn)
   }
 
   annuler(){
@@ -227,14 +227,14 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]));
   }
 
-  submitAndRedirect(){
+  async  submitAndRedirect(){
     let fn =(id)=>{
       this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',id)]);
     }
-    this.saveCandidat(fn)
+    await this.saveCandidat(fn)
   }
 
-  saveCandidat(callback){
+  async saveCandidat(callback){
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.loading=true;
     var error = false;
@@ -250,72 +250,73 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
     if (this.candidate.prenom == "" || this.candidate.prenom == undefined) {
       this.notifierService.notify("error", " Écrivez un prenom valide")
-      error = true;
+      error  = true;
     }
     if (!this.candidate.cvAnonyme) {
-      if (this.candidate.email == "" || this.candidate.email == undefined || !validEmailRegEx.test(this.candidate.email)) {
+      if (this.candidate.email == "" || this.candidate.email == undefined|| !validEmailRegEx.test(this.candidate.email)) {
         this.notifierService.notify("error", " Écrivez un email valide")
-        error = true;
+        error  = true;
       }
       else {
         let cand
-        this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data });;
+        await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => {
+           cand = data });
         if (cand != null) {
           this.notifierService.notify("error", "Email existe déjà  !")
-          error = true;
+          error  = true;
         }
       }
       if (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined) {
         this.notifierService.notify("error", " Écrivez un numero Tel valide")
-        error = true;
+        error  = true;
       }
       else {
         let cand
-        this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
+        await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });
         if (cand != null) {
           this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
-          error = true;
+          error  = true;
         }
       }
     }
     else {
       if ((this.candidate.email == "" || this.candidate.email == undefined) && (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined)) {
         this.notifierService.notify("error", " Écrivez un email  ou numero Tel  valide")
-        error = true;
+        error  = true;
       } else {
         if (this.candidate.email != "" && this.candidate.email != undefined) {
           let cand
-          this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
+          await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
           if (cand != null) {
             this.notifierService.notify("error", "Email existe déjà  !")
-            error = true;
+            error  = true;
           }
         }
         if (this.candidate.numeroTel != "" && this.candidate.numeroTel != undefined) {
           let cand;
-          this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
+          await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
           if (cand != null) {
             this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
-            error = true;
+            error  = true;
           }
         }
       }
     }
     if (this.candidate.technologie.id == undefined) {
       this.notifierService.notify("error", " Choisir un Profil")
-      error = true;
+      error  = true;
     }
     if (this.candidate.origine.id == undefined) {
       this.notifierService.notify("error", " Choisir un Origine CV")
-      error = true;
+      error  = true;
     }
     if (this.candidate.codePostal == null || this.candidate.codePostal == undefined) {
       this.notifierService.notify("error", " Écrivez un Code Postal valide")
-      error = true;
+      error  = true;
     }
     //#endregion
 
-    if (!error) {
+    if (!error ) {
       this.candidate.dateInscription = new Date();
       this.candidate.statut = Status[Status.VIDE];
       this.candidate.entretien=null

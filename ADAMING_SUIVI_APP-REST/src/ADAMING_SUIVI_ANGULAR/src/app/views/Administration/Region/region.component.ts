@@ -78,7 +78,7 @@ export class regionComponent implements OnInit {
     this.regionService.update(this.region).toPromise().then((data: Region) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "Region  modifié avec succés !")
+        this.notifierService.notify("success", "Région  modifiée avec succès !")
       }
     })
     this.regionEditModal.hide();

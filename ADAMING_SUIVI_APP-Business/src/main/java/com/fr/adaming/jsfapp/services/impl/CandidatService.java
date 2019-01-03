@@ -168,6 +168,11 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 	
 	@Override
+	public Integer NombreTechnologieParCandidat() {
+		return candidatDao.NombreTechnologieParCandidat();
+	}
+	
+	@Override
 	public List<ReportingFicheCVRelance> rechercherCandidatParCharge(int idcharge){
 		return candidatDao.rechercherCandidatParCharge(idcharge);
 	}

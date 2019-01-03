@@ -23,7 +23,7 @@ import {
 @Component({
   selector: 'month-year-picker',
   template: `
-  <input [owlDateTimeTrigger]="dtdateObtentionDiplome"
+  <input [owlDateTimeTrigger]="dtdateObtentionDiplome" style="font-weight: bold;color: black;"
   [owlDateTime]="dtdateObtentionDiplome" class="form-control" name="dateObtentionDiplome" 
     [formControl]="dateTime" id="dateObtentionDiplome">
 

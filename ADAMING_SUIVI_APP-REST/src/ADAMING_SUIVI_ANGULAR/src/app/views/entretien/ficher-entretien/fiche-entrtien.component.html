@@ -28,6 +28,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="civilite">Civilité</label>
+                    <label style="color: firebrick">*</label>
+
                     <select required #civilite="ngModel" name="civilite" [(ngModel)]="currentCandidat.civilite" class="form-control"
                       id="civilite">
                       <option value="M">M</option>
@@ -37,6 +39,8 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="nom">Nom</label>
+                    <label style="color: firebrick">*</label>
+
                     <input type="text" class="form-control" name="nom" [(ngModel)]="currentCandidat.nom" id="nom">
                   </div>
                 </div>
@@ -45,12 +49,16 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label class="form-col-form-label" for="prenom">Prenom</label>
+                    <label style="color: firebrick">*</label>
+
                     <input type="text" class="form-control" name="prenom" [(ngModel)]="currentCandidat.prenom" id="prenom">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="email">Email</label>
+                    <label style="color: firebrick">*</label>
+
                     <input type="email" class="form-control" name="email" [(ngModel)]="currentCandidat.email" id="email">
                   </div>
                 </div>
@@ -59,13 +67,17 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="telephone">Téléphone</label>
-                    <input type="text" class="form-control" mask='00-00-00-00-00' name="telephone" [(ngModel)]="currentCandidat.numeroTel"
+                    <label style="color: firebrick">*</label>
+
+                    <input type="text" class="form-control" [textMask]="{mask: mask}" name="telephone" [(ngModel)]="currentCandidat.numeroTel"
                       id="telephone">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
                     <label for="origineCV">Origine CV</label>
+                    <label style="color: firebrick">*</label>
+
                     <ng-select [items]="origines" bindLabel="libelle" [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.origine" name="origineCV"
                      id="origineCV">                      
                     </ng-select>
@@ -77,6 +89,8 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="profil">Profil </label>
+                    <label style="color: firebrick">*</label>
+
                     <ng-select [items]="technologies" bindLabel="libelle"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.technologie" name="technologie"
                        id="profil">
                       
@@ -86,6 +100,8 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="codePostal">Code postal</label>
+                    <label style="color: firebrick">*</label>
+
                     <ng-select aria-required="" id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)"
                       [ngModel]="currentCandidat?.codePostal" (ngModelChange)="currentCandidat.codePostal = $event"
                       name="codePostal">
@@ -278,7 +294,7 @@
                 <HR size="5" align="center" width="100%" />
               </div>
               <div class="form-group row">
-                <label class="col-4 col-form-label">Chargé Suivi</label>
+                <label class="col-4 col-form-label">Chargé recrutement:</label>
                 <div class="col-7">
                   <p class="form-control-static" style="margin-top:8px">{{currentCandidat.suivi.charge!=null ?
                     currentCandidat.suivi.charge.nom :""}} {{currentCandidat.suivi.charge!=null ?
@@ -293,15 +309,23 @@
                 <div class="col-6">
                   <div class="form-group">
                     <div>
-                    <label style="margin-right: 0px;margin-bottom: 0px">Présentation:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"
-                      (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <label style="margin-right: 0px;margin-bottom: 0px">Présentation:</label>
+                    <label style="color: firebrick">*</label>
+                  </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"
+                      (ratingClick)='ratingComponentClick($event)' ></app-rating>
+                      <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"></app-rating-disabled>
+
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Savoir etre:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Savoir etre:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'"></app-rating-disabled>
+
                   </div>
                 </div>
               </div>
@@ -309,8 +333,12 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                   <div> <label style="margin-right: 0px;margin-bottom: 0px">Fiabilité:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                   <div> <label style="margin-right: 0px;margin-bottom: 0px">Fiabilité:</label>
+                    <label style="color: firebrick">*</label>
+                  </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'"></app-rating-disabled>
+
                   </div>
                 </div>
               </div>
@@ -320,22 +348,34 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                      <div>   <label v>Attrait pour l'informatique:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>   <label>Attrait pour l'informatique:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'"></app-rating-disabled>
+
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Prêt à la reconversion:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.notePret' [name]="'notePret'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Prêt à la reconversion:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.notePret' [name]="'notePret'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.notePret' [name]="'notePret'"></app-rating-disabled>
+
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Mobilité:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Mobilité:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true"  [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'"></app-rating-disabled>
+
                   </div>
                 </div>
               </div>
@@ -347,14 +387,19 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="noteResultat">Résultat du test:</label>
+                    <label style="color: firebrick">*</label>
                     <input class="form-control" name="noteResultat" min="0" max="45" type="number" id="noteResultat" 
-                      [(ngModel)]="currentCandidat.suivi.noteResultat">
+                    (keyup)="numberOnly()" [(ngModel)]="currentCandidat.suivi.noteResultat" [disabled]="disabledtime==true">
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                      <div>  <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>  <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'"></app-rating-disabled>
+
                   </div>
                 </div>
               </div>
@@ -362,14 +407,22 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'"></app-rating-disabled>
+
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group">
-                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label></div>
-                    <app-rating [rating]='currentCandidat.suivi.anglais' [name]="'anglais'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                      <div>   <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label>
+                        <label style="color: firebrick">*</label>
+                      </div>
+                    <app-rating [hidden]="disabledtime==true" [rating]='currentCandidat.suivi.anglais' [name]="'anglais'" (ratingClick)='ratingComponentClick($event)'></app-rating>
+                    <app-rating-disabled [hidden]="!disabledtime==true" [rating]='currentCandidat.suivi.anglais' [name]="'anglais'"></app-rating-disabled>
+
                   </div>
                 </div>
               </div>
@@ -377,6 +430,8 @@
                 <div class="col-sm-6">
                   <div class="form-group row">
                     <label class="col-7 col-form-label">Mobilité: </label>
+                    <label style="color: firebrick">*</label>
+
                     <div class="col-4 col-form-label">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="mobiliteSuivi" [(ngModel)]="currentCandidat.suivi.mobilite"
@@ -397,12 +452,12 @@
                     <div class="col-md-4 col-form-label">
                       <div class="form-check form-check-inline mr-1">
                         <input class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance" name="mobilteTouFrance"
-                          type="radio" id="inline-checkbox3" [value]="true">
+                          type="radio" id="inline-checkbox3" [value]="true" [disabled]="disabledtime==true">
                         <label class="form-check-label" for="inline-checkbox3">Oui</label>
                       </div>
                       <div class="form-check form-check-inline mr-1">
                         <input class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance" name="mobilteTouFrance"
-                          type="radio" id="inline-checkbox4" [value]="false">
+                          type="radio" id="inline-checkbox4" [value]="false" [disabled]="disabledtime==true">
                         <label class="form-check-label" for="inline-checkbox4">Non</label>
                       </div>
                     </div>
@@ -413,6 +468,8 @@
                 <div class="col-6">
                   <div class="form-group row">
                     <label class="col-7 col-form-label">Relancer: </label>
+                    <label style="color: firebrick">*</label>
+
                     <div class="col-4 col-form-label">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="suiviRelance" [(ngModel)]="currentCandidat.suivi.relance"
