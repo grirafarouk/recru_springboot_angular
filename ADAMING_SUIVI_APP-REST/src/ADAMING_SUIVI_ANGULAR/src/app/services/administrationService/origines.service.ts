@@ -13,6 +13,9 @@ export class OriginesService {
   findAllOrigines(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/origine");
   }
+  findOrigineByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/origine/libelle/" + libelle)
+  }
   save(origine): Observable<any> {
 
     const httpOptions = {

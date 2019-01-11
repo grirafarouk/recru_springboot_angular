@@ -13,6 +13,9 @@ export class TypeFormationService {
   findAllTypeFormation(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/typeformation");
   }
+  findTypeFormationByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/typeformation/libelle/" + libelle)
+  }
   save(typeformation): Observable<any> {
 
     const httpOptions = {

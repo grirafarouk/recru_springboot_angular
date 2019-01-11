@@ -14,7 +14,9 @@ export class MotifService {
   findAllMotifs(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/motifs");
   }
-
+  findMotifHSByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/motifs/libelle/" + libelle)
+  }
   save(motif): Observable<any> {
    const httpOptions = {
       headers: new HttpHeaders({

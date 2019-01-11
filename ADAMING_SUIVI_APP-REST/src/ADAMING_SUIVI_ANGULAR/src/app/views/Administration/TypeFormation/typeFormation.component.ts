@@ -88,23 +88,55 @@ export class typeFormationComponent implements OnInit {
     else this.createTypeFormation();
   }
 
-  createTypeFormation() {
+  async createTypeFormation() {
+    var error = false;
+    if (this.typeFormation.libelle == "" || this.typeFormation.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un type formation valide")
+      error  = true;
+    }
+    else {
+      let typeF
+      await this.typeFormationService.findTypeFormationByLibelle(this.typeFormation.libelle).toPromise().then(data => { typeF = data });
+      if (typeF != null) {
+        this.notifierService.notify("error", "Type Formation existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.typeFormationService.save(this.typeFormation).toPromise().then((data: TypeFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Type Formation ajouté avec succés !")
       }
     })
+  }
     this.typeFormationModal.hide();
   }
 
-  updateTypeFormation() {
+  async updateTypeFormation() {
+    var error = false;
+    if (this.typeFormation.libelle == "" || this.typeFormation.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un type formation valide")
+      error  = true;
+    }
+    else {
+      let typeF
+      await this.typeFormationService.findTypeFormationByLibelle(this.typeFormation.libelle).toPromise().then(data => { typeF = data });
+      if (typeF != null) {
+        this.notifierService.notify("error", "Type Formation existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.typeFormationService.update(this.typeFormation).toPromise().then((data: TypeFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Type Formation  modifié avec succés !")
       }
     })
+  }
     this.typeFormationModal.hide();
   }
 
