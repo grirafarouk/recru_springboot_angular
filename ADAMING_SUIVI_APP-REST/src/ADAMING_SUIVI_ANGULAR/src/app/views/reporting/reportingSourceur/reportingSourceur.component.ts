@@ -110,9 +110,7 @@ export class ReportingSourceurComponent implements OnInit {
       else{
         this.pieChartData = [0,0,0,0,0,0,0];
       }
-     
     })
-    //this.getChart();
   }
 
   private getChart(){
@@ -122,7 +120,6 @@ export class ReportingSourceurComponent implements OnInit {
         this.pieChartLabels[i]=Object.keys(result)[i];
       }
     });
-
   }
 
   reset(){

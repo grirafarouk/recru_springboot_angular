@@ -29,7 +29,8 @@ import { SuiviService } from '../../../services/suivi-service';
 import { Suivi } from '../../../models/Suivi';
 import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
 declare var jQuery: any;
-
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from 
+'@angular/forms';
 @Component({
   selector: 'app-fiche-entrtien',
   templateUrl: './fiche-entrtien.component.html',
@@ -66,6 +67,10 @@ export class FicheEntrtienComponent implements OnInit {
   evaluationtime:any;
   disabledtime = false;
 
+  myForm = new FormGroup({}) // Instantiating our form
+
+get f() { return this.myForm.controls; }
+
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
     private suiviService:SuiviService,
@@ -74,7 +79,12 @@ export class FicheEntrtienComponent implements OnInit {
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService,
     private routingState: RoutingState, private entretienService: EntretienService, private regionService: RegionService,
-    private userService: UtilisateurService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService) { }
+    private userService: UtilisateurService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
+    private formBuilder: FormBuilder) { 
+      this.myForm = formBuilder.group({     
+        publishedYear: ['', [Validators.min(0), Validators.max(45)]]
+    });
+    }
 
   ngOnInit() {
     let profil = Profil[this.userService.getConnetedUserInfo().profil];
@@ -140,15 +150,12 @@ export class FicheEntrtienComponent implements OnInit {
   private testDisabled() {
     this.evaluationtime=this.currentCandidat.entretien.date.getHours()+":"+this.currentCandidat.entretien.date.getMinutes();
     this.currenttime = this.currentDate.getHours()+":"+this.currentDate.getMinutes();
-    if((this.timeEntretien.getMonth()==this.currentDate.getMonth()) 
-        && (this.evaluationtime > this.currenttime) )
-    {
-      this.disabledtime=true;
-    }
+
+    if(this.timeEntretien.toLocaleDateString("fr-FR")==this.currentDate.toLocaleDateString("fr-FR")
+      && (this.evaluationtime > this.currenttime) )
+    {this.disabledtime=true;}
     else
-    {
-      this.disabledtime=false;
-    }
+    {this.disabledtime=false;}
   }
 
   private codePostaleOnSearch(value) {
@@ -345,15 +352,11 @@ export class FicheEntrtienComponent implements OnInit {
       if (!error) {
 
       await this.suiviService.createOrUpdate(this.currentCandidat.suivi).toPromise().then((data: Suivi) => {
-        // if (this.currentCandidat.suivi.id > 0)
-        //   this.notifierService.notify("success", "Modifié!, Candidat modifié avec success !");
-        // else
-        //   this.notifierService.notify("success", "Ajout!, Candidat ajouté avec success !");
+      
         data.dateRelance = new Date(data.dateRelance)
         this.currentCandidat.suivi = data;
       });
-      //#endregion
-       //#region Save Or Update Entretien
+     
        this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
        await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
          if (this.currentCandidat.entretien.id > 0)
@@ -361,8 +364,7 @@ export class FicheEntrtienComponent implements OnInit {
          data.date = new Date(data.date)
          this.currentCandidat.entretien = data;
        })
-       //#endregion
-      //#region  Update Candidat
+   
       this.currentCandidat.motif = null;
        await this.candidatsService.updateficheEntretien(this.currentCandidat).toPromise().then(data => {
       })

@@ -140,6 +140,11 @@ export class listeEntretienComponent implements OnInit {
       }
     },
     {
+      rendered :function (candidat) : number {
+        if (candidat.noteTotale!=null){
+          return candidat.noteTotale * 2;
+        }
+      },
       data: 'noteTotale' ,
       title: 'Note Totale',
       visible: true
@@ -170,11 +175,6 @@ export class listeEntretienComponent implements OnInit {
       this.listCarge=data
     })
   }
-
-
-
-
-
 
   reset() {
     this.condidat = new CandidateDto();
