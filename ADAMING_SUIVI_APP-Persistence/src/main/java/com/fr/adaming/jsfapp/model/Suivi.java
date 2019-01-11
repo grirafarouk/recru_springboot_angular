@@ -1,9 +1,7 @@
 package com.fr.adaming.jsfapp.model;
 
 import java.util.Date;
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,8 +16,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Proxy;
+
 @Entity
 @Table(name = "suivi")
+@Proxy(lazy = false)
 public class Suivi implements java.io.Serializable {
 
 	/**
@@ -43,7 +44,7 @@ public class Suivi implements java.io.Serializable {
 	private Double noteCoherence;
 	private Double notePistes;
 	private String commentaire;
-	private List<Region> regions;
+	private Set<Region> regions;
 
 	public Suivi() {
 	}
@@ -189,11 +190,11 @@ public class Suivi implements java.io.Serializable {
 
 	@ManyToMany( fetch = FetchType.EAGER)
 	@JoinTable(name = "suivi_region", joinColumns = @JoinColumn(name = "suivi_id"), inverseJoinColumns = @JoinColumn(name = "region_id"))
-	public List<Region> getRegions() {
+	public Set<Region> getRegions() {
 		return regions;
 	}
 
-	public void setRegions(List<Region> regions) {
+	public void setRegions(Set<Region> regions) {
 		this.regions = regions;
 	}
 

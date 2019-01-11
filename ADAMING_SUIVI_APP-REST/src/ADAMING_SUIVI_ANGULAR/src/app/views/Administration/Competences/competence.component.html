@@ -1,0 +1,69 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="card">
+        <div class="card-header">
+          <label style="font-weight:bold;color:#546E7A;">Competences</label>
+        </div>
+        <div class="card-body">
+          <custom-local-table [actions]="actions" [columns]="columns" [items]="ListCompetences"></custom-local-table>
+      </div>
+       <div class="card-footer">
+          <div class="col-2">
+            <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Ajouter </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div bsModal #competenceDeleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-danger  modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Suppression</h4>
+          <button type="button" class="close" (click)="competenceDeleteModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 52px">
+         Êtes-vous sûr de vouloir supprimer ?
+           
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="competenceDeleteModal.hide()">Annuler</button>
+          <button type="button" (click)="deleteCompetence()" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div bsModal #competenceModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-primary  modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Competences</h4>
+          <button type="button" class="close" (click)="competenceModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" style="padding: 52px">
+          <form class="form-horizontal">
+            <div class="form-group row">
+              <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+              <div class="col-md-8">
+                <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="competence.libelle" name="libelle" id="libelle" />
+  
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="competenceModal.hide()">Annuler</button>
+          <button type="button" (click)="saveCompetence()" class="btn btn-primary">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

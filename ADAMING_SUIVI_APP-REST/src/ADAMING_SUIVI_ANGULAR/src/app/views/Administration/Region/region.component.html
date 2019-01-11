@@ -1,0 +1,57 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="card">
+
+      <div class="card-header">
+        <label style="font-weight:bold;color:#546E7A;">Region</label>
+      </div>
+      <div class="card-body">
+        <custom-local-table [actions]="actions" [columns]="columns" [items]="Listregion"></custom-local-table>            
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #regionEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-primary  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Region</h4>
+        <button type="button" class="close" (click)="regionEditModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 52px">
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+            <div class="col-md-8">
+              <input class="form-control" [(ngModel)]="region.code" name="libelle" id="libelle" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Actif :</label>
+            <div class="col-md-8">
+              <label class="label--checkbox">
+                <input   class="checkbox" type="checkbox" name="actif" [(ngModel)]="region.actif"
+                    [value]="region.actif">
+            </label>              </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Reporting :</label>
+            <div class="col-md-8">
+              <label class="label--checkbox">
+                <input   class="checkbox" type="checkbox" name="reporting" [(ngModel)]="region.reporting"
+                    [value]="region.reporting">
+            </label>            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="regionEditModal.hide()">Annuler</button>
+        <button type="button" (click)="updateRegion(region)" class="btn btn-primary">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>

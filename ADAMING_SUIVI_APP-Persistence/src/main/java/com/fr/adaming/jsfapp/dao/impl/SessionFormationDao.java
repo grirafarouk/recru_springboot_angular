@@ -2,6 +2,7 @@ package com.fr.adaming.jsfapp.dao.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.springframework.stereotype.Repository;
 
 import com.fr.adaming.dao.tools.DaoUtils;
@@ -34,7 +36,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 					formationDto.getId());
 
 		}
-
+		crit.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 		return DaoUtils.castList(SessionFormation.class, crit.list());
 	}
 
@@ -100,12 +102,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 						+ df.format(sessionFormationDto.getDateDemarrage())
 						+ " 23:59:59'";
 			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
 		}
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -125,12 +131,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 						+ df.format(sessionFormationDto.getDateDemarrage())
 						+ " 23:59:59'";
 			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
 		}
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -145,7 +155,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -165,12 +175,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 						+ df.format(sessionFormationDto.getDateDemarrage())
 						+ " 23:59:59'";
 			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
 		}
 
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -186,7 +200,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -202,7 +216,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		SQLQuery st = getSession().createSQLQuery(queryString);
 
 		@SuppressWarnings("unchecked")
-		List<SessionFormation> liste = (List<SessionFormation>) st.addEntity(
+		List<SessionFormation> liste = st.addEntity(
 				SessionFormation.class).list();
 
 		return liste;
@@ -232,7 +246,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		
 		List<SessionFormationReportingDto> data = new  ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if(!dataObject.isEmpty())
 		{
 			for(Object [] o : dataObject)
@@ -240,13 +254,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 				String nom = (String) o[0];
 				String lieu = (String) o[1];
 				String type = (String) o[2];
-				String date = (String) o[3];
+				String date=( String)  o[3];
 				BigDecimal  affectaion = (BigDecimal) o[4];
 				BigDecimal  acceptation = (BigDecimal) o[5];
 				Integer  nombrePlace = (Integer) o[6];
 				BigDecimal  tauxAccep = (BigDecimal) o[7];
 				BigDecimal  taux = (BigDecimal) o[8];
 				BigInteger idSession = (BigInteger) o[9]; 
+				tauxAccep = tauxAccep.setScale(2, RoundingMode.HALF_UP);
+				taux = taux.setScale(2, RoundingMode.HALF_UP);
+
 				data.add(new SessionFormationReportingDto(nom,lieu,type,date,affectaion,acceptation,nombrePlace,tauxAccep,taux,idSession));
 				
 			}
@@ -279,7 +296,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		
 		List<SessionFormationReportingDto> data = new  ArrayList<>();
 		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = (List<Object[]>) st.list();
+		final List<Object[]> dataObject = st.list();
 		if(!dataObject.isEmpty())
 		{
 			for(Object [] o : dataObject)

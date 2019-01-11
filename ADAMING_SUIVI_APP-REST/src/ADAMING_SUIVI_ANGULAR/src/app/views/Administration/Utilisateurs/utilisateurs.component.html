@@ -1,0 +1,111 @@
+<div class="animated fadeIn">
+<div class="row">
+        <div class="card"> 
+                         
+                <div class="card-header">
+                        <label style="font-weight:bold;color:#546E7A;">Utilistaeur</label>
+                </div>
+    <div class="card-body">
+        <custom-local-table [actions]="actions" [columns]="columns" [items]="ListUtilistaeur"></custom-local-table>
+      </div>
+      <div class="card-footer">
+        <div class="col-2">
+            <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">Ajouter</button>
+          </div>      
+      </div>
+
+</div>   
+
+</div>
+</div>
+
+<div bsModal #utilisateurModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Utilisateur</h4>
+      <button type="button" class="close" (click)="utilisateurModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Login:</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.login" name="login"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Profil:</label>
+          <div class="col-md-8">
+              <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [items]="refProfil" bindLabel="label" bindValue="value" [(ngModel)]="utilisateur.profil" name="profil"
+                     >
+                    </ng-select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Nom:</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.nom" name="nom"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Prénom:</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.prenom" name="prenom"   />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Numéro Fixe :</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.numeroTelF" name="numeroTelF"  mask="(+00)-0-00-00-00-00" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Numéro Portable:</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.numeroTelP" name="numeroTelP" mask="(+00)-0-00-00-00-00" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Email:</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.email" name="email"   />
+          </div>
+        </div>
+        <div *ngIf="!utilisateur.id>0" class="form-group row">
+            <label class="col-md-3 col-form-label" >Mot de passe:</label>
+            <div class="col-md-8">
+                <input class="form-control" style="font-weight: bold;color: black;" type="password" [(ngModel)]="utilisateur.password" name="password" />
+            </div>
+          </div>
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Actif:</label>
+            <div class="col-md-8">
+  
+                <label class="label--checkbox">
+                    <input   class="checkbox" type="checkbox" name="actif" [(ngModel)]="utilisateur.actif"
+                        [value]="utilisateur.actif">
+                </label>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label">Reporting:</label>
+            <div class="col-md-8">
+                <label class="label--checkbox">
+                    <input   class="checkbox" type="checkbox" name="reporting" [(ngModel)]="utilisateur.reporting"
+                        [value]="utilisateur.reporting">
+                </label>
+            </div>
+          </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="utilisateurModal.hide()">Annuler</button>
+      <button type="button" (click)="saveUtilisateur()"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>

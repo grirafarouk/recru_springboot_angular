@@ -1,4 +1,5 @@
 export class Technologie{
     id:number;
-    libelle:String
+    libelle:String;
+    reporting:boolean;
 }

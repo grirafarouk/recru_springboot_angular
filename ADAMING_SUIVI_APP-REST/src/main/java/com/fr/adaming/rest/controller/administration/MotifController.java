@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.model.Motif;
 import com.fr.adaming.jsfapp.services.IMotifService;
 
 @RestController
-@RequestMapping("/motifs")
+@RequestMapping("/api/motifs")
 @CrossOrigin("*")
 public class MotifController {
 
@@ -24,6 +24,16 @@ public class MotifController {
 	@RequestMapping(value = "/libelle/{libelle}", method = RequestMethod.GET)
 	public Motif rechercheMotifParLibelle(@PathVariable String libelle) {
 		return motifService.rechercheMotifParLibelle(libelle);
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public Motif create(@RequestBody Motif entity) {
+		return motifService.create(entity);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public Motif update(@RequestBody Motif entity) {
+		return motifService.update(entity);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)

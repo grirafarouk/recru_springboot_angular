@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -31,6 +33,7 @@ import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.dto.SyntheseCandidatDto;
 import com.fr.adaming.jsfapp.dto.UtilisateurDto;
+import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
@@ -356,6 +359,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			crit.createAlias("sessionFormation", "sf");
 			DaoUtils.addEqRestrictionIfNotNull(crit, "sf.id", sessionFormationDto.getId());
 		}
+		crit.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
 		return DaoUtils.castList(Candidat.class, crit.list());
 	}
@@ -614,6 +618,15 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		return map;
 	}
+	
+	@Override
+	public Integer NombreTechnologieParCandidat() {
+		String query = "select count(*) " + 
+				"FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE " + 
+				"WHERE c.ENTRETIEN is NULL and c.STATUT=2";
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
+	}
 
 	@Override
 	public List<ReportingFicheCVRelance> rechercherCandidatParCharge(int idcharge) {
@@ -632,7 +645,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				String prenom = (String) o[1];
 				String numero = (String) o[2];
 				String email = (String) o[3];
-				String date = (String) o[4];
+				String date = (String)o[4];
 				String technologie = (String) o[5];
 
 				data.add(new ReportingFicheCVRelance(nom, prenom, numero, email, date, technologie));
@@ -675,5 +688,5 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		return data;
 	}
-
+	
 }

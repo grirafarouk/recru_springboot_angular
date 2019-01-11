@@ -1,0 +1,235 @@
+<div class="animated fadeIn">
+    <div class="card">
+        <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Nouveau Candidat
+            </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                        <input (change)="uploadFiles($event)" style="display: none;" id="fileUpload" type="file"
+                            webkitdirectory mozdirectory />
+                        <button onclick="document.getElementById('fileUpload').click();" style="width: 110px" type="button"
+                            class="btn btn-block btn-outline-primary">Select. fichiers</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <dx-tree-view id="simple-treeview" [items]="folders" dataStructure="plain" parentIdExpr="categoryId"
+                        keyExpr="ID" displayExpr="name" (onItemClick)="selectItem($event)" (onItemExpanded)="onItemExpanded($event)"
+                        (onItemCollapsed)="onItemCollapsed($event)"></dx-tree-view>
+                </div>
+                <div class="card-footer">
+                    <button [disabled]="currentFile==undefined" (click)="afficherPdf()" style="width: 100px" type="button"
+                        class="btn btn-block btn-outline-primary">Afficher</button>
+                </div>
+            </div>
+        </div>
+        <!--/.col-->
+        <div class="col-sm-9 col-md-9">
+            <div class="card">
+                <form (ngSubmit)="onSubmit()">
+                    <div class="card-body">
+
+                        <div class="row">
+                        <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="civilite">Civilité</label>
+                                    <label style="color: firebrick">*</label>
+                                    <ng-select [items]="civilites"  required style="font-weight: bold;"
+                                         name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
+
+                                    </ng-select>
+                                </div>
+                            </div> 
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="nom">Nom</label>
+                                    <label style="color: firebrick">*</label>
+                                    <input type="text" class="form-control" name="nom" 
+                                    style="font-weight: bold;color: black;" 
+                                    [(ngModel)]="candidate.nom" id="nom">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="prenom">Prenom</label>
+                                    <label style="color: firebrick">*</label>
+                                    <input type="text" class="form-control" 
+                                    style="font-weight: bold;color: black;" name="prenom"
+                                    [(ngModel)]="candidate.prenom" id="prenom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <label style="color: firebrick">*</label>
+                                    <input type="email" class="form-control" style="font-weight: bold;color: black;" name="email" [(ngModel)]="candidate.email"
+                                        id="email">
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="telephone">Téléphone</label>
+                                    <label style="color: firebrick">*</label>
+                                    <input type="text" class="form-control" style="font-weight: bold;color: black;" [textMask]="{mask: mask}" name="telephone"
+                                        [(ngModel)]="candidate.numeroTel" id="telephone">
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="origineCV">Origine CV</label>
+                                    <label style="color: firebrick">*</label>
+                                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="origines" [(ngModel)]="candidate.origine.id"
+                                        name="origineCV" [disabled]="candidateFound===false" id="origineCV">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="profil">Profil </label>
+                                    <label style="color: firebrick">*</label>
+                                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="technologies" [(ngModel)]="candidate.technologie.id"
+                                        name="technologie" [disabled]="candidateFound===false" id="profil">
+                                    </ng-select>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="codePostal">Code postal</label>
+                                    <label style="color: firebrick">*</label>
+                                    <ng-select aria-required="" style="font-weight: bold;" [disabled]="candidateFound==false" id="codePostal"
+                                        [items]="codePostals" (search)="codePostaleOnSearch($event)" [ngModel]="candidate.codePostal"
+                                        (ngModelChange)="candidate.codePostal = $event" name="codePostal">
+                                        <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
+                                            {{codeP.ville}}</ng-option>
+
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Region</label>
+                                    <label style="color: firebrick">*</label>
+                                    <p class="form-control-static" style="font-weight: bold;">{{candidate?.codePostal?.region}}</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Ville</label>
+                                    <label style="color: firebrick">*</label>
+                                    <p class="form-control-static" style="font-weight: bold;">{{candidate?.codePostal?.ville}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row competences">
+
+                            <div class="col-md-2 col-form-label" *ngFor="let compt of competences; let i = index">
+                                    <div class="form-check form-check-inline mr-1">
+                                            <label class="label--checkbox">
+                                                <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
+                                                    id="inline-checkbox1" [value]="compt.id" [disabled]="candidateFound===false">
+                                            </label>
+                                            <label >{{compt.libelle}}</label>
+                                        </div>
+                                    </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-10"></div>
+                            <div>
+                            <button (click)="recherchecandidate()"  type="button" class="btn btn-block btn-primary ">Rechercher</button>
+                        </div></div>
+                        <div *ngIf="pdfSrc!=undefined">
+                            <object style="margin-top: 20px" [data]="pdfSrc" height="450px" width="100%">
+                                <param name="view" value="fitH" />
+
+                            </object>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+
+                        <div class="row align-items-center">
+                            <div class="col-md-8 col-form-label">
+                                <div class="form-check form-check-inline mr-1">
+                                    <label class="label--checkbox">
+                                            <input class="checkbox" type="checkbox" [(ngModel)]="candidate.cvAnonyme"
+                                            name="cvAnonyme" value="true" id="cvanonyme ">
+                                        </label>
+                                    <label >
+                                        CV anonyme
+                                    </label>
+                                </div>
+                            </div>
+                            <div >
+                                <button type="button" (click)="annuler()" class="btn btn-block btn-danger">Annuler</button>
+                            </div>
+
+                            <div style="padding-left: 10px">
+                                <button (click)="submitAndRedirect()" [disabled]="pdfSrc==undefined" type="button"
+                                    class="btn btn-block btn-success">Planifier
+                                    Rdv</button>
+                            </div>
+                            <div style="padding-left: 10px">
+                                <button  [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-primary">Enregistrer</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--/.co2-->
+    </div>
+    <!--/.row-->
+    <div class="row" *ngIf="candidatsFound.length>0">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Candidats Trouvés
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>N° Téléphone</th>
+                                <th>Email</th>
+                                <th>Date Inscription</th>
+                                <th>Statut</th>
+                                <th>Type de profil</th>
+                                <th>Sourceur</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let candidat of candidatsFound">
+                                <td>{{candidat.nom}}</td>
+                                <td>{{candidat.prenom}}</td>
+                                <td>{{candidat.numeroTel}}</td>
+                                <td>{{candidat.email}}</td>
+                                <td>{{candidat.dateInscription| date :'dd/MM/yyyy'}}</td>
+                                <td>{{candidat.statut}}</td>
+                                <td>{{candidat.technologie}}</td>
+                                <td>{{candidat.nomSourceur }} {{candidat.prenomSourceur}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/.row-->
+</div>
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>

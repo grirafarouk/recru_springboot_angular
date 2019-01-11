@@ -20,6 +20,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let can of CandidatSession| paginate: { itemsPerPage:10, currentPage: p }">
+
             <td>{{can.nom}}</td>
             <td>{{can.prenom}}</td>
             <td>{{can.numero}}</td>
@@ -37,8 +38,8 @@
       <button type="button" [routerLink]="['/dashboard']" class="btn btn-sm btn-default" style="float:right">
         Retour
       </button>
-      <button class="btn btn-sm" (click)="ExportExcel()"  style="float:left">
-        <img src="../../assets/excel-icon.png" height="100%" width="100%">
+      <button class="btn btn-sm" (click)="exportAsXLSX()"  style="float:left;width: 3%;background:#FFFFFF;">
+        <img src="assets/excel-icon.png">
       </button>
     </div>
     

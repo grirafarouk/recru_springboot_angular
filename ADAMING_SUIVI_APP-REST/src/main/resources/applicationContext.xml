@@ -56,39 +56,87 @@
 	
  
 
-	<!-- <bean id="authenticationSuccessHandler" class="com.fr.adaming.jsfapp.controller.AuthenticationSuccessHandler" 
-		/> <bean id="accessDenyHandler" class="com.fr.adaming.jsfapp.util.AccessDenyHandler"> 
-		</bean> <bean id="eMailReportingJob" class="com.fr.adaming.jsfapp.scheduler.EMailReportingJobImpl" 
-		/> <bean id="simpleJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-		<property name="targetObject" ref="eMailReportingJob" /> <property name="targetMethod" 
-		value="doBusiness" /> </bean> <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
-		<property name="jobDetail" ref="simpleJobDetail" /> <property name="cronExpression" 
-		value="0 0 3 * * ?" /> </bean> <bean id="eMailEvaluationJob" class="com.fr.adaming.jsfapp.scheduler.EMailEvaluationJobImpl" 
-		/> <bean id="eMailEvaluationJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-		<property name="targetObject" ref="eMailEvaluationJob" /> <property name="targetMethod" 
-		value="doBusiness" /> </bean> <bean id="evaluationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
-		<property name="jobDetail" ref="eMailEvaluationJobDetail" /> <property name="cronExpression" 
-		value="0 0 3 * * ?" /> </bean> <bean id="eMailSourceursJob" class="com.fr.adaming.jsfapp.scheduler.EMailHebdomadaireJob" 
-		/> <bean id="eMailHebdomadaireJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-		<property name="targetObject" ref="eMailHebdomadaireJob" /> <property name="targetMethod" 
-		value="doBusiness" /> </bean> <bean id="eMailHebdomadaireTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
-		<property name="jobDetail" ref="eMailHebdomadaireJobDetail" /> <property 
-		name="cronExpression" value="0 59 23 ? * SAT" /> </bean> <bean id="eMailMensuelJob" 
-		class="com.fr.adaming.jsfapp.scheduler.EMailMensuelJobImpl" /> <bean id="eMailMensuelJobDetail" 
-		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-		<property name="targetObject" ref="eMailMensuelJob" /> <property name="targetMethod" 
-		value="doBusiness" /> </bean> <bean id="eMailMensuelTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> 
-		<property name="jobDetail" ref="eMailMensuelJobDetail" /> <property name="cronExpression" 
-		value="0 59 23 L * ?" /> </bean> <bean id="eMailCandidatARelancerJob" class="com.fr.adaming.jsfapp.scheduler.CandidatARelancerJobImpl" 
-		/> <bean id="eMailCandidatARelancerJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
-		<property name="targetObject" ref="eMailCandidatARelancerJob" /> <property 
-		name="targetMethod" value="doBusiness" /> </bean> <bean id="eMailCandidatARelancerTrigger" 
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> <property 
-		name="jobDetail" ref="eMailCandidatARelancerJobDetail" /> <property name="cronExpression" 
-		value="0 0 8 * * ?" /> </bean> <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"> 
-		<property name="triggers"> <list> <ref bean="cronTrigger" /> <ref bean="evaluationTrigger" 
-		/> <ref bean="eMailHebdomadaireTrigger" /> <ref bean="eMailMensuelTrigger" 
-		/> <ref bean="eMailCandidatARelancerTrigger" /> </list> </property> </bean> -->
+    <bean id="eMailReportingJob" class="com.fr.adaming.util.EMailReportingJobImpl" />
+	<bean id="simpleJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="eMailReportingJob" />
+		<property name="targetMethod" value="doBusiness" />
+	</bean>
+	<bean id="cronTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="simpleJobDetail" />
+		<property name="cronExpression" value="0 0 3 * * ?" />
+	</bean>
+
+
+
+	<bean id="eMailEvaluationJob" class="com.fr.adaming.util.EMailEvaluationJobImpl" />
+	<bean id="eMailEvaluationJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="eMailEvaluationJob" />
+		<property name="targetMethod" value="doBusiness" />
+	</bean>
+	<bean id="evaluationTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="eMailEvaluationJobDetail" />
+		<property name="cronExpression" value="0 0 3 * * ?" />
+	</bean>
+
+
+	<bean id="eMailSourceursJob"
+		class="com.fr.adaming.util.EMailHebdomadaireJob" />
+	<bean id="eMailHebdomadaireJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="eMailHebdomadaireJob" />
+		<property name="targetMethod" value="doBusiness" />
+	</bean>
+	<bean id="eMailHebdomadaireTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="eMailHebdomadaireJobDetail" />
+		<property name="cronExpression" value="0 59 23 ? * SAT" />
+	</bean>
+
+
+	<bean id="eMailMensuelJob"
+		class="com.fr.adaming.util.EMailMensuelJobImpl" />
+	<bean id="eMailMensuelJobDetail"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="eMailMensuelJob" />
+		<property name="targetMethod" value="doBusiness" />
+	</bean>
+	<bean id="eMailMensuelTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="eMailMensuelJobDetail" />
+		<property name="cronExpression" value="0 59 23 L * ?" />
+	</bean>
+	
+	
+	<bean id="candidatARelancerJob"
+		class="com.fr.adaming.util.CandidatARelancerJobImpl" />
+	<bean id="CandidatARelancerJobImpl"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="candidatARelancerJob" />
+		<property name="targetMethod" value="doBusiness" />
+	</bean>
+	<bean id="eMailCandidatARelancerTrigger"
+		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="CandidatARelancerJobImpl" />
+		<property name="cronExpression" value="0 0 8 * * ?" />
+	</bean>
+
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+				<ref bean="evaluationTrigger" />
+				<ref bean="eMailHebdomadaireTrigger" />
+				<ref bean="eMailMensuelTrigger" />
+				<ref bean="eMailCandidatARelancerTrigger" />
+			</list>
+		</property>
+	</bean>
+
 
 
 </beans>

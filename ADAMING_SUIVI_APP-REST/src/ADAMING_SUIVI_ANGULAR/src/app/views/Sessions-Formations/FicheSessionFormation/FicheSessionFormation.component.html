@@ -1,0 +1,170 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="card">
+            <form #rechercheForm="ngForm">
+                <div class="card-header">
+                    <label style="font-weight:bold;color:#546E7A;">Informations</label>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="nom" style="font-weight:bold">Nom:</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session?.formation.nom }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="prenom" style="font-weight:bold">Technologie :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session?.formation.technologie.libelle }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">Lieu :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session?.formation.lieu.libelle }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="email" style="font-weight:bold">Type Formation
+                                    :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session?.formation.typeFormation.libelle }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date
+                                    de Demarrage :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session?.dateDemarrage | date : 'dd/MM/yyyy' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label for="profil" style="font-weight:bold">Date Fin :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session?.dateFin | date : 'dd/MM/yyyy' }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight:bold">Nombre Candidats :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ maxlenght }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label style="font-weight:bold">Nombre Place :</label>
+                                <div class="col-12">
+                                    <p class="form-control-static" style="font-weight: bold;color: black;">{{ session.nombrePlace }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class="card-footer">
+
+                </div> -->
+            </form>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <label style="font-weight:bold;color:#546E7A;">Liste Candidats</label>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th> NOM
+                            </th>
+                            <th>PRENOM
+                            </th>
+                            <th>N° TEL
+                            </th>
+                            <th>E-MAIL
+                            </th>
+                            <th>SOURCEUR
+                            </th>
+                            <th>Accéptation candidat
+                            </th>
+                            <th>Refus candidat</th>
+                            <th style="width: 100px">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let c of candidats" [class]="c.docConsult==true  ? 'table-success'  :c.docRefus==true  ? 'table-danger' :''">
+                            <td>{{c.nom}}</td>
+                            <td>{{c.prenom}}</td>
+                            <td style="white-space: nowrap;">{{c.numeroTel}}</td>
+                            <td>{{c.nom}}</td>
+                            <td>{{c.creePar.nom }} {{c.creePar.prenom }}</td>
+                            <td>
+                                <label style="margin-left: 30%;" class="label--checkbox">
+                                    <input (change)="modelChanged(c,'docRefus')" class="checkbox" type="checkbox"
+                                        [(ngModel)]="c.docConsult" />
+                                </label>
+                            </td>
+                            <td>
+                                <label style="margin-left: 30%;" class="label--checkbox">
+                                    <input (change)="modelChanged(c,'docConsult')" class="checkbox" type="checkbox"
+                                        [(ngModel)]="c.docRefus" />
+                                </label>
+                            </td>
+                            <td style="width: 100px"><button type="button" (click)="openDetails(c)" class="btn btn-outline-success btn-sm">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="panel-footer panel-default pager">
+                    <ul class="pagination justify-content-center">
+                        <li [class.disabled]="1==currentPage" class="page-item">
+                            <a (click)="setPage(1)" class="page-link">«</a>
+                        </li>
+                        <li [class.disabled]="1==currentPage" class="page-item">
+                            <a (click)="setPage(currentPage-1)" class="page-link">‹</a>
+                        </li>
+                        <li [class.active]="p==currentPage" class="page-item" *ngFor=" let p of pages">
+                            <a class="page-link" (click)="setPage(p)">{{p}}</a>
+                        </li>
+                        <li [class.disabled]="currentPage==lastPage" class="page-item">
+                            <a (click)="setPage(currentPage+1)" class="page-link">›</a>
+                        </li>
+                        <li [class.disabled]="currentPage==lastPage" class="page-item">
+                            <a (click)="setPage(lastPage)" class="page-link">»</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-2">
+                        <button (click)="activerDesactiverSession()" type="button" class="btn btn-block btn-primary">{{session.factif
+                            != null && session.factif == true ? 'Désactivée Session' :'Activée Session' }}</button>
+                    </div>
+                    <div class="col-8"></div>
+                    <div class="col-2">
+                        <button (click)="annuler()" type="button" class="btn btn-block btn-primary">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

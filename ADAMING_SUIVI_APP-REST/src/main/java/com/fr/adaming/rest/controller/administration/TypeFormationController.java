@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.model.TypeFormation;
 import com.fr.adaming.jsfapp.services.ITypeFormationService;
 
 @RestController
-@RequestMapping(value = "typeformation")
+@RequestMapping(value = "/api/typeformation")
 @CrossOrigin("*")
 public class TypeFormationController {
 
@@ -29,6 +29,16 @@ public class TypeFormationController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public TypeFormation createOrUpdate(@RequestBody TypeFormation entity) {
 		return typeFormationService.createOrUpdate(entity);
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public TypeFormation create(@RequestBody TypeFormation entity) {
+		return typeFormationService.merge(entity);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public TypeFormation update(@RequestBody TypeFormation entity) {
+		return typeFormationService.update(entity);
 	}
 
 	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
@@ -47,8 +57,7 @@ public class TypeFormationController {
 	}
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-	public void deleteById(@PathVariable
-			Long id) {
+	public void deleteById(@PathVariable Long id) {
 		typeFormationService.deleteById(id);
 	}
 

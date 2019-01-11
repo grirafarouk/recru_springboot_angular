@@ -1,0 +1,115 @@
+<div class="card">
+    <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
+    </div>
+    <div class="card-body">
+            <div class="row">      
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="nom">Code formation:</label>
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control"  name="code" [(ngModel)]="session.formation.code" id="code"> 
+                        </div>
+                    </div>  
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="nom">Nom formation:</label>
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="technologie">Technologie:</label>
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie" name="typeFormation"  >
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="lieu">Lieu:</label>
+                                  <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu" name="typeFormation"  >
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
+                                      <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation" name="typeFormation"  >
+                                    </ng-select>
+                                </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dateDemarrage" style="font-weight:bold">Date démarrage:</label>
+                               
+
+                                    <input  [owlDateTimeFilter]="dateDateFilter" style="font-weight: bold;color: black;"
+                                    [owlDateTimeTrigger]="dateDemarrage" [owlDateTime]="dateDemarrage" class="form-control"
+                                    name="dateDemarrage" [(ngModel)]="session.dateDemarrage" id="dateDemarrage">
+                                    <owl-date-time [pickerType]="'calendar'" #dateDemarrage></owl-date-time>
+
+                            </div>
+                        </div>
+                                 
+                </div>
+              
+    </div>
+    <div class="card-footer">
+
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherSession()">Rechercher</button>
+                </div>
+
+                <div class="col-2">
+                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+                </div>
+            </div>
+        </div>
+  </div>
+  <div class="card card-accordion">
+        <div  *ngFor="let formation of formations; let i = index">
+        <div class="card-header card-header-accordion"  [ngClass]="{'card-header-accordion-active':this.isCollapsed[i] === false}"
+        (click)="collapseExpand(i)" >
+                <h5>{{formation.code}}</h5>
+       
+        </div>
+        <div  [collapse]="isCollapsed[i]">
+             <div class="card-body"  >
+                    <table class="table  table-striped">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Nom Formation</th>
+                                <th>Technologie</th>
+                                <th>Lieu</th>
+                                <th>Type Formation</th>
+                                <th>Date Démarage</th>
+                                <th>Date Fin</th>
+                                <th>DNombre Participants	</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let f of sessionFormations; let i = index">
+                                <tr *ngIf="formation.id == f.formation.id">
+                                    <td>{{f.formation.code}}
+                                    <td>{{f.formation.nom}}</td>
+                                    <td>{{f.formation.technologie.libelle}}</td>
+                                    <td>{{f.formation.lieu.libelle}}</td>
+                                    <td>{{f.formation.typeFormation.libelle}}</td>
+                                    <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
+                                    <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
+                                    <td>{{f.nombreParticipants  }}</td>
+                                    <td style="width: 10%">     
+                                        <a class="btn btn-default" (click)="openDetails(f)">
+                                              <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
+                                            </a>         
+                                      </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+        </div>
+    </div>
+      </div>

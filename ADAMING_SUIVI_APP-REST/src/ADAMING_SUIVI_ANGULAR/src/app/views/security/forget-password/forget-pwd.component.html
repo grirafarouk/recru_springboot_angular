@@ -1,0 +1,36 @@
+<div class="app-body" style="background-color:#EDECED">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+                    <div class="card-body text-center">  
+                        <img style="width: 300px; height: 150px;" src="assets/img/avatars/adaming.png">    
+                    </div>
+          <div class="card-group"  style="background-color:#747579">
+            <div class="card p-4"  style="background-color:#747579">
+              <div class="card-body"  style="background-color:#747579">
+                  
+                <p class="text-muted">Entrez l'e-mail utilisé pour vous inscrire afin de réinitialiser votre mot de passe</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="icon-user"></i></span>
+                  </div>
+                  <input type="text" (keyup.enter)="forgetPwd()"   [(ngModel)]="email" class="form-control" placeholder="Email" required>
+                </div>              
+                <div class="row">
+                  <div class="col-6">
+                    <button type="button" [disabled]="diableButton" (click)="forgetPwd()" class="btn btn-primary px-4">Réinitialiser votre mot de passe</button>
+                  </div>
+                  <div class="col-6 text-right"><button (click)="retour()" class="btn btn-link px-0" type="button">Retour</button></div>
+                </div>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<ngx-loading [show]="diableButton" [config]=""></ngx-loading>
+<notifier-container></notifier-container>

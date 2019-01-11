@@ -60,7 +60,7 @@ public class Entretien implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CHARGE", nullable = true)
-	@JsonIgnore
+	//@JsonIgnore
 	public Utilisateur getCharge() {
 		return charge;
 	}

@@ -4,24 +4,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.FormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.model.Candidat;
-import com.fr.adaming.jsfapp.model.Formation;
 import com.fr.adaming.jsfapp.model.SessionFormation;
 import com.fr.adaming.jsfapp.services.impl.CandidatService;
 import com.fr.adaming.jsfapp.services.impl.SessionFormationService;
 
 @RestController
-@RequestMapping("/sessionsformations")
+@RequestMapping("/api/sessionsformations")
 @CrossOrigin("*")
 public class SessionsFormations {
 
@@ -31,7 +34,8 @@ public class SessionsFormations {
 	@Autowired
 	private CandidatService candidatService;
 
-	public SessionFormation createOrUpdate(SessionFormation entity) {
+	@PostMapping()
+	public SessionFormation createOrUpdate(@RequestBody SessionFormation entity) {
 		return sessionFormationService.createOrUpdate(entity);
 	}
 
@@ -40,7 +44,7 @@ public class SessionsFormations {
 		return sessionFormationService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/AllSessions", method = RequestMethod.GET)
 	public Collection<SessionFormation> findAll() {
 		return sessionFormationService.findAll();
 	}
@@ -75,7 +79,7 @@ public class SessionsFormations {
 	public List<SessionFormation> rechercherFormationEnCours(@RequestBody SessionFormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherFormationEnCours(sessionFormationDto);
 	}
-	
+
 	@RequestMapping(value = "/sessionFormation", method = RequestMethod.GET, produces = "application/json")
 	public List<SessionFormation> rechercherSession() {
 		return sessionFormationService.rechercherSession();
@@ -95,16 +99,26 @@ public class SessionsFormations {
 		return sessionFormationService.rechercherSessionsFormationEnCourParFormation(formationDto);
 	}
 
-	@RequestMapping(value = "/nbreparticipants", method = RequestMethod.POST)
-	public int compterNombrePartcicpants(@RequestBody SessionFormationDto sessFormDto) {
-		return candidatService.rechercherCandidatAvecSessionFormation(sessFormDto).size();
+	@RequestMapping(value = "/listeCandidats", method = RequestMethod.POST)
+	public JSONObject rechercherCandidatAvecSessionFormation(@RequestBody SessionFormationDto sessionFormationDto,
+			@RequestParam int page, @RequestParam int size) {
+		List<Candidat> liste = new ArrayList<>(
+				candidatService.rechercherCandidatAvecSessionFormation(sessionFormationDto));
+		JSONObject object = new JSONObject();
+		object.put("total", liste.size());
+		if (size == 0)
+			object.put("results", liste);
+		else
+			object.put("results", liste.subList(page, liste.size() < size + page ? liste.size() : page + size));
+		return object;
 	}
 
-	@RequestMapping(value = "/listeCandidats", method = RequestMethod.POST)
-	public List<Candidat> rechercherCandidatAvecSessionFormation(@RequestBody SessionFormationDto sessionFormationDto) {
-		List<Candidat> liste = new ArrayList<>(
-		 candidatService.rechercherCandidatAvecSessionFormation(sessionFormationDto));
-		return liste;
+	@GetMapping("/nbreparticipants/{id}")
+	public int nbreparticipants(@PathVariable Long id) {
+		SessionFormationDto s = new SessionFormationDto();
+		s.setId(id);
+		List<Candidat> liste = new ArrayList<>(candidatService.rechercherCandidatAvecSessionFormation(s));
+		return liste.size();
 	}
 
 }

@@ -8,43 +8,45 @@ import { SessionFormation } from "./SessionFormation";
 import { Relance } from "./Relance";
 import { MobiliteSurLille } from "./MobiliteSurLille";
 import { CVSource } from "./CVSource";
+import { Motif } from "./Motif";
+import { Status } from "./enum/Status";
 
-export class Candidate {	
-	  id:number;
-	  nom:String;
-	  prenom:String;
-	  civilite:String="M";
-	  adresse:String;
-	  dateInscription:Date;
-	  dateNaissance:Date;
-	  lieuNaissance:String;
-	  email:String;
-	  numeroTel:String;
-	  creePar:Utilisateur= new Utilisateur();
-	  technologie:Technologie=new Technologie();
-	  idCv:String;
-	  codePostal:CodePostal ;
-	  origine:Origine=new Origine();
-	  entretien:Entretien;
-	  suivi:Suivi;
-	  sessionFormation:SessionFormation;
-	  statut:String;
-	  relancech:Relance;
-	  docConsult:Boolean;
-	  docRefus:Boolean;
-	  posteEnCours:Boolean;
-	  mobiliteSrc:Boolean;
-	  mobiliteLille:MobiliteSurLille;
-	  cvSource:CVSource;
-	  cvAnonyme:Boolean=false;
-	  age:String;
-	  nomCV:String;
-	  diplome:String;
-	  dateObtentionDiplome:Date;
-	  motif:String;
-	  emailSessionEnvoyer:Boolean;
-    emailSourceurEnvoyer:Boolean;
-    candidatCompetence:Array<any>= new Array();
-  }
-  
-  
+export class Candidate {
+	id: number;
+	nom: string;
+	prenom: string;
+	civilite: string = "M";
+	adresse: string;
+	dateInscription: Date;
+	dateNaissance: Date;
+	lieuNaissance: string;
+	email: string;
+	numeroTel: string;
+	creePar: Utilisateur = new Utilisateur();
+	technologie: Technologie = new Technologie();
+	idCv: string;
+	codePostal: CodePostal;
+	origine: Origine = new Origine();
+	entretien: Entretien = new Entretien();
+	suivi: Suivi;
+	sessionFormation: SessionFormation;
+	statut: Status;
+	relancech: Relance;
+	docConsult: Boolean;
+	docRefus: Boolean;
+	posteEnCours: Boolean;
+	mobiliteSrc: Boolean;
+	mobiliteLille: MobiliteSurLille;
+	cvSource: CVSource;
+	cvAnonyme: Boolean = false;
+	age: number;
+	nomCV: string;
+	diplome: string;
+	dateObtentionDiplome: Date;
+	motif: Motif = new Motif();
+	emailSessionEnvoyer: Boolean=false;
+	emailSourceurEnvoyer: Boolean=false;
+	emailCandidatEnvoyer: Boolean=false;
+	candidatCompetence: Array<any> = new Array();
+}
+

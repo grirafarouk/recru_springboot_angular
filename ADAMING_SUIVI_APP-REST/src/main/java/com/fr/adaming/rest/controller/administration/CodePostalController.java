@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.services.impl.CodePostalService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping(value = "/codePostal")
+@RequestMapping(value = "/api/codePostal")
 public class CodePostalController {
 
 	@Autowired

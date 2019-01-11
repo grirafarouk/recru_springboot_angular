@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.model.Entretien;
 import com.fr.adaming.jsfapp.services.IEntretienService;
 
 @RestController
-@RequestMapping(value = "/entretien")
+@RequestMapping(value = "/api/entretien")
 @CrossOrigin("*")
 public class EntretienController {
 

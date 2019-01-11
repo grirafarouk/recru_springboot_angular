@@ -1,0 +1,304 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-4">
+              <h5>Information:</h5>
+            </div>
+            <div class="col-2"><label>Nom: </label><span class="field">{{currentCandidat.nom}}</span></div>
+            <div class="col-2"><label>Prénom: </label><span class="field">{{currentCandidat.prenom}}</span></div>
+            <div class="col-2"><label>Age: </label><span class="field">{{currentCandidat.age}}</span></div>
+            <div class="col-2"><label>Tél: </label><span class="field">{{currentCandidat.numeroTel | mask:
+                '00-00-00-00-00'}}</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-7">
+              <div *ngIf="pdfSource!=undefined">
+                <object style="margin-top: 20px" [data]="pdfSource" height="900px" width="100%">
+                  <param name="view" value="fitH" />
+                </object>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Nom</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.nom}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Prenom</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.prenom}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="telephone">Téléphone</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.numeroTel | mask:'00-00-00-00-00' }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.email}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Region</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat?.codePostal?.region}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Ville</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="profil">Type Profil </label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.technologie.libelle}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="origineCV">Origine CV</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.origine.libelle}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Sourceur</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{
+                        currentCandidat.creePar.nom }} {{
+                        currentCandidat.creePar.prenom }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Chargé recrutement</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.entretien.charge!=null ?
+                        currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ?
+                        currentCandidat.entretien.charge.prenom :""}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Disponible</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.entretien.disponible}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Pertinence Cv</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.entretien.pertinence}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Date entretien</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.entretien.date | date :'d/M/yyyy'}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Lieu entretien</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.entretien.lieu == null ? "":
+                        currentCandidat.entretien.lieu.libelle}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <label style="color: blue;font-weight:bold">Présentation générale</label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Présentation:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.notePresentation' [name]="'notePresentation'"></app-rating-disabled>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Savoir etre:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.noteSavoir' [name]="'noteSavoir'"></app-rating-disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Fiabilité:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.noteFiabilite' [name]="'noteFiabilite'"></app-rating-disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <label style="color: blue;font-weight:bold">Motivation</label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Attrait pour l'informatique:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.noteAttrait' [name]="'noteAttrait'"></app-rating-disabled>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Prêt à la reconversion:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.notePret' [name]="'notePret'"></app-rating-disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Mobilité:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.noteMobilite' [name]="'noteMobilite'"></app-rating-disabled>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <label style="color: blue;font-weight:bold">Autre critéres:</label>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="noteResultat">Résultat du test:</label>
+                    <div class="col-12">
+                      <p class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Cohérence du parcours:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.noteCoherence' [name]="'noteCoherence'"></app-rating-disabled>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Potentiel d’évolution:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.notePistes' [name]="'notePistes'"></app-rating-disabled>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <div> <label style="margin-right: 0px;margin-bottom: 0px">Anglais:</label></div>
+                    <app-rating-disabled [rating]='currentCandidat.suivi.anglais' [name]="'anglais'"></app-rating-disabled>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group row">
+                    <label class="col-7 col-form-label">Mobilité: </label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="mobiliteSuivi3" [(ngModel)]="currentCandidat.suivi.mobilite"
+                          type="radio" id="inline-checkbox1" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox1">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="mobiliteSuivi3" [(ngModel)]="currentCandidat.suivi.mobilite"
+                          type="radio" id="inline-checkbox2" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox2">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-md-7 col-form-label">Mobilité Tout France:</label>
+                    <div class="col-md-4 col-form-label">
+                      <div class="form-check form-check-inline mr-1">
+                        <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
+                          name="mobilteTouFrance" type="radio" id="inline-checkbox3" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox3">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline mr-1">
+                        <input [disabled]="true" class="form-check-input" [(ngModel)]="currentCandidat.entretien.mobilteTouFrance"
+                          name="mobilteTouFrance" type="radio" id="inline-checkbox4" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox4">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group row">
+                    <label class="col-7 col-form-label">Relancer: </label>
+                    <div class="col-4 col-form-label">
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="suiviRelance" [(ngModel)]="currentCandidat.suivi.relance"
+                          type="radio" id="inline-checkbox5" [value]="true">
+                        <label class="form-check-label" for="inline-checkbox5">Oui</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input [disabled]="true" class="form-check-input" name="suiviRelance" [(ngModel)]="currentCandidat.suivi.relance"
+                          type="radio" id="inline-checkbox6" [value]="false">
+                        <label class="form-check-label" for="inline-checkbox6">Non</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="margin-bottom: 20px;margin-right: 20px">
+                <div class="col-12">
+                  <label for="comEntrtien">Commentaire</label>
+                  <textarea style="margin-left: 20px;" disabled="true" id="comEntrtien" [(ngModel)]="currentCandidat.entretien.commentaire"
+                    name="comEntrtien" rows="4" class="form-control"></textarea>
+                </div>
+              </div>
+            </div><!-- /.row -->
+          </div><!-- /.body -->
+          <div class="card-footer">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+              </div>
+              <div style="padding-left: 60px">
+                <button type="button" [disabled]="file==undefined" (click)="downloadPDF()" class="btn btn-block btn-warning">Télécharger
+                  Cv</button> </div>
+              <div style="padding-left: 5px">
+                <button type="button" (click)="showDetails()" class="btn btn-block btn-info">Plus de détail</button>
+              </div>
+              <div style="padding-left: 5px">
+                <button (click)="annuler()" type="button" class="btn btn-block btn-danger">Retour</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <candidats-details-modal #detailsModal [currentCandidat]="currentCandidat" ></candidats-details-modal>
+    

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { BACK_END_URL } from '../../helper/application.constant';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,11 @@ export class AccueilService {
 
   constructor(private http: HttpClient) { }
   getNombreCVRrelancer() {
+    
     return this.http.get<any>(BACK_END_URL+'/accueil/ReportingChargeRelance');
   }
   getSessionreporting() {
+   
     return this.http.get<any>(BACK_END_URL+'/accueil/Sessionreporting');
   }
 
@@ -22,6 +25,11 @@ export class AccueilService {
   getChart() {
     return this.http.get<any>(BACK_END_URL+'/accueil/map');
   }
+
+  getNombreTechnologieParCandidat(): Observable<any> {
+    return this.http.get<any>(BACK_END_URL+'/accueil/NombreTechnologieParCandidat');
+  }
+
   getCVRelanceByCharge(id){
     return this.http.get<any>(BACK_END_URL+'/accueil/CandidatParCharge?idcharge='+ id);
   }

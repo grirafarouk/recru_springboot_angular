@@ -10,10 +10,12 @@ export class FormationService {
 
   constructor(private http: HttpClient) { }
 
-  getFormations(){
+  getListeformationencours(){
     return this.http.get<any>(BACK_END_URL+"/formation/listeformationencours");
   }
-
+  getListeformationclotures(){
+    return this.http.get<any>(BACK_END_URL+"/formation/listeformationclotures");
+  }
   getAllFormations(){
     return this.http.get<any>(BACK_END_URL+'/formation');
   }
@@ -27,17 +29,17 @@ export class FormationService {
     return this.http.post(BACK_END_URL+'/formation/formationencours', session , httpOptions);
   }
 
-  getFormationsCloturee(){
+  /*getFormationsCloturee(){
     return this.http.get<any>(BACK_END_URL+'/formation/listeformationclotures');
-  }
+  }*/
 
-  public AjoutFormation(formation): Observable<any>{
+  public ajoutFormation(formation): Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })
     };
-    return this.http.post(BACK_END_URL+'/formation/add', formation,httpOptions);
+    return this.http.post(BACK_END_URL+'/formation', formation,httpOptions);
   }
 
 }

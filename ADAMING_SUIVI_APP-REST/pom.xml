@@ -1,10 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.fr.adaming</groupId>
 		<artifactId>ADAMING_SUIVI_APP</artifactId>
-		<version>${snapshot-version}</version>
+		<version>1.4.26-SNAPSHOT</version>
 	</parent>
 	<artifactId>ADAMING_SUIVI_APP-REST</artifactId>
 	<name>ADAMING_SUIVI_APP-REST Project</name>
@@ -50,8 +51,8 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
-	<dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
@@ -63,25 +64,6 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-jwt</artifactId>
 		</dependency>
-	
-
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.17</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.17</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-collections4</artifactId>
-			<version>4.0</version>
-		</dependency>
-
 
 		<dependency>
 			<groupId>commons-fileupload</groupId>
@@ -100,15 +82,15 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-		
-	
-		
+
+
+
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.chemistry.opencmis</groupId>
 			<artifactId>chemistry-opencmis-client-impl</artifactId>
@@ -118,33 +100,115 @@
 		<dependency>
 			<groupId>com.fr.adaming</groupId>
 			<artifactId>ADAMING_SUIVI_APP-Business</artifactId>
-			<version>${snapshot-version}</version>
-		</dependency>
-		
-		<dependency>
-    	<groupId>org.apache.chemistry.opencmis</groupId>
-    	<artifactId>chemistry-opencmis-commons-api</artifactId>
-    	<version>0.14.0</version>
-		</dependency>
-		
-		<dependency>
-	    <groupId>org.apache.tika</groupId>
-	    <artifactId>tika-core</artifactId>
-	    <version>1.9</version>
+			<version>${project.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.chemistry.opencmis</groupId>
+			<artifactId>chemistry-opencmis-commons-api</artifactId>
+			<version>0.14.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.tika</groupId>
+			<artifactId>tika-core</artifactId>
+			<version>1.9</version>
+		</dependency>
+<dependency>
+  <groupId>org.apache.maven</groupId>
+  <artifactId>maven-model</artifactId>
+  <version>3.3.9</version>
+</dependency>
 	</dependencies>
 
 	<build>
-			<plugins>
-				<plugin>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-maven-plugin</artifactId>
-					<configuration>
-						<finalName>${project.name}</finalName>
-						<executable>true</executable>
-					</configuration>
-				</plugin>
-			</plugins>
-		</build>
+		<finalName>${project.artifactId}</finalName>
+		<resources>
+        	<resource>
+            	<directory>${basedir}/src/main/resources</directory>
+            	<filtering>true</filtering>
+        	</resource>
+    	</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>default-war</id>
+						<phase>prepare-package</phase>
+						<configuration>
+							<failOnMissingWebXml>false</failOnMissingWebXml>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<finalName>${project.artifactId}</finalName>
+					<executable>true</executable>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>env-dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+			<properties>
+				<environnement>Environnement de développement</environnement>
+				<database.url>jdbc\:mysql\://127.0.0.1\:3306/adamingsuivi?createDatabaseIfNotExist=true</database.url>
+				<database.username>root</database.username>
+				<database.password></database.password>
+				<app.url></app.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-int</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>int</value>
+				</property>
+			</activation>
+			<properties>
+				<environnement>Environnement d'intégration</environnement>
+				<database.url>jdbc\:mysql\://46.105.157.97\:3306/adamingsuivi</database.url>
+				<database.username>suivirec</database.username>
+				<database.password>AcknrXl33</database.password>
+				<app.url></app.url>
+			</properties>
+		</profile>
+		<profile>
+			<id>env-prod</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>prod</value>
+				</property>
+			</activation>
+			<properties>
+				<environnement>Environnement Provisoire de production</environnement>
+				<database.url>jdbc\:mysql\://46.105.157.97\:3306/adamingsuivi</database.url>
+				<database.username>suivirec</database.username>
+				<database.password>AcknrXl33</database.password>
+				<app.url></app.url>
+			</properties>
+		</profile>
+	</profiles>
 </project>

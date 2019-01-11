@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>ADAMING_SUIVI_APP</artifactId>
 		<groupId>com.fr.adaming</groupId>
-		<version>${snapshot-version}</version>
+		<version>1.4.26-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>ADAMING_SUIVI_APP-Business</artifactId>
@@ -32,7 +32,7 @@
 		<dependency>
 			<groupId>com.fr.adaming</groupId>
 			<artifactId>ADAMING_SUIVI_APP-Persistence</artifactId>
-			<version>${snapshot-version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.poi</groupId>

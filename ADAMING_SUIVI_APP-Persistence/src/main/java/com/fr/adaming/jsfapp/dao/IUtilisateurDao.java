@@ -98,5 +98,6 @@ public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long> {
 	List<ReportingSourceurParDispoDto> rechercherReportingSourceur();
 	HashMap<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur, Date dateDebut,
 			Date dateFin);
+
 	
 }

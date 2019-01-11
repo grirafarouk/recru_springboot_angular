@@ -3,118 +3,262 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpParams, HttpEvent } from '@an
 import { Observable } from 'rxjs';
 import { BACK_END_URL } from '../helper/application.constant';
 import { UtilisateurService } from './utilisateur.service';
-import { Candidate } from '../views/candidats/candidate';
-import {Http, Headers, RequestOptions, Response, ResponseContentType} from '@angular/http';
+import { Http, Headers, RequestOptions, Response, ResponseContentType } from '@angular/http';
 import { TOKEN_NAME } from '../helper/auth.constant';
 import 'rxjs/Rx';
+import { map } from 'rxjs/operators';
+import { Entretien } from '../models/Entretien';
+import { Motif } from '../models/Motif';
+import { Candidate } from '../models/Candidate';
+import { HelperService } from '../helper/helper.service';
+import { Suivi } from '../models/Suivi';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type': 'application/json'
+  })
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidatsService {
-
-  constructor(private httpClient: HttpClient,private utilisateurService:UtilisateurService,private http:Http) {
-  }
-  folders=[]
-  createOrUpdate(candidate,mime): Observable<any> {
-    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/ajoutCandidat?mime="+mime+"&login="+this.utilisateurService.getConnetedUserInfo().login, candidate,httpOptions);
-  }
-
-  rechercheNouveauxcandidats(candidate): Observable<any> {
-    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidats", candidate,httpOptions);
+  destroyTempoFolder(loginuser): any {
+    return this.httpClient.get(BACK_END_URL + "/destroyTempoFolder/" + loginuser);
   }
 
 
-  uploadWordFile(fileBase): Observable<any>{
-    
+  constructor(private httpClient: HttpClient, private helperService: HelperService,
+    private utilisateurService: UtilisateurService, private http: Http) {
+  }
+  folders = []
+
+  public create(candidate: Candidate, mime): Observable<any> {
+    candidate.nom = this.helperService.getClearString(candidate.nom)
+    candidate.prenom = this.helperService.getClearString(candidate.prenom)
+    candidate.diplome = this.helperService.getClearString(candidate.diplome)
+
+    return this.httpClient.post(BACK_END_URL + "/ajoutCandidat?mime=" + mime + "&login=" + this.utilisateurService.getConnetedUserInfo().login, candidate, httpOptions).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }));
+  }
+
+  public updateCandidat(candidate: Candidate): Observable<any> {
+
+    candidate.nom = this.helperService.getClearString(candidate.nom)
+    candidate.prenom = this.helperService.getClearString(candidate.prenom)
+    candidate.diplome = this.helperService.getClearString(candidate.diplome)
+
+    return this.httpClient.put(BACK_END_URL + "/updateCandidat", candidate, httpOptions).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+
+  }
+
+  public uploadWordFile(fileBase): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':'application/json',
       })
     }; 
-    return this.httpClient.post(BACK_END_URL+"/convertWordToPdf",fileBase,httpOptions);
-  }
-  getCandidatByEmail(email:String):Observable<Candidate>{
-    return this.httpClient.get<Candidate>(BACK_END_URL+"/getCandidatByEmail/"+email+"/")
 
-  }
-  getCandidatByNumTel(numTel:String):Observable<Candidate>{
-    return this.httpClient.get<Candidate>(BACK_END_URL+"/getCandidatByNumTel/"+numTel)
+    return this.httpClient.post(BACK_END_URL + "/convertWordToPdf", fileBase, httpOptions);
   }
 
-  getListNomCvs():Observable<any>{
-   return this.httpClient.get(BACK_END_URL+"/getListNomCvs");
+  public updateficheCandidat(candidate: Candidate): Observable<any> {
+
+    candidate.nom = this.helperService.getClearString(candidate.nom)
+    candidate.prenom = this.helperService.getClearString(candidate.prenom)
+    candidate.diplome = this.helperService.getClearString(candidate.diplome)
+
+    return this.httpClient.put(BACK_END_URL + "/updateficheCandidat", candidate, httpOptions).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+
+  }
+
+  public getCandidatByEmail(email: String): Observable<Promise<Candidate>> {
+    return this.httpClient.get<Candidate>(BACK_END_URL + "/getCandidatByEmail/" + email + "/").pipe(map(async (data: Candidate) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+
+  }
+
+  public updateficheEntretien(candidate: Candidate): Observable<any> {
+
+    candidate.nom = this.helperService.getClearString(candidate.nom)
+    candidate.prenom = this.helperService.getClearString(candidate.prenom)
+    candidate.diplome = this.helperService.getClearString(candidate.diplome)
+
+    return this.httpClient.put(BACK_END_URL + "/updateficheEntretien", candidate, httpOptions).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else
+          data.entretien.date = new Date(data.entretien.date);
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+
   }
 
 
- 
-  getNouveauxCandidats (page, size) {
-    return this.httpClient.get<any>(BACK_END_URL+'/nouveauxcandidats/' + page + '/' + size);
+  searchCandidatByEmail(email): any {
+    return this.httpClient.get(BACK_END_URL + "/getCandidatByEmail/" + email);
   }
 
-  getTousCandidats (page, size) {
-    return this.httpClient.get<any>(BACK_END_URL+'/candidats/' + page + '/' + size);
+  public getCandidatByNumTel(numTel: String): Observable<Candidate> {
+    return this.httpClient.get<Candidate>(BACK_END_URL + "/getCandidatByNumTel/" + numTel)
   }
 
-  rechercheTouscandidats(candidat): Observable<any> {
-    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidats", candidat,httpOptions);
-  }
-  getCandidatArelancer (page, size) {
-    return this.httpClient.get<any>(BACK_END_URL+'/candidatsarelancer/' + page + '/' + size);
-  }
-  rechercheCandidatArelancer(candidat): Observable<any> {
-    
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsaRelancer", candidat,httpOptions);
-  }
-  getCandidatEntretien (page, size) {
-    return this.httpClient.get<any>(BACK_END_URL+'/candidatavecentretien/' + page + '/' + size);
-  }
-  getReportingCandidat (page, size) {
-    return this.httpClient.get<any>(BACK_END_URL+'/reporting/' + page + '/' + size);
+  public getListNomCvs(): Observable<any> {
+    return this.httpClient.get(BACK_END_URL + "/getListNomCvs");
   }
 
 
-  getCandidatById(id:number):Observable<Candidate>{
-    return this.httpClient.get<Candidate>(BACK_END_URL+"/getcandidatById/"+id)
+  public rechercheAjoutNouveauxcandidats(candidate, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/rechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
+  }
+//#region  List Candidats
+
+
+  public rechercheNouveauxcandidats(candidate, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
   }
 
-  getCvCandidats(candidat):Observable<any>{
+  public rechercheTouscandidats(candidat, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidats" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  }
+
+  public rechercheTouscandidatsNbr(candidat): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheTouscandidatsNbr", candidat, httpOptions);
+  }
+
+  public rechercheNouveauxcandidatsNbr(candidat): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidatsNbr", candidat, httpOptions);
+  }
+
+
+  public rechercheCandidatArelancerNbr(candidat): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancerNbr", candidat, httpOptions);
+  }
+
+  public rechercheCandidatArelancer(candidat, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancer" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  }
+
+  public rechercheCandidatAvecEntretien(candidat, page, size, allValue): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" + "?page=" + page + "&size=" + size + "&allValue=" + allValue, candidat, httpOptions);
+  }
+
+  public rechercheCandidatAvecEntretienNbr(candidat, allValue): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatAvecEntretienNbr?allValue=" + allValue, candidat, httpOptions);
+  }
+
+
+  public rechercheReporting(candidat, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheReporting" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  }
+
+  public rechercheReportingNbr(candidat): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheReportingNbr", candidat, httpOptions);
+  }
+
+
+  //#endregion
+
+  public getCandidatById(id: number): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/getcandidatById/" + id).pipe(map(async (data: any) => {
+      if (data != null) {
+        data.dateInscription = new Date(data.dateInscription)
+        data.dateNaissance = new Date(data.dateNaissance)
+        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+
+        if (data.suivi == undefined || data.suivi == null)
+          data.suivi = new Suivi();
+        if (data.entretien == undefined || data.entretien == null)
+          data.entretien = new Entretien();
+        else if (data.entretien.date != null)
+          data.entretien.date = new Date(data.entretien.date);
+        else if (data.entretien.dateRelance != null)
+          data.entretien.dateRelance = new Date(data.entretien.dateRelance);
+
+        if (data.motif == undefined || data.motif == null)
+          data.motif = new Motif();
+      }
+      return data;
+    }))
+  }
+
+  public getCvCandidats(candidat): Observable<any> {
     let token = localStorage.getItem(TOKEN_NAME);
-
-    const headers = new Headers({'Authorization': `Bearer ${token}`});
-    const options = new RequestOptions({headers: headers});
-   
-
-    return this.http.post(BACK_END_URL+"/CVPDF",{id:candidat.id},{ headers: headers,     responseType: ResponseContentType.Blob,
-    } ).map(res => {
+    const headers = new Headers({ 'Authorization': `Bearer ${token}` });
+    return this.http.post(BACK_END_URL + "/CVPDF", { id: candidat.id }, {
+      headers: headers, responseType: ResponseContentType.Blob,
+    }).map((res) => {
       return {
-        filename: candidat.nomCV,
+        filename: res.headers.get("content-disposition").split(';')[1],
         data: res.blob()
       };
     })
+  }
+
+  public envoyerEmailHorsCibleCandidats(candidat, login, comMotif): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/envoyerEmailHorsCibleCandidats" + "?login=" + login + "&comMotif=" + comMotif, candidat)
+  }
+
+  public envoyerEmailDisboCandidats(emailEntrtien, login): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/envoyerEmailDispoCandidats" + "?login=" + login, emailEntrtien);
   }
 
 }

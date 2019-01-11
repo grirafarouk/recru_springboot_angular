@@ -4,7 +4,8 @@ import {
     ActivatedRouteSnapshot
 } from '@angular/router';
 import { CandidatsService } from '../../../services/candidats.service';
-import { Candidate } from '../candidate';
+import { Candidate } from '../../../models/Candidate';
+import { NAVIGATION_RULES } from '../../../helper/application.constant';
 
 @Injectable({ providedIn: 'root' })
 export class CandidatDetailResolve implements Resolve<any> {
@@ -16,7 +17,7 @@ export class CandidatDetailResolve implements Resolve<any> {
             if (candidat) {
                 return candidat;
             } else { // id not found
-                this.router.navigate(['/dashborad']);
+                this.router.navigate([NAVIGATION_RULES.dashboard.url]);
                 return false;
             }
         });

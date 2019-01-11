@@ -17,19 +17,19 @@ import com.fr.adaming.jsfapp.services.ITechnologieService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/technologie")
+@RequestMapping(value = "/api/technologie")
 
 public class TechnologieController {
 
 	@Autowired
 	private ITechnologieService technologieService;
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Technologie create(@RequestBody Technologie entity) {
 		return technologieService.merge(entity);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.PUT)
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Technologie update(@RequestBody Technologie entity) {
 		return technologieService.update(entity);
 	}
@@ -43,7 +43,7 @@ public class TechnologieController {
 	public List<Technologie> rechercherTechnologiePourReporting() {
 		return technologieService.rechercherTechnologiePourReporting();
 	}
-	
+
 	@RequestMapping(value = "/Libelle", method = RequestMethod.GET)
 	public List<TechnologieDto> rechercherTechnologieParLibelle() {
 		return technologieService.findAllTechnologiesByLibelle();

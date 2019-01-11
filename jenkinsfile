@@ -1,0 +1,326 @@
+pipeline {   
+    agent any
+    tools {
+        maven "MAVEN_HOME"
+        jdk "JAVA_HOME"
+    }
+    stages {
+        stage ('Initialize') {
+            steps {
+                script {
+
+                    if ("java@adaming.fr".equals(env.gitlabUserEmail)){
+                        env.gitlabUserEmail = "ibenali@adaming.fr"
+                    }
+                    if ("Jenkins adaming".equals(env.gitlabUserName)) {
+                        currentBuild.result = 'ABORTED'
+                        error "No need to continue"
+                    }
+                    sh '''
+                        echo "PATH = ${JAVA_HOME}"
+                        echo "MAVEN_HOME = ${MAVEN_HOME}"
+                        git checkout Developpement && git pull && mvn org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep '^[0-9].[0-9].[0-9]*-SNAPSHOT' | sed -n 's_-SNAPSHOT__p' | sed -e 's/^/ACTUAL_VERSION=/' > version.txt
+					'''
+					stash includes: "version.txt", name: 'project-actual-version'
+					def vs = getProperties("version.txt")
+					env.ACTUAL_VERSION = vs.getProperty('ACTUAL_VERSION')
+                    def serverProperties = jsonParse(readFile('../serversProperties.json'))
+                	env.IntURL = serverProperties["ADAMING_SUIVI"]["integration"]["url"]
+                    env.IntUSERNAME = serverProperties["ADAMING_SUIVI"]["integration"]["username"]
+                    env.IntPASSWORD = serverProperties["ADAMING_SUIVI"]["integration"]["password"]
+                    env.ProdURL = serverProperties["ADAMING_SUIVI"]["production"]["url"]
+                    env.ProdUSERNAME = serverProperties["ADAMING_SUIVI"]["production"]["username"]
+                    env.ProdPASSWORD = serverProperties["ADAMING_SUIVI"]["production"]["password"]
+                }
+            }
+        }
+        stage ('Build') {
+        	parallel {
+        		stage ('Backend') {
+					steps {
+				    	script {
+                            if (gitlabBranch.equals("Integration")) {
+                                sh 'mvn clean compile -P env-int'
+                            } else if (gitlabBranch.equals("master") || gitlabActionType.equals("TAG_PUSH")) {
+                                sh 'mvn clean compile -P env-prod'
+                            } else {
+				        	    sh 'mvn clean compile'
+                            }
+                        }
+					}
+		 		}
+		 		stage ('Frontend') {
+					steps {
+						script {
+                            if (gitlabBranch.equals("Integration")) {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build --configuration staging'
+                            } else if (gitlabBranch.equals("master") || gitlabActionType.equals("TAG_PUSH") ) {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build --configuration production'
+                            } else {
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && npm install'
+                                sh 'cd ADAMING_SUIVI_APP-REST/src/ADAMING_SUIVI_ANGULAR/ && ng build'
+                            }
+                        }
+					}
+		 		}
+        	}
+        	post {
+		    	failure {
+		        	script {
+		        		env.MAIL_BODY = "\n\nProject BUILD KO, veillez revoir votre commit pour corriger cette erreur.\n\nCordialement\nJENKINS"
+                        emailext (
+                        body: env.MAIL_BODY, 
+                        subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                        to: gitlabUserEmail
+                        )
+		            }
+		        }
+		    }
+        }
+        stage ('Tests') {
+            parallel {
+                stage ('Maven') {
+                 when {expression {env.gitlabBranch == 'Developpement'} }
+                    steps {
+                        script {
+                            sh 'mvn test'
+                        }
+                    }
+                    post {
+                        failure {
+                            script {
+                                env.MAIL_BODY = "\n\nTest unitaire (mvn test) KO, veillez revoir votre commit pour corriger cette erreur.\n\nCordialement\nJENKINS"
+                                emailext (
+                                    body: env.MAIL_BODY, 
+                                    subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                                    to: gitlabUserEmail
+                                )
+                            }
+                        }
+                    }
+                }
+                stage ('Sonar') {
+                    when {expression {env.gitlabBranch == 'Developpement'} }
+                        steps {
+							withSonarQubeEnv('SonarQube') {
+                            	sh '''
+                                   	mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.2:sonar -Dsonar.exclusions=**/*.js -Dsonar.password= -Dsonar.login=$SONAR_AUTH_TOKEN
+                                    echo "SONAR_AUTH_TOKEN=$SONAR_AUTH_TOKEN" >> target/sonar/report-task.txt
+                                '''
+                                stash includes: "target/sonar/report-task.txt", name: 'sonar-report-task'
+                       		}
+                        	script {
+                          		sh "cat target/sonar/report-task.txt"
+                            	def props = getProperties("target/sonar/report-task.txt")
+                            	env.SONAR_CE_TASK_URL = props.getProperty('ceTaskUrl')
+                                env.SONAR_REPORT_URL = props.getProperty('dashboardUrl')
+                       		}
+                		}
+                        post {
+                            failure {
+                                script {
+                                    env.MAIL_BODY = "\n\nScan Sonar (mvn sonar:sonar) KO, veillez revoir votre commit pour corriger cette erreur(il s'agit d'une erreur dans le code pas d'une mauvaise qualité de code).\n\nCordialement\nJENKINS"
+                                    emailext (
+                                        body: env.MAIL_BODY, 
+                                        subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                                        to: gitlabUserEmail
+                                    )
+                                }
+                            }
+                        }
+             	}
+        	}
+        }
+        stage ('Quality Gate') {
+            when {expression {env.gitlabBranch == 'Developpement'} }
+            steps {
+                script {
+                	gitlabCommitStatus {
+                    	if(env.gitlabBranch == 'Developpement') {
+                        	withSonarQubeEnv('SonarQube') {
+                            	def ceTask
+                            	env.x = 0
+                            	timeout(time: 1, unit: 'MINUTES') {
+                                	waitUntil {
+                                    	sh 'curl -u $SONAR_AUTH_TOKEN: $SONAR_CE_TASK_URL -o ceTask.json'
+                                    	ceTask = jsonParse(readFile('ceTask.json'))
+                                    	echo ceTask.toString()
+                                    	return "SUCCESS".equals(ceTask["task"]["status"])
+                                	}
+                            	}
+                            	def qualityGateUrl = env.SONAR_HOST_URL + "/api/qualitygates/project_status?analysisId=" + ceTask["task"]["analysisId"]
+                            	sh "curl -u $SONAR_AUTH_TOKEN $qualityGateUrl -o qualityGate.json"
+                            	def qualitygate = jsonParse(readFile('qualityGate.json'))
+                            	echo qualitygate.toString()
+                            	if ("ERROR".equals(qualitygate["projectStatus"]["status"])) {
+                                	for ( i = 0; i< qualitygate["projectStatus"]["conditions"].size(); i++) {
+                                		echo qualitygate["projectStatus"]["conditions"][i]["status"]
+                                		if ( "ERROR".equals(qualitygate["projectStatus"]["conditions"][i]["status"])) {
+                                			env.x++         	
+	                                	}
+                                	}
+                                	if ( env.x.toInteger() > 1  ) {
+                          	 			error "Quality Gate failure"
+                            	    }
+                            	echo  "Quality Gate success"
+                        	    }
+                    	    }
+                        }
+                    }
+                }
+            }
+            post {
+                failure {
+                    script {
+                        env.MAIL_BODY = "\n\nQualité gate :\n\tLa qualité du code que vous avez soumis a eu un indice de ${5.minus(env.x.toInteger())}/5 le minimum accepté est 4/5.\nVous trouvez un rapport complet sur l'url : ${env.SONAR_REPORT_URL}\n\nCordialement\nJENKINS"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: gitlabUserEmail
+                        )
+                    }
+                }
+            }
+        }
+        stage ('Nexus') {
+			when {expression {env.gitlabBranch == 'master'} }
+			steps {
+                script {
+                    sh '''
+						git checkout master
+						mvn release:clean
+						mvn -B -P env-prod release:prepare
+						git add pom.xml.releaseBackup
+						git stash
+						mvn -B -P env-prod release:perform
+					'''
+                }
+        	}
+            post {
+                success {
+                    script {
+						sh '''
+							git checkout Developpement
+							git merge master
+							git push origin Developpement
+						'''
+                        env.MAIL_BODY = "\n Déposition d'artifact relatif au projet: "+env.gitlabSourceRepoName+" dans notre instance Nexus.\n\nCordialement\nJenkins"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Notice du Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: 'exploitation@adaming.fr'
+                        )
+                    }
+                }
+                failure {
+                    script {
+						def actualVersion = "v" + env.ACTUAL_VERSION
+						echo actualVersion
+						sh '''
+							git push -d origin $actualVersion 2> errors
+							git tag -d $actualVersion 2>> errors
+							git stash pop
+							mvn release:rollback
+						'''
+                        env.MAIL_BODY = "\n\nNexus :\n\tKO\n\nCordialement\nJENKINS"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: gitlabUserEmail
+                        )
+                    }
+                }
+            }
+        }
+        stage ('Deploy') {
+        	when {expression {env.gitlabBranch == 'Integration' || env.gitlabActionType == 'TAG_PUSH'} }
+            parallel {
+                stage ('Integration') {
+                    when {
+                        expression { env.gitlabBranch == 'Integration'}
+                    }
+                    steps {
+                        sh "mvn tomcat7:redeploy -P env-int -Dmaven.tomcat.url=${env.IntURL}/manager/text -Dtomcat.username=${env.IntUSERNAME} -Dtomcat.password=${env.IntPASSWORD}"
+                    }
+                    post {
+                        success {
+                            script {
+                                env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST \tOK\n\nCordialement\nJENKINS\n"
+                                emailext (
+                                    body: env.MAIL_BODY, 
+                                    subject: 'Nouvelle livraison du projet: '+env.gitlabSourceRepoName, 
+                                    to: 'ibenali@adaming.fr'
+                                )
+                            }
+                        }
+                        failure {
+                            script {
+                                env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST :\n\tKO\n\nCordialement\nJENKINS"
+                                emailext (
+                                    body: env.MAIL_BODY, 
+                                    subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                                    to: gitlabUserEmail
+                                )
+                            }
+                        }
+                    }
+                }
+                stage ('Production') {
+                    when {
+                        expression {env.gitlabActionType == 'TAG_PUSH'}
+                    }
+                    steps {
+                        sh "mvn tomcat7:redeploy -P env-prod -Dmaven.tomcat.url=${env.ProdURL}/manager/text -Dtomcat.username=${env.ProdUSERNAME} -Dtomcat.password=${env.ProdPASSWORD}"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                showChangeLog()
+                cleanWs()
+            }
+        }
+    }
+}
+
+def Properties getProperties(filename) {
+    def properties = new Properties()
+    properties.load(new StringReader(readFile(filename)))
+    return properties
+}
+
+@NonCPS
+def jsonParse(text) {
+    return new groovy.json.JsonSlurperClassic().parseText(text);
+}
+
+@NonCPS
+def jsonParse(URL url, String basicAuth) {
+    def conn = url.openConnection()
+    conn.setRequestProperty( "Authorization", "Basic " + basicAuth )
+    InputStream is = conn.getInputStream();
+    def json = new groovy.json.JsonSlurperClassic().parseText(is.text);
+    conn.disconnect();
+    return json
+} 
+@NonCPS
+def showChangeLog() {
+    def changeLogSets = currentBuild.rawBuild.changeSets
+    for (int i = 0; i < changeLogSets.size(); i++) {
+        def entries = changeLogSets[i].items
+        for (int j = 0; j < entries.length; j++) {
+            def entry = entries[j]
+            echo "\n${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+            def files = new ArrayList(entry.affectedFiles)
+            for (int k = 0; k < files.size(); k++) {
+                def file = files[k]
+                echo "\n  ${file.editType.name} ${file.path}"
+            }
+        }
+    }
+} 

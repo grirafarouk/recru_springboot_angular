@@ -1,5 +1,6 @@
 package com.fr.adaming.security;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -28,7 +29,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-//	@Value("${security.signing-key}")
+	// @Value("${security.signing-key}")
 	private String signingKey = SecurityConstants.SIGNING_KEY;
 
 	@Bean
@@ -82,9 +83,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:4300"));
+		config.setAllowedOrigins(Arrays.asList("*"));
 		config.setAllowedMethods(Collections.singletonList("*"));
 		config.setAllowedHeaders(Collections.singletonList("*"));
+		java.util.List<String> list = new ArrayList<>();
+		list.add("Content-Disposition");
+		config.setExposedHeaders(list);
 		source.registerCorsConfiguration("/**", config);
 		FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
 		bean.setOrder(Ordered.HIGHEST_PRECEDENCE);

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
@@ -19,6 +20,28 @@ public class V_ReportingCandidatDao extends ManagerDao<V_ReportingCandidat, Long
 			int size) {
 
 		String query = "SELECT * FROM V_ReportingCandidat AS V_RC WHERE 1=1 ";
+		query = GenereteReportingConditionQuery(v_ReportingcandidatDto, query);
+		query += " LIMIT " + page + "," + size;
+		System.out.println(query);
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<V_ReportingCandidat> liste = (List<V_ReportingCandidat>) st.addEntity(
+				V_ReportingCandidat.class).list();
+
+		return liste;
+	}
+
+
+	@Override
+	public Integer rechercherReportingCandidatNbr(V_ReportingCandidatDto v_ReportingcandidatDto) {
+		String query = "SELECT count(*) FROM V_ReportingCandidat AS V_RC WHERE 1=1 ";
+		query = GenereteReportingConditionQuery(v_ReportingcandidatDto, query);
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
+	}
+	
+	
+	private String GenereteReportingConditionQuery(V_ReportingCandidatDto v_ReportingcandidatDto, String query) {
 		if (v_ReportingcandidatDto != null) {
 			if (v_ReportingcandidatDto.getNomSourceur() != null  && !v_ReportingcandidatDto.getNomSourceur().isEmpty()
 					&& v_ReportingcandidatDto.getPrenomSourceur() != null  && !v_ReportingcandidatDto.getPrenomSourceur().isEmpty()) {
@@ -108,13 +131,8 @@ public class V_ReportingCandidatDao extends ManagerDao<V_ReportingCandidat, Long
 						+ v_ReportingcandidatDto.getCvSource().ordinal() + "";
 			}
 		}
-		query = query + " LIMIT " + page + "," + size;
-		System.out.println(query);
-		SQLQuery st = getSession().createSQLQuery(query);
-		@SuppressWarnings("unchecked")
-		List<V_ReportingCandidat> liste = (List<V_ReportingCandidat>) st.addEntity(
-				V_ReportingCandidat.class).list();
-
-		return liste;
+		return query;
 	}
+
+	
 }

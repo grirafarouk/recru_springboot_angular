@@ -1,12 +1,11 @@
-<div class="animated fadeIn">
+
   <div class="card">
     <div class="card-header">
+        <button type="button" class="btn btn-primary"
+        (click)="isCollapsed = !isCollapsed">
       Bootstrap Collapse
-      <div class="card-header-actions">
-        <a href="https://valor-software.com/ngx-bootstrap/#/collapse" target="_blank">
-          <small className="text-muted">docs</small>
-        </a>
-      </div>
+    </button>
+      
     </div>
     <div class="card-body"
          (collapsed)="collapsed($event)"
@@ -17,10 +16,6 @@
         consequat.
       </p>
     </div>
-    <div class="card-footer">
-      <button type="button" class="btn btn-primary"
-              (click)="isCollapsed = !isCollapsed">Toggle collapse
-      </button>
-    </div>
+    
   </div>
-</div>
+

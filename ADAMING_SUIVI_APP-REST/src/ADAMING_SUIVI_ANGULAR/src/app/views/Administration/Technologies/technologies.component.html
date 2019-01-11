@@ -1,0 +1,83 @@
+<div class="animated fadeIn">
+<div class="row">
+        <div class="card"> 
+                         
+                <div class="card-header">
+                        <label style="font-weight:bold;color:#546E7A;">Technologies</label>
+                </div>
+    <div class="card-body">
+      <custom-local-table [actions]="actions" [columns]="columns" [items]="ListTechnologies"></custom-local-table>     
+      <div class="card-footer">
+          <div class="col-2">
+              <button type="button" (click)="showAddModal()" class="btn btn-block btn-primary">ajouter</button>
+            </div>
+        </div>
+
+</div>
+
+
+
+
+</div>
+</div>
+
+
+<div bsModal #technologieModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+aria-hidden="true">
+<div class="modal-dialog modal-primary  modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Technologies</h4>
+      <button type="button" class="close" (click)="technologieModal.hide()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" style="padding: 52px">
+      <form class="form-horizontal">
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Libelle :</label>
+          <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="technologie.libelle" name="libelle" id="libelle"  />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="text-input">Reporting :</label>
+          <div class="col-md-8">
+            <label class="label--checkbox">
+                <input   class="checkbox" type="checkbox" name="reporting" [(ngModel)]="technologie.reporting"
+                    [value]="technologie.reporting">
+            </label>
+        </div>
+        </div>
+      
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="technologieModal.hide()">Annuler</button>
+      <button type="button" (click)="saveTechnologie()"  class="btn btn-primary">Valider</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-danger  modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Suppression</h4>
+        <button type="button" class="close" (click)="deleteModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 52px">
+       Êtes-vous sûr de vouloir supprimer ?
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="deleteModal.hide()">Annuler</button>
+        <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

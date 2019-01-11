@@ -1,208 +1,118 @@
-<div class="animated fadeIn">
-    <div class="row">
-        <div class="col-sm-3 col-md-3">
-            <div class="card">
-                <div class="card-header">
-                    <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
-                        <input (change)="uploadFiles($event)" style="display: none;" id="fileUpload" type="file"
-                            webkitdirectory mozdirectory />
-                        <button onclick="document.getElementById('fileUpload').click();" style="width: 100px" type="button"
-                            class="btn btn-block btn-outline-primary">Primary</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <dx-tree-view id="simple-treeview" [items]="folders" dataStructure="plain" parentIdExpr="categoryId"
-                        keyExpr="ID" displayExpr="name" (onItemClick)="selectItem($event)" (onItemExpanded)="onItemExpanded($event)"
-                        (onItemCollapsed)="onItemCollapsed($event)"></dx-tree-view>
-                </div>
-                <div class="card-footer">
-                    <button [disabled]="currentFile==undefined" (click)="afficherPdf()" style="width: 100px" type="button"
-                        class="btn btn-block btn-outline-primary">Afficher</button>
-                </div>
-            </div>
-        </div>
-        <!--/.col-->
-        <div class="col-sm-9 col-md-9">
-            <div class="card">
-                <form (ngSubmit)="onSubmit()" class="was-validated" #candidatForm="ngForm">
-                    <div class="card-body">
-
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="civilite">Civilité</label>
-                                    <select [disabled]="condidateFound==undefined" class="form-control" id="civilite">
-                                        <option>1</option>
-                                        <option>2</option>
-
-                                    </select> </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="nom">Nom</label>
-                                    <input type="text" class="form-control" required #nom="ngModel" name="nom"
-                                        [(ngModel)]="condidate.nom" id="nom">
-                                    <div class="valid-feedback">
-                                        Input is valid.
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid information.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label class="form-col-form-label" for="prenom">Prenom</label>
-                                    <input type="text" class="form-control" #prenom="ngModel" required name="prenom"
-                                        [(ngModel)]="condidate.prenom" id="prenom">
-                                    <div class="valid-feedback">
-                                        Input is valid.
-                                    </div>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid information.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" class="form-control" #email="ngModel" name="email" [(ngModel)]="condidate.email"
-                                        id="email">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="telephone">Téléphone</label>
-                                    <input type="text" class="form-control" #telephone="ngModel" name="telephone"
-                                        [(ngModel)]="condidate.numeroTel" id="telephone">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="origineCV">Origine CV</label>
-                                    <select [disabled]="condidateFound===undefined" class="form-control" id="origineCV">
-                                        <option value="null">-selectionner-</option>
-                                        <option *ngFor="let origine of origines" [value]="origine.id">{{origine.libelle}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="profil">Profil </label>
-                                    <select [disabled]="condidateFound===undefined" class="form-control" id="profil">
-                                        <option value="null">-selectionner-</option>
-                                        <option *ngFor="let tech of technologies" [value]="tech.id">{{tech.libelle}}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="codePostal">Code postal</label>
-                                    <input [disabled]="condidateFound==undefined" type="text" class="form-control" id="codePostal">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Region</label>
-                                    <p class="form-control-static"></p>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Ville</label>
-                                    <p class="form-control-static"></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group row competences">
-                            <div class="col-md-2 col-form-label" *ngFor="let compt of competences">
-                                <div class="form-check form-check-inline mr-1">
-                                    <input class="form-check-input" type="checkbox" id="inline-checkbox1" [value]="compt.id">
-                                    <label class="form-check-label" for="inline-checkbox1">{{compt.libelle}}</label>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10 "></div>
-                            <button (click)="rechercheCondidate()" style="float: right;" type="button" class="btn btn-block btn-primary col-2 ">Rechercher</button>
-                        </div>
-                        <div *ngIf="pdfSrc!=undefined">
-                            <iframe style="margin-top: 20px" type="application/pdf" [src]="pdfSrc" height="450px" width="100%"></iframe>
-                        </div>
-                    </div>
-                    <div class="card-footer">
-
-                        <div class="row align-items-center">
-                            <div class="col-md-6 col-form-label">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="option1" id="cvanonyme ">
-                                    <label class="form-check-label" for="cvanonyme">
-                                        CV anonyme
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-block btn-primary">Annuler</button>
-                            </div>
-
-                            <div class="col-2">
-                                <button [disabled]="pdfSrc==undefined" type="button" class="btn btn-block btn-primary">Planifier
-                                    Rdv</button>
-                            </div>
-                            <div class="col-2">
-                                <button [disabled]="pdfSrc==undefined" type="submit" class="btn btn-block btn-primary">Enregistrer</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!--/.co2-->
+<div class="card">
+    <div class="card-header">
+            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
     </div>
-    <!--/.row-->
-    <div class="row" *ngIf="candidatsFound.length>0">
-            <div class="card" class="col-12" >
-                    <div class="card-header">
-                      <i class="fa fa-align-justify"></i>  Candidats Trouvés
-                    </div>
     <div class="card-body">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Nom</th>
-                  <th>Prénom</th>
-                  <th>N° Téléphone</th>
-                  <th>Email</th>
-                  <th>Date Inscription</th>
-                  <th>Statut</th>
-                  <th>Type de profil</th>
-                  <th>Sourceur</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let candidat of candidatsFound">
-                  <td>{{candidat.nom}}</td>
-                  <td>{{candidat.prenom}}</td>
-                  <td>{{candidat.numeroTel}}</td>
-                  <td>{{candidat.email}}</td>
-                  <td>{{candidat.dateInscription}}</td>
-                  <td>{{candidat.statut}}</td>
-                  <td>{{candidat.technologie}}</td>
-                  <td>{{candidat.nomCharge }} {{candidat.prenomSourceur}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <div class="row">      
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="nom">Code formation:</label>
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control"  name="code" [(ngModel)]="session.formation.code" id="code"> 
+                        </div>
+                    </div>  
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="nom">Nom formation:</label>
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
+                        </div>
+                    </div>
+                     <div class="col-sm-2">
+                        <div class="form-group">
+                            <label class="form-col-form-label" for="technologie">Technologie:</label>
+                           
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie.libelle" name="technologie"  >
+                            </ng-select>
+                        </div>
+                    </div>
+                   <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="lieu">Lieu:</label>
+                                
+                                  <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu.libelle" name="lieu"  >
+                            </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
+                                   
+                                      <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation"  >
+                                    </ng-select>
+                                </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="form-col-form-label" for="dateDemarrage" style="font-weight:bold">Date démarrage:</label>
+                               
+
+                                    <input  [owlDateTimeFilter]="dateDateFilter" style="font-weight: bold;color: black;"
+                                    [owlDateTimeTrigger]="dateDemarrage" [owlDateTime]="dateDemarrage" class="form-control"
+                                    name="dateDemarrage" [(ngModel)]="session.dateDemarrage" id="dateDemarrage">
+                                    <owl-date-time [pickerType]="'calendar'" #dateDemarrage></owl-date-time>
+
+                            </div>
+                        </div>
+                                 
+                </div>
+              
+    </div>
+    <div class="card-footer">
+
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherSession()">Rechercher</button>
+                </div>
+
+                <div class="col-2">
+                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
+                </div>
+            </div>
+        </div>
+  </div>
+<div class="card card-accordion">
+        <div  *ngFor="let formation of formations; let i = index">
+        <div class="card-header card-header-accordion"  [ngClass]="{'card-header-accordion-active':this.isCollapsed[i] === false}"
+        (click)="collapseExpand(i)" >
+                <h5>{{formation.code}}</h5>
+       
+        </div>
+        <div  [collapse]="isCollapsed[i]">
+             <div class="card-body"  >
+                    <table class="table  table-striped">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Nom Formation</th>
+                                <th>Technologie</th>
+                                <th>Lieu</th>
+                                <th>Type Formation</th>
+                                <th>Date Démarage</th>
+                                <th>Date Fin</th>
+                                <th>Nbre Participant</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let f of sessionFormations; let i = index">
+                                <tr *ngIf="formation.id == f.formation.id">
+                                    <td>{{f.formation.code}}
+                                    <td>{{f.formation.nom}}</td>
+                                    <td>{{f.formation.technologie.libelle}}</td>
+                                    <td>{{f.formation.lieu.libelle}}</td>
+                                    <td>{{f.formation.typeFormation.libelle}}</td>
+                                    <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
+                                    <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
+                                    <td>{{ f.nombreParticipants }} </td>
+                                    <td style="width: 10%">     
+                                        <a class="btn btn-default" (click)="openDetails(f)">
+                                              <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
+                                            </a>         
+                                      </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
         </div>
     </div>
-    <!--/.row-->
-
-</div>
+      </div>

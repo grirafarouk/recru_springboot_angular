@@ -15,7 +15,7 @@ import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.services.IOrigineService;
 
 @RestController
-@RequestMapping("origine")
+@RequestMapping("/api/origine")
 @CrossOrigin("*")
 public class OrigineController {
 
@@ -36,8 +36,14 @@ public class OrigineController {
 		return origineService.createOrUpdate(entity);
 	}
 
-	public Origine create(Origine entity) {
-		return origineService.merge(entity);
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public Origine update(@RequestBody Origine entity) {
+		return origineService.update(entity);
+	}
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public Origine create(@RequestBody Origine entity) {
+		return origineService.create(entity);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.GET)

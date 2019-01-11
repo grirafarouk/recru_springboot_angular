@@ -1,0 +1,43 @@
+<div class="app-body" style="background-color:#EDECED">
+  <main class="main d-flex align-items-center">
+    <div class="container">
+        
+      <div class="row">
+        <div class="col-md-6 mx-auto">
+                    <div class="card-body text-center">  
+                        <img style="width: 300px; height: 150px;" src="assets/img/avatars/adaming.png">    
+                    </div>
+          <div class="card-group"  style="background-color:#747579">
+            <div class="card p-4"  style="background-color:#747579">
+              <div class="card-body"  style="background-color:#747579">
+                  
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-user"></i></span>
+                    </div>
+                    <input type="text" (keyup.enter)="doLogin()"   [(ngModel)]="login.username" class="form-control" placeholder="Login" autocomplete="username" required>
+                  </div>
+                  <div class="input-group mb-4">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="icon-lock"></i></span>
+                    </div>
+                    <input type="password" (keyup.enter)="doLogin()"  [(ngModel)]="login.pwd"  class="form-control" placeholder="Mot de passe" autocomplete="current-password" required>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="button" [disabled]="diableButton" (click)="doLogin()" class="btn btn-primary px-4">Login</button>
+                    </div>
+                    <div class="col-6 text-right"><button (click)="redirectForgetPwd()" class="btn btn-link px-0" type="button">Mot de passe oublié
+                      </button></div>
+                  </div>
+              </div>
+            </div>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<!--<ngx-loading [show]="diableButton" [config]=""></ngx-loading>-->
+<notifier-container></notifier-container>

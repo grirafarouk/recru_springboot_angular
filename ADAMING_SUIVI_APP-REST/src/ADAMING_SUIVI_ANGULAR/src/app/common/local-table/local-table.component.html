@@ -1,0 +1,27 @@
+<table class="table table-bordered table-striped" >
+        <thead>
+          <tr>
+            <th [ngStyle]="{'width': (col.width!=undefined) ? col.width :'' }" *ngFor="let col of columns">{{col.title}}</th>
+            <th [ngStyle]="{ 'width' :( actions.length>1)  ? (actions.length*60)+'px' : '70px'}">Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of items| paginate: { itemsPerPage:10, currentPage: p }">
+            <td [ngStyle]="{'text-align': (col.align!=undefined) ? col.align :'' }" *ngFor="let col of columns">
+
+              <div *ngIf="col.boolean!= undefined && col.boolean==true; else noBoolean"> {{item[col.data] | boolean  }}</div>
+              <ng-template #noBoolean>
+              {{item[col.data]}}
+            </ng-template>
+            </td>
+            <td [ngStyle]="{ 'width' :( actions.length>1)  ? (actions.length*60)+'px' : '70px'}">
+              <button style="margin: 0 10px" placement="top" [tooltip]="action.tooltip==undefined ?'':action.tooltip"  *ngFor="let action of actions" type="button" (click)="action.action(item)" [class]="action.class">
+              <i [class]="action.icon"></i>
+          </button>       
+          </tr>
+        </tbody>
+      </table>
+      <div class="panel-footer panel-default pager">
+        <pagination-controls (pageChange)="p =$event"></pagination-controls>
+      </div>

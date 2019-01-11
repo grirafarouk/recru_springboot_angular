@@ -7,6 +7,14 @@ import { BACK_END_URL } from '../../helper/application.constant';
   providedIn: 'root'
 })
 export class SessionsFormationsService {
+  updateSession(session: any): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL+'/sessionsformations', session , httpOptions);
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -14,26 +22,25 @@ export class SessionsFormationsService {
    return this.http.get<any>(BACK_END_URL+'/sessionsformations');
   }
 
-  getFicheSessionFormation(id){
-    return this.http.get<any>(BACK_END_URL+'/sessionsformations/' + id);
+  getFicheSessionFormation(session){
+    return this.http.get<any>(BACK_END_URL+'/sessionsformations/CandidatParSession?id=' + session);
+  }
+  
+  getsessionFormationEnCours(sessionFormation){
+    return this.http.post<any>(BACK_END_URL+'/sessionsformations/sessionFormationEnCours',sessionFormation);
   }
 
-  NombreParticipants(session): Observable<any>{
+  nombreParticipants(session): Observable<any>{
+    return this.http.get(BACK_END_URL+'/sessionsformations/nbreparticipants/'+ session.id);
+  }
+
+  getListCandidats(session,page,size): Observable<any>{
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type':'application/json'
       })
     };
-    return this.http.post(BACK_END_URL+'/sessionsformations/nbreparticipants', session , httpOptions);
-  }
-
-  getListCandidats(session): Observable<any>{
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':'application/json'
-      })
-    };
-    return this.http.post(BACK_END_URL+'/sessionsformations/listeCandidats', session , httpOptions);
+    return this.http.post(BACK_END_URL+'/sessionsformations/listeCandidats'+ "?page=" + page + "&size=" + size, session , httpOptions);
 
   }
 

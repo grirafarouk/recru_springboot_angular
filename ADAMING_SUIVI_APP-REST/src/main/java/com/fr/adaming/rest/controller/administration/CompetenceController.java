@@ -16,7 +16,7 @@ import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.services.ICompetenceService;
 
 @RestController
-@RequestMapping(value = "/competence")
+@RequestMapping(value = "/api/competence")
 @CrossOrigin("*")
 public class CompetenceController {
 
@@ -37,7 +37,7 @@ public class CompetenceController {
 	public Competence createOrUpdate(@RequestBody Competence entity) {
 		return competenceService.createOrUpdate(entity);
 	}
-	
+
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Competence update(@RequestBody Competence entity) {
 		return competenceService.update(entity);

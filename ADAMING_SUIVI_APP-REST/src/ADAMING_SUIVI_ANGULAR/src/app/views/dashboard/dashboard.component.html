@@ -10,7 +10,8 @@
               [data]="pieChartData"
               [labels]="pieChartLabels"
               [colors]="ChartColors"
-              [chartType]="pieChartType"></canvas>
+              [chartType]="pieChartType"
+              [options]="chartOptions"></canvas>
           </div>
         </div>
       </div>
@@ -29,11 +30,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let charge of ReportingChargeRelance| paginate: { itemsPerPage:5, currentPage: p }">
+                <tr *ngFor="let charge of ReportingChargeRelance| paginate: { itemsPerPage:5, currentPage: pr, id: 'pr' }">
                   <td>{{charge.nomCharge}}</td>
                   <td>{{charge.nombreCvRelance}}</td>
                   <td style="width: 10%">     
-                    <a class="btn btn-default" [routerLink]="['/ficheCVRelance', charge.idUser]">
+                    <a class="btn btn-default" (click)="openDetailsCVRelance(charge)" >
                           <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
                         </a>         
                   </td>
@@ -41,7 +42,7 @@
               </tbody>
             </table>
             <div class="panel-footer panel-default pager">
-              <pagination-controls (pageChange)="p =$event"></pagination-controls>
+              <pagination-controls (pageChange)="pr =$event" id="pr"></pagination-controls>
             </div>
           </div>
         </div>
@@ -70,7 +71,7 @@
                 </tr>
               </thead>
               <tbody >
-                <tr *ngFor="let session of Sessionreporting| paginate: { itemsPerPage:5, currentPage: p }">
+                <tr *ngFor="let session of Sessionreporting| paginate: { itemsPerPage:5, currentPage: ps, id: 'ps' }">
                   <td >{{session.nom_Formation}}</td>
                   <td>{{session.lieu_Formation}}</td>
                   <td>{{session.type_Formation}}</td>
@@ -78,10 +79,10 @@
                   <td>{{session.candidat_affectation}}</td>
                   <td>{{session.candidat_acceptation}}</td>
                   <td>{{session.nombre_place}}</td>
-                  <td>{{session.taux_acceptation}}</td>
-                  <td>{{session.taux_remplissage}}</td>
+                  <td>{{session.taux_acceptation}}%</td>
+                  <td>{{session.taux_remplissage}}%</td>
                   <td style="width: 10%">     
-                    <a class="btn btn-default" [routerLink]="['/ficheCandidatSession', session.idSession]">
+                    <a class="btn btn-default" (click)="openDetailsSession(session)">
                           <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>
                         </a>         
                   </td>
@@ -89,7 +90,7 @@
               </tbody>
             </table>
             <div class="panel-footer panel-default pager">
-              <pagination-controls (pageChange)="p =$event"></pagination-controls>
+              <pagination-controls (pageChange)="ps =$event" id="ps"></pagination-controls>
             </div>
           </div>
         </div>
@@ -113,7 +114,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let technologie of Sourceurtechnologies| paginate: { itemsPerPage:3, currentPage: p }">
+                    <tr *ngFor="let technologie of Sourceurtechnologies| paginate: { itemsPerPage:5, currentPage: pt, id: 'pt' }">
                       <td>{{technologie.nom}}</td>
                       <td>{{technologie.nbrCvMainframe}}</td>
                       <td>{{technologie.nbrCvMainframePlus}}</td>
@@ -123,8 +124,8 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="panel-footer panel-default pager">
-                    <pagination-controls (pageChange)="p =$event"></pagination-controls>
+               <div class="panel-footer panel-default pager">
+                    <pagination-controls (pageChange)="pt =$event" id="pt"></pagination-controls>
                   </div>
           </div>
         </div>

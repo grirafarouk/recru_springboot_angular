@@ -34,4 +34,9 @@ public class V_ReportingCandidatService extends ManagerService<V_ReportingCandid
 	public IManagerDao<V_ReportingCandidat, Long> getDao() {
 		return v_ReportingCandidatDao;
 	}
+
+	@Override
+	public Integer rechercherReportingCandidatNbr(V_ReportingCandidatDto ReportingCandidatDto) {
+		return v_ReportingCandidatDao.rechercherReportingCandidatNbr(ReportingCandidatDto);
+	}
 }

@@ -30,30 +30,10 @@ public class V_ListeCandidatsService extends ManagerService<V_ListeCandidats, Lo
 		return v_ListeCandidatsDao.rechercherV_ListeCandidatsARelancer(v_ListeCandidatsDto, page, size);
 	}
 	
-	public List<V_ListeCandidats> rechercherCandidatsARelancer(V_ListeCandidatsDto v_ListeCandidatsDto) {
-		return v_ListeCandidatsDao.rechercherCandidatsARelancer(v_ListeCandidatsDto);
-	}
-
 	@Override
 	public List<V_ListeCandidats> rechercherV_ListeCandidats(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size) {
 		return v_ListeCandidatsDao.rechercherV_ListeCandidats(v_ListeCandidatsDto, page, size);
-	}
-	
-	@Override
-	public List<V_ListeCandidats> rechercherTousCandidats(V_ListeCandidatsDto v_ListeCandidatsDto) {
-		return v_ListeCandidatsDao.rechercherTousCandidats(v_ListeCandidatsDto);
-	}
-	
-	public Number nberCandidatsARelancer() {
-		return v_ListeCandidatsDao.nberCandidatsARelancer();
-	}
-	public Number nberCandidats() {
-		return v_ListeCandidatsDao.nberCandidats();
-	}
-	
-	public Number nberNouveauxCandidats() {
-		return v_ListeCandidatsDao.nberNouveauxCandidats();
 	}
 
 	@Override
@@ -66,21 +46,36 @@ public class V_ListeCandidatsService extends ManagerService<V_ListeCandidats, Lo
 	public List<V_ListeCandidats> rechercherNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto) {
 		return v_ListeCandidatsDao.rechercherNouveauxCandidats(v_ListeCandidatsDto);
 	}
-
-	@Override
-	public List<V_ListeCandidats> rechercherV_ListeCandidatsARelancer(V_ListeCandidatsDto v_ListeCandidatsDto) {
-		return v_ListeCandidatsDao.rechercherV_ListeCandidatsARelancer(v_ListeCandidatsDto);
-	}
-
+	
 	@Override
 	public List<V_ListeCandidats> rechercherCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size,Boolean all) {
 		return v_ListeCandidatsDao.rechercherCandidatAvecEntretien(v_ListeCandidatsDto,page,size, all);
 	}
-
+	
 	@Override
 	public IManagerDao<V_ListeCandidats, Long> getDao() {
 		return v_ListeCandidatsDao;
+	}
+
+	@Override
+	public Integer rechercherV_ListeCandidatsNbr(V_ListeCandidatsDto v_ListeCandidatsDto) {
+		return  v_ListeCandidatsDao.rechercherV_ListeCandidatsNbr(v_ListeCandidatsDto);
+	}
+
+	@Override
+	public Integer rechercherV_ListeNouveauxCandidatsNbr(V_ListeCandidatsDto v_ListeCandidatsDto) {
+		return v_ListeCandidatsDao.rechercherV_ListeNouveauxCandidatsNbr(v_ListeCandidatsDto);
+	}
+
+	@Override
+	public Integer rechercherV_ListeCandidatsARelancerNbr(V_ListeCandidatsDto NCD) {
+		return v_ListeCandidatsDao.rechercherV_ListeCandidatsARelancerNbr(NCD);
+	}
+
+	@Override
+	public Integer rechercherCandidatAvecEntretienNbr(V_ListeCandidatsDto v_ListeCandidatsDto, Boolean all) {
+		return v_ListeCandidatsDao.rechercherCandidatAvecEntretienNbr(v_ListeCandidatsDto, all);
 	}
 
 	
