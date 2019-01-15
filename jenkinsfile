@@ -270,43 +270,32 @@ pipeline {
         }
         stage ('Deploy') {
         	when {expression {env.gitlabBranch == 'Integration'} }
-            stage ('Integration') {
-                when {
-                    expression { env.gitlabBranch == 'Integration'}
-                }
-                steps {
-                    sh "mvn tomcat7:redeploy -P env-int -Dmaven.tomcat.url=${env.IntURL}/manager/text -Dtomcat.username=${env.IntUSERNAME} -Dtomcat.password=${env.IntPASSWORD}"
-                }
-                post {
-                    success {
-                        script {
-                            env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST \tOK\n\nCordialement\nJENKINS\n"
-                            emailext (
-                                body: env.MAIL_BODY, 
-                                subject: 'Nouvelle livraison du projet: '+env.gitlabSourceRepoName, 
-                                to: 'ibenali@adaming.fr'
-                            )
-                        }
-                    }
-                    failure {
-                        script {
-                            env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST :\n\tKO\n\nCordialement\nJENKINS"
-                            emailext (
-                                body: env.MAIL_BODY, 
-                                subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
-                                to: gitlabUserEmail
-                            )
-                        }
+            steps {
+                sh "mvn tomcat7:redeploy -P env-int -Dmaven.tomcat.url=${env.IntURL}/manager/text -Dtomcat.username=${env.IntUSERNAME} -Dtomcat.password=${env.IntPASSWORD}"
+            }
+            post {
+                success {
+                    script {
+                        updateGitlabCommitStatus name: 'Deployment', state: 'success'
+                        env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST \tOK\n\nCordialement\nJENKINS\n"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Nouvelle livraison du projet: '+env.gitlabSourceRepoName, 
+                            to: 'ibenali@adaming.fr'
+                        )
                     }
                 }
-            }
-        }
-        post {
-            success {
-                updateGitlabCommitStatus name: 'Deployment', state: 'success'
-            }
-            failure {
-                updateGitlabCommitStatus name: 'Deployment', state: 'failed'
+                failure {
+                    script {
+                        updateGitlabCommitStatus name: 'Deployment', state: 'failed'
+                        env.MAIL_BODY = "\n\nDéploiement vers ${env.IntURL}/ADAMING_SUIVI_APP-REST :\n\tKO\n\nCordialement\nJENKINS"
+                        emailext (
+                            body: env.MAIL_BODY, 
+                            subject: 'Èchec Pipeline N°:'+env.BUILD_NUMBER +' du projet: '+env.gitlabSourceRepoName, 
+                            to: gitlabUserEmail
+                        )
+                    }
+                }
             }
         }
     }
