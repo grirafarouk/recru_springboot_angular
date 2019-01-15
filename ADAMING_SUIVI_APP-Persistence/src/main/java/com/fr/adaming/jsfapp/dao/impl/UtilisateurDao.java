@@ -547,7 +547,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 			}
 		}
-
+		System.out.println("query" + query);
 		return data;
 	}
 
@@ -601,15 +601,15 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		String query = "select "
 				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre "
 				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE ";
-//						if (dateDebut != null && dateFin != null && utilisateur!=null) {
-//							query +="WHERE  c.DATE_INSCRIPTION BETWEEN '"+
-//							df.format(dateDebut) + " 00:00:00' AND '"+
-//							df.format(dateFin) + " 23:59:59' "+
-//							" AND c.CREE_PAR = "+ utilisateur.getIdUser();
-//						}
-//						else if (utilisateur!=null) {
-//							query +=" AND c.CREE_PAR = "+ utilisateur.getIdUser();
-//						}
+		// if (dateDebut != null && dateFin != null && utilisateur!=null) {
+		// query +="WHERE c.DATE_INSCRIPTION BETWEEN '"+
+		// df.format(dateDebut) + " 00:00:00' AND '"+
+		// df.format(dateFin) + " 23:59:59' "+
+		// " AND c.CREE_PAR = "+ utilisateur.getIdUser();
+		// }
+		// else if (utilisateur!=null) {
+		// query +=" AND c.CREE_PAR = "+ utilisateur.getIdUser();
+		// }
 		query += " GROUP BY t.ID ";
 		query += "ORDER BY t.ID";
 
@@ -646,7 +646,6 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
 			}
 		}
-
 
 		query += " GROUP BY t.ID ";
 		query += "ORDER BY t.ID";

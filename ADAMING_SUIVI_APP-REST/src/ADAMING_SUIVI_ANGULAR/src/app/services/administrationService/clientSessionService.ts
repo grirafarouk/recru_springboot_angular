@@ -14,7 +14,9 @@ export class ClientSessionService {
   findAllClientSession(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/clientSession");
   }
-
+  findClientSessionByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/clientSession/libelle/" + libelle)
+  }
   save(clientSession): Observable<any> {
 
     const httpOptions = {

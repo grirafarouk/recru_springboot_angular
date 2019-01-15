@@ -7,14 +7,14 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom">Nom formation:</label>
-                            <input type="text" class="form-control"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
+                            <input type="text" class="form-control" style="font-weight: bold;color: black;"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
                         </div>
                     </div>
                      <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="technologie">Technologie:</label>
                            
-                            <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie.libelle" name="technologie"  >
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie.libelle" name="technologie"  >
                             </ng-select>
                         </div>
                     </div>
@@ -22,7 +22,7 @@
                             <div class="form-group">
                                 <label class="form-col-form-label" for="lieu">Lieu:</label>
                                 
-                                  <ng-select placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu.libelle" name="lieu"  >
+                                  <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu.libelle" name="lieu"  >
                             </ng-select>
                             </div>
                         </div>
@@ -30,7 +30,7 @@
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
                                    
-                                      <ng-select placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation"  >
+                                      <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation"  >
                                     </ng-select>
                                 </div>
                         </div>
@@ -38,7 +38,7 @@
                             <div class="form-group">
                                 <label class="form-col-form-label" for="date" style="font-weight:bold">Date démarrage:</label>
                                        <input [owlDateTimeTrigger]="date" [owlDateTime]="date" class="form-control"
-                                name="date" [(ngModel)]="session.dateDemarrage">
+                                name="date" style="font-weight: bold;color: black;" [(ngModel)]="session.dateDemarrage">
                             <owl-date-time [pickerType]="'calendar'" #date></owl-date-time>
                             </div>
                         </div>
@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <label class="form-col-form-label" for="dateF" style="font-weight:bold">Date Fin:</label>
                                        <input [owlDateTimeTrigger]="dateF" [owlDateTime]="dateF" class="form-control"
-                                name="dateF" [(ngModel)]="session.dateFin">
+                                name="dateF" style="font-weight: bold;color: black;" [(ngModel)]="session.dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dateF></owl-date-time>
                             </div>
                         </div>

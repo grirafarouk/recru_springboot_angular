@@ -76,23 +76,55 @@ export class motifHorsCibleComponent implements OnInit {
       this.updateMotifHorsCible();
     else this.createMotifHorsCible();
   }
-  createMotifHorsCible(){
+  async createMotifHorsCible(){
+    var error = false;
+    if (this.motifHorsCible.libelle == "" || this.motifHorsCible.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un motif valide")
+      error  = true;
+    }
+    else {
+      let mHC
+      await this.motifHorsCibleService.findMotifHSByLibelle(this.motifHorsCible.libelle).toPromise().then(data => { mHC = data });
+      if (mHC != null) {
+        this.notifierService.notify("error", "Motif existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.motifHorsCibleService.save(this.motifHorsCible).toPromise().then((data: Motif) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Motif ajoutée avec succès !")
       }
     })
+  }
     this.motifHorsCibleModal.hide();
   }
 
-  updateMotifHorsCible(){
+  async updateMotifHorsCible(){
+    var error = false;
+    if (this.motifHorsCible.libelle == "" || this.motifHorsCible.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un motif valide")
+      error  = true;
+    }
+    else {
+      let mHC
+      await this.motifHorsCibleService.findMotifHSByLibelle(this.motifHorsCible.libelle).toPromise().then(data => { mHC = data });
+      if (mHC != null) {
+        this.notifierService.notify("error", "Motif existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.motifHorsCibleService.update(this.motifHorsCible).toPromise().then((data: Motif) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Motif  modifiée avec succès !")
       }
     })
+  }
     this.motifHorsCibleModal.hide();
   }
 

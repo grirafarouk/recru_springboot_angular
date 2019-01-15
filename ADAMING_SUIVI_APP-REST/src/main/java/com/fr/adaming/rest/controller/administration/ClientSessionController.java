@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.model.ClientSession;
+import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.services.IClientSessionService;
 
 @RestController
@@ -25,6 +26,11 @@ public class ClientSessionController {
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<ClientSession> findAll() {
 		return clientSessionService.findAll();
+	}
+
+	@RequestMapping(value = "/libelle/{libelle}", method = RequestMethod.GET)
+	public ClientSession rechercherClientSessionParLibelle(@PathVariable String libelle) {
+		return clientSessionService.rechercheClientSessionParLibelle(libelle);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)

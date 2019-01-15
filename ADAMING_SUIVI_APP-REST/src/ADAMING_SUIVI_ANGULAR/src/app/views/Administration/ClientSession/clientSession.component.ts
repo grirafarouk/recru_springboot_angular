@@ -78,23 +78,55 @@ export class clientSessionComponent implements OnInit {
     this.clientSession = Object.assign({}, clientSession);
     this.clientSessionModal.show();
   }
-  createClientSession(){
+  async createClientSession(){
+    var error = false;
+    if (this.clientSession.libelle == "" || this.clientSession.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un client session valide")
+      error  = true;
+    }
+    else {
+      let clS
+      await this.clientSessionService.findClientSessionByLibelle(this.clientSession.libelle).toPromise().then(data => { clS = data });
+      if (clS != null) {
+        this.notifierService.notify("error", "Client Session existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.clientSessionService.save(this.clientSession).toPromise().then((data: ClientSession) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Client Session ajouté avec succés !")
       }
     })
+  }
     this.clientSessionModal.hide();
   }
 
-  updateClientSession(){
+  async updateClientSession(){
+    var error = false;
+    if (this.clientSession.libelle == "" || this.clientSession.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un client session valide")
+      error  = true;
+    }
+    else {
+      let clS
+      await this.clientSessionService.findClientSessionByLibelle(this.clientSession.libelle).toPromise().then(data => { clS = data });
+      if (clS != null) {
+        this.notifierService.notify("error", "Client Session existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.clientSessionService.update(this.clientSession).toPromise().then((data: ClientSession) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Client Session  modifié avec succés !")
       }
     })
+  }
     this.clientSessionModal.hide();
   }
     delete() {

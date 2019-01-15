@@ -86,13 +86,29 @@ export class technologiesComponent implements OnInit {
     else this.createTechnologie();
   }
 
-  createTechnologie() {
+  async createTechnologie() {
+    var error = false;
+    if (this.technologie.libelle == "" || this.technologie.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez une technologie valide")
+      error  = true;
+    }
+    else {
+      let tech
+      await this.technologieService.findTechnologieByLibelle(this.technologie.libelle).toPromise().then(data => { tech = data });
+      if (tech != null) {
+        this.notifierService.notify("error", "technologie existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.technologieService.save(this.technologie).toPromise().then((data: Technologie) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Technologie ajouté avec succés !")
       }
     })
+  }
     this.technologieModal.hide();
   }
 

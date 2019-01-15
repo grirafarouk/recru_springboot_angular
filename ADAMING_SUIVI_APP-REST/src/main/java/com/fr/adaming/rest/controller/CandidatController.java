@@ -390,8 +390,8 @@ public class CandidatController {
 	
 	@RequestMapping(value = "/updateficheEntretien", method = RequestMethod.PUT)
 	public Candidat updateficheEntretien(@RequestBody Candidat entity) {
+		if(entity.getStatut().equals(Statut.EN_ATTENTE_EVALUATION))
 		entity.setStatut(Statut.EN_ATTENTE_AFFECTATION);
-
 		Candidat candidat = candidatService.createOrUpdate(entity);
 		return candidat;
 	}

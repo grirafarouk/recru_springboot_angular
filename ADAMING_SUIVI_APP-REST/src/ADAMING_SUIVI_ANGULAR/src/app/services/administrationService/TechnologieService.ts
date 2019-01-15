@@ -12,6 +12,9 @@ export class TechnologieService {
   getTechnologiesByLibelle () {
     return this.httpClient.get<any>(BACK_END_URL+'/technologie/Libelle');
   }
+  findTechnologieByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/technologie/libelle/" + libelle)
+  }
   findAllTechnologies(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/technologie");
   }

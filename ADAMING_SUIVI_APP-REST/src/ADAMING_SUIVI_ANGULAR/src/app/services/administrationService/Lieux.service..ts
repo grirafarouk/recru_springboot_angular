@@ -14,6 +14,9 @@ export class LieuxService {
   findAllLieux(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/lieu/all");
   }
+  findLieuByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/lieu/libelle/" + libelle)
+  }
   save(lieu): Observable<any> {
 
     const httpOptions = {

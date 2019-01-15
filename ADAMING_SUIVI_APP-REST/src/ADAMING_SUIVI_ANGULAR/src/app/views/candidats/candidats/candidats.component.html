@@ -34,31 +34,32 @@
                     <div class="card-body">
 
                         <div class="row">
-                            <div class="col-sm-4">
+                        <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="civilite">Civilité</label>
                                     <label style="color: firebrick">*</label>
                                     <ng-select [items]="civilites"  required style="font-weight: bold;"
-                                        #civilite="ngModel" name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
+                                         name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
 
                                     </ng-select>
                                 </div>
-                            </div>
+                            </div> 
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" name="nom" style="font-weight: bold;color: black;" [(ngModel)]="candidate.nom" id="nom">
-
+                                    <input type="text" class="form-control" name="nom" 
+                                    style="font-weight: bold;color: black;" 
+                                    [(ngModel)]="candidate.nom" id="nom">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="prenom">Prenom</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" style="font-weight: bold;color: black;" name="prenom" [(ngModel)]="candidate.prenom"
-                                        id="prenom">
-
+                                    <input type="text" class="form-control" 
+                                    style="font-weight: bold;color: black;" name="prenom"
+                                    [(ngModel)]="candidate.prenom" id="prenom">
                                 </div>
                             </div>
                         </div>

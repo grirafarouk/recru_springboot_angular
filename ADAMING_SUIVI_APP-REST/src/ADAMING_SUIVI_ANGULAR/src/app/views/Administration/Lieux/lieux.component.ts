@@ -78,23 +78,55 @@ export class lieuxComponent implements OnInit {
       this.updateLieu();
     else this.createLieu();
   }
-  createLieu(){
+  async createLieu(){
+    var error = false;
+    if (this.lieu.libelle == "" || this.lieu.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un lieu valide")
+      error  = true;
+    }
+    else {
+      let lieuu
+      await this.lieuxService.findLieuByLibelle(this.lieu.libelle).toPromise().then(data => { lieuu = data });
+      if (lieuu != null) {
+        this.notifierService.notify("error", "lieu existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.lieuxService.save(this.lieu).toPromise().then((data: Lieu) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Lieu ajouté avec succès !")
       }
     })
+  }
     this.lieuModal.hide();
   }
 
-  updateLieu(){
+  async updateLieu(){
+    var error = false;
+    if (this.lieu.libelle == "" || this.lieu.libelle == undefined) {
+      this.notifierService.notify("error", " Écrivez un lieu valide")
+      error  = true;
+    }
+    else {
+      let lieuu
+      await this.lieuxService.findLieuByLibelle(this.lieu.libelle).toPromise().then(data => { lieuu = data });
+      if (lieuu != null) {
+        this.notifierService.notify("error", "lieu existe déjà  !")
+        error  = true;
+      }
+    }
+    if(!error)
+    {
     this.lieuxService.update(this.lieu).toPromise().then((data: Lieu) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Lieu modifié avec succès !")
       }
     })
+  }
     this.lieuModal.hide();
   }
   
