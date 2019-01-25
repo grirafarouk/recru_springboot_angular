@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   pieChartData: number[] = [];
   pieChartType = 'pie';
   ChartColors : any[]=ChartColors
-  chartOptions = {}
+  chartOptionss = {}
    nbreTotal= 0;
   constructor(
     private accueilService: AccueilService,
@@ -53,7 +53,7 @@ export class DashboardComponent implements OnInit {
 
   private getChart(){
     this.accueilService.getNombreTechnologieParCandidat().subscribe(result => { 
-      this.chartOptions = {
+      this.chartOptionss = {
         pieceLabel: {
           render: function (args) {
             const value = args.value;

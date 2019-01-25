@@ -143,7 +143,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public void setNotePret(Integer notePret) {
-		this.notePret = notePret.intValue();
+		this.notePret = notePret;
 	}
 
 	public Integer getNoteMobilite() {

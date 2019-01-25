@@ -2,6 +2,7 @@ package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.LieuDto;
+import com.fr.adaming.jsfapp.mapper.LieuMapper;
 import com.fr.adaming.jsfapp.model.Lieu;
 import com.fr.adaming.jsfapp.services.ILieuService;
 
@@ -21,24 +24,32 @@ public class LieuController {
 	@Autowired
 	private ILieuService lieuService;
 
+	private LieuMapper lieuMapper = Mappers.getMapper(LieuMapper.class);
+
 	@RequestMapping(value = "/libelle/{libelle}", method = RequestMethod.GET)
 	public Lieu rechercherLieuParLibelle(@PathVariable String libelle) {
 		return lieuService.rechercherLieuParLibelle(libelle);
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Lieu createOrUpdate(@RequestBody Lieu entity) {
-		return lieuService.createOrUpdate(entity);
+	public LieuDto createOrUpdate(@RequestBody LieuDto lieuDto) {
+		Lieu lieu = lieuMapper.lieuDtoToLieu(lieuDto);
+		lieu = lieuService.createOrUpdate(lieu);
+		return lieuMapper.lieuToLieuDto(lieu);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Lieu update(@RequestBody Lieu entity) {
-		return lieuService.update(entity);
+	public LieuDto update(@RequestBody LieuDto lieuDto) {
+		Lieu lieu = lieuMapper.lieuDtoToLieu(lieuDto);
+		lieu = lieuService.update(lieu);
+		return lieuMapper.lieuToLieuDto(lieu);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Lieu create(@RequestBody Lieu entity) {
-		return lieuService.create(entity);
+	public LieuDto create(@RequestBody LieuDto lieuDto) {
+		Lieu lieu = lieuMapper.lieuDtoToLieu(lieuDto);
+		lieu = lieuService.create(lieu);
+		return lieuMapper.lieuToLieuDto(lieu);
 	}
 
 	@RequestMapping(value = "/adresse/{libelle}", method = RequestMethod.GET)
@@ -57,8 +68,9 @@ public class LieuController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Lieu entity) {
-		lieuService.delete(entity);
+	public void delete(@RequestBody LieuDto lieuDto) {
+		Lieu lieu = lieuMapper.lieuDtoToLieu(lieuDto);
+		lieuService.delete(lieu);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

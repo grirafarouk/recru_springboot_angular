@@ -21,9 +21,8 @@ public class V_ReportingCandidatDao extends ManagerDao<V_ReportingCandidat, Long
 
 		String query = "SELECT * FROM V_ReportingCandidat AS V_RC WHERE 1=1 ";
 		query = GenereteReportingConditionQuery(v_ReportingcandidatDto, query);
-		query += " LIMIT " + page + "," + size;
-		System.out.println(query);
-		SQLQuery st = getSession().createSQLQuery(query);
+		query += " LIMIT :page, :size";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size", size);
 		@SuppressWarnings("unchecked")
 		List<V_ReportingCandidat> liste = (List<V_ReportingCandidat>) st.addEntity(
 				V_ReportingCandidat.class).list();

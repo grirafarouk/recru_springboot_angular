@@ -26,6 +26,14 @@ export class ReportingSourceurService {
   getChartTechnologies(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/ReportingSourceur/mapTechnologieParSourceur");
   }
+  // add by oussama
+  getNbrCV(): Observable<any> {
+    return this.httpClient.get(BACK_END_URL + "/ReportingSourceur/nbrTotalCV");
+  }
+  // add by oussama
+  getNbrTechnologie(): Observable<any> {
+    return this.httpClient.get(BACK_END_URL+'/ReportingSourceur/nbrTotalTechnologie');
+  }
   rechercheReportingSourceur(sourceur, dateDebut, datFin): Observable<any> {
     var url = "/ReportingSourceur/RechercheReportingSourceur";
     if (dateDebut != null && dateDebut != undefined) {

@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -21,8 +22,6 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import javax.servlet.ServletContext;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -30,15 +29,12 @@ import org.springframework.stereotype.Component;
 @Component("javaMailApi")
 public class JavaMailApi implements IEMailApi {
 
-	private static final String SMTP_HOST1 = "smtp.gmail.com";
-	private static final String LOGIN_SMTP1 = "adaming.reporting@gmail.com";
-	private static final String IMAP_ACCOUNT1 = "adaming.reporting@gmail.com";
-	private static final String PASSWORD_SMTP1 = "Adaming2016!";
+	private static final Logger LOGGER = LoggerFactory.getLogger(JavaMailApi.class);
+	ResourceBundle bundle = ResourceBundle.getBundle("properties.javamail");
 	private Properties properties;
 	private Session session;
 	private boolean emailEntretien;
 	private boolean emailEntretienHorsCible;
-	ResourceBundle bundle = ResourceBundle.getBundle("properties.javamail");
 
 
 	public JavaMailApi() {
@@ -76,7 +72,7 @@ public class JavaMailApi implements IEMailApi {
 			transport.sendMessage(msg, msg.getAllRecipients());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.info("context", e);
 		}
 	}
 
@@ -95,42 +91,42 @@ public class JavaMailApi implements IEMailApi {
 		if (emailEntretien || emailEntretienHorsCible) {
 			content = new MimeBodyPart();
 			try {
-				//file = new ClassPathResource("/images/imageADM.png").getFile();
+				// file = new ClassPathResource("/images/imageADM.png").getFile();
 
-				DataSource fds = new FileDataSource( new ClassPathResource("/images/imageADM.png").getFile());
+				DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds));
 				content.setHeader("Content-ID", "<image>");
 
 				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
-			content = new MimeBodyPart();
-			DataSource fds1 = new FileDataSource( new ClassPathResource("/images/facebook-icon.png").getFile());
+				multiPartMsg.addBodyPart(content);
+				content = new MimeBodyPart();
+				DataSource fds1 = new FileDataSource(new ClassPathResource("/images/facebook-icon.png").getFile());
 
-			content.setDataHandler(new DataHandler(fds1));
-			content.setHeader("Content-ID", "<imageFacebook>");
-
-				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
-			content = new MimeBodyPart();
-			DataSource fds2 = new FileDataSource( new ClassPathResource("/images/linkedin-icon.png").getFile() );
-
-			content.setDataHandler(new DataHandler(fds2));
-			content.setHeader("Content-ID", "<imageLinkedin>");
+				content.setDataHandler(new DataHandler(fds1));
+				content.setHeader("Content-ID", "<imageFacebook>");
 
 				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
-			content = new MimeBodyPart();
-			DataSource fds3 = new FileDataSource(  new ClassPathResource("/images/twitter-icon.png").getFile());
+				multiPartMsg.addBodyPart(content);
+				content = new MimeBodyPart();
+				DataSource fds2 = new FileDataSource(new ClassPathResource("/images/linkedin-icon.png").getFile());
 
-			content.setDataHandler(new DataHandler(fds3));
-			content.setHeader("Content-ID", "<imagetwitter>");
+				content.setDataHandler(new DataHandler(fds2));
+				content.setHeader("Content-ID", "<imageLinkedin>");
 
 				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
+				multiPartMsg.addBodyPart(content);
+				content = new MimeBodyPart();
+				DataSource fds3 = new FileDataSource(new ClassPathResource("/images/twitter-icon.png").getFile());
+
+				content.setDataHandler(new DataHandler(fds3));
+				content.setHeader("Content-ID", "<imagetwitter>");
+
+				// add image to the multipart
+				multiPartMsg.addBodyPart(content);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.info("context", e);
 			}
 		}
 		return multiPartMsg;
@@ -147,7 +143,7 @@ public class JavaMailApi implements IEMailApi {
 				pjMimeBodyPart.setDataHandler(dataHandler);
 				pjMimeBodyPart.setFileName(StringUtils.isNotEmpty(pj.getFileName()) ? pj.getFileName() : "pj");
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				LOGGER.info("context", e);
 			}
 		}
 		return pjMimeBodyPart;
@@ -156,10 +152,13 @@ public class JavaMailApi implements IEMailApi {
 	/**
 	 * Méthode qui construit la liste des adresses des destinataires
 	 * 
-	 * @param destinataires liste des destinataire
-	 * @param cc            adresse en copie
+	 * @param destinataires
+	 *            liste des destinataire
+	 * @param cc
+	 *            adresse en copie
 	 * @return liste des destinataires
-	 * @throws AddressException en ca d'erreur
+	 * @throws AddressException
+	 *             en ca d'erreur
 	 */
 	private Address[] getAddresses(List<String> destinataires, String cc, String ccTwo) throws AddressException {
 		int nbAdress = destinataires.size();

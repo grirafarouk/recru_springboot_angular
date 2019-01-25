@@ -4,8 +4,7 @@ import { NotifierService } from "angular-notifier";
 import { ReportingSourceurService } from "../../../services/reportingSourceurService/ReportingSourceur/reportingSourceur.service";
 import { SourceurReporting } from "../../../models/SourceurReporting";
 import { ChartColors } from '../../../helper/application.constant';
-import 'chart.piecelabel.js';
-
+import 'chartjs-plugin-labels';
 
 
 @Component({
@@ -15,7 +14,7 @@ import 'chart.piecelabel.js';
   
 })
 export class ReportingSourceurComponent implements OnInit {
-  
+  totalCv = null;
   dateFin = Date();
   dateDebut =  Date();
   currentDate = new Date();
@@ -56,29 +55,25 @@ export class ReportingSourceurComponent implements OnInit {
       }
       this.pieChart2Data=[this.autresCv, this.totalCVDisponible, this.totalCVhorsCible]
     })
- 
     this.getChart();
  
   }
-
-  chartOptions = {
-    pieceLabel: {
-      render: function (args) {
-        const value = args.value;
-        var tooltipPercentage = Math.round((value / 40958) * 100)
-        return tooltipPercentage + '%';
-      }
+  chartOptions ={
+    responsive: true,
+    labels: {
+      render: 'percentage',
+      precision: 2
     }
-  }
+  
+}
 
-  chartOptions2 = {
-    pieceLabel: {
-      render: function (args) {
-        const value = args.value;
-        var tooltipPercentage = Math.round((value / 38715) * 100)
-        return tooltipPercentage + '%';
+  chartOptions2 : {
+      labels: {
+        render: 'percentage',
+        responsive: true,
+        precision: 2
       }
-    }
+    
   }
 
 

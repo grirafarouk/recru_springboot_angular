@@ -2,10 +2,15 @@ package com.fr.adaming.util;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
 public class EnvoiMailUtil {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(EnvoiMailUtil.class);
+	
 
 	public static final void sendMailInitPassword(Utilisateur utilisateurExiste, String url) {
 
@@ -29,7 +34,7 @@ public class EnvoiMailUtil {
 			email.send();
 			System.out.println(utilisateurExiste.getEmail());
 		} catch (EmailException e) {
-			e.printStackTrace();
+			LOGGER.info("context",e);
 		}
 
 	}

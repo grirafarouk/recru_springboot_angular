@@ -388,7 +388,7 @@
                   <div class="form-group">
                     <label for="noteResultat">Résultat du test:</label>
                     <label style="color: firebrick">*</label>
-                    <input class="form-control" name="noteResultat"  min="0" max="45" type="number" id="noteResultat" 
+                    <input class="form-control" name="noteResultat"  min="0" max="45" oninput="this.value=(this.value.startsWith('0')) ? this.value.slice(0,1) : this.value; validity.valid||(value='');" type="number" id="noteResultat" 
                     (keyup)="numberOnly()" [(ngModel)]="currentCandidat.suivi.noteResultat" [disabled]="disabledtime==true">
                   </div>
                 </div>
