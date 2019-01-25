@@ -28,6 +28,8 @@ import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.commons.collections4.CollectionUtils;
 import org.mapstruct.factory.Mappers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,10 +40,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.Statut;
+import com.fr.adaming.jsfapp.mapper.CandidatMapper;
 import com.fr.adaming.jsfapp.mapper.V_ListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.V_ReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
@@ -64,6 +68,7 @@ import com.fr.adaming.util.PieceJointe;
 @RequestMapping(value = "/api/")
 
 public class CandidatController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CandidatController.class);
 
 	@Autowired
 	private ICandidatService candidatService;
@@ -83,6 +88,7 @@ public class CandidatController {
 	private V_ListeCandidatsDto vListeCandidatsDto;
 	private V_ListeCandidatsMapper vListeCandidatsMapper = Mappers.getMapper(V_ListeCandidatsMapper.class);
 	private V_ReportingCandidatMapper vReportingCandidatMapper = Mappers.getMapper(V_ReportingCandidatMapper.class);
+	private CandidatMapper candidatMapper = Mappers.getMapper(CandidatMapper.class);
 
 	@Autowired
 	private IV_ReportingCandidatService vReportingCandidatService;
@@ -91,7 +97,7 @@ public class CandidatController {
 	public Collection<Candidat> all() {
 		return candidatService.findAll();
 	}
-	
+
 	@RequestMapping(value = "/rechercheNouveauxcandidats", method = RequestMethod.POST)
 	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
 			@RequestParam int size) {
@@ -211,13 +217,13 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/ajoutCandidat", method = RequestMethod.POST)
-	public Candidat ajoutCandidat(@RequestBody Candidat entity, @RequestParam String login, @RequestParam String mime) {
-		Candidat candidat = null;
-		if (creerCv(entity, login, mime)) {
-			entity.setStatut(Statut.VIDE);
-			candidat = candidatService.createOrUpdate(entity);
+	public CandidatDto ajoutCandidat(@RequestBody CandidatDto candidatDTO, @RequestParam String login, @RequestParam String mime) {
+		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
+		if (creerCv(candidat, login, mime)) {
+			candidat.setStatut(Statut.VIDE);
+			candidat = candidatService.createOrUpdate(candidat);
 		}
-		return candidat;
+		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 
 	private Boolean creerCv(Candidat candidat, String login, String mime) {
@@ -232,14 +238,14 @@ public class CandidatController {
 			candidat.setIdCv(cvAlfresco.getId());
 			return true;
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.info("context",e);
 			return false;
 		} finally {
 			if (fileInputStream != null)
 				try {
 					fileInputStream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					LOGGER.info("context",e);
 				}
 		}
 
@@ -256,11 +262,11 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/updateCandidat", method = RequestMethod.PUT)
-	public Candidat updateCandidat(@RequestBody Candidat entity) {
-		Candidat candidat = candidatService.createOrUpdate(entity);
-		return candidat;
+	public CandidatDto updateCandidat(@RequestBody CandidatDto candidatDTO) {
+		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
+		candidat = candidatService.createOrUpdate(candidat);
+		return candidatMapper.candidatToCandidatDto(candidat);
 	}
-	
 
 	@GetMapping("destroyTempoFolder/{loginUser}")
 	public void destroyTempoFolder(@PathVariable String loginUser) {
@@ -269,10 +275,10 @@ public class CandidatController {
 		Path path = Paths.get(realPath);
 		if (path != null)
 			Utilitaire.deleteDir(path.toFile());
-		if (Paths.get(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting")
-				.toFile().list().length == 0) {
-			Utilitaire.deleteDir(new File(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
-					+ File.separator + loginUser));
+		if (Paths.get(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting").toFile()
+				.list().length == 0) {
+			Utilitaire.deleteDir(new File(File.separator + "opt" + File.separator + "mounir" + File.separator
+					+ "reporting" + File.separator + loginUser));
 		}
 
 	}
@@ -294,7 +300,7 @@ public class CandidatController {
 			try {
 				Files.createDirectories(path);
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.info("context",e);
 			}
 		}
 
@@ -335,7 +341,7 @@ public class CandidatController {
 			return j;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.info("context",e);
 			return null;
 		} finally {
 			try {
@@ -344,8 +350,7 @@ public class CandidatController {
 				if (outStream != null)
 					outStream.close();
 			} catch (IOException e1) {
-				e1.printStackTrace();
-				return null;
+				LOGGER.info("context",e1);
 			}
 		}
 	}
@@ -354,7 +359,7 @@ public class CandidatController {
 	public Candidat getCandidatByEmail(@PathVariable String email) {
 		return candidatService.rechercherCandidatParEmail(email);
 	}
-	
+
 	@GetMapping("/getCandidatByNumTel/{numTe}")
 	public Candidat getCandidatByNumTel(@PathVariable String numTe) {
 		return candidatService.rechercherCandidatParNumTel(numTe);
@@ -364,21 +369,21 @@ public class CandidatController {
 	public List<String> getListNomCvs() {
 		return candidatService.rechercherNomCv();
 	}
+
 	@RequestMapping(value = "/updateficheCandidat", method = RequestMethod.PUT)
-	public Candidat updateficheCandidat(@RequestBody Candidat entity) {
-		entity.setStatut(Statut.EN_ATTENTE_EVALUATION);
-		Candidat candidat = candidatService.createOrUpdate(entity);
-		return candidat;
+	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
+		candidatDTO.setStatut(Statut.EN_ATTENTE_EVALUATION);
+		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
+		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 
-
-
 	@PostMapping("/envoyerEmailHorsCibleCandidats")
-	public void envoyerEmailHorsCibleCandidats(@RequestBody Candidat candidat, @RequestParam String login,
+	public void envoyerEmailHorsCibleCandidats(@RequestBody CandidatDto candidatDto, @RequestParam String login,
 			@RequestParam String comMotif) {
 		JavaMailApi eMailApi = new JavaMailApi();
 		List<String> dst = new ArrayList<>();
 		Utilisateur connectedUser = utilisateurService.findByLogin(login);
+		Candidat candidat=candidatMapper.candidatDtoToCandidat(candidatDto);
 		dst.add(candidat.getCreePar().getEmail());
 		String objet = "Candidat  Hors cible " + candidat.getNom() + " " + candidat.getPrenom();
 		String content = creeContentEmail(candidat, connectedUser, comMotif);
@@ -387,15 +392,15 @@ public class CandidatController {
 		eMailApi.envoyerMail(objet, content, dst, connectedUser.getEmail(), "", "", pjList);
 		eMailApi.setEmailEntretienHorsCible(false);
 	}
-	
+
 	@RequestMapping(value = "/updateficheEntretien", method = RequestMethod.PUT)
-	public Candidat updateficheEntretien(@RequestBody Candidat entity) {
-		if(entity.getStatut().equals(Statut.EN_ATTENTE_EVALUATION))
-		entity.setStatut(Statut.EN_ATTENTE_AFFECTATION);
-		Candidat candidat = candidatService.createOrUpdate(entity);
-		return candidat;
+	public CandidatDto updateficheEntretien(@RequestBody CandidatDto candidatDTO) {
+		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
+		if (candidat.getStatut().equals(Statut.EN_ATTENTE_EVALUATION))
+			candidat.setStatut(Statut.EN_ATTENTE_AFFECTATION);
+		candidat = candidatService.createOrUpdate(candidat);
+		return candidatMapper.candidatToCandidatDto(candidat);
 	}
-	
 
 	@PostMapping("/envoyerEmailDispoCandidats")
 	public void envoyerEmailDispoCandidats(@RequestBody EntretienMail entretienMail, @RequestParam String login) {
@@ -429,14 +434,14 @@ public class CandidatController {
 				}
 			}
 			System.out.println(pjList);
-//		convocationMail.envoyerMail(objet, content, dst, "drh@adaming.fr",destinataireEnCci,destinataireEnCcitwo, pjList);
-			convocationMail.envoyerMail(objet, content, dst, "moueslati@adaming.fr", dest.get(0), dest.get(1),
-					pjList);
+			// convocationMail.envoyerMail(objet, content, dst,
+			// "drh@adaming.fr",destinataireEnCci,destinataireEnCcitwo, pjList);
+			convocationMail.envoyerMail(objet, content, dst, "moueslati@adaming.fr", dest.get(0), dest.get(1), pjList);
 			convocationMail.setEmailEntretien(false);
 		} catch (IOException e) {
-			e.printStackTrace();
+			LOGGER.info("context",e);
 		} catch (MessagingException e) {
-			e.printStackTrace();
+			LOGGER.info("context",e);
 		}
 	}
 

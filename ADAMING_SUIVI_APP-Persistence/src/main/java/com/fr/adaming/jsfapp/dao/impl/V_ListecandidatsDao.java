@@ -31,9 +31,8 @@ public class V_ListecandidatsDao extends ManagerDao<V_ListeCandidats, Long> impl
 			int size, Boolean all) {
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
 		query = GenerateEntretienConditionQuery(v_ListeCandidatsDto, all, query);
-		query += " ORDER BY V_ListeCandidats.DATE_ENTRETIEN DESC  ";
-		query += " LIMIT " + page + "," + size;
-		SQLQuery st = getSession().createSQLQuery(query);
+		query += " ORDER BY V_ListeCandidats.DATE_ENTRETIEN DESC  LIMIT :page ,:size";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size", size);
 		@SuppressWarnings("unchecked")
 		List<V_ListeCandidats> liste = (List<V_ListeCandidats>) st.addEntity(V_ListeCandidats.class).list();
 
@@ -148,8 +147,8 @@ public class V_ListecandidatsDao extends ManagerDao<V_ListeCandidats, Long> impl
 			}
 
 		}
-		query += " LIMIT " + page + "," + size;
-		SQLQuery st = getSession().createSQLQuery(query);		
+		query += " LIMIT :page, :size";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size", size);		
 		@SuppressWarnings("unchecked")
 		List<V_ListeCandidats> liste = (List<V_ListeCandidats>) st.addEntity(V_ListeCandidats.class).list();
 
@@ -319,8 +318,8 @@ public class V_ListecandidatsDao extends ManagerDao<V_ListeCandidats, Long> impl
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
 		query = GenerateConditionQuery(v_ListeCandidatsDto, query);
 //		query = query + " ORDER BY V_ListeCandidats.DATE_INSCRIPTION DESC ";
-		query += " LIMIT " + page + "," + size;
-		SQLQuery st = getSession().createSQLQuery(query);
+		query += " LIMIT :page, :size";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size", size);
 		
 		@SuppressWarnings("unchecked")
 		List<V_ListeCandidats> liste = (List<V_ListeCandidats>) st.addEntity(V_ListeCandidats.class).list();

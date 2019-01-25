@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.UtilisateurDto;
+import com.fr.adaming.jsfapp.mapper.UtilisateurMapper;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
@@ -28,6 +31,8 @@ public class UtilistaeurController {
 	@Autowired
 	private IUtilisateurService utilisateurService;
 
+	private UtilisateurMapper utilisateurMapper = Mappers.getMapper(UtilisateurMapper.class);
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<Utilisateur> findAll() {
 		return utilisateurService.findAll();
@@ -38,19 +43,23 @@ public class UtilistaeurController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Utilisateur create(@RequestBody Utilisateur entity) throws NoSuchAlgorithmException {
-		entity.setActif(true);
-		entity.setDateCreation(new Date());
-		entity.setDateModificationMotPasse(new Date());
-		entity.setExpire(false);
-		entity.setPassword(Utilitaire.hashMD5Crypt(entity.getPassword()));
-		return utilisateurService.create(entity);
+	public UtilisateurDto create(@RequestBody UtilisateurDto utilisateurDto) throws NoSuchAlgorithmException {
+		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		utilisateur.setActif(true);
+		utilisateur.setDateCreation(new Date());
+		utilisateur.setDateModificationMotPasse(new Date());
+		utilisateur.setExpire(false);
+		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()));
+		utilisateur = utilisateurService.create(utilisateur);
+		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Utilisateur Update(@RequestBody Utilisateur entity) {
-		entity.setDateModificationMotPasse(new Date());
-		return utilisateurService.update(entity);
+	public UtilisateurDto Update(@RequestBody UtilisateurDto utilisateurDto) {
+		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		utilisateur.setDateModificationMotPasse(new Date());
+		utilisateur = utilisateurService.update(utilisateur);
+		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -59,8 +68,9 @@ public class UtilistaeurController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Utilisateur entity) {
-		utilisateurService.delete(entity);
+	public void delete(@RequestBody UtilisateurDto utilisateurDto) {
+		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		utilisateurService.delete(utilisateur);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

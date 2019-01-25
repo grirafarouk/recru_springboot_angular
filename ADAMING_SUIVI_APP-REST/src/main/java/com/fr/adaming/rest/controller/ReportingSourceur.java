@@ -38,6 +38,21 @@ public class ReportingSourceur {
 				utilisateurService.rechercherReportingSourceur());
 		return listeReportingSourceur;
 	}
+	
+
+	@RequestMapping(value = "/nbrTotalCV", method = RequestMethod.GET)
+	public Integer nombreCVParCandidat(
+			@RequestBody(required = false) ReportingListSourceurDto utilisateur, @RequestParam(required = false) Long dateDebut,
+			@RequestParam(required = false) Long dateFin) {
+		return utilisateurService.nombreCVParCandidat(utilisateur, dateDebut != null ? new Date(dateDebut) : null, dateFin != null ? new Date(dateFin) : null);
+	}
+	
+	@RequestMapping(value = "/nbrTotalTechnologie", method = RequestMethod.GET)
+	public Integer nbrTotalTechnologie(
+			@RequestBody(required = false) ReportingListSourceurDto utilisateur, @RequestParam(required = false) Long dateDebut,
+			@RequestParam(required = false) Long dateFin) {
+		return utilisateurService.nbrTotalTechnologie(utilisateur, dateDebut != null ? new Date(dateDebut) : null, dateFin != null ? new Date(dateFin) : null);
+	}
 
 	@RequestMapping(value = "/RechercheReportingSourceur", method = RequestMethod.POST)
 	public List<ReportingSourceurParDispoDto> RechercheReportingSourceur(
@@ -48,7 +63,7 @@ public class ReportingSourceur {
 						dateDebut != null ? new Date(dateDebut) : null, dateFin != null ? new Date(dateFin) : null));
 		return listeReportingSourceur;
 	}
-
+	
 	@RequestMapping(value = "/mapTechnologieParSourceur", method = RequestMethod.GET)
 	public HashMap<String, Integer> ReportingCVParTechnologieParSourceur() {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();

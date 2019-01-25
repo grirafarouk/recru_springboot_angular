@@ -2,6 +2,7 @@ package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.ClientSessionDto;
+import com.fr.adaming.jsfapp.mapper.ClientSessionMapper;
 import com.fr.adaming.jsfapp.model.ClientSession;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.services.IClientSessionService;
@@ -23,6 +26,8 @@ public class ClientSessionController {
 	@Autowired
 	private IClientSessionService clientSessionService;
 
+	private ClientSessionMapper clientSessionMapper = Mappers.getMapper(ClientSessionMapper.class);
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<ClientSession> findAll() {
 		return clientSessionService.findAll();
@@ -34,13 +39,17 @@ public class ClientSessionController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ClientSession create(@RequestBody ClientSession entity) {
-		return clientSessionService.create(entity);
+	public ClientSessionDto create(@RequestBody ClientSessionDto clientSessionDto) {
+		ClientSession clientSession = clientSessionMapper.clientSessionDtoToClientSession(clientSessionDto);
+		clientSession = clientSessionService.create(clientSession);
+		return clientSessionMapper.motifToMotifDto(clientSession);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public ClientSession update(@RequestBody ClientSession entity) {
-		return clientSessionService.update(entity);
+	public ClientSessionDto update(@RequestBody ClientSessionDto clientSessionDto) {
+		ClientSession clientSession = clientSessionMapper.clientSessionDtoToClientSession(clientSessionDto);
+		clientSession = clientSessionService.update(clientSession);
+		return clientSessionMapper.motifToMotifDto(clientSession);
 	}
 
 	@DeleteMapping("/{id}")

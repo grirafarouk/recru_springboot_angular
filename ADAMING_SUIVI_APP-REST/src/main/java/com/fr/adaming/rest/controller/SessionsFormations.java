@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.FormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
+import com.fr.adaming.jsfapp.mapper.FormationMapper;
+import com.fr.adaming.jsfapp.mapper.SessionFormationMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.SessionFormation;
 import com.fr.adaming.jsfapp.services.impl.CandidatService;
@@ -33,10 +36,14 @@ public class SessionsFormations {
 
 	@Autowired
 	private CandidatService candidatService;
+	
+	private SessionFormationMapper sessionFormationMapper=Mappers.getMapper(SessionFormationMapper.class);
 
 	@PostMapping()
-	public SessionFormation createOrUpdate(@RequestBody SessionFormation entity) {
-		return sessionFormationService.createOrUpdate(entity);
+	public SessionFormationDto createOrUpdate(@RequestBody SessionFormationDto sessionFormationDto) {
+		SessionFormation sessionFormation=sessionFormationMapper.sessionFormationDtoToSessionFormation(sessionFormationDto);
+		sessionFormation=sessionFormationService.createOrUpdate(sessionFormation);
+		return sessionFormationMapper.sessionFormationToSessionFormationDto(sessionFormation);
 	}
 
 	@RequestMapping(value = "/CandidatParSession", method = RequestMethod.GET)

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.FormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
+import com.fr.adaming.jsfapp.mapper.FormationMapper;
 import com.fr.adaming.jsfapp.model.Formation;
 import com.fr.adaming.jsfapp.services.impl.FormationService;
 
@@ -26,9 +28,13 @@ public class FormationController {
 	@Autowired
 	private FormationService formationService;
 
+	private FormationMapper formationMapper = Mappers.getMapper(FormationMapper.class);
+
 	@PostMapping()
-	public Formation createOrUpdate(@RequestBody Formation entity) {
-		return formationService.createOrUpdate(entity);
+	public FormationDto createOrUpdate(@RequestBody FormationDto formationDto) {
+		Formation formation = formationMapper.formationDtoToFormation(formationDto);
+		formation = formationService.createOrUpdate(formation);
+		return formationMapper.formationToFormationDto(formation);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -47,8 +53,9 @@ public class FormationController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Formation entity) {
-		formationService.delete(entity);
+	public void delete(@RequestBody FormationDto formationDto) {
+		Formation formation = formationMapper.formationDtoToFormation(formationDto);
+		formationService.delete(formation);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
@@ -62,8 +69,7 @@ public class FormationController {
 	}
 
 	@RequestMapping(value = "/formationencours", method = RequestMethod.POST)
-	public List<Formation> rechercherFormationsEnCours(@RequestBody
-			SessionFormationDto searchDto) {
+	public List<Formation> rechercherFormationsEnCours(@RequestBody SessionFormationDto searchDto) {
 
 		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsEnCours(searchDto));
 		return liste;

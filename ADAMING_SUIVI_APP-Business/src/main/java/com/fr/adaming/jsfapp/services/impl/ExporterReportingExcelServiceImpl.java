@@ -46,12 +46,9 @@ public class ExporterReportingExcelServiceImpl implements
 	private static final String SEMAINE_SHEET_NAME = "Résumé de la semaine";
 	private static final String JOURNEE_SHEET_NAME = "Résumé de la journée";
 	private static final String REPORTING = "Reporting";
-	private static final SimpleDateFormat sdfNoTime = new SimpleDateFormat(
-			"dd/MM/yyyy");
-	private static final SimpleDateFormat sdf = new SimpleDateFormat(
-			"dd/MM/yyyy hh:mm");
-	private static final SimpleDateFormat SHEET_TITLE_FORMAT = new SimpleDateFormat(
-			"dd-MM");
+	private SimpleDateFormat sdfNoTime = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+	private SimpleDateFormat SHEET_TITLE_FORMAT = new SimpleDateFormat("dd-MM");
 
 	@Autowired(required = true)
 	@Qualifier("candidatService")

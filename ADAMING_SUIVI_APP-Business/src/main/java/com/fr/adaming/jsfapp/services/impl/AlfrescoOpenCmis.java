@@ -39,7 +39,7 @@ public class AlfrescoOpenCmis {
 
 			// user credentials
 			parameter.put(SessionParameter.USER, "admin");
-			parameter.put(SessionParameter.PASSWORD, "admin");
+			parameter.put(SessionParameter.PASSWORD, "root");
 
 			// connection settings
 			parameter.put(SessionParameter.ATOMPUB_URL,
@@ -60,7 +60,14 @@ public class AlfrescoOpenCmis {
 				for (QueryResult qr : q) {
 					folder = FileUtils.getFolder(qr.getPropertyByQueryName("cmis:objectId").getFirstValue().toString(),
 							getSession());
+					if(folder==null)
+					{
 					break;
+
+					}
+					else {
+						System.out.println("dossier existant");
+					}
 				}
 			}
 
