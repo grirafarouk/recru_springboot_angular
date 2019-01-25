@@ -60,6 +60,14 @@ public class FormationController {
 	public Formation rechercherSessionsFormationParCode(@RequestBody FormationDto formation) {
 		return formationService.rechercherSessionsFormationParCode(formation);
 	}
+	
+	@RequestMapping(value = "/rechercherFormations", method = RequestMethod.POST)
+	public List<Formation> rechercherFormations(@RequestBody
+			SessionFormationDto searchDto) {
+
+		List<Formation> liste = new ArrayList<>(formationService.rechercherFormations(searchDto));
+		return liste;
+	}
 
 	@RequestMapping(value = "/formationencours", method = RequestMethod.POST)
 	public List<Formation> rechercherFormationsEnCours(@RequestBody

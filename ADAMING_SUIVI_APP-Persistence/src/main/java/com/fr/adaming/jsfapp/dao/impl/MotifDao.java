@@ -12,11 +12,11 @@ public class MotifDao extends ManagerDao<Motif, Long> implements IMotifDao{
 	@Override
 	public Motif rechercheMotifParLibelle(String libelle) {
 		
-		String query = "  SELECT *  FROM motif  WHERE   1=1     ";
+		String query = "SELECT *  FROM motif  WHERE   1=1";
 		if (libelle != null) {
-			query = query + " AND  motif.libelle = '" + libelle + "'";
+			query = query + " AND  motif.libelle = :libelle";
 		}
-		SQLQuery st = this.getSession().createSQLQuery(query);
+		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle);;
 
 		Motif motif = (Motif) st.addEntity(Motif.class).uniqueResult();
 

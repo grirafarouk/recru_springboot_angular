@@ -41,7 +41,7 @@ export class ficheSessionFormationAcceuilComponent implements OnInit {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
     });
-    FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    FileSaver.saveAs(data, 'Liste candidats' + EXCEL_EXTENSION);
   }
   exportAsXLSX():void {
     this.exportAsExcelFile(this.CandidatSession, 'sample');

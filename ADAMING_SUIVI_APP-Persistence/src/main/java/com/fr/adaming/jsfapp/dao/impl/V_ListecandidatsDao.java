@@ -76,6 +76,10 @@ public class V_ListecandidatsDao extends ManagerDao<V_ListeCandidats, Long> impl
 			if (v_ListeCandidatsDto.getMobilite() != null) {
 				query = query + " AND V_ListeCandidats.MOBILITE = " + v_ListeCandidatsDto.getMobilite() + "";
 			}
+			
+			if (v_ListeCandidatsDto.getStatut() != null) {
+				query = query + " AND V_ListeCandidats.STATUT = " + v_ListeCandidatsDto.getStatut().ordinal() + "";
+			}
 		}
 		if (all) {
 			query = query

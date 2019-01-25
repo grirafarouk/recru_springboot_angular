@@ -145,29 +145,29 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nom Formation :</label>
                         <div class="col-md-8">
-                            <input class="form-control" [(ngModel)]="selectedFormation.nom" name="nomf" />
+                            <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="selectedFormation.nom" name="nomf" />
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Type de formation :</label>
+                        <label class="col-md-3 col-form-label" for="typeFormation">Type de formation :</label>
                         <div class="col-md-8">
-                            <ng-select [compareWith]="helperService.compareFn" name="typeFormation" [(ngModel)]="selectedFormation.typeFormation"
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" id="typeFormation" name="typeFormation" [(ngModel)]="selectedFormation.typeFormation"
                                 [items]="typeFormation" bindLabel="libelle">
                             </ng-select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Technologie :</label>
+                        <label class="col-md-3 col-form-label" for="technologie">Technologie :</label>
                         <div class="col-md-8">
-                            <ng-select [compareWith]="helperService.compareFn" name="technologie" [(ngModel)]="selectedFormation.technologie"
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" id="technologie" name="technologie" [(ngModel)]="selectedFormation.technologie"
                                 [items]="technologies" bindLabel="libelle">
                             </ng-select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Lieu : </label>
+                        <label class="col-md-3 col-form-label" for="lieu">Lieu : </label>
                         <div class="col-md-8 ">
-                            <ng-select [compareWith]="helperService.compareFn" name="lieu" [(ngModel)]="selectedFormation.lieu"
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" id="lieu" name="lieu" [(ngModel)]="selectedFormation.lieu"
                             [items]="lieux" bindLabel="libelle">
                         </ng-select>
                         </div>
@@ -197,40 +197,40 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nom Formation :</label>
                         <div class="col-md-8">
-                            <input disabled class="form-control" [(ngModel)]="session.formation.nom" name="nomf" />
+                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.nom" name="nomf" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Type de formation :</label>
                         <div class="col-md-8">
-                            <input disabled class="form-control" [(ngModel)]="session.formation.typeFormation.libelle"
+                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.typeFormation.libelle"
                                 name="typeFormation" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Technologie :</label>
                         <div class="col-md-8">
-                            <input disabled class="form-control" [(ngModel)]="session.formation.technologie.libelle"
+                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.technologie.libelle"
                                 name="technologie" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Lieu : </label>
                         <div class="col-md-8 ">
-                            <input disabled class="form-control" [(ngModel)]="session.formation.lieu.libelle" name="lieu" />
+                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.lieu.libelle" name="lieu" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Date Debut :</label>
                         <div class="col-md-8 ">
-                            <input [owlDateTimeTrigger]="dateDemarrage" [owlDateTime]="dateDemarrage" class="form-control"
+                            <input [owlDateTimeTrigger]="dateDemarrage" style="font-weight: bold;color: black;" [owlDateTime]="dateDemarrage" class="form-control"
                                 name="dateDemarrage" [(ngModel)]="session.dateDemarrage">
                             <owl-date-time [pickerType]="'calendar'" #dateDemarrage></owl-date-time>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Date Fin :</label>
-                        <div class="col-md-8 "> <input [owlDateTimeTrigger]="dateFin" [owlDateTime]="dateFin" class="form-control"
+                        <div class="col-md-8 "> <input [owlDateTimeTrigger]="dateFin" style="font-weight: bold;color: black;" [owlDateTime]="dateFin" class="form-control"
                                 name="dateFin" [(ngModel)]="session.dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dateFin></owl-date-time>
                         </div>
@@ -238,13 +238,13 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nombre de place :</label>
                         <div class="col-md-8 ">
-                            <input type="number" class="form-control" [(ngModel)]="session.nombrePlace" name="nombrePlace" />
+                            <input type="number" style="font-weight: bold;color: black;" class="form-control" [(ngModel)]="session.nombrePlace" name="nombrePlace" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Client :</label>
                         <div class="col-md-8 ">
-                            <ng-select [compareWith]="helperService.compareFn" name="clien" [(ngModel)]="session.client"
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" name="clien" [(ngModel)]="session.client"
                                 [items]="listclientSession" bindLabel="libelle">
                             </ng-select>
                         </div>

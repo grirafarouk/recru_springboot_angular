@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
@@ -216,6 +217,11 @@ public class CandidatController {
 		if (creerCv(entity, login, mime)) {
 			entity.setStatut(Statut.VIDE);
 			candidat = candidatService.createOrUpdate(entity);
+			String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
+					+ File.separator + login;
+			Path path = Paths.get(realPath);
+			if (path != null)
+				Utilitaire.deleteDir(path.toFile());
 		}
 		return candidat;
 	}
@@ -260,22 +266,6 @@ public class CandidatController {
 		Candidat candidat = candidatService.createOrUpdate(entity);
 		return candidat;
 	}
-	
-
-	@GetMapping("destroyTempoFolder/{loginUser}")
-	public void destroyTempoFolder(@PathVariable String loginUser) {
-		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
-				+ File.separator + loginUser;
-		Path path = Paths.get(realPath);
-		if (path != null)
-			Utilitaire.deleteDir(path.toFile());
-		if (Paths.get(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting")
-				.toFile().list().length == 0) {
-			Utilitaire.deleteDir(new File(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
-					+ File.separator + loginUser));
-		}
-
-	}
 
 	@RequestMapping(value = "convertWordToPdf", method = RequestMethod.POST)
 	public JSONObject convertWordToPdf(@RequestBody JSONObject fileJson) {
@@ -286,7 +276,7 @@ public class CandidatController {
 
 		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
 				+ File.separator + loginUser;
-		byte[] data = Base64.getDecoder().decode(value64);
+		byte[] data = DatatypeConverter.parseBase64Binary(value64);
 		InputStream inStream = new ByteArrayInputStream(data);
 		OutputStream outStream = null;
 		Path path = Paths.get(realPath);
@@ -318,10 +308,15 @@ public class CandidatController {
 				doc.save(realPath + File.separator + name);
 			} else {
 				byte[] buffer = new byte[inStream.available()];
-				inStream.read(buffer);
-				File targetFile = new File(realPath + File.separator + name);
-				outStream = new FileOutputStream(targetFile);
-				outStream.write(buffer);
+				 while (inStream.read(buffer) > 0) {
+					 File targetFile = new File(realPath + File.separator + name);
+					 try {
+							outStream = new FileOutputStream(targetFile);
+							outStream.write(buffer);
+					 } catch (Exception e) {
+							e.printStackTrace();
+						}		    
+						}
 			}
 
 			File file = new File(realPath + File.separator + name);
@@ -420,7 +415,7 @@ public class CandidatController {
 						PieceJointe pieceJointe = new PieceJointe();
 						pieceJointe.setFileName(file.get("fileName").toString());
 						ByteArrayOutputStream contentFile = new ByteArrayOutputStream((int) file.get("size"));
-						byte[] data = Base64.getDecoder().decode(file.get("value").toString());
+						byte[] data = DatatypeConverter.parseBase64Binary(file.get("value").toString());
 						contentFile.write(data);
 						pieceJointe.setContent(contentFile);
 						pieceJointe.setMimeType(file.get("type").toString());

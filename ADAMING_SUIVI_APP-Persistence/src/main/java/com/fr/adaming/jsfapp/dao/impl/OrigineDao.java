@@ -14,11 +14,11 @@ public class OrigineDao extends ManagerDao<Origine, Long> implements
 
 	@Override
 	public Origine rechercherOrigineParLibelle(String libelle) {
-		String query = "  SELECT *  FROM origine  WHERE   1=1     ";
+		String query = "SELECT *  FROM origine  WHERE 1=1";
 		if (libelle != null) {
-			query = query + " AND  origine.libelle = '" + libelle + "'";
+			query = query + " AND  origine.libelle = :libelle";
 		}
-		SQLQuery st = this.getSession().createSQLQuery(query);
+		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle);;
 
 		Origine origine = (Origine) st.addEntity(Origine.class).uniqueResult();
 

@@ -36,6 +36,7 @@ public class SessionsFormations {
 
 	@PostMapping()
 	public SessionFormation createOrUpdate(@RequestBody SessionFormation entity) {
+		if(entity.getId()==null){entity.setFActif(true);}
 		return sessionFormationService.createOrUpdate(entity);
 	}
 
@@ -73,6 +74,11 @@ public class SessionsFormations {
 
 	public List<SessionFormation> rechercherSessionsFormationEnCours(SessionFormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherSessionsFormationEnCours(sessionFormationDto);
+	}
+	
+	@RequestMapping(value = "/rechercherSessionFormation", method = RequestMethod.POST)
+	public List<SessionFormation> rechercherSessionFormation(@RequestBody SessionFormationDto sessionFormationDto) {
+		return sessionFormationService.rechercherSessionFormation(sessionFormationDto);
 	}
 
 	@RequestMapping(value = "/sessionFormationEnCours", method = RequestMethod.POST)

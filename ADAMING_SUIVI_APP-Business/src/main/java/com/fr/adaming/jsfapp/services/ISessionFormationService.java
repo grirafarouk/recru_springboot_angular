@@ -17,7 +17,10 @@ public interface ISessionFormationService extends
 			SessionFormationDto sessionFormationDto);
 
 	SessionFormation rechercherSessionsFormationParCode(String code);
-
+	
+	List<SessionFormation> rechercherSessionFormation(
+			SessionFormationDto sessionFormationDto);
+	
 	List<SessionFormation> rechercherSessionsFormationEnCours(
 			SessionFormationDto sessionFormationDto);
 	List<SessionFormation> rechercherFormationEnCours(

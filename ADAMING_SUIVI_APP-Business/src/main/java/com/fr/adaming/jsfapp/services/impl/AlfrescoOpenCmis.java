@@ -38,12 +38,16 @@ public class AlfrescoOpenCmis {
 			Map<String, String> parameter = new HashMap<String, String>();
 
 			// user credentials
-			parameter.put(SessionParameter.USER, "admin");
-			parameter.put(SessionParameter.PASSWORD, "admin");
+			parameter.put(SessionParameter.USER, "moueslati");
+			parameter.put(SessionParameter.PASSWORD, "rSXzvUB6");
+//			parameter.put(SessionParameter.USER, "admin");
+//			parameter.put(SessionParameter.PASSWORD, "admin");
 
 			// connection settings
 			parameter.put(SessionParameter.ATOMPUB_URL,
-					"http://127.0.0.1:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
+					"http://51.38.203.218:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
+//			parameter.put(SessionParameter.ATOMPUB_URL,
+//					"http://127.0.0.1:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
 			parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 			List<Repository> s = factory.getRepositories(parameter);
 			// create session

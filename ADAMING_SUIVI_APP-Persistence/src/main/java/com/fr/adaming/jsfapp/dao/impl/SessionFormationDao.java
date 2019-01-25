@@ -118,6 +118,35 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 	}
 	
 	@Override
+	public List<SessionFormation> rechercherSessionFormation(
+			SessionFormationDto sessionFormationDto) {
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		String queryString = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where 1=1";
+
+		if (sessionFormationDto != null) {
+			if (sessionFormationDto.getDateDemarrage() != null) {
+				queryString += " and session_formation.DATE_DEMARRAGE BETWEEN '"
+						+ df.format(sessionFormationDto.getDateDemarrage())
+						+ " 00:00:00' AND '"
+						+ df.format(sessionFormationDto.getDateDemarrage())
+						+ " 23:59:59'";
+			}
+			if (sessionFormationDto.getDateFin() != null) {
+				queryString += " and session_formation.DATE_FIN BETWEEN '" + df.format(sessionFormationDto.getDateFin())
+						+ " 00:00:00' AND '" + df.format(sessionFormationDto.getDateFin()) + " 23:59:59'";
+			}
+		}
+
+		SQLQuery st = getSession().createSQLQuery(queryString);
+
+		@SuppressWarnings("unchecked")
+		List<SessionFormation> liste = st.addEntity(
+				SessionFormation.class).list();
+
+		return liste;
+	}
+	
+	@Override
 	public List<SessionFormation> rechercherFormationEnCours(
 			SessionFormationDto sessionFormationDto) {
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");

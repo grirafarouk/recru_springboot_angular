@@ -12,6 +12,9 @@ public interface IFormationDao extends IManagerDao<Formation, Long> {
 
 	Formation rechercherSessionsFormationParCode(FormationDto formation);
 	
+	List<Formation> rechercherFormations(SessionFormationDto searchDto);
+
+	
 	List<Formation> rechercherFormationsEnCours(SessionFormationDto searchDto);
 
 	List<Formation> rechercherFormationsClotures(SessionFormationDto searchDto);

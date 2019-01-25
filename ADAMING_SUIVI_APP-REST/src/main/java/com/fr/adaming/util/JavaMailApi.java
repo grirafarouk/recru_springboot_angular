@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -37,14 +38,16 @@ public class JavaMailApi implements IEMailApi {
 	private Session session;
 	private boolean emailEntretien;
 	private boolean emailEntretienHorsCible;
+	ResourceBundle bundle = ResourceBundle.getBundle("properties.javamail");
+
 
 	public JavaMailApi() {
 		properties = new Properties();
 		properties.setProperty("mail.transport.protocol", "smtps");
-		properties.setProperty("mail.smtp.host", SMTP_HOST1);
-		properties.setProperty("mail.smtp.user", LOGIN_SMTP1);
+		properties.setProperty("mail.smtp.host", bundle.getString("SMTP"));
+		properties.setProperty("mail.smtp.user", bundle.getString("LOGIN"));
 		properties.setProperty("mail.smtp.starttls.enable", "true");
-		properties.setProperty("mail.from", IMAP_ACCOUNT1);
+		properties.setProperty("mail.from", bundle.getString("IMAP"));
 		session = Session.getInstance(properties);
 	}
 
@@ -66,7 +69,7 @@ public class JavaMailApi implements IEMailApi {
 				msg.addRecipients(Message.RecipientType.CC, destCcThree);
 			}
 			Transport transport = session.getTransport("smtp");
-			transport.connect(LOGIN_SMTP1, PASSWORD_SMTP1);
+			transport.connect(bundle.getString("LOGIN"), bundle.getString("PASSWORD"));
 			for (String dest : destinataires) {
 				msg.addRecipients(Message.RecipientType.TO, dest);
 			}
