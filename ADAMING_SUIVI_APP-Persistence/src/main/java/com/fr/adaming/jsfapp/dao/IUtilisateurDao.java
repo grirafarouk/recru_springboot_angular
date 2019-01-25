@@ -89,6 +89,10 @@ public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long> {
 	
 	Integer nbrCVParSourceurAutreTechnologie(Utilisateur utilisateur);
 	
+	Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin);
+	
+	Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin);
+	
 	List<ReportingChargeRelanceDto> rechercherChargeParRelance();
 	List<ReportingSourceurTechnologieDto> rechercherSourceurTechnologies();
 	List<ReportingListSourceurDto> rechercherReportingListSourceur();

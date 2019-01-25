@@ -221,7 +221,13 @@ export class CandidatsService {
     return this.httpClient.get<any>(BACK_END_URL + "/getcandidatById/" + id).pipe(map(async (data: any) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
+        if(data.dateNaissance == null)
+        data.dateNaissance=null
+        else
         data.dateNaissance = new Date(data.dateNaissance)
+        if(data.dateObtentionDiplome == null)
+        data.dateObtentionDiplome=null
+        else
         data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
 
         if (data.suivi == undefined || data.suivi == null)

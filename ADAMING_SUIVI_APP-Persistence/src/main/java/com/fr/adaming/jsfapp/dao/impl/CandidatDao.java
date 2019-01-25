@@ -633,9 +633,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		String query = "select c.NOM, c.PRENOM, c.NUMERO_TEL,c.EMAIL,DATE_FORMAT(e.DATE_RELANCE,'%d/%m/%Y'),t.libelle "
 				+ "from candidat c " + "join entretien e  on e.ID=c.ENTRETIEN " + "join utilisateur u on u.ID=e.CHARGE "
 				+ "inner join technologie t  on t.ID=c.TECHNOLOGIE "
-				+ "where e.RELANCE=1 and e.DATE_RELANCE < CURRENT_DATE() and e.CHARGE=" + idcharge;
-		query = query + " ORDER BY e.DATE_RELANCE DESC ";
-		SQLQuery st = getSession().createSQLQuery(query);
+				+ "where e.RELANCE=1 and e.DATE_RELANCE < CURRENT_DATE() and e.CHARGE= :idCharge"
+				+ " ORDER BY e.DATE_RELANCE DESC ";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("idCharge", idcharge);
 		List<ReportingFicheCVRelance> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		final List<Object[]> dataObject = (List<Object[]>) st.list();
@@ -663,9 +663,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				+ "ue.NOM as nom_charge, " + "ue.PRENOM as prenom_charge " + "from candidat c "
 				+ "JOIN entretien e on e.ID=c.ENTRETIEN " + "JOIN utilisateur ue on ue.ID=e.CHARGE "
 				+ "join session_formation s on s.ID=c.SESSION_FORMATION " + "JOIN utilisateur u on u.ID=c.CREE_PAR "
-				+ "where c.DOC_CONSULTATION=1 and s.ID=" + idsession;
-		query = query + " ORDER BY c.CREE_PAR";
-		SQLQuery st = getSession().createSQLQuery(query);
+				+ "where c.DOC_CONSULTATION=1 and s.ID= :idsession"
+				+ " ORDER BY c.CREE_PAR";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("idsession", idsession);
 		List<ReportingFicheSourceur> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
 		final List<Object[]> dataObject = (List<Object[]>) st.list();

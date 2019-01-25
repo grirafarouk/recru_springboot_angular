@@ -40,6 +40,12 @@ public class FormationService extends ManagerService<Formation, Long> implements
 	public Formation rechercherSessionsFormationParCode(FormationDto formation) {
 		return formationDao.rechercherSessionsFormationParCode(formation);
 	}
+	
+	@Override
+	public List<Formation> rechercherFormations(SessionFormationDto searchDto) {
+		return formationDao
+				.rechercherFormations(searchDto);
+	}
 
 	@Override
 	public List<Formation> rechercherFormationsEnCours(SessionFormationDto searchDto) {

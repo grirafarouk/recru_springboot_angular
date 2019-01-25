@@ -79,7 +79,7 @@
 	<bean id="evaluationTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="eMailEvaluationJobDetail" />
-		<property name="cronExpression" value="0 0 3 * * ?" />
+		<property name="cronExpression" value="0 16 17 * * ?" />
 	</bean>
 
 

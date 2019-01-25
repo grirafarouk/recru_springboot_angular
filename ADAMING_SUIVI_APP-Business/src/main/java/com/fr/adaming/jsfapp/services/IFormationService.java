@@ -11,6 +11,9 @@ public interface IFormationService extends IManagerService<Formation, Long> {
 	Formation rechercherSessionsFormationParCode(String code);
 
 	Formation rechercherSessionsFormationParCode(FormationDto formation);
+	
+	List<Formation> rechercherFormations(SessionFormationDto searchDto);
+
 
 	List<Formation> rechercherFormationsEnCours(SessionFormationDto searchDto);
 

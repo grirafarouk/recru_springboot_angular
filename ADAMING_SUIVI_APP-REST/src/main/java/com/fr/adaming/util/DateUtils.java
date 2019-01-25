@@ -11,7 +11,7 @@ import java.util.Locale;
 public class DateUtils {
 
 	
-	public static final  DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+	public DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static Date getYesterday() {
 		Calendar cal = Calendar.getInstance();

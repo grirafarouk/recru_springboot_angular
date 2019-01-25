@@ -4,8 +4,8 @@ import com.fr.adaming.jsfapp.model.Utilisateur;
 
 public class SendEmailInitPasswordThread extends Thread {
 
-	public Utilisateur utilisateur;
-	public String url;
+	private Utilisateur utilisateur;
+	private String url;
 
 	/**
 	 * 

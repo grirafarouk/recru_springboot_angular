@@ -2,6 +2,7 @@ package com.fr.adaming.rest.controller;
 
 import java.util.Collection;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.EntretienDto;
+import com.fr.adaming.jsfapp.mapper.EntretienMapper;
 import com.fr.adaming.jsfapp.model.Entretien;
 import com.fr.adaming.jsfapp.services.IEntretienService;
 
@@ -21,9 +24,13 @@ public class EntretienController {
 	@Autowired
 	private IEntretienService entretienService;
 
+	private EntretienMapper entretienMapper = Mappers.getMapper(EntretienMapper.class);
+
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Entretien createOrUpdate(@RequestBody Entretien entity) {
-		return entretienService.createOrUpdate(entity);
+	public EntretienDto createOrUpdate(@RequestBody EntretienDto entretienDto) {
+		Entretien entretien=entretienMapper.entretienDtoToEntretien(entretienDto);
+		entretien = entretienService.createOrUpdate(entretien);
+		return entretienMapper.entretienToEntretienDto(entretien);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -37,8 +44,9 @@ public class EntretienController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Entretien entity) {
-		entretienService.delete(entity);
+	public void delete(@RequestBody EntretienDto entretienDto) {
+		Entretien entretien=entretienMapper.entretienDtoToEntretien(entretienDto);
+		entretienService.delete(entretien);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

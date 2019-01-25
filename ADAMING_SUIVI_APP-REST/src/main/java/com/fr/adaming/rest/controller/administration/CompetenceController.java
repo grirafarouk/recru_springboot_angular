@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.CompetenceDto;
+import com.fr.adaming.jsfapp.mapper.CompetenceMapper;
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.services.ICompetenceService;
 
@@ -24,6 +27,8 @@ public class CompetenceController {
 	private ICompetenceService competenceService;
 
 	private List<Competence> listeCompetences;
+	
+	private CompetenceMapper competenceMapper = Mappers.getMapper(CompetenceMapper.class);
 
 	public List<Competence> getListeCompetences() {
 		return listeCompetences;
@@ -34,18 +39,24 @@ public class CompetenceController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public Competence createOrUpdate(@RequestBody Competence entity) {
-		return competenceService.createOrUpdate(entity);
+	public CompetenceDto createOrUpdate(@RequestBody CompetenceDto competenceDto) {
+		Competence competence = competenceMapper.competenceDtoToCandidat(competenceDto);
+		competence = competenceService.createOrUpdate(competence);
+		return competenceMapper.competenceToCompetenceDto(competence);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Competence update(@RequestBody Competence entity) {
-		return competenceService.update(entity);
+	public CompetenceDto update(@RequestBody CompetenceDto competenceDto) {
+		Competence competence = competenceMapper.competenceDtoToCandidat(competenceDto);
+		competence = competenceService.update(competence);
+		return competenceMapper.competenceToCompetenceDto(competence);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Competence create(@RequestBody Competence entity) {
-		return competenceService.create(entity);
+	public CompetenceDto create(@RequestBody CompetenceDto competenceDto) {
+		Competence competence = competenceMapper.competenceDtoToCandidat(competenceDto);
+		competence = competenceService.create(competence);
+		return competenceMapper.competenceToCompetenceDto(competence);
 	}
 
 	@RequestMapping(value = "/rechercheid/{id}", method = RequestMethod.GET)
@@ -66,8 +77,9 @@ public class CompetenceController {
 	}
 
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Competence entity) {
-		competenceService.delete(entity);
+	public void delete(@RequestBody CompetenceDto competenceDto) {
+		Competence competence = competenceMapper.competenceDtoToCandidat(competenceDto);
+		competenceService.delete(competence);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

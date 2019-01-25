@@ -46,18 +46,19 @@ export class FiliereComponent implements OnInit {
   technologies = [];
   lieux = [];
   typeFormation = []
-  ngOnInit() {
 
+  ngOnInit() {
     this.getListe();
   }
+
   rechercherSession() {
-    this.sessionFormationEnCourService.rechercherSessionFormationencours(this.session).subscribe(data => {
+    this.sessionFormationEnCourService.rechercherFormations(this.session).subscribe(data => {
       this.isCollapsed = [];
       data.forEach(element => {
         this.isCollapsed.push(true)
       });
       this.formations = data;
-      this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
+      this.sessionFormationEnCourService.getSessionFormation(this.session).subscribe(data => {
         this.sessionFormations = data;
       });
     }
@@ -96,11 +97,9 @@ export class FiliereComponent implements OnInit {
   }
 
   collapsed(event: any): void {
-    // console.log(event);
   }
 
   expanded(event: any): void {
-    // console.log(event);
   }
 
   activerDesactiverSession(sessionF) {
@@ -116,8 +115,6 @@ export class FiliereComponent implements OnInit {
 
     })
   }
-
-
 
   showFormationModal(){
     this.selectedFormation= new Formation();
@@ -178,6 +175,7 @@ export class FiliereComponent implements OnInit {
       this.notifierService.notify("error", "Error")
     })
   }
+
   collapseExpand(i) {
     for (let index = 0; index < this.isCollapsed.length; index++) {
       if (index == i)

@@ -15,6 +15,9 @@ public interface ISessionFormationDao extends
 
 	List<SessionFormation> rechercherSessionsFormation(
 			SessionFormationDto sessionFormationDto);
+	
+	List<SessionFormation> rechercherSessionFormation(
+			SessionFormationDto sessionFormationDto);
 
 	List<SessionFormation> rechercherFormationEnCours(
 			SessionFormationDto sessionFormationDto);

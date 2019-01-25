@@ -146,7 +146,19 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 	public Integer nbrCVParSourceurParTechnologie(Utilisateur utilisateur,
 			Technologie technologie, Date dateDebut, Date dateFin) {
 		return utilisateurDao.nbrCVParSourceurParTechnologie(utilisateur, technologie, dateDebut, dateFin);
-	}	
+	}
+	
+	@Override
+	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin)
+	{
+		return utilisateurDao.nombreCVParCandidat(utilisateur, dateDebut, dateFin);
+	}
+	
+	@Override
+	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin)
+	{
+		return utilisateurDao.nbrTotalTechnologie(utilisateur, dateDebut, dateFin);
+	}
 	
 	@Override
 	public Integer nbrCVParSourceurParMainframe(Utilisateur utilisateur){

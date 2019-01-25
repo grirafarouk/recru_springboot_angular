@@ -403,6 +403,39 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
 		return nbr;
 	}
+	
+	@Override
+	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut,
+			Date dateFin) {
+		String query = "SELECT Count(*) FROM candidat c LEFT JOIN entretien e on e.ID=c.ENTRETIEN JOIN utilisateur u on u.ID = c.CREE_PAR";
+		if (utilisateur != null) {
+			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
+			if (dateDebut != null) {
+				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+			}
+			if (dateFin != null) {
+				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+			}
+		}
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
+	}
+	@Override
+	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut,
+			Date dateFin) {
+		String query = "select count(*) FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE ";
+		if (utilisateur != null) {
+			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
+			if (dateDebut != null) {
+				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+			}
+			if (dateFin != null) {
+				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+			}
+		}
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
+	}
 
 	@Override
 	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
@@ -550,7 +583,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		System.out.println("query" + query);
 		return data;
 	}
-
+	
 	@Override
 	public List<ReportingSourceurParDispoDto> rechercherReportingSourceur() {
 		String query = "(select " + "tmp.ID as id_sourceur, "
@@ -594,6 +627,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 		return data;
 	}
+	
 
 	@Override
 	public HashMap<String, Integer> ReportingCVParTechnologieParSourceur() {

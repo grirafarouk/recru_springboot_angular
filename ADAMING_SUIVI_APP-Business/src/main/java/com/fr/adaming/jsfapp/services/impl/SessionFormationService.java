@@ -60,6 +60,13 @@ public class SessionFormationService extends
 				.rechercherSessionsFormationEnCours(sessionFormationDto);
 	}
 	
+	public List<SessionFormation> rechercherSessionFormation(
+			SessionFormationDto sessionFormationDto) {
+		// TODO Auto-generated method stub
+		return sessionFormation
+				.rechercherSessionFormation(sessionFormationDto);
+	}
+	
 	public List<SessionFormation> rechercherFormationEnCours(
 			SessionFormationDto sessionFormationDto) {
 		// TODO Auto-generated method stub

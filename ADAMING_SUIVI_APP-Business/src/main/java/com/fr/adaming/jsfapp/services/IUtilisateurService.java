@@ -51,6 +51,10 @@ public interface IUtilisateurService extends IManagerService<Utilisateur, Long> 
 	
 	Integer nbrCVParSourceurParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut, Date dateFin);
 	
+	Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin);
+	
+	Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin);
+	
 	Integer nbrCVParSourceurParMainframe(Utilisateur utilisateur);
 	
 	Integer nbrCVParSourceurParMainframePlus(Utilisateur utilisateur);

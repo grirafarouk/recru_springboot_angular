@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ import com.fr.adaming.util.SendEmailInitPasswordThread;
 
 @RestController
 public class PasswordForgotController {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(PasswordForgotController.class);
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -60,7 +64,7 @@ public class PasswordForgotController {
 			emailInitPasswordThread.start();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.info("context", e);
 		}
 		result.put("result", "success");
 		return result;

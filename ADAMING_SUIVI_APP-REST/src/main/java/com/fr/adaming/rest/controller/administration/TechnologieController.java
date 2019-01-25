@@ -3,6 +3,7 @@ package com.fr.adaming.rest.controller.administration;
 import java.util.Collection;
 import java.util.List;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.TechnologieDto;
+import com.fr.adaming.jsfapp.mapper.TechnologieMapper;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.services.ITechnologieService;
 
@@ -24,14 +26,20 @@ public class TechnologieController {
 	@Autowired
 	private ITechnologieService technologieService;
 
+	private TechnologieMapper technologieMapper = Mappers.getMapper(TechnologieMapper.class);
+
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Technologie create(@RequestBody Technologie entity) {
-		return technologieService.merge(entity);
+	public TechnologieDto create(@RequestBody TechnologieDto technologieDto) {
+		Technologie technologie = technologieMapper.technologieDtoToTechnologie(technologieDto);
+		technologie = technologieService.merge(technologie);
+		return technologieMapper.technologieToTechnologieDto(technologie);
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Technologie update(@RequestBody Technologie entity) {
-		return technologieService.update(entity);
+	public TechnologieDto update(@RequestBody TechnologieDto technologieDto) {
+		Technologie technologie = technologieMapper.technologieDtoToTechnologie(technologieDto);
+		technologie = technologieService.update(technologie);
+		return technologieMapper.technologieToTechnologieDto(technologie);
 	}
 
 	@RequestMapping(value = "/libelle/{libelle}", method = RequestMethod.GET)
@@ -66,8 +74,9 @@ public class TechnologieController {
 
 	@RequestMapping(value = "", method = RequestMethod.DELETE)
 
-	public void delete(@RequestBody Technologie entity) {
-		technologieService.delete(entity);
+	public void delete(@RequestBody TechnologieDto technologieDto) {
+		Technologie technologie = technologieMapper.technologieDtoToTechnologie(technologieDto);
+		technologieService.delete(technologie);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)

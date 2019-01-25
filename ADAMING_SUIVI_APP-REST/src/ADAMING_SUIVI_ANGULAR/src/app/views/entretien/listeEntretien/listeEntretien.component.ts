@@ -12,6 +12,7 @@ import { CandidateDto } from "../../candidats/CandidateDto";
 import { NAVIGATION_RULES, DATE_FORMAT, PHONE_MASK_LABEL } from "../../../helper/application.constant";
 import { Status } from "../../../models/enum/Status";
 import { UtilisateurService } from "../../../services/utilisateur.service";
+import * as _moment from 'moment';
 
 
 @Component({
@@ -90,6 +91,16 @@ export class listeEntretienComponent implements OnInit {
       mask:PHONE_MASK_LABEL
     },
     {
+      data: 'statut',
+      title: 'Délai Traitement	',
+      visible: false,
+      html: false,
+      rendered: (e) => {
+        return e.dateEntretien != null && e.dateInscription!=null 
+        ?Math.ceil((new Date(   _moment(e.dateEntretien).format("MM/DD/YYYY")   ).getTime() -    new Date(   _moment(e.dateInscription).format("MM/DD/YYYY")   ).getTime()) / (1000 * 3600 * 24))+" (J)" : " - "
+      }
+    },
+    {
       data:'dateEntretien',
       title:'Date entretien',
       visible:true,
@@ -113,7 +124,7 @@ export class listeEntretienComponent implements OnInit {
     {
       data:'mobilite',
       title:'Mobilité',
-      visible:false
+      visible:false,
     },
     {
       data:'statut',
@@ -157,6 +168,7 @@ export class listeEntretienComponent implements OnInit {
   pages = [];
   lieux=[]
   listCarge: any[];
+  refStatut = this.helperService.buildStatutArray();
 
 
   constructor(private originesService:OriginesService,private technologiesService:TechnologieService,
