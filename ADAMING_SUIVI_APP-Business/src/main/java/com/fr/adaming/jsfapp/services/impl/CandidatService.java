@@ -27,7 +27,7 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 		ICandidatService {
 
 	/**
-	 * 
+	 * 	
 	 */
 	private static final long serialVersionUID = 8725956076501227820L;
 
@@ -98,15 +98,11 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 
 	@Override
 	public List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut,
-			Date DateFin) {
-		return candidatDao.rechercherSyntheseSemaine(dateDebut, DateFin);
+			Date dateFin) {
+		return candidatDao.rechercherSyntheseSemaine(dateDebut, dateFin);
 	}
 
-	// @Override
-	// public List<Candidat> rechercherReporting(ReportingCandidatDto
-	// reportingCandidatDto) {
-	// return candidatDao.rechercherReporting(reportingCandidatDto);
-	// }
+	
 
 	@Override
 	public List<Candidat> rechercherCandidatEnAttenteEvaluation() {
@@ -148,8 +144,8 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 	
 	
-	public Integer CvARelancer(UtilisateurDto charge) {
-		return candidatDao.CvARelancer(charge);
+	public Integer cvArelancer(UtilisateurDto charge) {
+		return candidatDao.cvArelancer(charge);
 	}
 	
 	@Override
@@ -168,8 +164,8 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 	
 	@Override
-	public Integer NombreTechnologieParCandidat() {
-		return candidatDao.NombreTechnologieParCandidat();
+	public Integer nombreTechnologieParCandidat() {
+		return candidatDao.nombreTechnologieParCandidat();
 	}
 	
 	@Override

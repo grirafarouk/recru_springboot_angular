@@ -64,19 +64,19 @@ public class V_ReportingCandidatDto implements Serializable {
 	}
 
 	@Transient
-	private String dateentretien;
+	private String dateEntretienCandidat;
 
 	@Transient
-	public String getDateentretien() {
+	public String getDateEntretienCandidat() {
 		if (dateEntretien != null) {
-			dateentretien = sdf.format(dateEntretien);
+			dateEntretienCandidat = sdf.format(dateEntretien);
 		}
-		return dateentretien;
+		return dateEntretienCandidat;
 	}
-
+ 
 	@Transient
-	public void setDateentretien(String dateentretien) {
-		this.dateentretien = dateentretien;
+	public void setDateEntretienCandidat(String dateentretien) {
+		this.dateEntretienCandidat = dateentretien;
 	}
 
 	@Transient

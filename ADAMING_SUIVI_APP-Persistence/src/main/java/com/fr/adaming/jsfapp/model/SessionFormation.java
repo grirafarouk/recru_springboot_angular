@@ -35,6 +35,7 @@ public class SessionFormation implements Serializable {
 	private ClientSession client;
 
 	public SessionFormation() {
+		super();
 
 	}
 

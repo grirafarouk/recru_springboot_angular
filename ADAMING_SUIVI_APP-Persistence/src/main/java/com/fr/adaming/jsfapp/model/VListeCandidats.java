@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.enums.Statut;
 
 @Entity
 @Table(name = "V_ListeCandidats")
-public class V_ListeCandidats implements java.io.Serializable {
+public class VListeCandidats implements java.io.Serializable {
 
 	/**
 	 * 

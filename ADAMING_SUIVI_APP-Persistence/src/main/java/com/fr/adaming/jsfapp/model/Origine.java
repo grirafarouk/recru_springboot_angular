@@ -22,6 +22,7 @@ public class Origine implements java.io.Serializable {
 	private String libelle;
 
 	public Origine() {
+		super();
 	}
 
 	@Id
@@ -65,6 +66,7 @@ public class Origine implements java.io.Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		else return true;
 		return true;
 	}
 

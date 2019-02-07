@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
-public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long> {
+public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long>,Serializable {
 
 	/**
 	 * Récupérer un {@link Utilisateur} a partir de son Login et son Mot de

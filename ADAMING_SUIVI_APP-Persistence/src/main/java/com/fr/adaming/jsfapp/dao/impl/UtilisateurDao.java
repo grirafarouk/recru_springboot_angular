@@ -39,6 +39,10 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 6647205927605972562L;
+	/**
+	 * 
 	 * 
 	 * @see com.fr.adaming.jsfapp.dao.IUtilisateurDao#findbyLoginPass(java.lang.String,
 	 *      java.lang.String)

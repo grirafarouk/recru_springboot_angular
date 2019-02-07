@@ -10,7 +10,7 @@ import com.fr.adaming.jsfapp.services.IManagerService;
 
 
 @Service("managerService")
-public abstract class ManagerService<T, ID extends Serializable> implements IManagerService<T, ID>, Serializable{
+public abstract class ManagerService<T, Id extends Serializable> implements IManagerService<T, Id>, Serializable{
 
 	/**
 	 * 
@@ -39,7 +39,7 @@ public abstract class ManagerService<T, ID extends Serializable> implements IMan
 	}
 
 	@Override
-	public T findById(ID id) {
+	public T findById(Id id) {
 		return getDao().findById(id);
 	}
 
@@ -54,9 +54,9 @@ public abstract class ManagerService<T, ID extends Serializable> implements IMan
 	}
 
 	@Override
-	public void deleteById(ID id) {
+	public void deleteById(Id id) {
 		getDao().deleteById(id);
 	}
 
-	public abstract IManagerDao<T, ID> getDao();
+	public abstract IManagerDao<T, Id> getDao();
 }

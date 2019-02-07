@@ -8,7 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CustomPasswordEncoder implements PasswordEncoder {
 	@Override
 	public String encode(CharSequence rawPassword) {
-		String res = "";
+		StringBuilder res = new StringBuilder();
 		try {
 			MessageDigest algorithm = MessageDigest.getInstance("MD5");
 			algorithm.reset();
@@ -18,14 +18,15 @@ public class CustomPasswordEncoder implements PasswordEncoder {
 			for (int i = 0; i < md5.length; i++) {
 				tmp = (Integer.toHexString(0xFF & md5[i]));
 				if (tmp.length() == 1) {
-					res += "0" + tmp;
+					 res.append("0").append(tmp);
 				} else {
-					res += tmp;
+					res.append(tmp);
 				}
 			}
 		} catch (NoSuchAlgorithmException ex) {
 		}
-		return res;
+	
+		return res.toString();
 	}
 
 	@Override

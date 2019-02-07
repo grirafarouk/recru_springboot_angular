@@ -6,16 +6,16 @@ import java.util.List;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Repository;
 
-import com.fr.adaming.jsfapp.dao.IV_ReportingCandidatDao;
+import com.fr.adaming.jsfapp.dao.IvReportingCandidatDao;
 import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
-import com.fr.adaming.jsfapp.model.V_ReportingCandidat;
+import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Repository("v_ReportingCandidatDao")
-public class V_ReportingCandidatDao extends ManagerDao<V_ReportingCandidat, Long>
-		implements IV_ReportingCandidatDao {
+public class V_ReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
+		implements IvReportingCandidatDao {
 	
 	@Override
-	public List<V_ReportingCandidat> rechercherReportingCandidat(
+	public List<VReportingCandidat> rechercherReportingCandidat(
 			V_ReportingCandidatDto v_ReportingcandidatDto, int page,
 			int size) {
 
@@ -24,8 +24,8 @@ public class V_ReportingCandidatDao extends ManagerDao<V_ReportingCandidat, Long
 		query += " LIMIT :page, :size";
 		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size", size);
 		@SuppressWarnings("unchecked")
-		List<V_ReportingCandidat> liste = (List<V_ReportingCandidat>) st.addEntity(
-				V_ReportingCandidat.class).list();
+		List<VReportingCandidat> liste = (List<VReportingCandidat>) st.addEntity(
+				VReportingCandidat.class).list();
 
 		return liste;
 	}

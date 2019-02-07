@@ -1,6 +1,5 @@
 package com.fr.adaming.util;
 
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.services.ICandidatService;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
 
-
 @Component("candidatARelancerJob")
 public class CandidatARelancerJobImpl {
 
@@ -39,8 +37,7 @@ public class CandidatARelancerJobImpl {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory
-			.getLogger(CandidatARelancerJobImpl.class);
+	private Logger logger = LoggerFactory.getLogger(CandidatARelancerJobImpl.class);
 
 	private static final String NEW_LINE = "\n";
 	private static final String HTML_SNNIPET_1 = "<!DOCTYPE html><html><head><style>table, td, th {border: 1px solid black;}</style><title>";
@@ -69,29 +66,25 @@ public class CandidatARelancerJobImpl {
 		c.setTime(dt);
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
-
+		List<Candidat> candidatsARelancer = new ArrayList<>();
 		for (Utilisateur charge : charges) {
 			builder = new StringBuilder();
-			List<Candidat> candidatsARelancer = new ArrayList<>();
-			destinataires = new ArrayList<String>();
+
+			destinataires = new ArrayList<>();
 			candidatsARelancer = candidatService.candidatARelancer(charge);
 			// creation de la liste de candidats à relancer
-			if (candidatsARelancer != null && candidatsARelancer.size() >= 1) {
+			if (candidatsARelancer != null && candidatsARelancer.isEmpty() == false) {
 				// creation de la liste des destinataires
 				destinataires.add(charge.getEmail());
 				IEMailApi eMailApi = new JavaMailApi();
 				// objet du mail
 				String objet = "Rappel de candidats à relancer";
 				// contenu du mail
-				String content = "Bonjour "
-						+ charge.getNom()
-						+ " "
-						+ charge.getPrenom()
-						+builder.append("<br>")
-						+ "Ci-dessous la liste des candidats à relancer pour demain le "
-						+ df.format(dt) + ":" + parse(candidatsARelancer);
-				List<PieceJointe> pjList = new ArrayList<PieceJointe>();
-				eMailApi.envoyerMail(objet, content, destinataires, "","","", pjList);
+				String content = "Bonjour " + charge.getNom() + " " + charge.getPrenom() + builder.append("<br>")
+						+ "Ci-dessous la liste des candidats à relancer pour demain le " + df.format(dt) + ":"
+						+ parse(candidatsARelancer);
+				List<PieceJointe> pjList = new ArrayList<>();
+				eMailApi.envoyerMail(objet, content, destinataires, "", "", "", pjList);
 				logger.info("Email reporting finished.");
 			}
 		}

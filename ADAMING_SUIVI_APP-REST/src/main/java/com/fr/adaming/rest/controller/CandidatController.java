@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Base64;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
+import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.Statut;
@@ -52,12 +52,12 @@ import com.fr.adaming.jsfapp.mapper.V_ReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Utilisateur;
-import com.fr.adaming.jsfapp.model.V_ListeCandidats;
-import com.fr.adaming.jsfapp.model.V_ReportingCandidat;
+import com.fr.adaming.jsfapp.model.VListeCandidats;
+import com.fr.adaming.jsfapp.model.VReportingCandidat;
 import com.fr.adaming.jsfapp.services.ICandidatService;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
-import com.fr.adaming.jsfapp.services.IV_ListeCandidatsService;
-import com.fr.adaming.jsfapp.services.IV_ReportingCandidatService;
+import com.fr.adaming.jsfapp.services.IvListeCandidatsService;
+import com.fr.adaming.jsfapp.services.IvReportingCandidatService;
 import com.fr.adaming.jsfapp.services.impl.AlfrescoOpenCmis;
 import com.fr.adaming.jsfapp.utils.Utilitaire;
 import com.fr.adaming.util.ConvocationMail;
@@ -84,15 +84,15 @@ public class CandidatController {
 
 	private Disponibilite[] refDisponibilite = Disponibilite.values();
 	@Autowired
-	private IV_ListeCandidatsService vListeCandidatsService;
+	private IvListeCandidatsService vListeCandidatsService;
 
-	private V_ListeCandidatsDto vListeCandidatsDto;
+	private VListeCandidatsDto vListeCandidatsDto;
 	private V_ListeCandidatsMapper vListeCandidatsMapper = Mappers.getMapper(V_ListeCandidatsMapper.class);
 	private V_ReportingCandidatMapper vReportingCandidatMapper = Mappers.getMapper(V_ReportingCandidatMapper.class);
 	private CandidatMapper candidatMapper = Mappers.getMapper(CandidatMapper.class);
 
 	@Autowired
-	private IV_ReportingCandidatService vReportingCandidatService;
+	private IvReportingCandidatService vReportingCandidatService;
 
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Collection<Candidat> all() {
@@ -100,9 +100,9 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/rechercheNouveauxcandidats", method = RequestMethod.POST)
-	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD, @RequestParam int page,
+	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody VListeCandidatsDto NCD, @RequestParam int page,
 			@RequestParam int size) {
-		List<V_ListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
+		List<VListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
 		JSONObject object = new JSONObject();
 		object.put("total", list.size());
 		if (size == 0)
@@ -114,63 +114,63 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "/RechercheNouveauxcandidats", method = RequestMethod.POST)
-	public List<V_ListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody V_ListeCandidatsDto NCD,
+	public List<VListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody VListeCandidatsDto NCD,
 			@RequestParam int page, @RequestParam int size) {
 
-		List<V_ListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeNouveauxCandidats(NCD, page, size));
+		List<VListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherVlisteNouveauxCandidats(NCD, page, size));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
 	@RequestMapping(value = "/RechercheNouveauxcandidatsNbr", method = RequestMethod.POST)
-	public Integer rechercheNouveauxcandidatsNbr(@RequestBody V_ListeCandidatsDto NCD) {
-		return vListeCandidatsService.rechercherV_ListeNouveauxCandidatsNbr(NCD);
+	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto NCD) {
+		return vListeCandidatsService.rechercherVlisteNouveauxCandidatsNbr(NCD);
 	}
 
 	@RequestMapping(value = "/RechercheTouscandidats", method = RequestMethod.POST)
-	public List<V_ListeCandidatsDto> rechercherTousCandidats(@RequestBody V_ListeCandidatsDto NCD,
+	public List<VListeCandidatsDto> rechercherTousCandidats(@RequestBody VListeCandidatsDto NCD,
 			@RequestParam int page, @RequestParam int size) {
 
-		List<V_ListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeCandidats(NCD, page, size));
+		List<VListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherVlisteCandidats(NCD, page, size));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 
 	}
 
 	@RequestMapping(value = "/RechercheTouscandidatsNbr", method = RequestMethod.POST)
-	public Integer RechercheTouscandidatsNbr(@RequestBody V_ListeCandidatsDto NCD) {
-		return vListeCandidatsService.rechercherV_ListeCandidatsNbr(NCD);
+	public Integer RechercheTouscandidatsNbr(@RequestBody VListeCandidatsDto NCD) {
+		return vListeCandidatsService.rechercherVlisteCandidatsNbr(NCD);
 	}
 
 	@RequestMapping(value = "/RechercheCandidatARelancer", method = RequestMethod.POST)
-	public List<V_ListeCandidatsDto> RechercheCandidatARelancer(@RequestBody V_ListeCandidatsDto NCD,
+	public List<VListeCandidatsDto> RechercheCandidatARelancer(@RequestBody VListeCandidatsDto NCD,
 			@RequestParam int page, @RequestParam int size) {
-		List<V_ListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherV_ListeCandidatsARelancer(NCD, page, size));
+		List<VListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherVlisteCandidatsARelancer(NCD, page, size));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
 	@RequestMapping(value = "/RechercheCandidatARelancerNbr", method = RequestMethod.POST)
-	public Integer RechercheCandidatARelancerNbr(@RequestBody V_ListeCandidatsDto NCD) {
-		return vListeCandidatsService.rechercherV_ListeCandidatsARelancerNbr(NCD);
+	public Integer RechercheCandidatARelancerNbr(@RequestBody VListeCandidatsDto NCD) {
+		return vListeCandidatsService.rechercherVlisteCandidatsARelancerNbr(NCD);
 	}
 
 	@RequestMapping(value = "/candidatavecentretien/{page}/{size}", method = RequestMethod.GET)
-	public List<V_ListeCandidats> rechercherCandidatAvecEntretien(@PathVariable int page, @PathVariable int size,
+	public List<VListeCandidats> rechercherCandidatAvecEntretien(@PathVariable int page, @PathVariable int size,
 			Boolean all) {
 		return vListeCandidatsService.rechercherCandidatAvecEntretien(vListeCandidatsDto, page, size, false);
 	}
 
 	@RequestMapping(value = "/RechercheCandidatavecentretien", method = RequestMethod.POST)
-	public List<V_ListeCandidatsDto> findCandidatavecentretien(@RequestBody V_ListeCandidatsDto NCD,
+	public List<VListeCandidatsDto> findCandidatavecentretien(@RequestBody VListeCandidatsDto NCD,
 			@RequestParam int page, @RequestParam int size, @RequestParam boolean allValue) {
-		List<V_ListeCandidats> list = new ArrayList<>(
+		List<VListeCandidats> list = new ArrayList<>(
 				vListeCandidatsService.rechercherCandidatAvecEntretien(NCD, page, size, allValue));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
 	@RequestMapping(value = "/RechercheCandidatAvecEntretienNbr", method = RequestMethod.POST)
-	public Integer rechercheCandidatAvecEntretienNbr(@RequestBody V_ListeCandidatsDto NCD,
+	public Integer rechercheCandidatAvecEntretienNbr(@RequestBody VListeCandidatsDto NCD,
 			@RequestParam boolean allValue) {
 		return vListeCandidatsService.rechercherCandidatAvecEntretienNbr(NCD, allValue);
 	}
@@ -178,7 +178,7 @@ public class CandidatController {
 	@RequestMapping(value = "/RechercheReporting", method = RequestMethod.POST)
 	public List<V_ReportingCandidatDto> rechercherReportingCandidat(@RequestBody V_ReportingCandidatDto NCD,
 			@RequestParam int page, @RequestParam int size) {
-		List<V_ReportingCandidat> list = new ArrayList<>(
+		List<VReportingCandidat> list = new ArrayList<>(
 				vReportingCandidatService.rechercherReportingCandidat(NCD, page, size));
 		return vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(list);
 	}
@@ -207,7 +207,7 @@ public class CandidatController {
 	}
 
 	@RequestMapping(value = "CVPDF", method = RequestMethod.POST)
-	public void getDownload(HttpServletResponse response, @RequestBody V_ListeCandidatsDto NCD) throws IOException {
+	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto NCD) throws IOException {
 		Candidat can = candidatService.findById(NCD.getId());
 		InputStream myStream = AlfrescoOpenCmis.findDocument(can.getIdCv()).getContentStream().getStream();
 		String FileName = AlfrescoOpenCmis.findDocument(can.getIdCv()).getName();

@@ -1,13 +1,9 @@
 package com.fr.adaming.jsfapp.dto;
-
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.persistence.Transient;
-
 import com.fr.adaming.jsfapp.model.Formation;
-
 public class SessionFormationDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private Long id;
@@ -15,36 +11,30 @@ public class SessionFormationDto implements Serializable{
 	private Date dateFin;
 	private Formation formation;
 	private String itemLabel;
-	private String datedemarrage;
+	private String dateDemarrageSession;
 	private Boolean FActif;
-
 	public SessionFormationDto() {
+		super();
+		
 	}
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public Date getDateDemarrage() {
 		return dateDemarrage;
 	}
-
 	public void setDateDemarrage(Date dateDemarrage) {
 		this.dateDemarrage = dateDemarrage;
 	}
-
 	public Formation getFormation() {
 		return formation;
 	}
-
 	public void setFormation(Formation formation) {
 		this.formation = formation;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -52,7 +42,6 @@ public class SessionFormationDto implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -69,46 +58,37 @@ public class SessionFormationDto implements Serializable{
 			return false;
 		return true;
 	}
-
 	public String getItemLabel() {
 		return itemLabel;
 	}
-
 	public void setItemLabel(String itemLabel) {
 		this.itemLabel = itemLabel;
 	}
-
 	public void populateItemLabel() {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
 		this.itemLabel = formation.getCode() + " " + format.format(dateDemarrage);
 	}
-
 	public Date getDateFin() {
 		return dateFin;
 	}
-
 	public void setDateFin(Date dateFin) {
 		this.dateFin = dateFin;
 	}
-
 	@Transient
-	public String getDatedemarrage() {
+	public String getDateDemarrageSession() {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		if (dateDemarrage != null) {
-		datedemarrage = format.format(dateDemarrage);
+		dateDemarrageSession = format.format(dateDemarrage);
 		}
-		return datedemarrage;
+		return dateDemarrageSession;
 	}
 	@Transient
-	public void setDatedemarrage(String datedemarrage) {
-		this.datedemarrage = datedemarrage;
+	public void setDateDemarrageSession(String dateDemarrageSession) {
+		this.dateDemarrageSession = dateDemarrageSession;
 	}
-
 	public Boolean getFActif() {
 		return FActif;
 	}
-
 	public void setFActif(Boolean fActif) {
 		FActif = fActif;
 	}

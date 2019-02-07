@@ -90,4 +90,5 @@ export class SessionsFormationsCloturesComponent implements OnInit {
       else this.isCollapsed[index] = true;
     }
   }
+
 }

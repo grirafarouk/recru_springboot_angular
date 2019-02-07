@@ -1,6 +1,5 @@
 package com.fr.adaming.util;
 
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -44,7 +43,7 @@ public class ExcelToHtml {
 	private short colIndex;
 	private int rowIndex, mergeStart, mergeEnd;
 	// Row -> Column -> Pictures
-	private Map<Integer, Map<Short, List<HSSFPictureData>>> pix = new HashMap<Integer, Map<Short, List<HSSFPictureData>>>();
+	private Map<Integer, Map<Short, List<HSSFPictureData>>> pix = new HashMap<>();
 
 	/**
 	 * 
@@ -52,7 +51,7 @@ public class ExcelToHtml {
 	 *            HSSFWorkbook
 	 * @throws IOException
 	 */
-	public ExcelToHtml(final HSSFWorkbook in) throws IOException {
+	public ExcelToHtml(final HSSFWorkbook in) {
 		sdf = new SimpleDateFormat("dd/MM/yyyy");
 		if (in == null) {
 			book = null;
@@ -77,32 +76,17 @@ public class ExcelToHtml {
 			return;
 		}
 		if (sheet.getDrawingPatriarch() != null) {
-			final List<HSSFShape> shapes = sheet.getDrawingPatriarch()
-					.getChildren();
+			final List<HSSFShape> shapes = sheet.getDrawingPatriarch().getChildren();
+
 			for (int i = 0; i < shapes.size(); ++i) {
 				if (shapes.get(i) instanceof HSSFPicture) {
 					try {
-						// Gain access to private field anchor.
 						final HSSFShape pic = shapes.get(i);
-						final Field f = HSSFShape.class
-								.getDeclaredField("anchor");
-						f.setAccessible(true);
-						final HSSFClientAnchor anchor = (HSSFClientAnchor) f
-								.get(pic);
-						// Store picture cell row, column and picture data.
-						if (!pix.containsKey(anchor.getRow1())) {
-							pix.put(anchor.getRow1(),
-									new HashMap<Short, List<HSSFPictureData>>());
-						}
-						if (!pix.get(anchor.getRow1()).containsKey(
-								anchor.getCol1())) {
-							pix.get(anchor.getRow1()).put(anchor.getCol1(),
-									new ArrayList<HSSFPictureData>());
-						}
-						pix.get(anchor.getRow1())
-								.get(anchor.getCol1())
-								.add(book.getAllPictures().get(
-										((HSSFPicture) pic).getPictureIndex()));
+						// Gain access to private field anchor.
+						final HSSFClientAnchor anchor = verif(i, pic);
+
+						pix.get(anchor.getRow1()).get(anchor.getCol1())
+								.add(book.getAllPictures().get(((HSSFPicture) pic).getPictureIndex()));
 					} catch (final Exception e) {
 						throw new RuntimeException(e);
 					}
@@ -117,9 +101,25 @@ public class ExcelToHtml {
 		out.append("</table>\n");
 	}
 
+	public HSSFClientAnchor verif(int i, final HSSFShape pic)
+			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+
+		final Field f = HSSFShape.class.getDeclaredField("anchor");
+		f.setAccessible(true);
+		final HSSFClientAnchor anchor = (HSSFClientAnchor) f.get(pic);
+		// Store picture cell row, column and picture data.
+		if (!pix.containsKey(anchor.getRow1())) {
+			pix.put(anchor.getRow1(), new HashMap<Short, List<HSSFPictureData>>());
+		}
+		if (!pix.get(anchor.getRow1()).containsKey(anchor.getCol1())) {
+			pix.get(anchor.getRow1()).put(anchor.getCol1(), new ArrayList<HSSFPictureData>());
+		}
+		return anchor;
+	}
+
 	/**
-	 * (Each Excel sheet row becomes an HTML table row) Generates an HTML table
-	 * row which has the same height as the Excel row.
+	 * (Each Excel sheet row becomes an HTML table row) Generates an HTML table row
+	 * which has the same height as the Excel row.
 	 * 
 	 * @param row
 	 *            The Excel row.
@@ -132,8 +132,7 @@ public class ExcelToHtml {
 		// Find merged cells in current row.
 		for (int i = 0; i < row.getSheet().getNumMergedRegions(); ++i) {
 			final CellRangeAddress merge = row.getSheet().getMergedRegion(i);
-			if (rowIndex >= merge.getFirstRow()
-					&& rowIndex <= merge.getLastRow()) {
+			if (rowIndex >= merge.getFirstRow() && rowIndex <= merge.getLastRow()) {
 				mergeStart = merge.getFirstColumn();
 				mergeEnd = merge.getLastColumn();
 				break;
@@ -141,9 +140,7 @@ public class ExcelToHtml {
 		}
 		out.append("style='");
 		if (row.getHeight() != -1) {
-			out.append("height: ")
-					.append(Math.round(row.getHeight() / 20.0 * 1.33333))
-					.append("px; ");
+			out.append("height: ").append(Math.round(row.getHeight() / 20.0 * 1.33333)).append("px; ");
 		}
 		out.append("'>\n");
 		for (colIndex = 0; colIndex < row.getLastCellNum(); ++colIndex) {
@@ -153,9 +150,9 @@ public class ExcelToHtml {
 	}
 
 	/**
-	 * (Each Excel sheet cell becomes an HTML table cell) Generates an HTML
-	 * table cell which has the same font styles, alignments, colours and
-	 * borders as the Excel cell.
+	 * (Each Excel sheet cell becomes an HTML table cell) Generates an HTML table
+	 * cell which has the same font styles, alignments, colours and borders as the
+	 * Excel cell.
 	 * 
 	 * @param cell
 	 *            The Excel cell.
@@ -170,8 +167,7 @@ public class ExcelToHtml {
 			mergeStart = -1;
 			mergeEnd = -1;
 			return;
-		} else if (mergeStart != -1 && mergeEnd != -1 && colIndex > mergeStart
-				&& colIndex < mergeEnd) {
+		} else if (mergeStart != -1 && mergeEnd != -1 && colIndex > mergeStart && colIndex < mergeEnd) {
 			// Within the merging region - skip the cell.
 			return;
 		}
@@ -210,25 +206,20 @@ public class ExcelToHtml {
 		if (font.getUnderline() != HSSFFont.U_NONE) {
 			out.append("text-decoration: underline; ");
 		}
-		out.append("font-size: ")
-				.append(Math.floor(font.getFontHeightInPoints() * 0.8))
-				.append("pt; ");
+		out.append("font-size: ").append(Math.floor(font.getFontHeightInPoints() * 0.8)).append("pt; ");
 		// Cell background and font colours
-		final short[] backRGB = style.getFillForegroundColorColor()
-				.getTriplet();
+		final short[] backRGB = style.getFillForegroundColorColor().getTriplet();
 		final HSSFColor foreColor = palette.getColor(font.getColor());
 		if (foreColor != null) {
 			final short[] foreRGB = foreColor.getTriplet();
 			if (foreRGB[0] != 0 || foreRGB[1] != 0 || foreRGB[2] != 0) {
-				out.append("color: rgb(").append(foreRGB[0]).append(',')
-						.append(foreRGB[1]).append(',').append(foreRGB[2])
-						.append(");");
+				out.append("color: rgb(").append(foreRGB[0]).append(',').append(foreRGB[1]).append(',')
+						.append(foreRGB[2]).append(");");
 			}
 		}
 		if (backRGB[0] != 0 || backRGB[1] != 0 || backRGB[2] != 0) {
-			out.append("background-color: rgb(").append(backRGB[0]).append(',')
-					.append(backRGB[1]).append(',').append(backRGB[2])
-					.append(");");
+			out.append("background-color: rgb(").append(backRGB[0]).append(',').append(backRGB[1]).append(',')
+					.append(backRGB[2]).append(");");
 		}
 		// Border
 		if (style.getBorderTop() != HSSFCellStyle.BORDER_NONE) {
@@ -252,8 +243,8 @@ public class ExcelToHtml {
 				break;
 			case HSSFCell.CELL_TYPE_NUMERIC:
 				// POI does not distinguish between integer and double, thus:
-				final double original = cell.getNumericCellValue(),
-				rounded = Math.round(original);
+				final double original = cell.getNumericCellValue();
+				final double rounded = Math.round(original);
 				if (Math.abs(rounded - original) < 0.00000000000000001) {
 					val = String.valueOf((int) rounded);
 				} else {
@@ -295,14 +286,12 @@ public class ExcelToHtml {
 		}
 		if (pix.containsKey(rowIndex)) {
 			if (pix.get(rowIndex).containsKey(colIndex)) {
-				for (final HSSFPictureData pic : pix.get(rowIndex)
-						.get(colIndex)) {
+				for (final HSSFPictureData pic : pix.get(rowIndex).get(colIndex)) {
 					out.append("<img alt='Image in Excel sheet' src='data:");
 					out.append(pic.getMimeType());
 					out.append(";base64,");
 					try {
-						out.append(new String(
-								Base64.encodeBase64(pic.getData()), "US-ASCII"));
+						out.append(new String(Base64.encodeBase64(pic.getData()), "US-ASCII"));
 					} catch (final UnsupportedEncodingException e) {
 						throw new RuntimeException(e);
 					}

@@ -11,7 +11,7 @@ import com.fr.adaming.jsfapp.dao.ISessionFormationDao;
 import com.fr.adaming.jsfapp.dto.FormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationReportingDto;
-import com.fr.adaming.jsfapp.model.Formation;
+
 import com.fr.adaming.jsfapp.model.SessionFormation;
 import com.fr.adaming.jsfapp.services.ISessionFormationService;
 
@@ -42,34 +42,30 @@ public class SessionFormationService extends
 	@Override
 	public List<SessionFormation> rechercherSessionsFormation(
 			SessionFormationDto sessionFormationDto) {
-		// TODO Auto-generated method stub
+	
 		return sessionFormation
 				.rechercherSessionsFormation(sessionFormationDto);
 	}
 
 	@Override
 	public SessionFormation rechercherSessionsFormationParCode(String code) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public List<SessionFormation> rechercherSessionsFormationEnCours(
 			SessionFormationDto sessionFormationDto) {
-		// TODO Auto-generated method stub
 		return sessionFormation
 				.rechercherSessionsFormationEnCours(sessionFormationDto);
 	}
 	
 	public List<SessionFormation> rechercherSessionFormation(
 			SessionFormationDto sessionFormationDto) {
-		// TODO Auto-generated method stub
 		return sessionFormation
 				.rechercherSessionFormation(sessionFormationDto);
 	}
 	
 	public List<SessionFormation> rechercherFormationEnCours(
 			SessionFormationDto sessionFormationDto) {
-		// TODO Auto-generated method stub
 		return sessionFormation
 				.rechercherFormationEnCours(sessionFormationDto);
 	}
@@ -81,21 +77,18 @@ public class SessionFormationService extends
 
 	public List<SessionFormation> rechercherSessionsFormationCloture(
 			SessionFormationDto sessionFormationDto) {
-		// TODO Auto-generated method stub
 		return sessionFormation
 				.rechercherSessionsFormationCloture(sessionFormationDto);
 	}
 
 	public List<SessionFormation> rechercherSessionsFormationClotureParFormation(
 			FormationDto formationDto) {
-		// TODO Auto-generated method stub
 		return sessionFormation
 				.rechercherSessionsFormationClotureParFormation(formationDto);
 	}
 
 	public List<SessionFormation> rechercherSessionsFormationEnCourParFormation(
 			FormationDto formationDto) {
-		// TODO Auto-generated method stub
 		return sessionFormation
 				.rechercherSessionsFormationEnCourParFormation(formationDto);
 	}

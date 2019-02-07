@@ -43,10 +43,8 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 	List<SyntheseCandidatDto> rechercherSyntheseJournee(Date date);
 
 	List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut,
-			Date DateFin);
+			Date dateFin);
 
-	// List<Candidat> rechercherReporting(ReportingCandidatDto
-	// reportingCandidatDto);
 
 	List<Candidat> rechercherCandidatEnAttenteEvaluation();
 
@@ -62,7 +60,7 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 	
 	Integer nbrCVParTechnologie(Technologie technologie);
 	
-	Integer CvARelancer(UtilisateurDto charge);
+	Integer cvArelancer(UtilisateurDto charge);
 	
 	List<Candidat> rechercherCandidatParCharge(UtilisateurDto charge);
 	
@@ -70,7 +68,7 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 	
 	HashMap<String, Integer> nbrCVParTechnologie();
 	
-	Integer NombreTechnologieParCandidat() ;
+	Integer nombreTechnologieParCandidat() ;
 
 	List<ReportingFicheCVRelance> rechercherCandidatParCharge(int idcharge);
 	

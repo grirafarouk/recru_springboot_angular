@@ -28,10 +28,10 @@ public class CodePostal implements java.io.Serializable {
 	private boolean actif;
 	private String libelleDepartement;
 	private String region;
-	private Long id_region;
+	private Long idRegion;
 
 	public CodePostal() {
-
+		super();
 	}
 
 	@Id
@@ -109,12 +109,12 @@ public class CodePostal implements java.io.Serializable {
 	}
 
 	@Column(name = "ID_REGION")
-	public Long getId_region() {
-		return id_region;
+	public Long getIdRegion() {
+		return idRegion;
 	}
 
-	public void setId_region(Long id_region) {
-		this.id_region = id_region;
+	public void setIdRegion(Long id_region) {
+		this.idRegion = id_region;
 	}
 
 	@Override
@@ -131,6 +131,7 @@ public class CodePostal implements java.io.Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		else return true;
 		return true;
 	}
 }

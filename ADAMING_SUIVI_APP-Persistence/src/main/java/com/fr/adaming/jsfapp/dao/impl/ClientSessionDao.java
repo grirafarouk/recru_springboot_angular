@@ -16,9 +16,9 @@ public class ClientSessionDao extends ManagerDao<ClientSession, Long> implements
 		String query = "  SELECT *  FROM clientSession  WHERE   1=1 AND  clientSession.libelle = :libelle";
 		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle != null);
 
-		ClientSession client = (ClientSession) st.addEntity(ClientSession.class).uniqueResult();
+		 
+		return (ClientSession) st.addEntity(ClientSession.class).uniqueResult();
 
-		return client;
 	}
 
 }

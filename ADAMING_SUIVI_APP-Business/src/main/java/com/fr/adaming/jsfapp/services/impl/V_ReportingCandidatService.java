@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.fr.adaming.jsfapp.dao.IManagerDao;
-import com.fr.adaming.jsfapp.dao.IV_ReportingCandidatDao;
+import com.fr.adaming.jsfapp.dao.IvReportingCandidatDao;
 import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
-import com.fr.adaming.jsfapp.model.V_ReportingCandidat;
-import com.fr.adaming.jsfapp.services.IV_ReportingCandidatService;
+import com.fr.adaming.jsfapp.model.VReportingCandidat;
+import com.fr.adaming.jsfapp.services.IvReportingCandidatService;
 
 @Service("v_ReportingCandidatService")
-public class V_ReportingCandidatService extends ManagerService<V_ReportingCandidat, Long> implements IV_ReportingCandidatService {
+public class V_ReportingCandidatService extends ManagerService<VReportingCandidat, Long> implements IvReportingCandidatService {
 
 	/**
 	 * 
@@ -22,16 +22,16 @@ public class V_ReportingCandidatService extends ManagerService<V_ReportingCandid
 
 	@Autowired()
 	@Qualifier("v_ReportingCandidatDao")
-	private IV_ReportingCandidatDao v_ReportingCandidatDao;
+	private IvReportingCandidatDao v_ReportingCandidatDao;
 
 	@Override
-	public List<V_ReportingCandidat> rechercherReportingCandidat(V_ReportingCandidatDto v_ReportingCandidatDto, int page,
+	public List<VReportingCandidat> rechercherReportingCandidat(V_ReportingCandidatDto v_ReportingCandidatDto, int page,
 			int size) {
 		return v_ReportingCandidatDao.rechercherReportingCandidat(v_ReportingCandidatDto, page, size);
 	}
 
 	@Override
-	public IManagerDao<V_ReportingCandidat, Long> getDao() {
+	public IManagerDao<VReportingCandidat, Long> getDao() {
 		return v_ReportingCandidatDao;
 	}
 

@@ -72,15 +72,15 @@
               </thead>
               <tbody >
                 <tr *ngFor="let session of Sessionreporting| paginate: { itemsPerPage:5, currentPage: ps, id: 'ps' }">
-                  <td >{{session.nom_Formation}}</td>
-                  <td>{{session.lieu_Formation}}</td>
-                  <td>{{session.type_Formation}}</td>
-                  <td>{{session.date_demarrage}}</td>
-                  <td>{{session.candidat_affectation}}</td>
-                  <td>{{session.candidat_acceptation}}</td>
-                  <td>{{session.nombre_place}}</td>
-                  <td>{{session.taux_acceptation}}%</td>
-                  <td>{{session.taux_remplissage}}%</td>
+                  <td >{{session.nomFormation}}</td>
+                  <td>{{session.lieuFormation}}</td>
+                  <td>{{session.typeFormation}}</td>
+                  <td>{{session.dateDemarrage}}</td>
+                  <td>{{session.candidatAffectation}}</td>
+                  <td>{{session.candidatAcceptation}}</td>
+                  <td>{{session.nombrePlace}}</td>
+                  <td>{{session.tauxAcceptation}}%</td>
+                  <td>{{session.tauxRemplissage}}%</td>
                   <td style="width: 10%">     
                     <a class="btn btn-default" (click)="openDetailsSession(session)">
                           <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>

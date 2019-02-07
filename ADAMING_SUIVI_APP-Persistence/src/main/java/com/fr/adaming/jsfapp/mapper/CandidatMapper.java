@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.model.Candidat;
 public interface CandidatMapper {
 
 	List<CandidatDto> candidatsToCandidatDtos(List<Candidat> candidat);
-
+    
 	List<Candidat> candidatDtosToCandidats(List<CandidatDto> candidat);
 
 	@Mappings({

@@ -1,5 +1,7 @@
 package com.fr.adaming.jsfapp.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +14,7 @@ import org.hibernate.annotations.Proxy;
 @Entity
 @Table(name = "lieu")
 @Proxy(lazy = false)
-public class Lieu implements java.io.Serializable {
+public class Lieu implements Serializable{
 
 	/**
 	 * 
@@ -67,6 +69,7 @@ public class Lieu implements java.io.Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		else return true;
 		return true;
 	}
 

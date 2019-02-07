@@ -16,7 +16,7 @@ import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.ReportingSourceurTechnologieDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationReportingDto;
-import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
+import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.services.ICandidatService;
 import com.fr.adaming.jsfapp.services.ISessionFormationService;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
@@ -35,7 +35,7 @@ public class AccueilController {
 
 	@RequestMapping(value = "/map", method = RequestMethod.GET)
 	public HashMap<String, Integer> findChart() {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		HashMap<String, Integer> map = new HashMap<>();
 		map = candidatService.nbrCVParTechnologie();
 		return map;
 	}
@@ -48,7 +48,7 @@ public class AccueilController {
 	
 	@RequestMapping(value = "/NombreTechnologieParCandidat", method = RequestMethod.GET)
 	public Integer NombreTechnologieParCandidat() {
-		return candidatService.NombreTechnologieParCandidat();
+		return candidatService.nombreTechnologieParCandidat();
 	}
 
 	@RequestMapping(value = "/Sessionreporting", method = RequestMethod.GET)
