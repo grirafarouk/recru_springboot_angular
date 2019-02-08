@@ -17,7 +17,6 @@ import com.fr.adaming.jsfapp.model.Utilisateur;
 
 public interface ICandidatDao  extends IManagerDao<Candidat, Long>,Serializable {
 
-	List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all);
 
 	Candidat rechercherCandidatParEmail(String email);
 

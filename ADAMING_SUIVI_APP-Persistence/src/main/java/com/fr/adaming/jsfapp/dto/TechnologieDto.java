@@ -11,7 +11,6 @@ public class TechnologieDto implements Serializable {
 
 	public TechnologieDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public TechnologieDto(String libelle) {

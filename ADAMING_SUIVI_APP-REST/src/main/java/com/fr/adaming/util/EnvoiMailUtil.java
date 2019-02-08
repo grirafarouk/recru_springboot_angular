@@ -15,6 +15,8 @@ public class EnvoiMailUtil {
 	private EnvoiMailUtil() {
 		throw new IllegalStateException("Utility class");
 	}
+	private static final String ACTION_1 = "<br />";
+	
 
 	public static final void sendMailInitPassword(Utilisateur utilisateurExiste, String url) {
 
@@ -32,8 +34,8 @@ public class EnvoiMailUtil {
 			email.setSubject("Réinitialisation de votre mot de passe‏");
 			email.setContent(
 					"Bonjour " + utilisateurExiste.getPrenom() + " " + utilisateurExiste.getNom() + ","
-							+ "Pour réinitialiser votre mot de passe, merci de vous rendre sur:" + "<br />" + url
-							+ "<br />" + "Cordialement," + "<br />" + "L'équipe Adaming CRA",
+							+ "Pour réinitialiser votre mot de passe, merci de vous rendre sur:" + ACTION_1 + url
+							+ ACTION_1 + "Cordialement," + ACTION_1 + "L'équipe Adaming CRA",
 					"text/html; charset=ISO-8859-1");
 			email.send();
 			LOGGER.info(utilisateurExiste.getEmail());

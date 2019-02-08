@@ -39,7 +39,7 @@ public class EMailHebdomadaireJob {
 		logger.info("Email reporting started...");
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
-		List<String> destinataires = new ArrayList<String>();
+		List<String> destinataires = new ArrayList<>();
 		destinataires.add("mounir.oueslati@sesame.com.tn");
 
 		// generer la flux de sortie de la piece jointe
@@ -80,7 +80,7 @@ public class EMailHebdomadaireJob {
 		HSSFWorkbook myWorkBook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(realPath + "out1.xls")));
 		ExcelToHtml nExcelToHtml = new ExcelToHtml(myWorkBook);
 		String content = nExcelToHtml.getHTML();
-		return content.toString();
+		return content;
 	}
 
 	private OutputStream writeToOutputStream(XSSFWorkbook wb) {

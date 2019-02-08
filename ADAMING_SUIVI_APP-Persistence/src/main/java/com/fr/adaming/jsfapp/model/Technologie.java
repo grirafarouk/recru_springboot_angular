@@ -23,7 +23,18 @@ public class Technologie implements java.io.Serializable {
 	private boolean reporting;
 
 	public Technologie() {
+		super();
 	}
+	
+
+	public Technologie(Long id, String libelle, boolean reporting) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+		this.reporting = reporting;
+	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

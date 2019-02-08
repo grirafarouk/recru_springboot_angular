@@ -16,8 +16,6 @@ import com.fr.adaming.jsfapp.model.Utilisateur;
 
 public interface ICandidatService extends IManagerService<Candidat, Long> {
 
-	List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all);
-
 	Candidat rechercherCandidatParEmail(String email);
 
 	Candidat rechercherCandidatParNumTel(String numero);

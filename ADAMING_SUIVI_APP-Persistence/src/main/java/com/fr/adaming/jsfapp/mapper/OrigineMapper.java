@@ -11,7 +11,7 @@ import com.fr.adaming.jsfapp.model.Origine;
 
 @Mapper(uses = { Origine.class })
 public interface OrigineMapper {
-	List<OrigineDto> OriginesToOrigineDtos(List<Origine> origines);
+	List<OrigineDto> originesToOrigineDtos(List<Origine> origines);
 
 	List<Origine> origineDtosToOrigines(List<OrigineDto> origineDtos);
 

@@ -3,7 +3,6 @@ package com.fr.adaming.jsfapp.dao.impl;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -134,18 +133,9 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 	}
 
 	@Override
-	public List<SessionFormation> rechercherFormationEnCours(SessionFormationDto sessionFormationDtoCours) {
-		DateFormat dFormatFormationEncours = new SimpleDateFormat(dateFormat);
-		String queryStringFormationEncours = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
-
-		SQLQuery sFormationEncours = validateQuerryString(sessionFormationDtoCours,
-				sessionFormationDtoCours.getDateDemarrage(), sessionFormationDtoCours.getDateFin(),
-				queryStringFormationEncours, dFormatFormationEncours);
-
-		@SuppressWarnings("unchecked")
-		List<SessionFormation> listeFormationEncours = sFormationEncours.addEntity(SessionFormation.class).list();
-
-		return listeFormationEncours;
+	public List<SessionFormation> rechercherFormationEnCours(
+			SessionFormationDto sessionFormationDto) {
+		return rechercherSessionsFormationEnCours(sessionFormationDto);
 	}
 
 	@Override

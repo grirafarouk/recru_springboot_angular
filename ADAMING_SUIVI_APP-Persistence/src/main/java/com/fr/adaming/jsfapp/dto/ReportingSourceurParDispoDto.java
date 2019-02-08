@@ -27,23 +27,11 @@ public class ReportingSourceurParDispoDto implements Serializable {
 
 	private BigDecimal tauxHors;
 
-	/**
-	 * 
-	 */
+	
 	public ReportingSourceurParDispoDto() {
 		super();
 	}
 
-	/**
-	 * @param idUser
-	 * @param nomSourceur
-	 * @param nbrTotal
-	 * @param nbrDsipo
-	 * @param nbrHors
-	 * @param autre
-	 * @param taux
-	 * @param taux_hors
-	 */
 	public ReportingSourceurParDispoDto(BigInteger idUser, String nomSourceur, BigDecimal nbrTotal, BigDecimal nbrDsipo,
 			BigDecimal nbrHors, BigDecimal autre, BigDecimal taux, BigDecimal tauxHors) {
 		super();
@@ -56,6 +44,7 @@ public class ReportingSourceurParDispoDto implements Serializable {
 		this.taux = taux;
 		this.tauxHors = tauxHors;
 	}
+
 
 	public BigInteger getIdUser() {
 		return idUser;
@@ -120,5 +109,6 @@ public class ReportingSourceurParDispoDto implements Serializable {
 	public void setTauxHors(BigDecimal tauxHors) {
 		this.tauxHors = tauxHors;
 	}
+
 
 }

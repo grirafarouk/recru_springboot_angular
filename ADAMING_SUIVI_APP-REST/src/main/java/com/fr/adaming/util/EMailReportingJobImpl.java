@@ -43,8 +43,8 @@ public class EMailReportingJobImpl {
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
 		List<String> destinataires = new ArrayList<String>();
-		destinataires.add("farouka82@gmail.com");
 
+		destinataires.add("moueslati@adaming.fr");
 		// generer la flux de sortie de la piece jointe
 
 		XSSFWorkbook wb = exportExcelService.exporterExcel();

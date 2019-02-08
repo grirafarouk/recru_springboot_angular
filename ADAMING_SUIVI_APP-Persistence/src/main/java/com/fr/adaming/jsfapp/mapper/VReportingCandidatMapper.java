@@ -9,9 +9,10 @@ import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Mapper(uses = { VReportingCandidat.class })
-public interface V_ReportingCandidatMapper {
+public interface VReportingCandidatMapper {
 	List<VReportingCandidatDto> reportingCandidatsToReportingCandidatDtos(
 			List<VReportingCandidat> reportingCandidat);
+
 
 	List<VReportingCandidat> reportingCandidatDtoToReportingCandidats(
 			List<VReportingCandidatDto> reportingCandidatDto);

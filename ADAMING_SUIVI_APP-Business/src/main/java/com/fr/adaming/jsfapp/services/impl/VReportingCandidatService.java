@@ -13,31 +13,29 @@ import com.fr.adaming.jsfapp.model.VReportingCandidat;
 import com.fr.adaming.jsfapp.services.IvReportingCandidatService;
 
 @Service("v_ReportingCandidatService")
-public class V_ReportingCandidatService extends ManagerService<VReportingCandidat, Long> implements IvReportingCandidatService {
+public class VReportingCandidatService extends ManagerService<VReportingCandidat, Long> implements IvReportingCandidatService {
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8250035448282687024L;
 
 	@Autowired()
 	@Qualifier("v_ReportingCandidatDao")
-	private IvReportingCandidatDao v_ReportingCandidatDao;
+	private IvReportingCandidatDao vReportingCandidatDao;
 
 	@Override
-	public List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto v_ReportingCandidatDto, int page,
+	public List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto vReportingCandidatDto, int page,
+
 			int size) {
-		return v_ReportingCandidatDao.rechercherReportingCandidat(v_ReportingCandidatDto, page, size);
+		return vReportingCandidatDao.rechercherReportingCandidat(vReportingCandidatDto, page, size);
 	}
 
 	@Override
 	public IManagerDao<VReportingCandidat, Long> getDao() {
-		return v_ReportingCandidatDao;
+		return vReportingCandidatDao;
 	}
 
 	@Override
 	public Integer rechercherReportingCandidatNbr(VReportingCandidatDto ReportingCandidatDto) {
-		return v_ReportingCandidatDao.rechercherReportingCandidatNbr(ReportingCandidatDto);
+		return vReportingCandidatDao.rechercherReportingCandidatNbr(ReportingCandidatDto);
+
 	}
 }

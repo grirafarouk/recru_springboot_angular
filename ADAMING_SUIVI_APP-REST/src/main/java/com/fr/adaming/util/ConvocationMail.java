@@ -1,10 +1,8 @@
 package com.fr.adaming.util;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -20,10 +18,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import javax.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -32,7 +28,6 @@ import org.springframework.stereotype.Component;
 public class ConvocationMail implements IConvocationMail {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConvocationMail.class);
-	
 	ResourceBundle bundle=ResourceBundle.getBundle("properties.email");
 	private Properties properties;
 	private Session session;
@@ -93,7 +88,6 @@ public class ConvocationMail implements IConvocationMail {
 		if (emailEntretien || emailEntretienHorsCible) {
 			content = new MimeBodyPart();
 			try {
-				// file = new ClassPathResource("/images/imageADM.png").getFile();
 
 				DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
 
@@ -127,7 +121,7 @@ public class ConvocationMail implements IConvocationMail {
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
 			} catch (IOException e) {
-				LOGGER.info("context",e);
+				LOGGER.info("contextgetPjsMimeMultiPart",e);
 			}
 		}
 		return multiPartMsg;
@@ -138,54 +132,19 @@ public class ConvocationMail implements IConvocationMail {
 		DataSource datasource = new ByteArrayDataSource(pj.getContent().toByteArray(), pj.getMimeType());
 		DataHandler dataHandler = new DataHandler(datasource);
 		MimeBodyPart pjMimeBodyPart = null;
-		if (pj != null && pj.getContent() != null) {
+		if (pj.getContent() != null) {
 			try {
 				pjMimeBodyPart = new MimeBodyPart();
 				pjMimeBodyPart.setDataHandler(dataHandler);
 				pjMimeBodyPart.setFileName(StringUtils.isNotEmpty(pj.getFileName()) ? pj.getFileName() : "pj");
 			} catch (MessagingException e) {
-				LOGGER.info("context",e);
+				LOGGER.info("contextgetMimeBodyPart",e);
 			}
 		}
 		return pjMimeBodyPart;
 	}
 
-	/**
-	 * Méthode qui construit la liste des adresses des destinataires
-	 * 
-	 * @param destinataires
-	 *            liste des destinataire
-	 * @param cc
-	 *            adresse en copie
-	 * @return liste des destinataires
-	 * @throws AddressException
-	 *             en ca d'erreur
-	 */
-	private Address[] getAddresses(List<String> destinataires, String cc, String ccTwo) throws AddressException {
-		int nbAdress = destinataires.size();
-		boolean withCc = false;
-		boolean withCcTwo = false;
-		if (StringUtils.isNotEmpty(cc)) {
-			nbAdress++;
-			withCc = true;
-		}
-		if (StringUtils.isNotEmpty(ccTwo)) {
-			nbAdress++;
-			withCcTwo = true;
-		}
-		Address[] adresses = new Address[nbAdress];
-		int i = 0;
-		for (String dest : destinataires) {
-			adresses[i++] = new InternetAddress(dest);
-		}
-		if (withCc) {
-			adresses[i] = new InternetAddress(cc);
-		}
-		if (withCcTwo) {
-			adresses[i] = new InternetAddress(ccTwo);
-		}
-		return adresses;
-	}
+
 
 	public boolean isEmailEntretien() {
 		return emailEntretien;

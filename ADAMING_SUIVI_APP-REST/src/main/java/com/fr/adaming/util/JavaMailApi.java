@@ -1,6 +1,4 @@
 package com.fr.adaming.util;
-
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
@@ -10,14 +8,11 @@ import org.slf4j.LoggerFactory;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -72,7 +67,7 @@ public class JavaMailApi implements IEMailApi {
 			transport.sendMessage(msg, msg.getAllRecipients());
 
 		} catch (Exception e) {
-			LOGGER.info("context", e);
+			LOGGER.info("contextEnvoyerMail", e);
 		}
 	}
 
@@ -91,7 +86,6 @@ public class JavaMailApi implements IEMailApi {
 		if (emailEntretien || emailEntretienHorsCible) {
 			content = new MimeBodyPart();
 			try {
-				// file = new ClassPathResource("/images/imageADM.png").getFile();
 
 				DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
 
@@ -104,7 +98,7 @@ public class JavaMailApi implements IEMailApi {
 				DataSource fds1 = new FileDataSource(new ClassPathResource("/images/facebook-icon.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds1));
-				content.setHeader("Content-ID", "<imageFacebook>");
+				content.setHeader("Content-IDFacebook", "<imageFacebook>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
@@ -112,7 +106,7 @@ public class JavaMailApi implements IEMailApi {
 				DataSource fds2 = new FileDataSource(new ClassPathResource("/images/linkedin-icon.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds2));
-				content.setHeader("Content-ID", "<imageLinkedin>");
+				content.setHeader("Content-IDLinkedin", "<imageLinkedin>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
@@ -120,13 +114,12 @@ public class JavaMailApi implements IEMailApi {
 				DataSource fds3 = new FileDataSource(new ClassPathResource("/images/twitter-icon.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds3));
-				content.setHeader("Content-ID", "<imagetwitter>");
+				content.setHeader("Content-IDtwitter", "<imagetwitter>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				LOGGER.info("context", e);
+				LOGGER.info("contextgetPjsMimeMultiPart", e);
 			}
 		}
 		return multiPartMsg;
@@ -137,54 +130,18 @@ public class JavaMailApi implements IEMailApi {
 		DataSource datasource = new ByteArrayDataSource(pj.getContent().toByteArray(), pj.getMimeType());
 		DataHandler dataHandler = new DataHandler(datasource);
 		MimeBodyPart pjMimeBodyPart = null;
-		if (pj != null && pj.getContent() != null) {
+		if (pj.getContent() != null) {
 			try {
 				pjMimeBodyPart = new MimeBodyPart();
 				pjMimeBodyPart.setDataHandler(dataHandler);
 				pjMimeBodyPart.setFileName(StringUtils.isNotEmpty(pj.getFileName()) ? pj.getFileName() : "pj");
 			} catch (MessagingException e) {
-				LOGGER.info("context", e);
+				LOGGER.info("contextgetMimeBodyPart", e);
 			}
 		}
 		return pjMimeBodyPart;
 	}
 
-	/**
-	 * Méthode qui construit la liste des adresses des destinataires
-	 * 
-	 * @param destinataires
-	 *            liste des destinataire
-	 * @param cc
-	 *            adresse en copie
-	 * @return liste des destinataires
-	 * @throws AddressException
-	 *             en ca d'erreur
-	 */
-	private Address[] getAddresses(List<String> destinataires, String cc, String ccTwo) throws AddressException {
-		int nbAdress = destinataires.size();
-		boolean withCc = false;
-		boolean withCcTwo = false;
-		if (StringUtils.isNotEmpty(cc)) {
-			nbAdress++;
-			withCc = true;
-		}
-		if (StringUtils.isNotEmpty(ccTwo)) {
-			nbAdress++;
-			withCcTwo = true;
-		}
-		Address[] adresses = new Address[nbAdress];
-		int i = 0;
-		for (String dest : destinataires) {
-			adresses[i++] = new InternetAddress(dest);
-		}
-		if (withCc) {
-			adresses[i] = new InternetAddress(cc);
-		}
-		if (withCcTwo) {
-			adresses[i] = new InternetAddress(ccTwo);
-		}
-		return adresses;
-	}
 
 	public boolean isEmailEntretien() {
 		return emailEntretien;

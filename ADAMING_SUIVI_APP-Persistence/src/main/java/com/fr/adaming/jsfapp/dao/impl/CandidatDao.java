@@ -11,19 +11,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
-
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ICandidatDao;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
@@ -32,7 +29,6 @@ import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.dto.SyntheseCandidatDto;
 import com.fr.adaming.jsfapp.dto.UtilisateurDto;
-import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
@@ -56,145 +52,6 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	private static final String CODE_POSTAL = "codePostal";
 	private static final String EN_DATE = "en.date";
 	private static final String ENTRETIEN = "entretien";
-
-	@Override
-	public List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all) {
-
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		if (candidatDto != null) {
-			if (candidatDto.getId() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "id", candidatDto.getId());
-			}
-			if (candidatDto.getNom() != null) {
-				DaoUtils.addLikeRestrictionIfNotNull(crit, "nom", candidatDto.getNom());
-			}
-			if (candidatDto.getPrenom() != null) {
-				DaoUtils.addLikeRestrictionIfNotNull(crit, "prenom", candidatDto.getPrenom());
-			}
-			if (candidatDto.getEmail() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "email", candidatDto.getEmail().trim());
-			}
-			if (candidatDto.getNumeroTel() != null) {
-				/*
-				 * Récupérer Numéro de Téléphone sans caractère "-" Gérer le problème de
-				 * insertion de donnée mal insert au niveau de base
-				 */
-				String telSlipt = candidatDto.getNumeroTel().replace("-", "");
-				/*
-				 * exemple in = 33-63-79-41-23 , out =3363794123 , rechercher par or SQL
-				 */
-				crit.add(Restrictions.or(Restrictions.like(TEL, telSlipt, MatchMode.ANYWHERE),
-						Restrictions.like(TEL, candidatDto.getNumeroTel(), MatchMode.ANYWHERE)));
-			}
-			if (candidatDto.getDateInscription() != null) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(candidatDto.getDateInscription());
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.SECOND, 0);
-				Date fromDate = calendar.getTime();
-
-				calendar.set(Calendar.HOUR_OF_DAY, 23);
-				calendar.set(Calendar.MINUTE, 59);
-				calendar.set(Calendar.SECOND, 59);
-				Date toDate = calendar.getTime();
-				crit.add(Restrictions.between("dateInscription", fromDate, toDate));
-			}
-
-			if (candidatDto.getCritereRecheche() != null) {
-				System.out.println("********critère de recherche ***********************************");
-				if (candidatDto.getCritereRecheche().equals("1")) {
-					Calendar calendar = Calendar.getInstance();
-					Date date = calendar.getTime();
-					calendar.add(Calendar.MONTH, -1);
-					Date toDate = calendar.getTime();
-					crit.add(Restrictions.between(DATE_INSCRIPTION, toDate, date));
-				} else if (candidatDto.getCritereRecheche().equals("2")) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.add(Calendar.MONTH, -1);
-					Date date = calendar.getTime();
-					calendar.add(Calendar.MONTH, -6);
-					Date toDate = calendar.getTime();
-					crit.add(Restrictions.between(DATE_INSCRIPTION, toDate, date));
-
-				} else if (candidatDto.getCritereRecheche().equals("3")) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.add(Calendar.MONTH, -6);
-					Date date = calendar.getTime();
-					calendar.add(Calendar.YEAR, -3);
-					Date toDate = calendar.getTime();
-					crit.add(Restrictions.between(DATE_INSCRIPTION, toDate, date));
-
-				}
-
-			}
-
-			if (candidatDto.getMobiliteSrc() != null) {
-				crit.add(Restrictions.eq("mobiliteSrc", candidatDto.getMobiliteSrc()));
-			}
-			if (candidatDto.getPosteEnCours() != null) {
-				crit.add(Restrictions.eq("posteEnCours", candidatDto.getPosteEnCours()));
-			}
-			if (candidatDto.getStatut() != null) {
-				crit.add(Restrictions.eq("statut", candidatDto.getStatut()));
-			}
-			if (candidatDto.getTechnologie() != null) {
-				crit.add(Restrictions.eq("technologie.id", candidatDto.getTechnologie().getId()));
-			}
-			if (candidatDto.getCodePostal() != null) {
-				crit.createAlias(CODE_POSTAL, "cod");
-				crit.add(Restrictions.eq("cod.region", candidatDto.getCodePostal().getRegion()));
-			}
-			if (candidatDto.getCreePar() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "creePar.id", candidatDto.getCreePar().getId());
-			}
-			if (!all) {
-				crit.add(Restrictions.isNull(ENTRETIEN));
-			} else {
-				if (candidatDto.getEntretien() != null
-						&& (candidatDto.getEntretien().getLieu() != null || candidatDto.getEntretien().getDate() != null
-								|| candidatDto.getEntretien().getDisponible() != null
-								|| candidatDto.getEntretien().getConfirmation() != null
-								|| candidatDto.getEntretien().getCharge() != null
-								|| candidatDto.getEntretien().getDateRelance() != null)) {
-					crit.createAlias(ENTRETIEN, "en");
-
-					DaoUtils.addEqRestrictionIfNotNull(crit, EN_DATE, candidatDto.getEntretien().getDate());
-					DaoUtils.addEqRestrictionIfNotNull(crit, "en.disponible",
-							candidatDto.getEntretien().getDisponible());
-					DaoUtils.addEqRestrictionIfNotNull(crit, "en.confirmation",
-							candidatDto.getEntretien().getConfirmation());
-					if (candidatDto.getEntretien().getLieu() != null) {
-						DaoUtils.addEqRestrictionIfNotNull(crit, "en.lieu.id",
-								candidatDto.getEntretien().getLieu().getId());
-					}
-
-					if (candidatDto.getEntretien().getCharge() != null) {
-						DaoUtils.addEqRestrictionIfNotNull(crit, "en.charge.id",
-								candidatDto.getEntretien().getCharge().getId());
-					}
-					if (candidatDto.getEntretien().getDateRelance() != null) {
-						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(candidatDto.getEntretien().getDateRelance());
-
-						calendar.add(Calendar.MONTH, 1);
-						calendar.set(Calendar.DAY_OF_MONTH, 1);
-						calendar.add(Calendar.DATE, -1);
-
-						Date lastDayOfMonth = calendar.getTime();
-						crit.add(Restrictions.between("en.dateRelance", candidatDto.getEntretien().getDateRelance(),
-								lastDayOfMonth));
-					}
-				}
-			}
-
-		}
-		crit.addOrder(Order.desc(DATE_INSCRIPTION));
-		String sql = crit.toString();
-		System.out.println(sql);
-		return DaoUtils.castList(Candidat.class, crit.list());
-	}
 
 	@Override
 	public Candidat rechercherCandidatParEmail(String email) {

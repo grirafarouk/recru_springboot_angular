@@ -40,12 +40,6 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 
 	@Override
-	public List<Candidat> rechercherCandidats(CandidatDto candidatDto,
-			Boolean all) {
-		return candidatDao.rechercherCandidats(candidatDto, all);
-	}
-
-	@Override
 	public Candidat rechercherCandidatParEmail(String email) {
 		return candidatDao.rechercherCandidatParEmail(email);
 	}

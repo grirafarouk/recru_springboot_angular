@@ -7,6 +7,7 @@ import java.math.BigInteger;
 public class SessionFormationReportingDto implements Serializable {
 
 	private static final long serialVersionUID = 8909913779116184745L;
+
 	private String nomFormation;
 	private String lieuFormation;
 	private String typeFormation;
@@ -17,6 +18,12 @@ public class SessionFormationReportingDto implements Serializable {
 	private BigDecimal tauxAcceptation;
 	private BigDecimal tauxRemplissage;
 	private BigInteger idSession;
+	
+	public SessionFormationReportingDto() {
+		super();
+
+	}
+	
 
 	public SessionFormationReportingDto(String nomFormation, String lieuFormation, String typeFormation,
 			String dateDemarrage, BigDecimal candidatAffectation, BigDecimal candidatAcceptation, Integer nombrePlace,
@@ -34,30 +41,7 @@ public class SessionFormationReportingDto implements Serializable {
 		this.idSession = idSession;
 	}
 
-	/**
-	 * 
-	 */
-	public SessionFormationReportingDto() {
-		super();
 
-	}
-
-	/**
-	 * @param nom_Formation
-	 * @param lieu_Formation
-	 * @param type_Formation
-	 * @param date_demarrage
-	 * @param candidat_affectation
-	 * @param candidat_acceptation
-	 * @param nombre_place
-	 * @param taux_acceptation
-	 * @param taux_remplissage
-	 * @param idSession
-	 */
-
-	public BigInteger getIdSession() {
-		return idSession;
-	}
 
 	public String getNomFormation() {
 		return nomFormation;
@@ -131,9 +115,15 @@ public class SessionFormationReportingDto implements Serializable {
 		this.tauxRemplissage = tauxRemplissage;
 	}
 
+	public BigInteger getIdSession() {
+		return idSession;
+	}
+
+
 	public void setIdSession(BigInteger idSession) {
 		this.idSession = idSession;
 	}
+
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;

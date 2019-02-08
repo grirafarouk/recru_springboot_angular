@@ -2,12 +2,14 @@ package com.fr.adaming.security;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 public class CustomPasswordEncoder implements PasswordEncoder {
-	@Override
-	public String encode(CharSequence rawPassword) {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomPasswordEncoder.class);
+
+	public  String encode(CharSequence rawPassword) {
 		StringBuilder res = new StringBuilder();
 		try {
 			MessageDigest algorithm = MessageDigest.getInstance("MD5");
@@ -19,13 +21,15 @@ public class CustomPasswordEncoder implements PasswordEncoder {
 				tmp = (Integer.toHexString(0xFF & md5[i]));
 				if (tmp.length() == 1) {
 					 res.append("0").append(tmp);
+
 				} else {
 					res.append(tmp);
 				}
 			}
 		} catch (NoSuchAlgorithmException ex) {
+			LOGGER.info("context",ex);
+
 		}
-	
 		return res.toString();
 	}
 

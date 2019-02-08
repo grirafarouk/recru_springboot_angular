@@ -9,6 +9,8 @@ import com.fr.adaming.jsfapp.model.Motif;
 @Repository("motifDao")
 public class MotifDao extends ManagerDao<Motif, Long> implements IMotifDao{
 
+	private static final long serialVersionUID = -1900986981797983836L;
+
 	@Override
 	public Motif rechercheMotifParLibelle(String libelle) {
 		
@@ -17,7 +19,6 @@ public class MotifDao extends ManagerDao<Motif, Long> implements IMotifDao{
 			query = query + " AND  motif.libelle = :libelle";
 		}
 		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle);
-
 		return (Motif) st.addEntity(Motif.class).uniqueResult();
 	}
 
