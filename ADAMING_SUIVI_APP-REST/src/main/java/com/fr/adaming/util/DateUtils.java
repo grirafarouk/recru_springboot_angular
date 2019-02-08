@@ -15,7 +15,7 @@ public class DateUtils {
 	  }
 
 	
-	public DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+	DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static Date getYesterday() {
 		Calendar cal = Calendar.getInstance();

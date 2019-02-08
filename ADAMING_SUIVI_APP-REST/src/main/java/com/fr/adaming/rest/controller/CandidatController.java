@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -35,15 +34,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
-import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
+import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.Statut;
 import com.fr.adaming.jsfapp.mapper.CandidatMapper;
@@ -70,6 +69,10 @@ import com.fr.adaming.util.PieceJointe;
 
 public class CandidatController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CandidatController.class);
+	private static final String VALUE = "value";
+	private static final String NAME = "mounir";
+	private static final String REPORTING = "reporting";
+	private static final String CONTEXT = "context";
 
 	@Autowired
 	private ICandidatService candidatService;
@@ -94,15 +97,17 @@ public class CandidatController {
 	@Autowired
 	private IvReportingCandidatService vReportingCandidatService;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(path = "")
 	public Collection<Candidat> all() {
 		return candidatService.findAll();
 	}
 
-	@RequestMapping(value = "/rechercheNouveauxcandidats", method = RequestMethod.POST)
-	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody VListeCandidatsDto NCD, @RequestParam int page,
-			@RequestParam int size) {
-		List<VListeCandidats> list = new ArrayList<>(vListeCandidatsService.rechercherNouveauxCandidats(NCD));
+
+	@PostMapping(path = "/rechercheNouveauxcandidats")
+	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody VListeCandidatsDto nouveauCandidat,
+			@RequestParam int page, @RequestParam int size) {
+		List<VListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherNouveauxCandidats(nouveauCandidat));
 		JSONObject object = new JSONObject();
 		object.put("total", list.size());
 		if (size == 0)
@@ -113,123 +118,128 @@ public class CandidatController {
 		return object;
 	}
 
-	@RequestMapping(value = "/RechercheNouveauxcandidats", method = RequestMethod.POST)
-	public List<VListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody VListeCandidatsDto NCD,
+
+	@PostMapping(path = "/RechercheNouveauxcandidats")
+	public List<VListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size) {
 
 		List<VListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherVlisteNouveauxCandidats(NCD, page, size));
+				vListeCandidatsService.rechercherVlisteNouveauxCandidats(nouveauCandidat, page, size));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
-	@RequestMapping(value = "/RechercheNouveauxcandidatsNbr", method = RequestMethod.POST)
-	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto NCD) {
-		return vListeCandidatsService.rechercherVlisteNouveauxCandidatsNbr(NCD);
+	@PostMapping(path = "/RechercheNouveauxcandidatsNbr")
+	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
+		return vListeCandidatsService.rechercherVlisteNouveauxCandidatsNbr(nouveauCandidat);
 	}
 
-	@RequestMapping(value = "/RechercheTouscandidats", method = RequestMethod.POST)
-	public List<VListeCandidatsDto> rechercherTousCandidats(@RequestBody VListeCandidatsDto NCD,
+	@PostMapping(path = "/RechercheTouscandidats")
+	public List<VListeCandidatsDto> rechercherTousCandidats(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size) {
 
 		List<VListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherVlisteCandidats(NCD, page, size));
+				vListeCandidatsService.rechercherVlisteCandidats(nouveauCandidat, page, size));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 
 	}
 
-	@RequestMapping(value = "/RechercheTouscandidatsNbr", method = RequestMethod.POST)
-	public Integer RechercheTouscandidatsNbr(@RequestBody VListeCandidatsDto NCD) {
-		return vListeCandidatsService.rechercherVlisteCandidatsNbr(NCD);
+
+	@PostMapping(path = "/RechercheTouscandidatsNbr")
+	public Integer rechercheTouscandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
+		return vListeCandidatsService.rechercherVlisteCandidatsNbr(nouveauCandidat);
 	}
 
-	@RequestMapping(value = "/RechercheCandidatARelancer", method = RequestMethod.POST)
-	public List<VListeCandidatsDto> RechercheCandidatARelancer(@RequestBody VListeCandidatsDto NCD,
+	@PostMapping(path = "/RechercheCandidatARelancer")
+	public List<VListeCandidatsDto> rechercheCandidatARelancer(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size) {
 		List<VListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherVlisteCandidatsARelancer(NCD, page, size));
+				vListeCandidatsService.rechercherVlisteCandidatsARelancer(nouveauCandidat, page, size));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
-	@RequestMapping(value = "/RechercheCandidatARelancerNbr", method = RequestMethod.POST)
-	public Integer RechercheCandidatARelancerNbr(@RequestBody VListeCandidatsDto NCD) {
-		return vListeCandidatsService.rechercherVlisteCandidatsARelancerNbr(NCD);
+	@PostMapping(path = "/RechercheCandidatARelancerNbr")
+	public Integer rechercheCandidatARelancerNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
+		return vListeCandidatsService.rechercherVlisteCandidatsARelancerNbr(nouveauCandidat);
 	}
 
-	@RequestMapping(value = "/candidatavecentretien/{page}/{size}", method = RequestMethod.GET)
+	@PostMapping(path = "/candidatavecentretien/{page}/{size}")
 	public List<VListeCandidats> rechercherCandidatAvecEntretien(@PathVariable int page, @PathVariable int size,
 			Boolean all) {
 		return vListeCandidatsService.rechercherCandidatAvecEntretien(vListeCandidatsDto, page, size, false);
 	}
 
-	@RequestMapping(value = "/RechercheCandidatavecentretien", method = RequestMethod.POST)
-	public List<VListeCandidatsDto> findCandidatavecentretien(@RequestBody VListeCandidatsDto NCD,
+
+	@PostMapping(path = "/RechercheCandidatavecentretien")
+	public List<VListeCandidatsDto> findCandidatavecentretien(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size, @RequestParam boolean allValue) {
 		List<VListeCandidats> list = new ArrayList<>(
-				vListeCandidatsService.rechercherCandidatAvecEntretien(NCD, page, size, allValue));
+				vListeCandidatsService.rechercherCandidatAvecEntretien(nouveauCandidat, page, size, allValue));
 		return vListeCandidatsMapper.v_ListeCandidatsToV_ListeCandidatsDtos(list);
 	}
 
-	@RequestMapping(value = "/RechercheCandidatAvecEntretienNbr", method = RequestMethod.POST)
-	public Integer rechercheCandidatAvecEntretienNbr(@RequestBody VListeCandidatsDto NCD,
+	@PostMapping(path = "/RechercheCandidatAvecEntretienNbr")
+	public Integer rechercheCandidatAvecEntretienNbr(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam boolean allValue) {
-		return vListeCandidatsService.rechercherCandidatAvecEntretienNbr(NCD, allValue);
+		return vListeCandidatsService.rechercherCandidatAvecEntretienNbr(nouveauCandidat, allValue);
 	}
 
-	@RequestMapping(value = "/RechercheReporting", method = RequestMethod.POST)
-	public List<V_ReportingCandidatDto> rechercherReportingCandidat(@RequestBody V_ReportingCandidatDto NCD,
+	@PostMapping(path = "/RechercheReporting")
+	public List<VReportingCandidatDto> rechercherReportingCandidat(@RequestBody VReportingCandidatDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size) {
 		List<VReportingCandidat> list = new ArrayList<>(
-				vReportingCandidatService.rechercherReportingCandidat(NCD, page, size));
+				vReportingCandidatService.rechercherReportingCandidat(nouveauCandidat, page, size));
 		return vReportingCandidatMapper.reportingCandidatsToReportingCandidatDtos(list);
 	}
 
-	@RequestMapping(value = "/RechercheReportingNbr", method = RequestMethod.POST)
-	public Integer rechercheReportingNbr(@RequestBody V_ReportingCandidatDto NCD) {
+	@PostMapping(path = "/RechercheReportingNbr")
+	public Integer rechercheReportingNbr(@RequestBody VReportingCandidatDto NCD) {
 		return vReportingCandidatService.rechercherReportingCandidatNbr(NCD);
 	}
 
-	@GetMapping(value = "/getcandidatById/{id}", produces = "application/json")
+	@GetMapping(path = "/getcandidatById/{id}", produces = "application/json")
 	public Candidat findById(@PathVariable Long id) {
 		return candidatService.findById(id);
 	}
 
-	@RequestMapping(value = "/refDisponibilite", method = RequestMethod.GET)
+	@GetMapping(path = "/refDisponibilite")
 	public List<JSONObject> refDisponibilite() {
 		List<JSONObject> result = new ArrayList<>();
 		for (int i = 0; i < refDisponibilite.length; i++) {
 			Disponibilite dis = refDisponibilite[i];
 			JSONObject j = new JSONObject();
 			j.put("label", dis.getLabel());
-			j.put("value", dis);
+			j.put(VALUE, dis);
 			result.add(j);
 		}
 		return result;
 	}
 
-	@RequestMapping(value = "CVPDF", method = RequestMethod.POST)
-	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto NCD) throws IOException {
-		Candidat can = candidatService.findById(NCD.getId());
+
+	@PostMapping(path = "CVPDF")
+	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto nouveauCandidat)
+			throws IOException {
+		Candidat can = candidatService.findById(nouveauCandidat.getId());
 		InputStream myStream = AlfrescoOpenCmis.findDocument(can.getIdCv()).getContentStream().getStream();
-		String FileName = AlfrescoOpenCmis.findDocument(can.getIdCv()).getName();
-		response.addHeader("Content-disposition", "attachment;" + FileName);
+		String fileName = AlfrescoOpenCmis.findDocument(can.getIdCv()).getName();
+		response.addHeader("Content-disposition", "attachment;" + fileName);
 		response.setContentType("pdf/plain");
 		IOUtils.copy(myStream, response.getOutputStream());
 		response.flushBuffer();
 	}
 
-	@RequestMapping(value = "/ajoutCandidat", method = RequestMethod.POST)
-	public CandidatDto ajoutCandidat(@RequestBody CandidatDto candidatDTO, @RequestParam String login, @RequestParam String mime) {
-		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
-		if (creerCv(candidat, login, mime)) {
-			candidat.setStatut(Statut.VIDE);
-			candidat = candidatService.createOrUpdate(candidat);
+	@PostMapping(path = "/ajoutCandidat")
+	public Candidat ajoutCandidat(@RequestBody Candidat entity, @RequestParam String login, @RequestParam String mime) {
+		Candidat candidat = null;
+		if (creerCv(entity, login, mime)) {
+			entity.setStatut(Statut.VIDE);
+			candidat = candidatService.createOrUpdate(entity);
 		}
-		return candidatMapper.candidatToCandidatDto(candidat);
+		return candidat;
 	}
 
 	private Boolean creerCv(Candidat candidat, String login, String mime) {
-		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
-				+ File.separator + login + File.separator;
+		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
+				+ login + File.separator;
 		FileInputStream fileInputStream = null;
 		try {
 			fileInputStream = new FileInputStream(realPath
@@ -239,14 +249,14 @@ public class CandidatController {
 			candidat.setIdCv(cvAlfresco.getId());
 			return true;
 		} catch (IOException e) {
-			LOGGER.info("context",e);
+			LOGGER.info(CONTEXT, e);
 			return false;
 		} finally {
 			if (fileInputStream != null)
 				try {
 					fileInputStream.close();
 				} catch (IOException e) {
-					LOGGER.info("context",e);
+					LOGGER.info(CONTEXT, e);
 				}
 		}
 
@@ -262,39 +272,37 @@ public class CandidatController {
 		return "CV " + candidat.getNom() + " " + candidat.getPrenom() + " - " + df.format(new Date()) + extension;
 	}
 
-	@RequestMapping(value = "/updateCandidat", method = RequestMethod.PUT)
+	@PutMapping(path = "/updateCandidat")
 	public CandidatDto updateCandidat(@RequestBody CandidatDto candidatDTO) {
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
 		candidat = candidatService.createOrUpdate(candidat);
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 
-
 	@GetMapping("destroyTempoFolder/{loginUser}")
 	public void destroyTempoFolder(@PathVariable String loginUser) {
-		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
-				+ File.separator + loginUser;
+		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
+				+ loginUser;
 		Path path = Paths.get(realPath);
 		if (path != null)
 			Utilitaire.deleteDir(path.toFile());
-		if (Paths.get(File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting").toFile()
+		if (Paths.get(File.separator + "opt" + File.separator + NAME + File.separator + REPORTING).toFile()
 				.list().length == 0) {
-			Utilitaire.deleteDir(new File(File.separator + "opt" + File.separator + "mounir" + File.separator
-					+ "reporting" + File.separator + loginUser));
+			Utilitaire.deleteDir(new File(File.separator + "opt" + File.separator + NAME + File.separator + REPORTING
+					+ File.separator + loginUser));
 		}
 
 	}
 
-
-	@RequestMapping(value = "convertWordToPdf", method = RequestMethod.POST)
+	@PostMapping(path = "convertWordToPdf")
 	public JSONObject convertWordToPdf(@RequestBody JSONObject fileJson) {
 		String mime = fileJson.get("filetype").toString();
 		String nameFile = fileJson.get("filename").toString();
-		String value64 = fileJson.get("value").toString();
+		String value64 = fileJson.get(VALUE).toString();
 		String loginUser = fileJson.get("loginUser").toString();
 
-		String realPath = File.separator + "opt" + File.separator + "mounir" + File.separator + "reporting"
-				+ File.separator + loginUser;
+		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
+				+ loginUser;
 		byte[] data = DatatypeConverter.parseBase64Binary(value64);
 		InputStream inStream = new ByteArrayInputStream(data);
 		OutputStream outStream = null;
@@ -303,7 +311,7 @@ public class CandidatController {
 			try {
 				Files.createDirectories(path);
 			} catch (IOException e) {
-				LOGGER.info("context",e);
+				LOGGER.info(CONTEXT, e);
 			}
 		}
 
@@ -314,8 +322,9 @@ public class CandidatController {
 			name = nameFile.replace(".docx", ".pdf");
 		} else if (mime.equals("application/octet-stream")) {
 			name = nameFile.replace(".PDF", ".pdf");
-		} else
+		} else {
 			name = nameFile;
+		}
 		try {
 
 			if (mime.equals("application/msword")
@@ -327,15 +336,15 @@ public class CandidatController {
 				doc.save(realPath + File.separator + name);
 			} else {
 				byte[] buffer = new byte[inStream.available()];
-				 while (inStream.read(buffer) > 0) {
-					 File targetFile = new File(realPath + File.separator + name);
-					 try {
-							outStream = new FileOutputStream(targetFile);
-							outStream.write(buffer);
-					 } catch (Exception e) {
-							e.printStackTrace();
-						}		    
-						}
+				while (inStream.read(buffer) > 0) {
+					File targetFile = new File(realPath + File.separator + name);
+					try {
+						outStream = new FileOutputStream(targetFile);
+						outStream.write(buffer);
+					} catch (Exception e) {
+						LOGGER.info(CONTEXT, e);
+					}
+				}
 			}
 
 			File file = new File(realPath + File.separator + name);
@@ -344,12 +353,12 @@ public class CandidatController {
 			inStream.read(imageBytes, 0, imageBytes.length);
 			JSONObject j = new JSONObject();
 			j.put("realPath", realPath + File.separator + name);
-			j.put("value", imageBytes);
+			j.put(VALUE, imageBytes);
 			inStream.close();
 			return j;
 
 		} catch (Exception e) {
-			LOGGER.info("context",e);
+			LOGGER.info(CONTEXT, e);
 			return null;
 		} finally {
 			try {
@@ -358,7 +367,7 @@ public class CandidatController {
 				if (outStream != null)
 					outStream.close();
 			} catch (IOException e1) {
-				LOGGER.info("context",e1);
+				LOGGER.info(CONTEXT, e1);
 			}
 		}
 	}
@@ -378,7 +387,7 @@ public class CandidatController {
 		return candidatService.rechercherNomCv();
 	}
 
-	@RequestMapping(value = "/updateficheCandidat", method = RequestMethod.PUT)
+	@PutMapping(path = "/updateficheCandidat")
 	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
 		candidatDTO.setStatut(Statut.EN_ATTENTE_EVALUATION);
 		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
@@ -391,7 +400,7 @@ public class CandidatController {
 		JavaMailApi eMailApi = new JavaMailApi();
 		List<String> dst = new ArrayList<>();
 		Utilisateur connectedUser = utilisateurService.findByLogin(login);
-		Candidat candidat=candidatMapper.candidatDtoToCandidat(candidatDto);
+		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
 		dst.add(candidat.getCreePar().getEmail());
 		String objet = "Candidat  Hors cible " + candidat.getNom() + " " + candidat.getPrenom();
 		String content = creeContentEmail(candidat, connectedUser, comMotif);
@@ -401,7 +410,7 @@ public class CandidatController {
 		eMailApi.setEmailEntretienHorsCible(false);
 	}
 
-	@RequestMapping(value = "/updateficheEntretien", method = RequestMethod.PUT)
+	@PutMapping(path = "/updateficheEntretien")
 	public CandidatDto updateficheEntretien(@RequestBody CandidatDto candidatDTO) {
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
 		if (candidat.getStatut().equals(Statut.EN_ATTENTE_EVALUATION))
@@ -423,17 +432,16 @@ public class CandidatController {
 			String content;
 			content = creerEmailEntretien(candidat, connectedUser);
 			List<PieceJointe> pjList = new ArrayList<>();
-			List<JSONObject> files = entretienMail.getPieceJoites();
-			// candidat.setEmailCandidatEnvoyer(true);
+			List<JSONObject> filesConv = entretienMail.getPieceJoites();
 			convocationMail.setEmailEntretien(true);
 			// convert upload file to PieceJointe
 			if (CollectionUtils.isNotEmpty(files)) {
-				for (JSONObject file : files) {
+				for (JSONObject file : filesConv) {
 					if (file != null) {
 						PieceJointe pieceJointe = new PieceJointe();
 						pieceJointe.setFileName(file.get("fileName").toString());
 						ByteArrayOutputStream contentFile = new ByteArrayOutputStream((int) file.get("size"));
-						byte[] data = DatatypeConverter.parseBase64Binary(file.get("value").toString());
+						byte[] data = DatatypeConverter.parseBase64Binary(file.get(VALUE).toString());
 						contentFile.write(data);
 						pieceJointe.setContent(contentFile);
 						pieceJointe.setMimeType(file.get("type").toString());
@@ -441,15 +449,13 @@ public class CandidatController {
 					}
 				}
 			}
-			System.out.println(pjList);
-			// convocationMail.envoyerMail(objet, content, dst,
-			// "drh@adaming.fr",destinataireEnCci,destinataireEnCcitwo, pjList);
+			LOGGER.info("" + pjList);
 			convocationMail.envoyerMail(objet, content, dst, "moueslati@adaming.fr", dest.get(0), dest.get(1), pjList);
 			convocationMail.setEmailEntretien(false);
 		} catch (IOException e) {
-			LOGGER.info("context",e);
+			LOGGER.info(CONTEXT, e);
 		} catch (MessagingException e) {
-			LOGGER.info("context",e);
+			LOGGER.info(CONTEXT, e);
 		}
 	}
 

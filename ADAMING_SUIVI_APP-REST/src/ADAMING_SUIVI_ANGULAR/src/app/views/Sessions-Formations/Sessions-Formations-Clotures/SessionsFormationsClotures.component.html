@@ -16,24 +16,27 @@
                             <input type="text" style="font-weight: bold;color: black;" class="form-control"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="technologie">Technologie:</label>
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie" name="typeFormation"  >
+                           
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie.libelle" name="technologie"  >
                             </ng-select>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                   <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="lieu">Lieu:</label>
-                                  <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu" name="typeFormation"  >
-                                </ng-select>
+                                
+                                  <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu.libelle" name="lieu"  >
+                            </ng-select>
                             </div>
                         </div>
                         <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
-                                      <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle" bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation" name="typeFormation"  >
+                                   
+                                      <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation"  >
                                     </ng-select>
                                 </div>
                         </div>
@@ -66,7 +69,7 @@
             </div>
         </div>
   </div>
-  <div class="card card-accordion">
+<div class="card card-accordion">
         <div  *ngFor="let formation of formations; let i = index">
         <div class="card-header card-header-accordion"  [ngClass]="{'card-header-accordion-active':this.isCollapsed[i] === false}"
         (click)="collapseExpand(i)" >
@@ -85,8 +88,8 @@
                                 <th>Type Formation</th>
                                 <th>Date Démarage</th>
                                 <th>Date Fin</th>
-                                <th>DNombre Participants	</th>
-                                <th>Action</th>
+                                <th>Nbre Participant</th>
+                                <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +102,7 @@
                                     <td>{{f.formation.typeFormation.libelle}}</td>
                                     <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
                                     <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
-                                    <td>{{f.nombreParticipants  }}</td>
+                                    <td>{{ f.nombreParticipants }} </td>
                                     <td style="width: 10%">     
                                         <a class="btn btn-default" (click)="openDetails(f)">
                                               <i class="cui-magnifying-glass icons font-xl d-block mt-2"></i>

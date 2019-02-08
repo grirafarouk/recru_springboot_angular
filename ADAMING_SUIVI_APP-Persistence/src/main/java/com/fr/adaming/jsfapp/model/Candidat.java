@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -78,7 +77,6 @@ public class Candidat implements java.io.Serializable {
 	// private Boolean testd;
 	// private Boolean tes;
 	// private Boolean ops;
-
 	private Set<Competence> candidatCompetence = new HashSet<>();
 
 	@Id

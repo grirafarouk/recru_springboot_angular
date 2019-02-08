@@ -1,7 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
 import java.math.BigInteger;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,42 +17,20 @@ import com.fr.adaming.jsfapp.model.VListeCandidats;
 @Repository("v_ListeCandidatsDao")
 public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implements IvListeCandidatsDao {
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	private static final String candidatNom = " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%";
-	private static final String candidatPrenom = " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%";
-	private static final String candidatEntretient = " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='";
-	private static final String lieuEntretien = " AND V_ListeCandidats.LIEU_ENTRETIEN LIKE '%";
-	private static final String nomCharge = " AND V_ListeCandidats.NOM_CHARGE LIKE '%";
-	private static final String prenomCharge = " AND V_ListeCandidats.PRENOM_CHARGE LIKE '%";
-	private static final String candidatStatus = " AND V_ListeCandidats.STATUT = ";
-	private static final String AND = "' AND '";
-	private static final String listeDateInscription = " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'";
-	private static final String listeDateInscriptionAvecDate = " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) BETWEEN '";
-	private static final String dateFormat = " 23:59:59'";
-	private static final String dateFormat2 = " 00:00:00' AND '";
-	private static final String candidatNumeroTel = " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT LIKE '%";
-	private static final String candidatEmail = " AND V_ListeCandidats.EMAIL_CANDIDAT LIKE '%";
-	private static final String vListeCandidatInscri = " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='";
-	private static final String listeCandidatTechnologie = " AND V_ListeCandidats.TECHNOLOGIE = '";
-	private static final String listeCandidatRegion = " AND V_ListeCandidats.REGION LIKE '%";
-	private static final String listeCandidatNomSourceur = " AND V_ListeCandidats.NOM_SOURCEUR LIKE '%";
-	private static final String listeCandidatPrenomSourceur = " AND V_ListeCandidats.PRENOM_SOURCEUR LIKE '%";
-	private static final String listeCandiatConfirmation = " AND V_ListeCandidats.CONFIRMATION_RDV = ";
-	private static final String candidatDateRelance = " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '";
 
 	@Override
-	public Integer rechercherCandidatAvecEntretienNbr(VListeCandidatsDto v_ListeCandidatsDto, Boolean all) {
+	public Integer rechercherCandidatAvecEntretienNbr(VListeCandidatsDto vListeCandidatsDto, Boolean all) {
 		String query = "SELECT count(*) FROM V_ListeCandidats WHERE 1=1 ";
-		query = GenerateEntretienConditionQuery(v_ListeCandidatsDto, all, query);
+		query = generateEntretienConditionQuery(vListeCandidatsDto, all, query);
 		SQLQuery st = getSession().createSQLQuery(query);
 		return ((BigInteger) st.uniqueResult()).intValue();
-
 	}
 
 	@Override
 	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size, Boolean all) {
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
-		query = GenerateEntretienConditionQuery(vListeCandidatsDto, all, query);
+		query = generateEntretienConditionQuery(vListeCandidatsDto, all, query);
 		query += " ORDER BY V_ListeCandidats.DATE_ENTRETIEN DESC  LIMIT :page ,:size";
 		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size",
 				size);
@@ -63,41 +40,44 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		return liste;
 	}
 
-	private String GenerateEntretienConditionQuery(VListeCandidatsDto v_ListeCandidatsDto, Boolean all, String query) {
-		if (v_ListeCandidatsDto != null) {
-			if (v_ListeCandidatsDto.getNom() != null && !v_ListeCandidatsDto.getNom().isEmpty()) {
-				query = query + candidatNom + v_ListeCandidatsDto.getNom() + "%'";
+	private String generateEntretienConditionQuery(VListeCandidatsDto vListeCandidatsDto, Boolean all, String query) {
+		if (vListeCandidatsDto != null) {
+			if (isNullOrEmptyString(vListeCandidatsDto.getNom())) {
+				query = query + " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getNom() + "%'";
 			}
 
-			if (v_ListeCandidatsDto.getPrenom() != null && !v_ListeCandidatsDto.getPrenom().isEmpty()) {
-				query = query + candidatPrenom + v_ListeCandidatsDto.getPrenom() + "%'";
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenom())) {
+				query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getPrenom() + "%'";
 			}
 
-			if (v_ListeCandidatsDto.getNumeroTel() != null && !v_ListeCandidatsDto.getNumeroTel().isEmpty()) {
-				query = query + " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT = '" + v_ListeCandidatsDto.getNumeroTel()
+			if (isNullOrEmptyString(vListeCandidatsDto.getNumeroTel())) {
+				query = query + " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT = '" + vListeCandidatsDto.getNumeroTel()
 						+ "'";
 			}
 
-			if (v_ListeCandidatsDto.getDateEntretien() != null) {
-				query = query + candidatEntretient + sdf.format(v_ListeCandidatsDto.getDateEntretien()) + "'";
+			if (vListeCandidatsDto.getDateEntretien() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='"
+						+ sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
 			}
 
-			if (v_ListeCandidatsDto.getLieuEntretien() != null && !v_ListeCandidatsDto.getLieuEntretien().isEmpty()) {
-				query = query + lieuEntretien + v_ListeCandidatsDto.getLieuEntretien() + "%'";
+			if (isNullOrEmptyString(vListeCandidatsDto.getLieuEntretien())) {
+				query = query + " AND V_ListeCandidats.LIEU_ENTRETIEN LIKE '%" + vListeCandidatsDto.getLieuEntretien()
+						+ "%'";
 			}
-			if (v_ListeCandidatsDto.getNomCharge() != null && !v_ListeCandidatsDto.getNomCharge().isEmpty()) {
-				query = query + nomCharge + v_ListeCandidatsDto.getNomCharge() + "%'";
+			if (isNullOrEmptyString(vListeCandidatsDto.getNomCharge())) {
+				query = query + " AND V_ListeCandidats.NOM_CHARGE LIKE '%" + vListeCandidatsDto.getNomCharge() + "%'";
 			}
-			if (v_ListeCandidatsDto.getPrenomCharge() != null && !v_ListeCandidatsDto.getPrenomCharge().isEmpty()) {
-				query = query + prenomCharge + v_ListeCandidatsDto.getPrenomCharge() + "%'";
-			}
-
-			if (v_ListeCandidatsDto.getMobilite() != null) {
-				query = query + " AND V_ListeCandidats.MOBILITE = " + v_ListeCandidatsDto.getMobilite() + "";
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenomCharge())) {
+				query = query + " AND V_ListeCandidats.PRENOM_CHARGE LIKE '%" + vListeCandidatsDto.getPrenomCharge()
+						+ "%'";
 			}
 
-			if (v_ListeCandidatsDto.getStatut() != null) {
-				query = query + candidatStatus + v_ListeCandidatsDto.getStatut().ordinal() + "";
+			if (vListeCandidatsDto.getMobilite() != null) {
+				query = query + " AND V_ListeCandidats.MOBILITE = " + vListeCandidatsDto.getMobilite() + "";
+			}
+
+			if (vListeCandidatsDto.getStatut() != null) {
+				query = query + " AND V_ListeCandidats.STATUT = " + vListeCandidatsDto.getStatut().ordinal() + "";
 			}
 		}
 		if (all) {
@@ -115,137 +95,161 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 			int size) {
 
 		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.RELANCER=1 ";
-		query = GeneretaeARelancerConditionQuery(vListeCandidatsDto, query);
-		query += " LIMIT " + page + "," + size;
-		SQLQuery st = getSession().createSQLQuery(query);
+		query = generetaeARelancerConditionQuery(vListeCandidatsDto, query);
+		query += " LIMIT :page, :size";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size",
+				size);
 		@SuppressWarnings("unchecked")
 		List<VListeCandidats> liste = (List<VListeCandidats>) st.addEntity(VListeCandidats.class).list();
 		return liste;
 	}
 
 	@Override
-	public Integer rechercherVlisteCandidatsARelancerNbr(VListeCandidatsDto ncd) {
+	public Integer rechercherVlisteCandidatsARelancerNbr(VListeCandidatsDto NCD) {
 		String query = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.RELANCER=1 ";
-		query = GeneretaeARelancerConditionQuery(ncd, query);
+		query = generetaeARelancerConditionQuery(NCD, query);
 		SQLQuery st = getSession().createSQLQuery(query);
 		return ((BigInteger) st.uniqueResult()).intValue();
-	}
-
-	public String getQueryString(String query, String value) {
-
-		if (value != null) {
-			if (value.equals("1")) {
-				Calendar calendar = Calendar.getInstance();
-				Date date = calendar.getTime();
-				calendar.add(Calendar.MONTH, -1);
-				Date toDate = calendar.getTime();
-				query = query + listeDateInscription + sdf.format(toDate) + AND + sdf.format(date) + "'";
-			} else if (value.equals("2")) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.add(Calendar.MONTH, -1);
-				Date date = calendar.getTime();
-				calendar.add(Calendar.MONTH, -6);
-				Date toDate = calendar.getTime();
-				query = query + listeDateInscriptionAvecDate + sdf.format(toDate) + AND + sdf.format(date) + "'";
-
-			} else if (value.equals("3")) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.add(Calendar.MONTH, -6);
-				Date date = calendar.getTime();
-				calendar.add(Calendar.YEAR, -3);
-				Date toDate = calendar.getTime();
-				query = query + listeDateInscription + sdf.format(toDate) + dateFormat2 + sdf.format(date) + dateFormat;
-			}
-		}
-
-		return query;
-	}
-
-	public String getStringRelance(VListeCandidatsDto v_ListeCandidatsDto, String query) {
-		if (v_ListeCandidatsDto.getNom() != null && !v_ListeCandidatsDto.getNom().isEmpty()) {
-			query = query + candidatNom + v_ListeCandidatsDto.getNom() + "%'";
-
-		}
-
-		if (v_ListeCandidatsDto.getPrenom() != null && !v_ListeCandidatsDto.getPrenom().isEmpty()) {
-			query = query + candidatPrenom + v_ListeCandidatsDto.getPrenom() + "%'";
-		}
-
-		if (v_ListeCandidatsDto.getNumeroTel() != null && !v_ListeCandidatsDto.getNumeroTel().isEmpty()) {
-			query = query + candidatNumeroTel + v_ListeCandidatsDto.getNumeroTel() + "%'";
-		}
-
-		if (v_ListeCandidatsDto.getEmail() != null && !v_ListeCandidatsDto.getEmail().isEmpty()) {
-			query = query + candidatEmail + v_ListeCandidatsDto.getEmail() + "%'";
-		}
-
-		if (v_ListeCandidatsDto.getDateInscription() != null) {
-			query = query + vListeCandidatInscri + sdf.format(v_ListeCandidatsDto.getDateInscription()) + "'";
-		}
-
-		if (v_ListeCandidatsDto.getStatut() != null) {
-			query = query + candidatStatus + v_ListeCandidatsDto.getStatut().ordinal() + "";
-		}
-
-		if (v_ListeCandidatsDto.getTechnologie() != null && !v_ListeCandidatsDto.getTechnologie().isEmpty()) {
-			query = query + listeCandidatTechnologie + v_ListeCandidatsDto.getTechnologie() + "'";
-		}
-
-		if (v_ListeCandidatsDto.getRegion() != null && !v_ListeCandidatsDto.getRegion().isEmpty()) {
-			query = query + listeCandidatRegion + v_ListeCandidatsDto.getRegion() + "%'";
-		}
-
-		if (v_ListeCandidatsDto.getNomSourceur() != null && !v_ListeCandidatsDto.getNomSourceur().isEmpty()) {
-			query = query + listeCandidatNomSourceur + v_ListeCandidatsDto.getNomSourceur() + "%'";
-		}
-
-		if (v_ListeCandidatsDto.getPrenomSourceur() != null && !v_ListeCandidatsDto.getPrenomSourceur().isEmpty()) {
-			query = query + listeCandidatPrenomSourceur + v_ListeCandidatsDto.getPrenomSourceur() + "%'";
-		}
-
-		return query;
 	}
 
 	@Override
 	public List<VListeCandidats> rechercherVlisteNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size) {
-		String queryNouveauxCandidats = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
-		queryNouveauxCandidats = GenerateConditionQuery(vListeCandidatsDto, queryNouveauxCandidats);
-		if (vListeCandidatsDto != null) {
-			String q = getQueryString(queryNouveauxCandidats, vListeCandidatsDto.getCritereRecheche());
-			queryNouveauxCandidats = q;
-		}
-		queryNouveauxCandidats += " LIMIT :page, :size";
-		SQLQuery stNouveauxCandidats = (SQLQuery) getSession().createSQLQuery(queryNouveauxCandidats)
-				.setParameter("page", page).setParameter("size", size);
-		@SuppressWarnings("unchecked")
-		List<VListeCandidats> listeNouveauxCandidats = (List<VListeCandidats>) stNouveauxCandidats
-				.addEntity(VListeCandidats.class).list();
+		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
+		query = generateConditionQuery(vListeCandidatsDto, query);
 
-		return listeNouveauxCandidats;
+		if (vListeCandidatsDto != null) {
+
+			if (vListeCandidatsDto.getCritereRecheche() != null) {
+				if (vListeCandidatsDto.getCritereRecheche().equals("1")) {
+					Calendar calendar = Calendar.getInstance();
+					Date date = calendar.getTime();
+					calendar.add(Calendar.MONTH, -1);
+					Date toDate = calendar.getTime();
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'" + sdf.format(toDate) + "' AND '"
+							+ sdf.format(date) + "'";
+				} else if (vListeCandidatsDto.getCritereRecheche().equals("2")) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.add(Calendar.MONTH, -1);
+					Date date = calendar.getTime();
+					calendar.add(Calendar.MONTH, -6);
+					Date toDate = calendar.getTime();
+					query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) BETWEEN '" + sdf.format(toDate)
+							+ "' AND '" + sdf.format(date) + "'";
+
+				} else if (vListeCandidatsDto.getCritereRecheche().equals("3")) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.add(Calendar.MONTH, -6);
+					Date date = calendar.getTime();
+					calendar.add(Calendar.YEAR, -3);
+					Date toDate = calendar.getTime();
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'" + sdf.format(toDate)
+							+ " 00:00:00' AND '" + sdf.format(date) + " 23:59:59'";
+				}
+
+			}
+
+		}
+		query += " LIMIT :page, :size";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size",
+				size);
+		@SuppressWarnings("unchecked")
+		List<VListeCandidats> liste = (List<VListeCandidats>) st.addEntity(VListeCandidats.class).list();
+
+		return liste;
 	}
 
 	@Override
 	public Integer rechercherVlisteNouveauxCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
-		String queryNouveauxCandidatsNbr = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
-		queryNouveauxCandidatsNbr = GenerateConditionQuery(vListeCandidatsDto, queryNouveauxCandidatsNbr);
+		String query = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
+		query = generateConditionQuery(vListeCandidatsDto, query);
+
 		if (vListeCandidatsDto != null) {
-			String qNouveauxCandidatsNbr = getQueryString(queryNouveauxCandidatsNbr,
-					vListeCandidatsDto.getCritereRecheche());
-			queryNouveauxCandidatsNbr = qNouveauxCandidatsNbr;
+
+			if (vListeCandidatsDto.getCritereRecheche() != null) {
+				if (vListeCandidatsDto.getCritereRecheche().equals("1")) {
+					Calendar calendar = Calendar.getInstance();
+					Date date = calendar.getTime();
+					calendar.add(Calendar.MONTH, -1);
+					Date toDate = calendar.getTime();
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'" + sdf.format(toDate) + "' AND '"
+							+ sdf.format(date) + "'";
+				} else if (vListeCandidatsDto.getCritereRecheche().equals("2")) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.add(Calendar.MONTH, -1);
+					Date date = calendar.getTime();
+					calendar.add(Calendar.MONTH, -6);
+					Date toDate = calendar.getTime();
+					query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) BETWEEN '" + sdf.format(toDate)
+							+ "' AND '" + sdf.format(date) + "'";
+
+				} else if (vListeCandidatsDto.getCritereRecheche().equals("3")) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.add(Calendar.MONTH, -6);
+					Date date = calendar.getTime();
+					calendar.add(Calendar.YEAR, -3);
+					Date toDate = calendar.getTime();
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'" + sdf.format(toDate)
+							+ " 00:00:00' AND '" + sdf.format(date) + " 23:59:59'";
+				}
+			}
+
 		}
-		SQLQuery stNouveauxCandidatsNbr = getSession().createSQLQuery(queryNouveauxCandidatsNbr);
-		return ((BigInteger) stNouveauxCandidatsNbr.uniqueResult()).intValue();
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
 	}
 
 	@Override
 	public List<VListeCandidats> rechercherNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto) {
 		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		if (vListeCandidatsDto != null) {
-			String qQuery = getStringRelance(vListeCandidatsDto, query);
-			query = qQuery;
+			if (isNullOrEmptyString(vListeCandidatsDto.getNom())) {
+				query = query + " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getNom() + "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenom())) {
+				query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getPrenom() + "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getNumeroTel())) {
+				query = query + " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT LIKE '%" + vListeCandidatsDto.getNumeroTel()
+						+ "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getEmail())) {
+				query = query + " AND V_ListeCandidats.EMAIL_CANDIDAT LIKE '%" + vListeCandidatsDto.getEmail() + "%'";
+			}
+
+			if (vListeCandidatsDto.getDateInscription() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+						+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+			}
+
+			if (vListeCandidatsDto.getStatut() != null) {
+				query = query + " AND V_ListeCandidats.STATUT = " + vListeCandidatsDto.getStatut().ordinal() + "";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getTechnologie())) {
+				query = query + " AND V_ListeCandidats.TECHNOLOGIE = '" + vListeCandidatsDto.getTechnologie() + "'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getRegion())) {
+				query = query + " AND V_ListeCandidats.REGION LIKE '%" + vListeCandidatsDto.getRegion() + "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getNomSourceur())) {
+				query = query + " AND V_ListeCandidats.NOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getNomSourceur()
+						+ "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenomSourceur())) {
+				query = query + " AND V_ListeCandidats.PRENOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getPrenomSourceur()
+						+ "%'";
+			}
+
 			if (vListeCandidatsDto.getConfirmationRdv() != null) {
-				query = query + listeCandiatConfirmation + vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
+				query = query + " AND V_ListeCandidats.CONFIRMATION_RDV = "
+						+ vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
 			}
 
 			if (vListeCandidatsDto.getMobiliteLille() != null) {
@@ -257,16 +261,37 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 				query = query + " AND V_ListeCandidats.cv_Source = " + vListeCandidatsDto.getCvSource().ordinal() + "";
 			}
 
-			else {
+			if (vListeCandidatsDto.getCritereRecheche() != null) {
+				if (vListeCandidatsDto.getCritereRecheche().equals("1")) {
+					Calendar calendar = Calendar.getInstance();
+					Date date = calendar.getTime();
+					calendar.add(Calendar.MONTH, -1);
+					Date toDate = calendar.getTime();
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'" + sdf.format(toDate) + "' AND '"
+							+ sdf.format(date) + "'";
+				} else if (vListeCandidatsDto.getCritereRecheche().equals("2")) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.add(Calendar.MONTH, -1);
+					Date date = calendar.getTime();
+					calendar.add(Calendar.MONTH, -6);
+					Date toDate = calendar.getTime();
+					query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) BETWEEN '" + sdf.format(toDate)
+							+ "' AND '" + sdf.format(date) + "'";
 
-				String q = getQueryString(query, vListeCandidatsDto.getCritereRecheche());
-				query = q;
+				} else if (vListeCandidatsDto.getCritereRecheche().equals("3")) {
+					Calendar calendar = Calendar.getInstance();
+					calendar.add(Calendar.MONTH, -6);
+					Date date = calendar.getTime();
+					calendar.add(Calendar.YEAR, -3);
+					Date toDate = calendar.getTime();
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION BETWEEN'" + sdf.format(toDate)
+							+ " 00:00:00' AND '" + sdf.format(date) + " 23:59:59'";
+				}
 
 			}
 
 		}
 		query = query + " ORDER BY V_ListeCandidats.DATE_INSCRIPTION DESC";
-		System.out.println(query);
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
 		List<VListeCandidats> liste = (List<VListeCandidats>) st.addEntity(VListeCandidats.class).list();
@@ -277,17 +302,17 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	@Override
 	public Integer rechercherVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
 		String query = "SELECT count(*) FROM V_ListeCandidats WHERE 1=1 ";
-		query = GenerateConditionQuery(vListeCandidatsDto, query);
+		query = generateConditionQuery(vListeCandidatsDto, query);
 		SQLQuery st = getSession().createSQLQuery(query);
 		return ((BigInteger) st.uniqueResult()).intValue();
 	}
 
 	@Override
-	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto v_ListeCandidatsDto, int page, int size) {
+	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
+			int size) {
 
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
-		query = GenerateConditionQuery(v_ListeCandidatsDto, query);
-		// query = query + " ORDER BY V_ListeCandidats.DATE_INSCRIPTION DESC ";
+		query = generateConditionQuery(vListeCandidatsDto, query);
 		query += " LIMIT :page, :size";
 		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size",
 				size);
@@ -297,194 +322,237 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		return liste;
 	}
 
-	private String GenerateConditionQuery(VListeCandidatsDto v_ListeCandidatsDto, String query) {
-		if (v_ListeCandidatsDto != null) {
-			String q = getStringRelance(v_ListeCandidatsDto, query);
-			query = q;
-			if (v_ListeCandidatsDto.getDisponibilite() != null) {
+	private String generateConditionQuery(VListeCandidatsDto vListeCandidatsDto, String query) {
+		if (vListeCandidatsDto != null) {
+			if (isNullOrEmptyString(vListeCandidatsDto.getNom())) {
+				query = query + " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getNom() + "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenom())) {
+				query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getPrenom() + "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getNumeroTel())) {
+				query = query + " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT LIKE '%" + vListeCandidatsDto.getNumeroTel()
+						+ "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getEmail())) {
+				query = query + " AND V_ListeCandidats.EMAIL_CANDIDAT LIKE '%" + vListeCandidatsDto.getEmail() + "%'";
+			}
+
+			if (vListeCandidatsDto.getDateInscription() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+						+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+			}
+
+			if (vListeCandidatsDto.getStatut() != null) {
+				query = query + " AND V_ListeCandidats.STATUT = " + vListeCandidatsDto.getStatut().ordinal() + "";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getTechnologie())) {
+				query = query + " AND V_ListeCandidats.TECHNOLOGIE = '" + vListeCandidatsDto.getTechnologie() + "'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getRegion())) {
+				query = query + " AND V_ListeCandidats.REGION LIKE '%" + vListeCandidatsDto.getRegion() + "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getNomSourceur())) {
+				query = query + " AND V_ListeCandidats.NOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getNomSourceur()
+						+ "%'";
+			}
+
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenomSourceur())) {
+				query = query + " AND V_ListeCandidats.PRENOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getPrenomSourceur()
+						+ "%'";
+			}
+
+			if (vListeCandidatsDto.getDisponibilite() != null) {
 				query = query + " AND V_ListeCandidats.DISPONIBILITE = "
-						+ v_ListeCandidatsDto.getDisponibilite().ordinal() + "";
+						+ vListeCandidatsDto.getDisponibilite().ordinal() + "";
 			}
 
-			if (v_ListeCandidatsDto.getRelancer() != null) {
-				query = query + " AND V_ListeCandidats.RELANCER = " + v_ListeCandidatsDto.getRelancer() + "";
+			if (vListeCandidatsDto.getRelancer() != null) {
+				query = query + " AND V_ListeCandidats.RELANCER = " + vListeCandidatsDto.getRelancer() + "";
 			}
 
-			if (v_ListeCandidatsDto.getDateRelance() != null) {
+			if (vListeCandidatsDto.getDateRelance() != null) {
 				query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) ='"
-						+ sdf.format(v_ListeCandidatsDto.getDateRelance()) + "'";
+						+ sdf.format(vListeCandidatsDto.getDateRelance()) + "'";
 			}
 
-			if (v_ListeCandidatsDto.getDateEntretien() != null) {
-				query = query + candidatEntretient + sdf.format(v_ListeCandidatsDto.getDateEntretien()) + "'";
+			if (vListeCandidatsDto.getDateEntretien() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='"
+						+ sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
 			}
 
-			if (v_ListeCandidatsDto.getLieuEntretien() != null && !v_ListeCandidatsDto.getLieuEntretien().isEmpty()) {
-				query = query + lieuEntretien + v_ListeCandidatsDto.getLieuEntretien() + "%'";
+			if (isNullOrEmptyString(vListeCandidatsDto.getLieuEntretien())) {
+				query = query + " AND V_ListeCandidats.LIEU_ENTRETIEN LIKE '%" + vListeCandidatsDto.getLieuEntretien()
+						+ "%'";
 			}
 
-			if (v_ListeCandidatsDto.getConfirmationRdv() != null) {
-				query = query + listeCandiatConfirmation + v_ListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
+			if (vListeCandidatsDto.getConfirmationRdv() != null) {
+				query = query + " AND V_ListeCandidats.CONFIRMATION_RDV = "
+						+ vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
 			}
 
-			if (v_ListeCandidatsDto.getMobiliteLille() != null) {
+			if (vListeCandidatsDto.getMobiliteLille() != null) {
 				query = query + " AND V_ListeCandidats.mobilite_Lille = "
-						+ v_ListeCandidatsDto.getMobiliteLille().ordinal() + "";
+						+ vListeCandidatsDto.getMobiliteLille().ordinal() + "";
 			}
 
-			if (v_ListeCandidatsDto.getCvSource() != null) {
-				query = query + " AND V_ListeCandidats.cv_Source = " + v_ListeCandidatsDto.getCvSource().ordinal() + "";
+			if (vListeCandidatsDto.getCvSource() != null) {
+				query = query + " AND V_ListeCandidats.cv_Source = " + vListeCandidatsDto.getCvSource().ordinal() + "";
 			}
 
-			if (v_ListeCandidatsDto.getNomCharge() != null && !v_ListeCandidatsDto.getNomCharge().isEmpty()) {
-				query = query + nomCharge + v_ListeCandidatsDto.getNomCharge() + "%'";
+			if (isNullOrEmptyString(vListeCandidatsDto.getNomCharge())) {
+				query = query + " AND V_ListeCandidats.NOM_CHARGE LIKE '%" + vListeCandidatsDto.getNomCharge() + "%'";
 			}
 
-			if (v_ListeCandidatsDto.getPrenomCharge() != null && !v_ListeCandidatsDto.getPrenomCharge().isEmpty()) {
-				query = query + prenomCharge + v_ListeCandidatsDto.getPrenomCharge() + "%'";
+			if (isNullOrEmptyString(vListeCandidatsDto.getPrenomCharge())) {
+				query = query + " AND V_ListeCandidats.PRENOM_CHARGE LIKE '%" + vListeCandidatsDto.getPrenomCharge()
+						+ "%'";
 			}
 
 		}
 		return query;
 	}
 
-	public boolean testerNullAndEmptyStringObject(String test, Object ob) {
-		if (test != null && test.isEmpty() && ob != null) {
-
-			return true;
-		}
-		return false;
-	}
-
-	public boolean testerNullAndEmptyObject(Object ob, Object test) {
-		if (ob != null && test != null) {
-
-			return true;
-		}
-		return false;
-	}
-
-	public boolean testerNullAndEmptyObjectObject(Object ob, Object test1, Object ob2) {
-		if (ob != null && test1 != null && ob2 != null) {
-
-			return true;
-		}
-		return false;
-	}
-
-	private String GeneretaeARelancerConditionQuery(VListeCandidatsDto v_ListeCandidatsDto, String query) {
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getNom(), v_ListeCandidatsDto)) {
-			query = query + candidatNom + v_ListeCandidatsDto.getNom() + "%'";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getPrenom(), v_ListeCandidatsDto)) {
-			query = query + candidatPrenom + v_ListeCandidatsDto.getPrenom() + "%'";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getNumeroTel(), v_ListeCandidatsDto)) {
-			query = query + candidatNumeroTel + v_ListeCandidatsDto.getNumeroTel() + "%'";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getEmail(), v_ListeCandidatsDto)) {
-			query = query + candidatEmail + v_ListeCandidatsDto.getEmail() + "%'";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getDateInscription(), v_ListeCandidatsDto)) {
-			query = query + vListeCandidatInscri + sdf.format(v_ListeCandidatsDto.getDateInscription()) + "'";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getStatut(), v_ListeCandidatsDto)) {
-			query = query + candidatStatus + v_ListeCandidatsDto.getStatut().ordinal() + "";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getTechnologie(), v_ListeCandidatsDto)) {
-			query = query + listeCandidatTechnologie + v_ListeCandidatsDto.getTechnologie() + "'";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getRegion(), v_ListeCandidatsDto)) {
-			query = query + listeCandidatRegion + v_ListeCandidatsDto.getRegion() + "%'";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getNomSourceur(), v_ListeCandidatsDto)) {
-			query = query + listeCandidatNomSourceur + v_ListeCandidatsDto.getNomSourceur() + "%'";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getPrenomSourceur(), v_ListeCandidatsDto)) {
-			query = query + listeCandidatPrenomSourceur + v_ListeCandidatsDto.getPrenomSourceur() + "%'";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getDisponibilite(), v_ListeCandidatsDto)) {
-			query = query + " AND V_ListeCandidats.DISPONIBILITE = " + v_ListeCandidatsDto.getDisponibilite().ordinal()
-					+ "";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getRelancer(), v_ListeCandidatsDto)) {
-			query = query + " AND V_ListeCandidats.RELANCER = " + v_ListeCandidatsDto.getRelancer() + "";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getDateRelance(), v_ListeCandidatsDto)) {
-
-			java.sql.Timestamp fromDate = new java.sql.Timestamp(v_ListeCandidatsDto.getDateRelance().getTime());
-			Calendar calendrier = Calendar.getInstance();
-			calendrier.set(Calendar.HOUR, 0);
-			calendrier.set(Calendar.MINUTE, 0);
-			calendrier.set(Calendar.SECOND, 0);
-			fromDate = (Timestamp) calendrier.getTime();
-
-			query = query + candidatDateRelance + fromDate + "' AND DATE(V_ListeCandidats.DATE_RELANCE) <= LAST_DAY('"
-					+ fromDate + "') ";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getDateEntretien(), v_ListeCandidatsDto)) {
-			query = query + candidatEntretient + sdf.format(v_ListeCandidatsDto.getDateEntretien()) + "'";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getLieuEntretien(), v_ListeCandidatsDto)) {
-			query = query + lieuEntretien + v_ListeCandidatsDto.getLieuEntretien() + "%'";
-		}
-
-		if (testerNullAndEmptyObject(v_ListeCandidatsDto.getConfirmationRdv(), v_ListeCandidatsDto)) {
-			query = query + listeCandiatConfirmation + v_ListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getNomCharge(), v_ListeCandidatsDto)) {
-			query = query + nomCharge + v_ListeCandidatsDto.getNomCharge() + "%'";
-		}
-
-		if (testerNullAndEmptyStringObject(v_ListeCandidatsDto.getPrenomCharge(), v_ListeCandidatsDto)) {
-			query = query + prenomCharge + v_ListeCandidatsDto.getPrenomCharge() + "%'";
-		}
-		if (testerNullAndEmptyObjectObject(v_ListeCandidatsDto.getDateDebut(), v_ListeCandidatsDto.getDateFin(),
-				v_ListeCandidatsDto)) {
-			java.sql.Timestamp fromDate = new java.sql.Timestamp(v_ListeCandidatsDto.getDateDebut().getTime());
-			java.sql.Timestamp toDate = new java.sql.Timestamp(v_ListeCandidatsDto.getDateFin().getTime());
-			Calendar calendrier = Calendar.getInstance();
-			calendrier.set(Calendar.HOUR, 0);
-			calendrier.set(Calendar.MINUTE, 0);
-			calendrier.set(Calendar.SECOND, 0);
-			fromDate = (Timestamp) calendrier.getTime();
-			Calendar calendrier2 = Calendar.getInstance();
-			calendrier2.set(Calendar.HOUR, 23);
-			calendrier2.set(Calendar.MINUTE, 59);
-			toDate = (Timestamp) calendrier2.getTime();
-
-			query = query + candidatDateRelance + fromDate + "' AND DATE(V_ListeCandidats.DATE_RELANCE) <= '" + toDate
-					+ "'";
-		} else {
-
-			if (testerNullAndEmptyObject(v_ListeCandidatsDto.getDateDebut(), v_ListeCandidatsDto)) {
-				java.sql.Timestamp fromDate = new java.sql.Timestamp(v_ListeCandidatsDto.getDateDebut().getTime());
-
-				query = query + candidatDateRelance + fromDate + "'";
+	private String generetaeARelancerConditionQuery(VListeCandidatsDto vListeCandidatsDto, String query) {
+		if (vListeCandidatsDto != null) {
+			if (vListeCandidatsDto.getNom() != null && !vListeCandidatsDto.getNom().isEmpty()) {
+				query = query + " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getNom() + "%'";
 			}
-			if (testerNullAndEmptyObject(v_ListeCandidatsDto.getDateFin(), v_ListeCandidatsDto)) {
-				java.sql.Timestamp toDate = new java.sql.Timestamp(v_ListeCandidatsDto.getDateFin().getTime());
-				query = query + "' AND DATE(V_ListeCandidats.DATE_RELANCE) < '" + toDate + "'";
-			}
-		}
 
+			if (vListeCandidatsDto.getPrenom() != null && !vListeCandidatsDto.getPrenom().isEmpty()) {
+				query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%" + vListeCandidatsDto.getPrenom() + "%'";
+			}
+
+			if (vListeCandidatsDto.getNumeroTel() != null && !vListeCandidatsDto.getNumeroTel().isEmpty()) {
+				query = query + " AND V_ListeCandidats.NUMERO_TEL_CANDIDAT LIKE '%" + vListeCandidatsDto.getNumeroTel()
+						+ "%'";
+			}
+
+			if (vListeCandidatsDto.getEmail() != null && !vListeCandidatsDto.getEmail().isEmpty()) {
+				query = query + " AND V_ListeCandidats.EMAIL_CANDIDAT LIKE '%" + vListeCandidatsDto.getEmail() + "%'";
+			}
+
+			if (vListeCandidatsDto.getDateInscription() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+						+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+			}
+
+			if (vListeCandidatsDto.getStatut() != null) {
+				query = query + " AND V_ListeCandidats.STATUT = " + vListeCandidatsDto.getStatut().ordinal() + "";
+			}
+
+			if (vListeCandidatsDto.getTechnologie() != null && !vListeCandidatsDto.getTechnologie().isEmpty()) {
+				query = query + " AND V_ListeCandidats.TECHNOLOGIE = '" + vListeCandidatsDto.getTechnologie() + "'";
+			}
+
+			if (vListeCandidatsDto.getRegion() != null && !vListeCandidatsDto.getRegion().isEmpty()) {
+				query = query + " AND V_ListeCandidats.REGION LIKE '%" + vListeCandidatsDto.getRegion() + "%'";
+			}
+
+			if (vListeCandidatsDto.getNomSourceur() != null) {
+				query = query + " AND V_ListeCandidats.NOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getNomSourceur()
+						+ "%'";
+			}
+
+			if (vListeCandidatsDto.getPrenomSourceur() != null) {
+				query = query + " AND V_ListeCandidats.PRENOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getPrenomSourceur()
+						+ "%'";
+			}
+
+			if (vListeCandidatsDto.getDisponibilite() != null) {
+				query = query + " AND V_ListeCandidats.DISPONIBILITE = "
+						+ vListeCandidatsDto.getDisponibilite().ordinal() + "";
+			}
+
+			if (vListeCandidatsDto.getRelancer() != null) {
+				query = query + " AND V_ListeCandidats.RELANCER = " + vListeCandidatsDto.getRelancer() + "";
+			}
+
+			if (vListeCandidatsDto.getDateRelance() != null) {
+
+				java.sql.Timestamp fromDate = new java.sql.Timestamp(vListeCandidatsDto.getDateRelance().getTime());
+				fromDate.setHours(0);
+				fromDate.setMinutes(0);
+				fromDate.setSeconds(0);
+
+				query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '" + fromDate
+						+ "' AND DATE(V_ListeCandidats.DATE_RELANCE) <= LAST_DAY('" + fromDate + "') ";
+			}
+
+			if (vListeCandidatsDto.getDateEntretien() != null) {
+				query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='"
+						+ sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
+			}
+
+			if (vListeCandidatsDto.getLieuEntretien() != null && !vListeCandidatsDto.getLieuEntretien().isEmpty()) {
+				query = query + " AND V_ListeCandidats.LIEU_ENTRETIEN LIKE '%" + vListeCandidatsDto.getLieuEntretien()
+						+ "%'";
+			}
+
+			if (vListeCandidatsDto.getConfirmationRdv() != null) {
+				query = query + " AND V_ListeCandidats.CONFIRMATION_RDV = "
+						+ vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
+			}
+
+			if (vListeCandidatsDto.getNomCharge() != null && !vListeCandidatsDto.getNomCharge().isEmpty()) {
+				query = query + " AND V_ListeCandidats.NOM_CHARGE LIKE '%" + vListeCandidatsDto.getNomCharge() + "%'";
+			}
+
+			if (vListeCandidatsDto.getPrenomCharge() != null && !vListeCandidatsDto.getPrenomCharge().isEmpty()) {
+				query = query + " AND V_ListeCandidats.PRENOM_CHARGE LIKE '%" + vListeCandidatsDto.getPrenomCharge()
+						+ "%'";
+			}
+			if (vListeCandidatsDto.getDateDebut() != null && vListeCandidatsDto.getDateFin() != null) {
+				java.sql.Timestamp fromDate = new java.sql.Timestamp(vListeCandidatsDto.getDateDebut().getTime());
+				java.sql.Timestamp toDate = new java.sql.Timestamp(vListeCandidatsDto.getDateFin().getTime());
+				fromDate.setHours(0);
+				fromDate.setMinutes(0);
+				fromDate.setSeconds(0);
+				toDate.setHours(23);
+				toDate.setMinutes(59);
+				query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '" + fromDate
+						+ "' AND DATE(V_ListeCandidats.DATE_RELANCE) <= '" + toDate + "'";
+			} else {
+
+				if (vListeCandidatsDto.getDateDebut() != null) {
+					java.sql.Timestamp fromDate = new java.sql.Timestamp(vListeCandidatsDto.getDateDebut().getTime());
+
+					query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '" + fromDate + "'";
+				}
+				if (vListeCandidatsDto.getDateFin() != null) {
+					java.sql.Timestamp toDate = new java.sql.Timestamp(vListeCandidatsDto.getDateFin().getTime());
+					query = query + "' AND DATE(V_ListeCandidats.DATE_RELANCE) < '" + toDate + "'";
+				}
+			}
+
+		}
 		return query;
 	}
 
+	public boolean isNullOrEmptyString(String var) {
+		if (var != null && !var.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isNullObject(Object o, Object var) {
+		if (o != null && var != null) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isNullOrEmptyDateAndObject(Object o, Date var) {
+		if (o != null && var != null) {
+			return true;
+		}
+		return false;
+	}
 }

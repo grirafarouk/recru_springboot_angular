@@ -79,11 +79,11 @@ public class SessionFormation implements Serializable {
 	}
 
 	@Column(name = "F_Actif", nullable = false)
-	public Boolean getFActif() {
+	public Boolean getfActif() {
 		return fActif;
 	}
 
-	public void setFActif(Boolean fActif) {
+	public void setfActif(Boolean fActif) {
 		this.fActif = fActif;
 	}
 	@Column(name = "Nombre_Place", nullable = false)

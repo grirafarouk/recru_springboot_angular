@@ -1,7 +1,5 @@
 package com.fr.adaming.util;
 
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +22,6 @@ import org.springframework.stereotype.Component;
 import com.aspose.cells.Workbook;
 import com.fr.adaming.jsfapp.services.IExporterReportingExcelService;
 
-
 @Component("eMailHebdomadaireJob")
 public class EMailHebdomadaireJob {
 
@@ -36,8 +33,7 @@ public class EMailHebdomadaireJob {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory
-			.getLogger(EMailReportingJobImpl.class);
+	private Logger logger = LoggerFactory.getLogger(EMailReportingJobImpl.class);
 
 	public void doBusiness() throws Exception {
 		logger.info("Email reporting started...");
@@ -54,21 +50,19 @@ public class EMailHebdomadaireJob {
 
 		// creation de la piece jointe
 		PieceJointe pj = createPj(reportContent);
-		List<PieceJointe> pjList = new ArrayList<PieceJointe>();
+		List<PieceJointe> pjList = new ArrayList<>();
 		pjList.add(pj);
 		// message du mail
 		// objet du mail
-		String objet = "rapport hebdomadaire du sourcing ("
-				+ sdf.format(DateUtils.getYesterday()) + ")";
-		eMailApi.envoyerMail(objet, content, destinataires, "","","", pjList);
+		String objet = "rapport hebdomadaire du sourcing (" + sdf.format(DateUtils.getYesterday()) + ")";
+		eMailApi.envoyerMail(objet, content, destinataires, "", "", "", pjList);
 		logger.info("Email reporting finished.");
 	}
 
 	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
 		PieceJointe pj = new PieceJointe();
 
-		String fileName = "reporting_" + sdf.format(DateUtils.getYesterday())
-				+ ".xlsx";
+		String fileName = "reporting_" + sdf.format(DateUtils.getYesterday()) + ".xlsx";
 		pj.setFileName(fileName);
 		pj.setMimeType(PieceJointe.MIME_TYPE_EXCEL_DOCUMENT);
 		pj.setContent(reportContent);
@@ -76,14 +70,14 @@ public class EMailHebdomadaireJob {
 	}
 
 	private String parse(XSSFWorkbook wb1) throws Exception {
-		String realPath = File.separator+"opt"+File.separator+"apache-tomcat8097"+File.separator+"reporting"+File.separator;
+		String realPath = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator + "reporting"
+				+ File.separator;
 		String nameFile = "reporting.xls";
 		FileOutputStream fileOut = new FileOutputStream(realPath + nameFile);
 		wb1.write(fileOut);
 		Workbook workbook = new Workbook(realPath + nameFile);
 		workbook.save(realPath + "out1.xls");
-		HSSFWorkbook myWorkBook = new HSSFWorkbook(new POIFSFileSystem(
-				new FileInputStream(realPath + "out1.xls")));
+		HSSFWorkbook myWorkBook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(realPath + "out1.xls")));
 		ExcelToHtml nExcelToHtml = new ExcelToHtml(myWorkBook);
 		String content = nExcelToHtml.getHTML();
 		return content.toString();

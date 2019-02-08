@@ -65,9 +65,11 @@
 	<bean id="cronTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="simpleJobDetail" />
-		<property name="cronExpression" value="0 26 14 * * ?" />
-	</bean>   
-	
+		<property name="cronExpression" value="0 49 15 * * ?" />
+	</bean>
+
+
+
 
 	<bean id="eMailEvaluationJob" class="com.fr.adaming.util.EMailEvaluationJobImpl" />
 	<bean id="eMailEvaluationJobDetail"
@@ -78,7 +80,7 @@
 	<bean id="evaluationTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="eMailEvaluationJobDetail" />
-		<property name="cronExpression" value="0 16 17 * * ?" />
+		<property name="cronExpression" value="0 0 16 * * ?" />
 	</bean>
 
 

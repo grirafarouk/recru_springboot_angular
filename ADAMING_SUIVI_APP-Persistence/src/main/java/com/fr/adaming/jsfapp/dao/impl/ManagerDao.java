@@ -120,8 +120,7 @@ public abstract class ManagerDao<T, Id extends Serializable> extends HibernateUt
 	 */
 	@SuppressWarnings("unchecked")
 	public Collection<T> findAll() {
-		Collection<T> entities = this.getSession().createCriteria(getPersistentClass()).list();
-		return entities;
+		return this.getSession().createCriteria(getPersistentClass()).list();
 	}
 
 	/**

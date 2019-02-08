@@ -27,6 +27,8 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Use Apache POI to read an Excel (.xls) file and output an HTML table per
@@ -35,15 +37,18 @@ import org.apache.poi.ss.util.CellRangeAddress;
  * @author howard
  */
 public class ExcelToHtml {
-	final private StringBuilder out = new StringBuilder(655360);
-	final private SimpleDateFormat sdf;
-	final private HSSFWorkbook book;
-	final private HSSFPalette palette;
-	final private FormulaEvaluator evaluator;
+	private final StringBuilder out = new StringBuilder(655360);
+	private final SimpleDateFormat sdf;
+	private final HSSFWorkbook book;
+	private final HSSFPalette palette;
+	private final FormulaEvaluator evaluator;
 	private short colIndex;
-	private int rowIndex, mergeStart, mergeEnd;
+	private int rowIndex;
+	private int mergeStart;
+	private int mergeEnd;
 	// Row -> Column -> Pictures
 	private Map<Integer, Map<Short, List<HSSFPictureData>>> pix = new HashMap<>();
+	private static final Logger LOGGER = LoggerFactory.getLogger(ExcelToHtml.class);
 
 	/**
 	 * 
@@ -77,18 +82,16 @@ public class ExcelToHtml {
 		}
 		if (sheet.getDrawingPatriarch() != null) {
 			final List<HSSFShape> shapes = sheet.getDrawingPatriarch().getChildren();
-
 			for (int i = 0; i < shapes.size(); ++i) {
 				if (shapes.get(i) instanceof HSSFPicture) {
 					try {
 						final HSSFShape pic = shapes.get(i);
 						// Gain access to private field anchor.
 						final HSSFClientAnchor anchor = verif(i, pic);
-
 						pix.get(anchor.getRow1()).get(anchor.getCol1())
 								.add(book.getAllPictures().get(((HSSFPicture) pic).getPictureIndex()));
 					} catch (final Exception e) {
-						throw new RuntimeException(e);
+						LOGGER.info("contexe", e);
 					}
 				}
 			}
@@ -273,10 +276,7 @@ public class ExcelToHtml {
 				break;
 			default:
 				// Neither string or number? Could be a date.
-				try {
-					val = sdf.format(cell.getDateCellValue());
-				} catch (final Exception e1) {
-				}
+				val = sdf.format(cell.getDateCellValue());
 			}
 		} catch (final Exception e) {
 			val = e.getMessage();
@@ -284,20 +284,20 @@ public class ExcelToHtml {
 		if ("null".equals(val)) {
 			val = "";
 		}
-		if (pix.containsKey(rowIndex)) {
-			if (pix.get(rowIndex).containsKey(colIndex)) {
-				for (final HSSFPictureData pic : pix.get(rowIndex).get(colIndex)) {
-					out.append("<img alt='Image in Excel sheet' src='data:");
-					out.append(pic.getMimeType());
-					out.append(";base64,");
-					try {
-						out.append(new String(Base64.encodeBase64(pic.getData()), "US-ASCII"));
-					} catch (final UnsupportedEncodingException e) {
-						throw new RuntimeException(e);
-					}
-					out.append("'/>");
+		if (pix.containsKey(rowIndex) && pix.get(rowIndex).containsKey(colIndex)) {
+
+			for (final HSSFPictureData pic : pix.get(rowIndex).get(colIndex)) {
+				out.append("<img alt='Image in Excel sheet' src='data:");
+				out.append(pic.getMimeType());
+				out.append(";base64,");
+				try {
+					out.append(new String(Base64.encodeBase64(pic.getData()), "US-ASCII"));
+				} catch (final UnsupportedEncodingException e) {
+					LOGGER.info("context", e);
 				}
+				out.append("'/>");
 			}
+
 		}
 		out.append(val);
 		out.append("</td>\n");

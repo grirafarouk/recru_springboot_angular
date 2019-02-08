@@ -24,9 +24,6 @@ public class Lieu implements Serializable{
 	private String libelle;
 	private String adresseAdaming;
 
-	public Lieu() {
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)

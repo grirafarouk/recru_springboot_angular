@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.dao.IvReportingCandidatDao;
-import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
+import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
 import com.fr.adaming.jsfapp.services.IvReportingCandidatService;
 
 @Service("v_ReportingCandidatService")
 public class V_ReportingCandidatService extends ManagerService<VReportingCandidat, Long> implements IvReportingCandidatService {
+
 
 	/**
 	 * 
@@ -25,7 +26,7 @@ public class V_ReportingCandidatService extends ManagerService<VReportingCandida
 	private IvReportingCandidatDao v_ReportingCandidatDao;
 
 	@Override
-	public List<VReportingCandidat> rechercherReportingCandidat(V_ReportingCandidatDto v_ReportingCandidatDto, int page,
+	public List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto v_ReportingCandidatDto, int page,
 			int size) {
 		return v_ReportingCandidatDao.rechercherReportingCandidat(v_ReportingCandidatDto, page, size);
 	}
@@ -36,7 +37,7 @@ public class V_ReportingCandidatService extends ManagerService<VReportingCandida
 	}
 
 	@Override
-	public Integer rechercherReportingCandidatNbr(V_ReportingCandidatDto ReportingCandidatDto) {
+	public Integer rechercherReportingCandidatNbr(VReportingCandidatDto ReportingCandidatDto) {
 		return v_ReportingCandidatDao.rechercherReportingCandidatNbr(ReportingCandidatDto);
 	}
 }

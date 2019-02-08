@@ -1,8 +1,8 @@
 package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,16 +34,12 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 
 	@Override
 	public Utilisateur findByLoginAndIdUser(String login, Long idUser) {
-		Utilisateur utilisateur = utilisateurDao.findByLoginAndIdUser(login, idUser);
-		return utilisateur;
+		return utilisateurDao.findByLoginAndIdUser(login, idUser);
 	}
 
 	@Override
 	public Utilisateur findByLoginPass(String login, String passw) {
-		Utilisateur user = new Utilisateur();
-		user = utilisateurDao.findbyLoginPass(login, passw);
-
-		return user;
+		return utilisateurDao.findbyLoginPass(login, passw);
 	}
 
 	@Override
@@ -52,8 +48,7 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 		if (login == null || login.trim().isEmpty()) {
 			return null;
 		} else {
-			Utilisateur utilisateur = utilisateurDao.findbyUsernameSpringS(login);
-			return utilisateur;
+			return utilisateurDao.findbyUsernameSpringS(login);
 		}
 
 	}
@@ -104,118 +99,113 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 	public List<Utilisateur> rechercherSourceurPourReporting() {
 		return utilisateurDao.rechercherSourceurPourReporting();
 	}
-	
+
 	@Override
 	public List<Utilisateur> findAllCharges() {
 		return utilisateurDao.findAllCharges();
 	}
-	
+
 	@Override
-	public Integer nbrCVParSourceurParRegion(Utilisateur utilisateur,
-			Region region, Date dateDebut, Date dateFin) {
-		return utilisateurDao.nbrCVParSourceurParRegion(utilisateur,
-				region, dateDebut, dateFin);
+	public Integer nbrCVParSourceurParRegion(Utilisateur utilisateur, Region region, Date dateDebut, Date dateFin) {
+		return utilisateurDao.nbrCVParSourceurParRegion(utilisateur, region, dateDebut, dateFin);
 	}
 
 	@Override
-	public Integer nbrCVParOrigineParTechnologie(Origine origine,
-			Technologie technologie, Date dateDebut, Date dateFin) {
-		return utilisateurDao.nbrCVParOrigineParTechnologie(origine,
-				technologie, dateDebut, dateFin);
+	public Integer nbrCVParOrigineParTechnologie(Origine origine, Technologie technologie, Date dateDebut,
+			Date dateFin) {
+		return utilisateurDao.nbrCVParOrigineParTechnologie(origine, technologie, dateDebut, dateFin);
 	}
 
 	@Override
-	public Integer nbrCVParChargeParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut, Date dateFin) {
+	public Integer nbrCVParChargeParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut,
+			Date dateFin) {
 		return utilisateurDao.nbrCVParChargeParTechnologie(utilisateur, technologie, dateDebut, dateFin);
 	}
 
 	@Override
-	public Integer nbrCVParSourceurParOrigine(
-			Utilisateur utilisateur, Origine origine, Date dateDebut,
-			Date dateFin, boolean horsCible) {
+	public Integer nbrCVParSourceurParOrigine(Utilisateur utilisateur, Origine origine, Date dateDebut, Date dateFin,
+			boolean horsCible) {
 		return utilisateurDao.nbrCVParSourceurParOrigine(utilisateur, origine, dateDebut, dateFin, horsCible);
 	}
-	
+
 	@Override
-	public 	Integer nbrCVParSourceur(Utilisateur utilisateur, Date dateDebut, Date dateFin, boolean horsCible, boolean disponible) {
+	public Integer nbrCVParSourceur(Utilisateur utilisateur, Date dateDebut, Date dateFin, boolean horsCible,
+			boolean disponible) {
 		return utilisateurDao.nbrCVParSourceur(utilisateur, dateDebut, dateFin, horsCible, disponible);
 
 	}
 
 	@Override
-	public Integer nbrCVParSourceurParTechnologie(Utilisateur utilisateur,
-			Technologie technologie, Date dateDebut, Date dateFin) {
+	public Integer nbrCVParSourceurParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut,
+			Date dateFin) {
 		return utilisateurDao.nbrCVParSourceurParTechnologie(utilisateur, technologie, dateDebut, dateFin);
 	}
-	
+
 	@Override
-	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin)
-	{
+	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin) {
 		return utilisateurDao.nombreCVParCandidat(utilisateur, dateDebut, dateFin);
 	}
-	
+
 	@Override
-	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin)
-	{
+	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin) {
 		return utilisateurDao.nbrTotalTechnologie(utilisateur, dateDebut, dateFin);
 	}
-	
+
 	@Override
-	public Integer nbrCVParSourceurParMainframe(Utilisateur utilisateur){
-	return utilisateurDao.nbrCVParSourceurParMainframe(utilisateur);
-	}
-	
-	@Override
-	public Integer nbrCVParSourceurParMainframePlus(Utilisateur utilisateur){
-	return utilisateurDao.nbrCVParSourceurParMainframePlus(utilisateur);
-	}
-	
-	@Override
-	public Integer nbrCVParSourceurParNtic(Utilisateur utilisateur){
-	return utilisateurDao.nbrCVParSourceurParNtic(utilisateur);
-	}
-	
-	@Override
-	public Integer nbrCVParSourceurAutreTechnologie(Utilisateur utilisateur){
-	return utilisateurDao.nbrCVParSourceurAutreTechnologie(utilisateur);
-	}
-	
-	@Override
-	public List<ReportingChargeRelanceDto> rechercherChargeParRelance(){
-		return utilisateurDao.rechercherChargeParRelance();
-	}
-	
-	@Override
-	public List<ReportingSourceurTechnologieDto> rechercherSourceurTechnologies(){
-		return utilisateurDao.rechercherSourceurTechnologies();
-	}
-	
-	@Override
-	public List<ReportingListSourceurDto> rechercherReportingListSourceur(){
-		return utilisateurDao.rechercherReportingListSourceur();
-	}
-	
-	@Override
-	public List<ReportingSourceurParDispoDto> rechercherReportingSourceurParDispo(ReportingListSourceurDto utilisateur, Date dateDebut,
-			Date dateFin){
-		return utilisateurDao.rechercherReportingSourceurParDispo(utilisateur, dateDebut, dateFin);
-	}
-	
-	@Override
-	public HashMap<String, Integer> ReportingCVParTechnologieParSourceur(){
-		return utilisateurDao.ReportingCVParTechnologieParSourceur();
-	}
-	
-	@Override
-	public List<ReportingSourceurParDispoDto> rechercherReportingSourceur(){
-		return utilisateurDao.rechercherReportingSourceur();
-	}
-	
-	@Override
-	public HashMap<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur, Date dateDebut,
-			Date dateFin){
-		return utilisateurDao.rechercherReportingCVParTechnologieParSourceur(utilisateur,dateDebut,dateFin);
+	public Integer nbrCVParSourceurParMainframe(Utilisateur utilisateur) {
+		return utilisateurDao.nbrCVParSourceurParMainframe(utilisateur);
 	}
 
+	@Override
+	public Integer nbrCVParSourceurParMainframePlus(Utilisateur utilisateur) {
+		return utilisateurDao.nbrCVParSourceurParMainframePlus(utilisateur);
+	}
+
+	@Override
+	public Integer nbrCVParSourceurParNtic(Utilisateur utilisateur) {
+		return utilisateurDao.nbrCVParSourceurParNtic(utilisateur);
+	}
+
+	@Override
+	public Integer nbrCVParSourceurAutreTechnologie(Utilisateur utilisateur) {
+		return utilisateurDao.nbrCVParSourceurAutreTechnologie(utilisateur);
+	}
+
+	@Override
+	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
+		return utilisateurDao.rechercherChargeParRelance();
+	}
+
+	@Override
+	public List<ReportingSourceurTechnologieDto> rechercherSourceurTechnologies() {
+		return utilisateurDao.rechercherSourceurTechnologies();
+	}
+
+	@Override
+	public List<ReportingListSourceurDto> rechercherReportingListSourceur() {
+		return utilisateurDao.rechercherReportingListSourceur();
+	}
+
+	@Override
+	public List<ReportingSourceurParDispoDto> rechercherReportingSourceurParDispo(ReportingListSourceurDto utilisateur,
+			Date dateDebut, Date dateFin) {
+		return utilisateurDao.rechercherReportingSourceurParDispo(utilisateur, dateDebut, dateFin);
+	}
+
+	@Override
+	public Map<String, Integer> reportingCVParTechnologieParSourceur() {
+		return utilisateurDao.reportingCVParTechnologieParSourceur();
+	}
+
+	@Override
+	public List<ReportingSourceurParDispoDto> rechercherReportingSourceur() {
+		return utilisateurDao.rechercherReportingSourceur();
+	}
+
+	@Override
+	public Map<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur,
+			Date dateDebut, Date dateFin) {
+		return utilisateurDao.rechercherReportingCVParTechnologieParSourceur(utilisateur, dateDebut, dateFin);
+	}
 
 }

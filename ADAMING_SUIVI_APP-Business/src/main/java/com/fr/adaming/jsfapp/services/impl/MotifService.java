@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.dao.IMotifDao;
-import com.fr.adaming.jsfapp.dao.IOrigineDao;
 import com.fr.adaming.jsfapp.model.Motif;
 import com.fr.adaming.jsfapp.services.IMotifService;
 
@@ -26,7 +25,6 @@ public class MotifService extends ManagerService<Motif, Long> implements IMotifS
 
 	@Override
 	public IManagerDao<Motif, Long> getDao() {
-		// TODO Auto-generated method stub
 		return motifDao;
 	}
 

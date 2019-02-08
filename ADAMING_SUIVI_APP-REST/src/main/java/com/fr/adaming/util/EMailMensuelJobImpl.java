@@ -1,6 +1,5 @@
 package com.fr.adaming.util;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,10 +22,9 @@ import org.springframework.stereotype.Component;
 import com.aspose.cells.Workbook;
 import com.fr.adaming.jsfapp.services.IExporterReportingExcelService;
 
-
 @Component("eMailMensuelJob")
 public class EMailMensuelJobImpl {
-
+	Logger LOGGER = LoggerFactory.getLogger(EMailEvaluationJobImpl.class);
 	@Autowired
 	@Qualifier("exporterReportingExcelService")
 	private IExporterReportingExcelService exportExcelService;
@@ -35,8 +33,7 @@ public class EMailMensuelJobImpl {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory
-			.getLogger(EMailReportingJobImpl.class);
+	private Logger logger = LoggerFactory.getLogger(EMailReportingJobImpl.class);
 
 	public void doBusiness() throws Exception {
 		logger.info("Email reporting started...");
@@ -45,7 +42,7 @@ public class EMailMensuelJobImpl {
 		List<String> destinataires = new ArrayList<String>();
 //		destinataires.add("mfrikha@adaming.fr");
 //		destinataires.add("cdridi@adaming.fr");
-	   destinataires.add("farouka82@gmail.com");
+//		destinataires.add("hkhlifi@adaming.fr");
 		// generer la flux de sortie de la piece jointe
 		XSSFWorkbook wbMensuel = new XSSFWorkbook();
 		wbMensuel = exportExcelService.creerRapportMensuel(wbMensuel);
@@ -66,7 +63,6 @@ public class EMailMensuelJobImpl {
 
 	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
 		PieceJointe pjMensuel = new PieceJointe();
-
 		String fileNameMensuel = "rapport_" + sdf.format(DateUtils.getYesterday())
 				+ ".xlsx";
 		pjMensuel.setFileName(fileNameMensuel);
@@ -96,6 +92,7 @@ public class EMailMensuelJobImpl {
 			wb.write(osMensuel);
 			osMensuel.close();
 		} catch (IOException e) {
+			LOGGER.info("context", e);
 		}
 		return osMensuel;
 	}

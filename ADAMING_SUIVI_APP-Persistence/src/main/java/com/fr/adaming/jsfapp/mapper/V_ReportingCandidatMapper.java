@@ -5,17 +5,16 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
-
-import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
+import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Mapper(uses = { VReportingCandidat.class })
 public interface V_ReportingCandidatMapper {
-	List<V_ReportingCandidatDto> reportingCandidatsToReportingCandidatDtos(
+	List<VReportingCandidatDto> reportingCandidatsToReportingCandidatDtos(
 			List<VReportingCandidat> reportingCandidat);
 
 	List<VReportingCandidat> reportingCandidatDtoToReportingCandidats(
-			List<V_ReportingCandidatDto> reportingCandidatDto);
+			List<VReportingCandidatDto> reportingCandidatDto);
 
 	@Mappings({
 			@Mapping(source = "id", target = "id"),
@@ -46,7 +45,7 @@ public interface V_ReportingCandidatMapper {
 			@Mapping(source = "disponible", target = "disponible"),
 			@Mapping(source = "diplome", target = "diplome"),
 			@Mapping(source = "dateObtentionDiplome", target = "dateObtentionDiplome")})
-	V_ReportingCandidatDto reportingCandidatToReportingCandidatDto(
+	VReportingCandidatDto reportingCandidatToReportingCandidatDto(
 			VReportingCandidat reportingCandidat);
 
 	@Mappings({
@@ -79,5 +78,5 @@ public interface V_ReportingCandidatMapper {
 			@Mapping(source = "diplome", target = "diplome"),
 			@Mapping(source = "dateObtentionDiplome", target = "dateObtentionDiplome")})
 	VReportingCandidat reportingCandidatrDtoToUtilisateur(
-			V_ReportingCandidatDto reportingCandidatDto);
+			VReportingCandidatDto reportingCandidatDto);
 }

@@ -24,9 +24,7 @@ import com.fr.adaming.jsfapp.model.SessionFormation;
 
 @Repository("sessionFormationDao")
 public class SessionFormationDao extends ManagerDao<SessionFormation, Long> implements ISessionFormationDao {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -6891843417767030009L;
 	private static final String dateFormat = "yyyy-MM-dd";
 	private static final String dateDemmarage = " and session_formation.DATE_DEMARRAGE BETWEEN '";
@@ -43,6 +41,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			+ "sf.ID " + "from candidat c " + "join session_formation sf on sf.ID=c.SESSION_FORMATION "
 			+ "join formation f on f.ID = sf.FORMATION " + "JOIN type_formation tf on tf.ID = f.TYPE_FORMATION "
 			+ "JOIN lieu l on l.ID = f.LIEU " + "where sf.F_Actif group by sf.ID ORDER BY sf.DATE_DEMARRAGE ASC;";
+	private static final String REQ_SELECT = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
 
 	@Override
 	public List<SessionFormation> rechercherSessionsFormationParFormation(FormationDto formationDto) {
@@ -62,35 +61,30 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(SessionFormation.class);
-		if (sessionFormationDto != null) {
-			if (sessionFormationDto.getFormation() != null) {
-
-				crit.createAlias("formation", "f");
-				DaoUtils.addLikeRestrictionIfNotNull(crit, "f.code", sessionFormationDto.getFormation().getCode());
-				DaoUtils.addEqRestrictionIfNotNull(crit, "f.id", sessionFormationDto.getFormation().getId());
-				DaoUtils.addLikeRestrictionIfNotNull(crit, "f.nom", sessionFormationDto.getFormation().getNom());
-				if (sessionFormationDto.getFormation().getTechnologie() != null) {
-					DaoUtils.addEqRestrictionIfNotNull(crit, "f.technologie.id",
-							sessionFormationDto.getFormation().getTechnologie().getId());
-				}
-				if (sessionFormationDto.getFormation().getLieu() != null) {
-					DaoUtils.addEqRestrictionIfNotNull(crit, "f.lieu.id",
-							sessionFormationDto.getFormation().getLieu().getId());
-				}
-				if (sessionFormationDto.getFormation().getTypeFormation() != null) {
-					DaoUtils.addEqRestrictionIfNotNull(crit, "f.typeFormation.id",
-							sessionFormationDto.getFormation().getTypeFormation().getId());
-
-				}
+		if (isNullObject(sessionFormationDto, sessionFormationDto.getFormation())) {
+			crit.createAlias("formation", "f");
+			DaoUtils.addLikeRestrictionIfNotNull(crit, "f.code", sessionFormationDto.getFormation().getCode());
+			DaoUtils.addEqRestrictionIfNotNull(crit, "f.id", sessionFormationDto.getFormation().getId());
+			DaoUtils.addLikeRestrictionIfNotNull(crit, "f.nom", sessionFormationDto.getFormation().getNom());
+			if (sessionFormationDto.getFormation().getTechnologie() != null) {
+				DaoUtils.addEqRestrictionIfNotNull(crit, "f.technologie.id",
+						sessionFormationDto.getFormation().getTechnologie().getId());
 			}
-			if (sessionFormationDto.getDateDemarrage() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "dateDemarrage", sessionFormationDto.getDateDemarrage());
+			if (sessionFormationDto.getFormation().getLieu() != null) {
+				DaoUtils.addEqRestrictionIfNotNull(crit, "f.lieu.id",
+						sessionFormationDto.getFormation().getLieu().getId());
 			}
-
-			if (sessionFormationDto.getFormation().getId() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "formation", sessionFormationDto.getFormation().getId());
+			if (sessionFormationDto.getFormation().getTypeFormation() != null) {
+				DaoUtils.addEqRestrictionIfNotNull(crit, "f.typeFormation.id",
+						sessionFormationDto.getFormation().getTypeFormation().getId());
 			}
+		}
+		if (isNullObject(sessionFormationDto, sessionFormationDto.getDateDemarrage())) {
+			DaoUtils.addEqRestrictionIfNotNull(crit, "dateDemarrage", sessionFormationDto.getDateDemarrage());
+		}
 
+		if (isNullObject(sessionFormationDto, sessionFormationDto.getFormation().getId())) {
+			DaoUtils.addEqRestrictionIfNotNull(crit, "formation", sessionFormationDto.getFormation().getId());
 		}
 
 		return DaoUtils.castList(SessionFormation.class, crit.list());
@@ -113,6 +107,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 	}
 
 	@Override
+
 	public List<SessionFormation> rechercherSessionsFormationEnCours(SessionFormationDto sessionFormationDtoEnCours) {
 		DateFormat dFormatEnCours = new SimpleDateFormat(dateFormat);
 		String queryStringEnCours = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
@@ -155,18 +150,15 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 
 	@Override
 	public List<SessionFormation> rechercherSession() {
-
-		String queryString = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
-
+		String queryString = REQ_SELECT;
 		SQLQuery st = getSession().createSQLQuery(queryString);
-
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> liste = st.addEntity(SessionFormation.class).list();
-
 		return liste;
 	}
 
 	@Override
+
 	public List<SessionFormation> rechercherSessionsFormationCloture(SessionFormationDto sessionFormationDtoCloture) {
 		DateFormat dFormatFormationCloture = new SimpleDateFormat(dateFormat);
 		String queryStringFormationCloture = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=0";
@@ -263,7 +255,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 				+ "sf.ID " + "from candidat c " + "join session_formation sf on sf.ID=c.SESSION_FORMATION "
 				+ "join formation f on f.ID = sf.FORMATION " + "JOIN type_formation tf on tf.ID = f.TYPE_FORMATION "
 				+ "JOIN lieu l on l.ID = f.LIEU " + "where 1=1 group by sf.ID";
-
 		SQLQuery stAllSession = getSession().createSQLQuery(queryAllSession);
 
 		List<SessionFormationReportingDto> dataAllSession = new ArrayList<>();
@@ -273,11 +264,16 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			for (Object[] oAllSession : dataObjectAllSession) {
 				SessionFormationReportingDto sessionReportingAllSession = getAllFormation(oAllSession);
 				dataAllSession.add(sessionReportingAllSession);
-
 			}
 		}
-
 		return dataAllSession;
+	}
+
+	public boolean isNullObject(Object o, Object var) {
+		if (o != null && var != null) {
+			return true;
+		}
+		return false;
 	}
 
 }

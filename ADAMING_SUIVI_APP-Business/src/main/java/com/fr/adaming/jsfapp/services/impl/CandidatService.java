@@ -1,8 +1,8 @@
 package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.fr.adaming.jsfapp.dao.ICandidatDao;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
@@ -159,7 +158,7 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 	
 	@Override
-	public HashMap<String, Integer> nbrCVParTechnologie(){
+	public Map<String, Integer> nbrCVParTechnologie(){
 		return candidatDao.nbrCVParTechnologie();
 	}
 	

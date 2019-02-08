@@ -10,29 +10,28 @@ public class ReportingSourceurParDispoDto implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1055919298931903979L;
-	
+
 	private BigInteger idUser;
-	
+
 	private String nomSourceur;
-	
+
 	private BigDecimal nbrTotal;
-	
+
 	private BigDecimal nbrDsipo;
-	
+
 	private BigDecimal nbrHors;
-	
+
 	private BigDecimal autre;
-	
+
 	private BigDecimal taux;
-	
-	private BigDecimal taux_hors;
+
+	private BigDecimal tauxHors;
 
 	/**
 	 * 
 	 */
 	public ReportingSourceurParDispoDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -45,9 +44,8 @@ public class ReportingSourceurParDispoDto implements Serializable {
 	 * @param taux
 	 * @param taux_hors
 	 */
-	public ReportingSourceurParDispoDto(BigInteger idUser, String nomSourceur,
-			BigDecimal nbrTotal, BigDecimal nbrDsipo, BigDecimal nbrHors,
-			BigDecimal autre, BigDecimal taux, BigDecimal taux_hors) {
+	public ReportingSourceurParDispoDto(BigInteger idUser, String nomSourceur, BigDecimal nbrTotal, BigDecimal nbrDsipo,
+			BigDecimal nbrHors, BigDecimal autre, BigDecimal taux, BigDecimal tauxHors) {
 		super();
 		this.idUser = idUser;
 		this.nomSourceur = nomSourceur;
@@ -56,16 +54,13 @@ public class ReportingSourceurParDispoDto implements Serializable {
 		this.nbrHors = nbrHors;
 		this.autre = autre;
 		this.taux = taux;
-		this.taux_hors = taux_hors;
+		this.tauxHors = tauxHors;
 	}
-
-
-
 
 	public BigInteger getIdUser() {
 		return idUser;
 	}
-	
+
 	public void setIdUser(BigInteger idUser) {
 		this.idUser = idUser;
 	}
@@ -118,20 +113,12 @@ public class ReportingSourceurParDispoDto implements Serializable {
 		this.taux = taux;
 	}
 
-
-
-	public BigDecimal getTaux_hors() {
-		return taux_hors;
+	public BigDecimal getTauxHors() {
+		return tauxHors;
 	}
 
-
-
-	public void setTaux_hors(BigDecimal taux_hors) {
-		this.taux_hors = taux_hors;
+	public void setTauxHors(BigDecimal tauxHors) {
+		this.tauxHors = tauxHors;
 	}
-	
-	
-	
-
 
 }

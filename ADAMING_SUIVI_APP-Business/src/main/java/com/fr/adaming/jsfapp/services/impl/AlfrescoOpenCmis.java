@@ -1,6 +1,5 @@
 package com.fr.adaming.jsfapp.services.impl;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -40,15 +39,16 @@ public class AlfrescoOpenCmis {
 			Map<String, String> parameter = new HashMap<>();
 
 			// user credentials
-			parameter.put(SessionParameter.USER, "moueslati");
-			parameter.put(SessionParameter.PASSWORD, "rSXzvUB6");
-			// parameter.put(SessionParameter.USER, "admin");
-			// parameter.put(SessionParameter.PASSWORD, "root");
+			// parameter.put(SessionParameter.USER, "moueslati");
+			// parameter.put(SessionParameter.PASSWORD, "rSXzvUB6");
+			parameter.put(SessionParameter.USER, "admin");
+			parameter.put(SessionParameter.PASSWORD, "root");
 
 			// connection settings
+			// parameter.put(SessionParameter.ATOMPUB_URL,
+			// "http://51.38.203.218:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
 			parameter.put(SessionParameter.ATOMPUB_URL,
-					"http://51.38.203.218:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
-
+					"http://127.0.0.1:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
 			parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 			List<Repository> s = factory.getRepositories(parameter);
 			// create session
@@ -65,11 +65,8 @@ public class AlfrescoOpenCmis {
 				for (QueryResult qr : q) {
 					folder = FileUtils.getFolder(qr.getPropertyByQueryName("cmis:objectId").getFirstValue().toString(),
 							getSession());
-					if (folder == null) {
+					if (folder != null) {
 						break;
-
-					} else {
-						LOGGER.info("");
 					}
 				}
 			}
@@ -92,12 +89,12 @@ public class AlfrescoOpenCmis {
 
 	public static Document findDocument(String documentId) {
 		try {
-		return (Document) FileUtils.getObject(documentId, getSession());
+			return (Document) FileUtils.getObject(documentId, getSession());
+		} catch (Exception e) {
+			LOGGER.info("context" + e);
+
+		}
+
+		return null;
 	}
-	catch (Exception e) {
-	LOGGER.info("context"+e);	
-		
-	}	
-	
-return null;
-}}
+}

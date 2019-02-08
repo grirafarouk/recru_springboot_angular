@@ -2,11 +2,10 @@ package com.fr.adaming.jsfapp.dao;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
@@ -66,7 +65,7 @@ public interface ICandidatDao  extends IManagerDao<Candidat, Long>,Serializable 
 	
 	List<Candidat> rechercherCandidatSession(SessionFormationDto session);
 	
-	HashMap<String, Integer> nbrCVParTechnologie();
+	Map<String, Integer> nbrCVParTechnologie();
 	
 	Integer nombreTechnologieParCandidat() ;
 

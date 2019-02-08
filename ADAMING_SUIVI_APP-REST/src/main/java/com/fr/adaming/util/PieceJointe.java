@@ -15,6 +15,7 @@ public class PieceJointe {
 
 	public PieceJointe(String fileName, String mimeType, ByteArrayOutputStream content) {
 		super();
+		this.fileName = fileName;
 		this.mimeType = mimeType;
 		this.content = content;
 	}
