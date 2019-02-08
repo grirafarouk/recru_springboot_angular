@@ -97,11 +97,11 @@ public class CandidatController {
 		return candidatService.findAll();
 	}
 
-
 	@PostMapping(path = "/rechercheNouveauxcandidats")
 	public JSONObject rechercherAjoutNouveauxCandidats(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size) {
 		List<VListeCandidats> list = new ArrayList<>(
+
 				vListeCandidatsService.rechercherNouveauxCandidats(nouveauCandidat));
 		JSONObject object = new JSONObject();
 		object.put("total", list.size());
@@ -112,7 +112,6 @@ public class CandidatController {
 					list.subList(page, list.size() < size + page ? list.size() : page + size)));
 		return object;
 	}
-
 
 	@PostMapping(path = "/RechercheNouveauxcandidats")
 	public List<VListeCandidatsDto> rechercherNouveauxCandidats(@RequestBody VListeCandidatsDto nouveauCandidat,
@@ -130,14 +129,13 @@ public class CandidatController {
 
 	@PostMapping(path = "/RechercheTouscandidats")
 	public List<VListeCandidatsDto> rechercherTousCandidats(@RequestBody VListeCandidatsDto nouveauCandidat,
+
 			@RequestParam int page, @RequestParam int size) {
 		List<VListeCandidats> list = new ArrayList<>(
 				vListeCandidatsService.rechercherVlisteCandidats(nouveauCandidat, page, size));
 		return vListeCandidatsMapper.vListeCandidatsToVListeCandidatsDtos(list);
 
-
 	}
-
 
 	@PostMapping(path = "/RechercheTouscandidatsNbr")
 	public Integer rechercheTouscandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
@@ -164,8 +162,8 @@ public class CandidatController {
 		return vListeCandidatsService.rechercherCandidatAvecEntretien(vListeCandidatsDto, page, size, false);
 	}
 
-
 	@PostMapping(path = "/RechercheCandidatavecentretien")
+
 	public List<VListeCandidatsDto> findCandidatavecentretien(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size, @RequestParam boolean allValue) {
 		List<VListeCandidats> list = new ArrayList<>(
@@ -211,7 +209,6 @@ public class CandidatController {
 		return result;
 	}
 
-
 	@PostMapping(path = "CVPDF")
 	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto nouveauCandidat)
 			throws IOException {
@@ -232,7 +229,6 @@ public class CandidatController {
 			candidat = candidatService.createOrUpdate(entity);
 		}
 		return candidat;
-
 	}
 
 	private Boolean creerCv(Candidat candidat, String login, String mime) {
@@ -319,11 +315,11 @@ public class CandidatController {
 				doc.save(realPath + File.separator + name);
 			} else {
 				byte[] buffer = new byte[inStream.available()];
-				 while (inStream.read(buffer) > 0) {
-					 File targetFile = new File(realPath + File.separator + name);
-					 outStream = new FileOutputStream(targetFile);
-					 outStream.write(buffer);	    
-						}
+				while (inStream.read(buffer) > 0) {
+					File targetFile = new File(realPath + File.separator + name);
+					outStream = new FileOutputStream(targetFile);
+					outStream.write(buffer);
+				}
 			}
 
 			File file = new File(realPath + File.separator + name);

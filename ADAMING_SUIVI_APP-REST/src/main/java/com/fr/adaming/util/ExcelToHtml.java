@@ -294,6 +294,7 @@ public class ExcelToHtml {
 					out.append(new String(Base64.encodeBase64(pic.getData()), "US-ASCII"));
 				} catch (final UnsupportedEncodingException e) {
 					LOGGER.info("context", e);
+
 				}
 				out.append("'/>");
 			}

@@ -12,24 +12,22 @@ public interface IV_ListeCandidatsService extends IManagerService<VListeCandidat
 	public Integer rechercherCandidatAvecEntretienNbr(VListeCandidatsDto vListeCandidatsDto, Boolean all);
 
 	public Integer rechercherV_ListeCandidatsARelancerNbr(@RequestBody VListeCandidatsDto NCD);
-	
-	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto v_ListeCandidatsDto, int page, int size,
-			Boolean all);
 
+	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto v_ListeCandidatsDto, int page,
+			int size, Boolean all);
 
 	public List<VListeCandidats> rechercherV_ListeCandidatsARelancer(VListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);
-	
-	List<VListeCandidats> rechercherNouveauxCandidats(VListeCandidatsDto v_ListeCandidatsDto);
 
+	List<VListeCandidats> rechercherNouveauxCandidats(VListeCandidatsDto v_ListeCandidatsDto);
 
 	public List<VListeCandidats> rechercherV_ListeCandidats(VListeCandidatsDto v_ListeCandidatsDto, int page, int size);
 
 	public Integer rechercherV_ListeCandidatsNbr(VListeCandidatsDto v_ListeCandidatsDto);
-	
+
 	public List<VListeCandidats> rechercherV_ListeNouveauxCandidats(VListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);
-	
+
 	public Integer rechercherV_ListeNouveauxCandidatsNbr(VListeCandidatsDto v_ListeCandidatsDto);
 
 }

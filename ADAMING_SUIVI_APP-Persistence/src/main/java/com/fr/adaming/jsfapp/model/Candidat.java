@@ -72,7 +72,6 @@ public class Candidat implements java.io.Serializable {
 	private Boolean emailSessionEnvoyer;
 	private Boolean emailSourceurEnvoyer;
 	private Boolean emailCandidatEnvoyer;
-
 	// private Boolean test;
 	// private Boolean testd;
 	// private Boolean tes;

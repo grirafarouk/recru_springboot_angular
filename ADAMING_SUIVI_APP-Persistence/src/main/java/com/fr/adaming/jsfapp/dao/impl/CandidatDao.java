@@ -41,17 +41,21 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	 */
 	private static final long serialVersionUID = 855012502334886128L;
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
 	private static final String dateHeure = " 00:00:00' AND '";
 	private static final String dateHeure2 = " 23:59:59'";
 	private static final String technologie = "technologie";
 	private static final String totalCandidat = "totalCandidat";
 	private static final String posRegion = "pos.region";
 	private static final String regionR = "region";
+
 	private static final String TEL = "numeroTel";
 	private static final String DATE_INSCRIPTION = "dateInscription";
 	private static final String CODE_POSTAL = "codePostal";
 	private static final String EN_DATE = "en.date";
 	private static final String ENTRETIEN = "entretien";
+
+
 
 	@Override
 	public Candidat rechercherCandidatParEmail(String email) {
@@ -186,6 +190,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				.add(Projections.groupProperty(DATE_INSCRIPTION), DATE_INSCRIPTION)
 				.add(Projections.groupProperty(technologie), technologie)
 				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
+
 
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
@@ -502,7 +507,6 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	}
 
 	@Override
-
 	public Map<String, Integer> nbrCVParTechnologie() {
 		Map<String, Integer> map = new HashMap<>();
 		String query = "select "
@@ -526,6 +530,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 	@Override
 	public Integer nombreTechnologieParCandidat() {
+
 		String query = "select count(*) " + "FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE "
 				+ "WHERE c.ENTRETIEN is NULL and c.STATUT=2";
 		SQLQuery st = getSession().createSQLQuery(query);

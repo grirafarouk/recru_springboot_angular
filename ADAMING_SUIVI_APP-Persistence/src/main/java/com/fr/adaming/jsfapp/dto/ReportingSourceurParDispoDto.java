@@ -25,12 +25,14 @@ public class ReportingSourceurParDispoDto implements Serializable {
 
 	private BigDecimal taux;
 
+
 	private BigDecimal tauxHors;
 
 	
 	public ReportingSourceurParDispoDto() {
 		super();
 	}
+
 
 	public ReportingSourceurParDispoDto(BigInteger idUser, String nomSourceur, BigDecimal nbrTotal, BigDecimal nbrDsipo,
 			BigDecimal nbrHors, BigDecimal autre, BigDecimal taux, BigDecimal tauxHors) {

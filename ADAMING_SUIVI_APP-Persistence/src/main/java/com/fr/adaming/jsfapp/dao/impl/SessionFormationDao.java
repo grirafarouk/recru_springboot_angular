@@ -6,6 +6,7 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -24,6 +25,7 @@ import com.fr.adaming.jsfapp.model.SessionFormation;
 @Repository("sessionFormationDao")
 public class SessionFormationDao extends ManagerDao<SessionFormation, Long> implements ISessionFormationDao {
 
+
 	private static final long serialVersionUID = -6891843417767030009L;
 	private static final String dateFormat = "yyyy-MM-dd";
 	private static final String dateDemmarage = " and session_formation.DATE_DEMARRAGE BETWEEN '";
@@ -41,6 +43,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			+ "join formation f on f.ID = sf.FORMATION " + "JOIN type_formation tf on tf.ID = f.TYPE_FORMATION "
 			+ "JOIN lieu l on l.ID = f.LIEU " + "where sf.F_Actif group by sf.ID ORDER BY sf.DATE_DEMARRAGE ASC;";
 	private static final String REQ_SELECT = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
+
 
 	@Override
 	public List<SessionFormation> rechercherSessionsFormationParFormation(FormationDto formationDto) {
@@ -76,6 +79,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			if (sessionFormationDto.getFormation().getTypeFormation() != null) {
 				DaoUtils.addEqRestrictionIfNotNull(crit, "f.typeFormation.id",
 						sessionFormationDto.getFormation().getTypeFormation().getId());
+
 			}
 		}
 		if (isNullObject(sessionFormationDto, sessionFormationDto.getDateDemarrage())) {
@@ -89,7 +93,8 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		return DaoUtils.castList(SessionFormation.class, crit.list());
 	}
 
-	public SQLQuery validateQuerryString(Object dto, java.util.Date date, java.util.Date date2, String query,
+
+	public SQLQuery validateQuerryString(SessionFormationDto dto, Date date, Date date2, String query,
 			DateFormat format) {
 		if (dto != null) {
 			if (date != null) {
@@ -97,6 +102,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			}
 			if (date2 != null) {
 				query += dateFin + format.format(date2) + dateExpression + format.format(date2) + dateExpression2;
+
 			}
 		}
 
@@ -116,8 +122,10 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> listeEnCours = sEnCours.addEntity(SessionFormation.class).list();
 
+
 		return listeEnCours;
 	}
+
 
 	@Override
 	public List<SessionFormation> rechercherSessionFormation(SessionFormationDto sessionFormationDto) {
@@ -129,6 +137,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> listeFormation = sFormation.addEntity(SessionFormation.class).list();
 
+
 		return listeFormation;
 	}
 
@@ -136,19 +145,21 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 	public List<SessionFormation> rechercherFormationEnCours(
 			SessionFormationDto sessionFormationDto) {
 		return rechercherSessionsFormationEnCours(sessionFormationDto);
+
 	}
 
 	@Override
 	public List<SessionFormation> rechercherSession() {
 		String queryString = REQ_SELECT;
+
 		SQLQuery st = getSession().createSQLQuery(queryString);
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> liste = st.addEntity(SessionFormation.class).list();
+
 		return liste;
 	}
 
 	@Override
-
 	public List<SessionFormation> rechercherSessionsFormationCloture(SessionFormationDto sessionFormationDtoCloture) {
 		DateFormat dFormatFormationCloture = new SimpleDateFormat(dateFormat);
 		String queryStringFormationCloture = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=0";
@@ -192,6 +203,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		return liste;
 	}
 
+
 	public SessionFormationReportingDto getAllFormation(Object[] o) {
 
 		String nom = (String) o[0];
@@ -227,10 +239,12 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 				sessionReporting.setTauxRemplissage(taux);
 				dataReporting.add(sessionReporting);
 
+
 			}
 		}
 
 		return dataReporting;
+
 	}
 
 	@Override
@@ -264,6 +278,8 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			return true;
 		}
 		return false;
+
 	}
+
 
 }

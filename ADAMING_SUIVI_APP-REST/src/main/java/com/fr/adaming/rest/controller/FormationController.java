@@ -87,6 +87,7 @@ public class FormationController {
 	@PostMapping(path = "/formationclotures")
 	public List<Formation> rechercherFormationsClotures(@RequestBody SessionFormationDto searchDto) {
 		return formationService.rechercherFormationsClotures(searchDto);
+
 	}
 
 	@PostMapping(path = "/listeformationparsession")

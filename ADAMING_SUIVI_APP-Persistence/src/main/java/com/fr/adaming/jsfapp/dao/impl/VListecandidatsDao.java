@@ -308,8 +308,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	}
 
 	@Override
-	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
-			int size) {
+	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto vListeCandidatsDto, int page, int size) {
 
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
 		query = generateConditionQuery(vListeCandidatsDto, query);
@@ -555,4 +554,5 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		}
 		return false;
 	}
+
 }

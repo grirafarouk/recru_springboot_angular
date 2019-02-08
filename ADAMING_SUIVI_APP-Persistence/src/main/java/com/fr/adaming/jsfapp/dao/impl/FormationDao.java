@@ -19,10 +19,12 @@ import com.fr.adaming.jsfapp.model.Formation;
 @Repository("formationDao")
 public class FormationDao extends ManagerDao<Formation, Long> implements IFormationDao {
 
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	private static final String FORMAT_DATE = "yyyy-MM-dd";
 	private static final String FORMATION_NOM_LIKE = " and formation.NOM LIKE '%";
 	private static final String TECH_LIB_LIKE = " and technologie.libelle LIKE '%";
@@ -63,7 +65,7 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 			queryString += " where 1=1";
 
 		}
-		queryString = critereRecherche(searchDto, queryString);
+		queryString = critereRechercheFormationEnCours(searchDto, queryString);
 		queryString = queryString + GROUPE_BY;
 		SQLQuery st = getSession().createSQLQuery(queryString);
 		@SuppressWarnings("unchecked")
@@ -97,12 +99,11 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 	}
 
 	@Override
-
 	public List<Formation> rechercherFormationsEnCours(SessionFormationDto searchDtoEnCours) {
 		String queryStringEnCours = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  ";
 		queryStringEnCours += " and (select count(*) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1' )>0";
 		if (searchDtoEnCours != null) {
-			queryStringEnCours = critereRecherche(searchDtoEnCours, queryStringEnCours);
+			queryStringEnCours = critereRechercheFormationEnCours(searchDtoEnCours, queryStringEnCours);
 		}
 		queryStringEnCours = queryStringEnCours + GROUPE_BY;
 		SQLQuery st = getSession().createSQLQuery(queryStringEnCours);
@@ -113,13 +114,12 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 	}
 
 	@Override
-
 	public List<Formation> rechercherFormationsClotures(SessionFormationDto searchDtoClotures) {
 		String queryStringClotures = "select * from formation Inner Join session_formation ON formation.ID = session_formation.FORMATION left outer join lieu  on formation.LIEU=lieu.ID left outer join technologie  on formation.TECHNOLOGIE=technologie.ID left outer join type_formation  on formation.TYPE_FORMATION=type_formation.ID where session_formation.ID IS NOT NULL  ";
 		queryStringClotures += " and (select count(*) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '0' )>0";
 		if (searchDtoClotures != null) {
 
-			queryStringClotures = critereRecherche(searchDtoClotures, queryStringClotures);
+			queryStringClotures = critereRechercheFormationCloture(searchDtoClotures, queryStringClotures);
 		}
 		queryStringClotures = queryStringClotures + GROUPE_BY;
 		SQLQuery st = getSession().createSQLQuery(queryStringClotures);
@@ -218,7 +218,7 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 		return false;
 	}
 
-	public String critereRecherche(SessionFormationDto searchDtoCR, String queryStringCR) {
+	public String critereRechercheFormationCloture(SessionFormationDto searchDtoCR, String queryStringCR) {
 		DateFormat df = new SimpleDateFormat(FORMAT_DATE);
 
 		if (isNullOrEmptyString(searchDtoCR.getFormation().getCode()))
@@ -249,4 +249,36 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 		return queryStringCR;
 
 	}
+	public String critereRechercheFormationEnCours(SessionFormationDto searchDtoCR, String queryStringCR) {
+		DateFormat df = new SimpleDateFormat(FORMAT_DATE);
+
+		if (isNullOrEmptyString(searchDtoCR.getFormation().getCode()))
+			queryStringCR += " and formation.CODE LIKE '%" + searchDtoCR.getFormation().getCode() + "%'";
+		if (isNullOrEmptyString(searchDtoCR.getFormation().getNom()))
+			queryStringCR += FORMATION_NOM_LIKE + searchDtoCR.getFormation().getNom() + "%'";
+
+		if (isNullObject(searchDtoCR.getFormation().getTechnologie(),
+				searchDtoCR.getFormation().getTechnologie().getLibelle())) {
+			queryStringCR += TECH_LIB_LIKE + searchDtoCR.getFormation().getTechnologie().getLibelle() + "'";
+		}
+		if (searchDtoCR.getFormation().getLieu() != null && searchDtoCR.getFormation().getLieu().getLibelle() != null) {
+			queryStringCR += LIEU_LIB_LIKE + searchDtoCR.getFormation().getLieu().getLibelle() + "'";
+		}
+		if (isNullObject(searchDtoCR.getFormation().getTypeFormation(),
+				searchDtoCR.getFormation().getTypeFormation().getLibelle())) {
+			queryStringCR += TFORM_LIB_LIKE + searchDtoCR.getFormation().getTypeFormation().getLibelle() + "'";
+		}
+		if (searchDtoCR.getDateDem() != null) {
+			queryStringCR += AND_CLAUSE + df.format(searchDtoCR.getDateDemarrage())
+					+ "'  in (select DATE(DATE_DEMARRAGE ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1') ";
+		}
+		if (searchDtoCR.getDateFin() != null) {
+			queryStringCR += AND_CLAUSE + df.format(searchDtoCR.getDateDemarrage())
+					+ "'  in (select DATE(DATE_FIN ) from session_formation where session_formation.FORMATION=formation.ID AND session_formation.F_Actif =  '1') ";
+		}
+
+		return queryStringCR;
+
+	}
+
 }

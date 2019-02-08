@@ -39,10 +39,7 @@ public class EMailMensuelJobImpl {
 		logger.info("Email reporting started...");
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
-		List<String> destinataires = new ArrayList<String>();
-//		destinataires.add("mfrikha@adaming.fr");
-//		destinataires.add("cdridi@adaming.fr");
-//		destinataires.add("hkhlifi@adaming.fr");
+		List<String> destinataires = new ArrayList<>();
 		// generer la flux de sortie de la piece jointe
 		XSSFWorkbook wbMensuel = new XSSFWorkbook();
 		wbMensuel = exportExcelService.creerRapportMensuel(wbMensuel);

@@ -40,8 +40,7 @@ public class AlfrescoOpenCmis {
 
 			// user credentials
 			parameter.put(SessionParameter.USER, "admin");
-			parameter.put(SessionParameter.PASSWORD, "admin");
-
+			parameter.put(SessionParameter.PASSWORD, "root");
 
 			// connection settings
 			parameter.put(SessionParameter.ATOMPUB_URL,

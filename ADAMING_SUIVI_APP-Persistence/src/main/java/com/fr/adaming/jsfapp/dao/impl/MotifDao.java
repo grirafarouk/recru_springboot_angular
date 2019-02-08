@@ -19,6 +19,7 @@ public class MotifDao extends ManagerDao<Motif, Long> implements IMotifDao{
 			query = query + " AND  motif.libelle = :libelle";
 		}
 		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle);
+
 		return (Motif) st.addEntity(Motif.class).uniqueResult();
 	}
 
