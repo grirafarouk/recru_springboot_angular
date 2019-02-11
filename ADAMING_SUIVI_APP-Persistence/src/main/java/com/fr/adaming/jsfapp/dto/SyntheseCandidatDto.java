@@ -16,8 +16,23 @@ public class SyntheseCandidatDto implements Serializable{
 	private Date dateInscription;
 	private Boolean treated;
 
+	
 	public SyntheseCandidatDto() {
+		super();
 	}
+	
+
+	public SyntheseCandidatDto(Long totalCandidat, String region, Utilisateur creePar, Technologie technologie,
+			Date dateInscription, Boolean treated) {
+		super();
+		this.totalCandidat = totalCandidat;
+		this.region = region;
+		this.creePar = creePar;
+		this.technologie = technologie;
+		this.dateInscription = dateInscription;
+		this.treated = treated;
+	}
+
 
 	public String getRegion() {
 		return region;

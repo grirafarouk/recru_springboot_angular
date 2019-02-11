@@ -2,17 +2,15 @@ package com.fr.adaming.jsfapp.dto;
 
 import java.io.Serializable;
 
+public class TechnologieDto implements Serializable {
 
-public class TechnologieDto implements Serializable  {
-	
 	private static final long serialVersionUID = 1055919298931903979L;
-	
+	private Long id;
 	private String libelle;
-	
+	private boolean reporting;
 
 	public TechnologieDto() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public TechnologieDto(String libelle) {
@@ -28,7 +26,20 @@ public class TechnologieDto implements Serializable  {
 		this.libelle = libelle;
 	}
 
-	
-	
-	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public boolean isReporting() {
+		return reporting;
+	}
+
+	public void setReporting(boolean reporting) {
+		this.reporting = reporting;
+	}
+
 }

@@ -22,12 +22,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-
 		Utilisateur user = accountService.findbyUsernameSpringS(username);
 		if (user == null)
 			throw new UsernameNotFoundException(username);
-		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		Collection<GrantedAuthority> authorities = new ArrayList<>();
 		if (user.getProfil() != null) {
 
 			authorities.add(new SimpleGrantedAuthority(user.getProfil().getLabel()));

@@ -1,6 +1,5 @@
 package com.fr.adaming.util;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -23,10 +22,9 @@ import org.springframework.stereotype.Component;
 import com.aspose.cells.Workbook;
 import com.fr.adaming.jsfapp.services.IExporterReportingExcelService;
 
-
 @Component("eMailMensuelJob")
 public class EMailMensuelJobImpl {
-
+	Logger LOGGER = LoggerFactory.getLogger(EMailEvaluationJobImpl.class);
 	@Autowired
 	@Qualifier("exporterReportingExcelService")
 	private IExporterReportingExcelService exportExcelService;
@@ -35,68 +33,64 @@ public class EMailMensuelJobImpl {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory
-			.getLogger(EMailReportingJobImpl.class);
+	private Logger logger = LoggerFactory.getLogger(EMailReportingJobImpl.class);
 
 	public void doBusiness() throws Exception {
 		logger.info("Email reporting started...");
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
-		List<String> destinataires = new ArrayList<String>();
-		destinataires.add("mfrikha@adaming.fr");
-		destinataires.add("cdridi@adaming.fr");
-		destinataires.add("hkhlifi@adaming.fr");
+		List<String> destinataires = new ArrayList<>();
 		// generer la flux de sortie de la piece jointe
-		XSSFWorkbook wb = new XSSFWorkbook();
-		wb = exportExcelService.creerRapportMensuel(wb);
-		ByteArrayOutputStream reportContent = (ByteArrayOutputStream) writeToOutputStream(wb);
-		String content = parse(wb);
+		XSSFWorkbook wbMensuel = new XSSFWorkbook();
+		wbMensuel = exportExcelService.creerRapportMensuel(wbMensuel);
+		ByteArrayOutputStream reportContentMensuel = (ByteArrayOutputStream) writeToOutputStream(wbMensuel);
+		String contentMensuel = parse(wbMensuel);
 
 		// creation de la piece jointe
-		PieceJointe pj = createPj(reportContent);
-		List<PieceJointe> pjList = new ArrayList<PieceJointe>();
-		pjList.add(pj);
+		PieceJointe pjMensuel = createPj(reportContentMensuel);
+		List<PieceJointe> pjListMensuel = new ArrayList<PieceJointe>();
+		pjListMensuel.add(pjMensuel);
 		// message du mail
 		// objet du mail
-		String objet = "rapport mensuel du sourcing ("
+		String objetMensuel = "rapport mensuel du sourcing ("
 				+ sdf.format(DateUtils.getYesterday()) + ")";
-		eMailApi.envoyerMail(objet, content, destinataires, "","","", pjList);
+		eMailApi.envoyerMail(objetMensuel, contentMensuel, destinataires, "","","", pjListMensuel);
 		logger.info("Email reporting finished.");
 	}
 
 	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
-		PieceJointe pj = new PieceJointe();
-
-		String fileName = "rapport_" + sdf.format(DateUtils.getYesterday())
+		PieceJointe pjMensuel = new PieceJointe();
+		String fileNameMensuel = "rapport_" + sdf.format(DateUtils.getYesterday())
 				+ ".xlsx";
-		pj.setFileName(fileName);
-		pj.setMimeType(PieceJointe.MIME_TYPE_EXCEL_DOCUMENT);
-		pj.setContent(reportContent);
-		return pj;
+		pjMensuel.setFileName(fileNameMensuel);
+		pjMensuel.setMimeType(PieceJointe.MIME_TYPE_EXCEL_DOCUMENT);
+		pjMensuel.setContent(reportContent);
+		return pjMensuel;
 	}
 
 	private String parse(XSSFWorkbook wb1) throws Exception {
-		String realPath = File.separator+"opt"+File.separator+"apache-tomcat8097"+File.separator+"reporting"+File.separator;
-		String nameFile = "rapport.xls";
-		FileOutputStream fileOut = new FileOutputStream(realPath + nameFile);
-		wb1.write(fileOut);
-		Workbook workbook = new Workbook(realPath + nameFile);
-		workbook.save(realPath + "out1.xls");
-		HSSFWorkbook myWorkBook = new HSSFWorkbook(new POIFSFileSystem(
-				new FileInputStream(realPath + "out1.xls")));
-		ExcelToHtml nExcelToHtml = new ExcelToHtml(myWorkBook);
-		String content = nExcelToHtml.getHTML();
-		return content.toString();
+		String realPathMensuel = File.separator+"opt"+File.separator+"apache-tomcat8097"+File.separator+"reporting"+File.separator;
+		String nameFileMensuel = "rapport.xls";
+		FileOutputStream fileOutMensuel = new FileOutputStream(realPathMensuel + nameFileMensuel);
+		wb1.write(fileOutMensuel);
+		Workbook workbookMensuel = new Workbook(realPathMensuel + nameFileMensuel);
+		workbookMensuel.save(realPathMensuel + "out1.xls");
+		HSSFWorkbook myWorkBookMensuel = new HSSFWorkbook(new POIFSFileSystem(
+				new FileInputStream(realPathMensuel + "out1.xls")));
+		ExcelToHtml nExcelToHtmlMensuel = new ExcelToHtml(myWorkBookMensuel);
+		String contentMensuel = nExcelToHtmlMensuel.getHTML();
+		return contentMensuel.toString();
 	}
 
 	private OutputStream writeToOutputStream(XSSFWorkbook wb) {
-		OutputStream os = null;
+		OutputStream osMensuel = null;
 		try {
-			os = new ByteArrayOutputStream();
-			wb.write(os);
-			os.close();
+			osMensuel = new ByteArrayOutputStream();
+			wb.write(osMensuel);
+			osMensuel.close();
 		} catch (IOException e) {
+			LOGGER.info("context", e);
 		}
-		return os;
+		return osMensuel;
 	}
 }

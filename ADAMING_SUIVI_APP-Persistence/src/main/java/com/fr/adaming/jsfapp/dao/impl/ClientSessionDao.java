@@ -13,15 +13,12 @@ public class ClientSessionDao extends ManagerDao<ClientSession, Long> implements
 	@Override
 	public ClientSession rechercheClientSessionParLibelle(String libelle) {
 		
-		String query = "  SELECT *  FROM clientSession  WHERE   1=1     ";
-		if (libelle != null) {
-			query = query + " AND  clientSession.libelle = '" + libelle + "'";
-		}
-		SQLQuery st = this.getSession().createSQLQuery(query);
+		String query = "  SELECT *  FROM clientSession  WHERE   1=1 AND  clientSession.libelle = :libelle";
+		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle != null);
 
-		ClientSession client = (ClientSession) st.addEntity(ClientSession.class).uniqueResult();
+		 
+		return (ClientSession) st.addEntity(ClientSession.class).uniqueResult();
 
-		return client;
 	}
 
 }

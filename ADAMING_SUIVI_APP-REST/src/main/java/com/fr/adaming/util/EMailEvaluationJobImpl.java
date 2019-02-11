@@ -1,6 +1,5 @@
 package com.fr.adaming.util;
 
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,6 @@ import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.services.ICandidatService;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
-
 
 @Component("eMailEvaluationJob")
 public class EMailEvaluationJobImpl {
@@ -41,36 +39,31 @@ public class EMailEvaluationJobImpl {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory
-			.getLogger(EMailEvaluationJobImpl.class);
+	private Logger logger = LoggerFactory.getLogger(EMailEvaluationJobImpl.class);
 
 	public void doBusiness() {
 		logger.info("Email reporting started...");
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
-		List<String> destinataires = new ArrayList<String>();
-		List<Candidat> candidatsEnAttentEvaluation = new ArrayList<>();
-		candidatsEnAttentEvaluation = candidatService
-				.rechercherCandidatEnAttenteEvaluation();
+		List<String> destinataires = new ArrayList<>();
+		List<Candidat> candidatsEnAttentEvaluation = candidatService.rechercherCandidatEnAttenteEvaluation();
 		List<Utilisateur> utilisateurs = utilisateurService.findAllUserCharge();
 		for (Utilisateur utilisateur : utilisateurs) {
 			destinataires.add(utilisateur.getEmail());
 		}
 
-		destinataires.add("moueslati@adaming.fr");
-		
+		destinataires.add("oayari@adaming.fr");
+
 		// generer la flux de sortie de la piece jointe
-		if (candidatsEnAttentEvaluation != null
-				&& candidatsEnAttentEvaluation.size() >= 1) {
-			String content = parse(candidatService
-					.rechercherCandidatEnAttenteEvaluation());
-			List<PieceJointe> pjList = new ArrayList<PieceJointe>();
+		if (candidatsEnAttentEvaluation != null && candidatsEnAttentEvaluation.isEmpty()==false) {
+			String content = parse(candidatService.rechercherCandidatEnAttenteEvaluation());
+			List<PieceJointe> pjList = new ArrayList<>();
 
 			// creation de la piece jointe
 			// message du mail
 			// objet du mail
 			String objet = "Candidats en attente d'evaluation";
-			eMailApi.envoyerMail(objet, content, destinataires, "","","", pjList);
+			eMailApi.envoyerMail(objet, content, destinataires, "", "", "", pjList);
 			logger.info("Email reporting finished.");
 		}
 	}

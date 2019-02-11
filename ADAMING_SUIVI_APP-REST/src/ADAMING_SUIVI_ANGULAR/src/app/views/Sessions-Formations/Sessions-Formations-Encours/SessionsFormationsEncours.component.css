@@ -2,17 +2,12 @@
     /* background-color:#F5A623;  */
     color:	darkblue; 
     border-radius: 20px;
-
     cursor: pointer;
     -webkit-transition: color 800ms ease;
     -o-transition: color 800ms ease;
     transition: color 800ms ease;
-
-    -webkit-transition: background 800ms ease;
-    -o-transition: background 800ms ease;
     transition: background 800ms ease;
     position: relative;
-    cursor: pointer;
     -webkit-user-select: none; /* Chrome all / Safari all */
     -moz-user-select: none; /* Firefox all */
     -ms-user-select: none; /* IE 10+ */
@@ -42,7 +37,6 @@
 {
     position: absolute;
     content: "\f107";
-    font-family:FontAwesome;
     font-size: 24px;
     right: 10px;
     top: 20%;

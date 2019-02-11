@@ -11,6 +11,7 @@ public class RendezVousDto {
 	private Date dateRendezVous;
 
 	public RendezVousDto() {
+		super();
 	}
 
 	public Long getId() {

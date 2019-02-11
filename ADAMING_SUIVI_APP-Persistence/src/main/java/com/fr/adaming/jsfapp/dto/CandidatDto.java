@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Civilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.enums.Relance;
+
 import com.fr.adaming.jsfapp.enums.Statut;
 import com.fr.adaming.jsfapp.model.CodePostal;
 import com.fr.adaming.jsfapp.model.Motif;
@@ -77,6 +77,7 @@ public class CandidatDto implements Serializable {
 	}
 
 	public CandidatDto() {
+		super();
 	}
 
 	public Long getId() {
@@ -231,7 +232,6 @@ public class CandidatDto implements Serializable {
 		this.statut = statut;
 	}
 
-
 	public Boolean getDocConsult() {
 		return docConsult;
 	}
@@ -373,5 +373,5 @@ public class CandidatDto implements Serializable {
 	public void setCvSource(CVSource cvSource) {
 		this.cvSource = cvSource;
 	}
-	
+
 }

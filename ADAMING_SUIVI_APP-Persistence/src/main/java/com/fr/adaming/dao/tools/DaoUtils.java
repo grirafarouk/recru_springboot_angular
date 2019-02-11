@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 
 public class DaoUtils {
+	private DaoUtils() {}
 
 	public static void addEqRestrictionIfNotNull(Criteria crit, String field, String value) {
 		if (StringUtils.isNotEmpty(field) && StringUtils.isNotEmpty(value)) {
@@ -65,7 +66,7 @@ public class DaoUtils {
 	}
 
 	public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> c) {
-		List<T> r = new ArrayList<T>(c.size());
+		List<T> r = new ArrayList<>(c.size());
 		for (Object o : c)
 			r.add(clazz.cast(o));
 		return r;

@@ -19,26 +19,27 @@ public class StorageService {
 
 	Logger log = LoggerFactory.getLogger(this.getClass().getName());
 	private final Path rootLocation = Paths.get("upload-dir");
+	private static final String FAIL = "FAIL";
 
-	public void store(MultipartFile file) {
+	public void store(MultipartFile file) throws Exception {
 		try {
 			Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
 		} catch (Exception e) {
-			throw new RuntimeException("FAIL!");
+			throw new RuntimeException(FAIL);
 		}
 	}
 
-	public Resource loadFile(String filename) {
+	public Resource loadFile(String filename) throws Exception {
 		try {
 			Path file = rootLocation.resolve(filename);
 			Resource resource = new UrlResource(file.toUri());
 			if (resource.exists() || resource.isReadable()) {
 				return resource;
 			} else {
-				throw new RuntimeException("FAIL!");
+				throw new RuntimeException(FAIL);
 			}
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("FAIL!");
+			throw new RuntimeException(FAIL);
 		}
 	}
 
@@ -46,7 +47,7 @@ public class StorageService {
 		FileSystemUtils.deleteRecursively(rootLocation.toFile());
 	}
 
-	public void init() {
+	public void init() throws Exception {
 		try {
 			Files.createDirectory(rootLocation);
 		} catch (IOException e) {

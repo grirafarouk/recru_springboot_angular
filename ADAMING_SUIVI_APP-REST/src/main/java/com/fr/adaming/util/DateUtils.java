@@ -9,9 +9,13 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class DateUtils {
+	
+	private DateUtils() {
+	    throw new IllegalStateException("Utility class");
+	  }
 
 	
-	public static final  DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+	DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public static Date getYesterday() {
 		Calendar cal = Calendar.getInstance();
@@ -55,24 +59,29 @@ public class DateUtils {
 		return calendar.getTime();
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void setHoursMinuitesOfTwoDates(Date datedebut, Date dateFin) {
-		datedebut.setHours(0);
-		datedebut.setMinutes(0);
-		dateFin.setHours(23);
-		dateFin.setMinutes(59);
+		Calendar calendrier=Calendar.getInstance();
+		calendrier.set( Calendar.HOUR, 0 );
+        calendrier.set( Calendar.MINUTE, 0 );
+		datedebut=calendrier.getTime();
+		calendrier.set( Calendar.HOUR, 23 );
+        calendrier.set( Calendar.MINUTE, 59 );
+		dateFin=calendrier.getTime();
 	}
 	
-	@SuppressWarnings("deprecation")
+
 	public static void setHoursMinuitesOfDateDebut(Date date) {
-		date.setHours(0);
-		date.setMinutes(0);
+		Calendar calendrier=Calendar.getInstance();
+		calendrier.set( Calendar.HOUR, 0 );
+        calendrier.set( Calendar.MINUTE, 0 );
+		date=calendrier.getTime();
 	}
 
-	@SuppressWarnings("deprecation")
 	public static void setHoursMinuitesOfDateFin(Date date) {
-		date.setHours(23);
-		date.setMinutes(59);
+		Calendar calendrier=Calendar.getInstance();
+		calendrier.set( Calendar.HOUR, 23 );
+        calendrier.set( Calendar.MINUTE, 59 );
+		date=calendrier.getTime();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.fr.adaming.security;
 
 public class SecurityConstants {
+	private SecurityConstants() {}
 
 	public static final String CLIENT_SECRET = "XY7kmzoNzl100";
 	public static final String CLIENT_ID = "adamingsuiviangular";

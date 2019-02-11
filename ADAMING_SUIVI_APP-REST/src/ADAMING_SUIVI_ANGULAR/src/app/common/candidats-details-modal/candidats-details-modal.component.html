@@ -15,7 +15,7 @@
                   <div class="form-group">
                     <label>Civilité </label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.civilite}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.civilite}}</p>
                     </div>
                   </div>
                 </div>
@@ -23,7 +23,7 @@
                   <div class="form-group">
                     <label>Nom</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.nom}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.nom}}</p>
                     </div>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                   <div class="form-group">
                     <label>Prenom</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.prenom}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.prenom}}</p>
                     </div>
                   </div>
                 </div>
@@ -39,7 +39,7 @@
                   <div class="form-group">
                     <label for="telephone">Téléphone</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.numeroTel | mask:'00-00-00-00-00' }}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.numeroTel | mask:'00-00-00-00-00' }}</p>
                     </div>
                   </div>
                 </div>
@@ -47,7 +47,7 @@
                   <div class="form-group">
                     <label for="email">Email</label>
                     <div class="col-12" style="overflow-wrap: break-word;">
-                      <p class="form-control-static">{{currentCandidat.email}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.email}}</p>
                     </div>
                   </div>
                 </div>
@@ -55,7 +55,7 @@
                   <div class="form-group">
                     <label for="email">Relance</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.entretien.relance == true ? 'Oui' :'Non' }}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.relance == true ? 'Oui' :'Non' }}</p>
                     </div>
                   </div>
                 </div>
@@ -63,7 +63,7 @@
                   <div class="form-group">
                     <label for="email">Adresse</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.adresse}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.adresse}}</p>
                     </div>
                   </div>
                 </div>
@@ -71,7 +71,7 @@
                   <div class="form-group">
                     <label for="email">Code Postal</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.codePostal.code}}
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.codePostal.code}}
                         ({{currentCandidat.codePostal.ville}})</p>
                     </div>
                   </div>
@@ -80,7 +80,7 @@
                   <div class="form-group">
                     <label>Region</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat?.codePostal?.region}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.codePostal?.region}}</p>
                     </div>
                   </div>
                 </div>
@@ -88,7 +88,7 @@
                   <div class="form-group">
                     <label>Ville</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat?.codePostal?.ville}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.codePostal?.ville}}</p>
                     </div>
                   </div>
                 </div>
@@ -96,7 +96,7 @@
                   <div class="form-group">
                     <label>Lieu Naissance</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat?.lieuNaissance}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.lieuNaissance}}</p>
                     </div>
                   </div>
                 </div>
@@ -104,7 +104,7 @@
                   <div class="form-group">
                     <label>Age</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat?.age}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.age}}</p>
                     </div>
                   </div>
                 </div>
@@ -112,7 +112,7 @@
                   <div class="form-group">
                     <label>Confirmation Rdv</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat?.entretien.confirmation==false ? 'Non' : 'Oui'
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat?.entretien.confirmation==false ? 'Non' : 'Oui'
                         }}</p>
                     </div>
                   </div>
@@ -121,7 +121,7 @@
                   <div class="form-group">
                     <label>Disponible</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.entretien.disponible}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.disponible}}</p>
                     </div>
                   </div>
                 </div>
@@ -129,7 +129,7 @@
                   <div class="form-group">
                     <label>Date entretien</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.entretien.date | date :'d/M/yyyy'}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.date | date :'d/M/yyyy'}}</p>
                     </div>
                   </div>
                 </div>
@@ -137,7 +137,7 @@
                   <div class="form-group">
                     <label>Lieu entretien</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.entretien.lieu == null ? "":
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.lieu == null ? "":
                         currentCandidat.entretien.lieu.libelle}}</p>
                     </div>
                   </div>
@@ -146,7 +146,7 @@
                   <div class="form-group">
                     <label for="profil">Type Profil </label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.technologie.libelle}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.technologie.libelle}}</p>
                     </div>
                   </div>
                 </div>
@@ -154,7 +154,7 @@
                   <div class="form-group">
                     <label for="origineCV">Origine CV</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.origine.libelle}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.origine.libelle}}</p>
                     </div>
                   </div>
                 </div>
@@ -162,12 +162,12 @@
                   <label class="col-7 col-form-label">Mobilité</label>
                   <div class="col-4 col-form-label">
                     <div class="form-check form-check-inline">
-                      <input [disabled]="true" class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
+                      <input [disabled]="true" class="form-check-input" style="font-weight: bold;color: black;" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
                         type="radio" id="inline-checkbox1" [value]="true">
                       <label class="form-check-label" for="inline-checkbox1">Oui</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input [disabled]="true" class="form-check-input" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
+                      <input [disabled]="true" class="form-check-input" style="font-weight: bold;color: black;" name="mobiliteSrc" [(ngModel)]="currentCandidat.mobiliteSrc"
                         type="radio" id="inline-checkbox2" [value]="false">
                       <label class="form-check-label" for="inline-checkbox2">Non</label>
                     </div>
@@ -177,12 +177,12 @@
                   <label class="col-7 col-form-label">Pole Emploi</label>
                   <div class="col-4 col-form-label">
                     <div class="form-check form-check-inline">
-                      <input [disabled]="true" class="form-check-input" name="posteEnCours" [(ngModel)]="currentCandidat.posteEnCours"
+                      <input [disabled]="true" class="form-check-input" style="font-weight: bold;color: black;" name="posteEnCours" [(ngModel)]="currentCandidat.posteEnCours"
                         type="radio" id="inline-checkbox1" [value]="true">
                       <label class="form-check-label" for="inline-checkbox1">Oui</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input [disabled]="true" class="form-check-input" name="posteEnCours" [(ngModel)]="currentCandidat.posteEnCours"
+                      <input [disabled]="true" class="form-check-input" style="font-weight: bold;color: black;" name="posteEnCours" [(ngModel)]="currentCandidat.posteEnCours"
                         type="radio" id="inline-checkbox2" [value]="false">
                       <label class="form-check-label" for="inline-checkbox2">Non</label>
                     </div>
@@ -196,7 +196,7 @@
                   <div class="form-group">
                     <label>Sourceur</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{
                         currentCandidat.creePar.nom }} {{
                         currentCandidat.creePar.prenom }}</p>
                     </div>
@@ -206,7 +206,7 @@
                   <div class="form-group">
                     <label>Chargé recrutement</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.entretien.charge!=null ?
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.charge!=null ?
                         currentCandidat.entretien.charge.nom :""}} {{currentCandidat.entretien.charge!=null ?
                         currentCandidat.entretien.charge.prenom :""}}</p>
                     </div>
@@ -227,7 +227,7 @@
                   <div class="form-group">
                     <label>Pertinence Cv</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.entretien.pertinence}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.pertinence}}</p>
                     </div>
                   </div>
                 </div>
@@ -237,7 +237,7 @@
           <div class="row" style="margin-bottom: 20px;margin-right: 20px">
             <div class="col-12">
               <label for="comEntrtien">Commentaire</label>
-              <textarea style="margin-left: 20px;" disabled="true" id="comEntrtien" [(ngModel)]="currentCandidat.entretien.commentaire"
+              <textarea style="margin-left: 20px;font-weight: bold;color: black;" disabled="true" id="comEntrtien" [(ngModel)]="currentCandidat.entretien.commentaire"
                 name="comEntrtien" rows="2" class="form-control"></textarea>
             </div>
           </div>
@@ -304,7 +304,7 @@
                   <div class="form-group">
                     <label for="noteResultat">Statut</label>
                     <div class="col-12">
-                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static">{{getStatusLabel(currentCandidat.statut)}}</p>
+                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static" style="font-weight: bold;color: black;">{{getStatusLabel(currentCandidat.statut)}}</p>
                     </div>
                   </div>
                 </div>
@@ -317,7 +317,7 @@
                   <div class="form-group">
                     <label for="noteResultat">Résultat du test:</label>
                     <div class="col-12">
-                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static">{{currentCandidat.suivi.noteResultat}}</p>
+                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.suivi.noteResultat}}</p>
                     </div>
                   </div>
                 </div>
@@ -395,13 +395,13 @@
                   <div class="form-group">
                     <label for="noteResultat">Date Relance</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.suivi.dateRelance |date :'dd/M/yyyy'}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.suivi.dateRelance |date :'dd/M/yyyy'}}</p>
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="noteResultat">Affectation Candidat</label>
                     <div class="col-12">
-                      <p class="form-control-static">{{currentCandidat.sessionFormation ?
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.sessionFormation ?
                         currentCandidat.sessionFormation.formation.typeFormation.libelle +' '+
                         currentCandidat.sessionFormation.formation.technologie.libelle +' '+
                         currentCandidat.sessionFormation.formation.lieu.libelle +' '+
@@ -416,7 +416,7 @@
               <div class="row" style="margin-bottom: 20px;margin-right: 20px" *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined">
                 <div class="col-12">
                   <label for="comEntrtien">Commentaire</label>
-                  <textarea style="margin-left: 20px;" disabled="true" id="comEntrtien" [(ngModel)]="currentCandidat.suivi.commentaire"
+                  <textarea style="margin-left: 20px;font-weight: bold;color: black;" disabled="true" id="comEntrtien" [(ngModel)]="currentCandidat.suivi.commentaire"
                     name="comEntrtien" rows="2" class="form-control"></textarea>
                 </div>
               </div>
@@ -426,7 +426,7 @@
                 <div class="form-group">
                   <label for="noteResultat">Mobilité Ville</label>
                   <div class="col-12">
-                    <p class="form-control-static">{{currentCandidat.entretien.mobilteCharge}}</p>
+                    <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.mobilteCharge}}</p>
                   </div>
                 </div>
               </div>

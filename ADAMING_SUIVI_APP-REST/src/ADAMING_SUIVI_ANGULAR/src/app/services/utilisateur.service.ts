@@ -34,7 +34,7 @@ export class UtilisateurService {
     }
 
     public getAllUser(): Observable<any> {
-        return this.httpClient.get(BACK_END_URL + "/utilisateurs")
+        return this.httpClient.get(BACK_END_URL + "/utilisateurs/all")
     }
 
     public save(utilisateur): Observable<any> {

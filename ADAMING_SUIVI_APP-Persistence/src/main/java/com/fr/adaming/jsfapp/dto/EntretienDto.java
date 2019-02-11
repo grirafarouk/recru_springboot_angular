@@ -27,8 +27,7 @@ public class EntretienDto implements Serializable{
 	private String daterelance;
 	private String dateEntretien;
 	
-	public EntretienDto() {
-	}
+	public EntretienDto() {super();}
 
 	public Long getId() {
 		return id;

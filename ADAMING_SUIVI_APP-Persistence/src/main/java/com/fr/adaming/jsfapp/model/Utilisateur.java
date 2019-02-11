@@ -45,6 +45,7 @@ public class Utilisateur implements java.io.Serializable {
 	private String numeroTelP;
 
 	public Utilisateur() {
+		super();
 	}
 
 	@Id

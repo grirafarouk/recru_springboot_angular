@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fr.adaming.jsfapp.dto.FormationDto;
@@ -8,12 +9,15 @@ import com.fr.adaming.jsfapp.dto.SessionFormationReportingDto;
 import com.fr.adaming.jsfapp.model.SessionFormation;
 
 public interface ISessionFormationDao extends
-		IManagerDao<SessionFormation, Long> {
+		IManagerDao<SessionFormation, Long>,Serializable{
 
 	public List<SessionFormation> rechercherSessionsFormationParFormation(
 			FormationDto sessionFormationDto);
 
 	List<SessionFormation> rechercherSessionsFormation(
+			SessionFormationDto sessionFormationDto);
+	
+	List<SessionFormation> rechercherSessionFormation(
 			SessionFormationDto sessionFormationDto);
 
 	List<SessionFormation> rechercherFormationEnCours(

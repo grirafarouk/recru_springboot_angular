@@ -110,6 +110,7 @@ public class Region implements java.io.Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		else return true;
 		return true;
 	}
 

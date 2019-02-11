@@ -11,15 +11,13 @@ import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ICompetenceDao;
 import com.fr.adaming.jsfapp.model.Competence;
-import com.fr.adaming.jsfapp.model.Utilisateur;
 
 @Repository("competenceDao")
 public class CompetenceDao extends ManagerDao<Competence, Long> implements
 		ICompetenceDao {
 	public List<Competence> rechercherCandidatCompetences(long id) {
-		String query = "SELECT * FROM competence   WHERE competence.ID IN ( SELECT candidat_competence.COMPETENCE_ID  FROM candidat_competence WHERE candidat_competence.CANDIDAT_ID='"
-				+ id + "')";
-		SQLQuery st = getSession().createSQLQuery(query);
+		String query = "SELECT * FROM competence   WHERE competence.ID IN ( SELECT candidat_competence.COMPETENCE_ID  FROM candidat_competence WHERE candidat_competence.CANDIDAT_ID= :id)";
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("id", id);
 
 		@SuppressWarnings("unchecked")
 		List<Competence> liste = (List<Competence>) st.addEntity(

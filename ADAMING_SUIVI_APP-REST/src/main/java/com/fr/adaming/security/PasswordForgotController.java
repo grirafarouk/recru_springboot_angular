@@ -6,6 +6,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,11 @@ import com.fr.adaming.util.SendEmailInitPasswordThread;
 @RestController
 public class PasswordForgotController {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(PasswordForgotController.class);
+	private static final String RESULT = "result";
+	private static final String ERROR = "error";
+	private static final String SUCCESS = "success";
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
@@ -39,14 +46,14 @@ public class PasswordForgotController {
 			model = reader.read(new FileReader("pom.xml"));
 			projectId = model.getArtifactId();
 		} catch (Exception e1) {
-
+			LOGGER.info("context", e1);
 		}
 		String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/"
 				+ projectId + "/#/";
 		JSONObject result = new JSONObject();
 		Utilisateur user = utilisateurService.findByEmail(email.get("email").toString());
 		if (user == null) {
-			result.put("result", "error");
+			result.put(RESULT, ERROR);
 			result.put("errorMsg", "We could not find an account for that e-mail address");
 			return result;
 		}
@@ -60,9 +67,9 @@ public class PasswordForgotController {
 			emailInitPasswordThread.start();
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.info("context", e);
 		}
-		result.put("result", "success");
+		result.put(RESULT, SUCCESS);
 		return result;
 	}
 
@@ -81,10 +88,10 @@ public class PasswordForgotController {
 		JSONObject result = new JSONObject();
 		Utilisateur user = utilisateurService.findUserByToken(token);
 		if (user == null) {
-			result.put("result", "error");
+			result.put(RESULT, ERROR);
 			result.put("errorMsg", "Could not find password reset token.");
 		} else {
-			result.put("result", "success");
+			result.put(RESULT, SUCCESS);
 			result.put("token", user.getToken());
 		}
 		return result;

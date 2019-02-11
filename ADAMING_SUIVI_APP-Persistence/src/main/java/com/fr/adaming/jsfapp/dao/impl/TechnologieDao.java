@@ -63,7 +63,7 @@ public class TechnologieDao extends ManagerDao<Technologie, Long> implements
 		{
 			for(String o : dataObject)
 			{
-				String nom = (String) o;
+				String nom =  o;
 
 				data.add(new TechnologieDto(nom));
 				

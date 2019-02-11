@@ -44,7 +44,28 @@ public class Entretien implements java.io.Serializable {
 	private String mobilteCharge;
 	private Boolean mobilteTouFrance;
 
+	
 	public Entretien() {
+		super();
+	}
+
+	public Entretien(Long id, Utilisateur charge, Disponibilite disponible, Date date, Lieu lieu, Boolean relance,
+			Boolean confirmation, Boolean directEmploi, String commentaire, Integer pertinence, Date dateRelance,
+			String mobilteCharge, Boolean mobilteTouFrance) {
+		super();
+		this.id = id;
+		this.charge = charge;
+		this.disponible = disponible;
+		this.date = date;
+		this.lieu = lieu;
+		this.relance = relance;
+		this.confirmation = confirmation;
+		this.directEmploi = directEmploi;
+		this.commentaire = commentaire;
+		this.pertinence = pertinence;
+		this.dateRelance = dateRelance;
+		this.mobilteCharge = mobilteCharge;
+		this.mobilteTouFrance = mobilteTouFrance;
 	}
 
 	@Id

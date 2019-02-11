@@ -40,18 +40,16 @@ import com.fr.adaming.jsfapp.services.IUtilisateurService;
 import com.fr.adaming.jsfapp.utils.DateUtils;
 
 @Service("exporterReportingExcelService")
-public class ExporterReportingExcelServiceImpl implements
-		IExporterReportingExcelService {
+public class ExporterReportingExcelServiceImpl implements IExporterReportingExcelService {
 
 	private static final String SEMAINE_SHEET_NAME = "Résumé de la semaine";
 	private static final String JOURNEE_SHEET_NAME = "Résumé de la journée";
 	private static final String REPORTING = "Reporting";
-	private static final SimpleDateFormat sdfNoTime = new SimpleDateFormat(
-			"dd/MM/yyyy");
-	private static final SimpleDateFormat sdf = new SimpleDateFormat(
-			"dd/MM/yyyy hh:mm");
-	private static final SimpleDateFormat SHEET_TITLE_FORMAT = new SimpleDateFormat(
-			"dd-MM");
+	private static final String total = "Total";
+	private static final String sourceur = "Sourceur: ";	
+	private static final String totalCell="TOTAL";
+	private SimpleDateFormat sdfNoTime = new SimpleDateFormat("dd/MM/yyyy");
+	private SimpleDateFormat SheetTitleFormat = new SimpleDateFormat("dd-MM");
 
 	@Autowired(required = true)
 	@Qualifier("candidatService")
@@ -93,8 +91,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 	public XSSFWorkbook exporterExcel() {
 		regions = new ArrayList<>(regionService.rechercherRegionPourReporting());
-		technologies = new ArrayList<>(
-				technologieService.rechercherTechnologiePourReporting());
+		technologies = new ArrayList<>(technologieService.rechercherTechnologiePourReporting());
 		utilisateurs = utilisateurService.rechercherSourceurPourReporting();
 
 		XSSFWorkbook wb = new XSSFWorkbook();
@@ -105,8 +102,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 	public XSSFWorkbook contenuMail() {
 		regions = new ArrayList<>(regionService.rechercherRegionPourReporting());
-		technologies = new ArrayList<>(
-				technologieService.rechercherTechnologiePourReporting());
+		technologies = new ArrayList<>(technologieService.rechercherTechnologiePourReporting());
 		utilisateurs = utilisateurService.rechercherSourceurPourReporting();
 
 		XSSFWorkbook wb = new XSSFWorkbook();
@@ -114,14 +110,15 @@ public class ExporterReportingExcelServiceImpl implements
 		return wb;
 	}
 
+	
+
 	private Sheet createSyntheseSheet(XSSFWorkbook wb) {
 		ArrayList<SyntheseCandidatDto> listeSynthese = (ArrayList<SyntheseCandidatDto>) candidatService
 				.rechercherSyntheseJournee(DateUtils.getYesterday());
 		List<SyntheseCandidatDto> listeSyntheseSemaine = candidatService
-				.rechercherSyntheseSemaine(DateUtils.getFirstDayOfWeek(),
-						DateUtils.getYesterday());
+				.rechercherSyntheseSemaine(DateUtils.getFirstDayOfWeek(), DateUtils.getYesterday());
 		Sheet sh = wb.createSheet(SEMAINE_SHEET_NAME);
-		// sh.setDisplayGridlines(false);
+
 		int rowNum = 0;
 		// putting header section
 		sh.createRow(rowNum++);
@@ -136,22 +133,19 @@ public class ExporterReportingExcelServiceImpl implements
 		XSSFCellStyle csHeader = wb.createCellStyle();
 		csHeader.setFont(headerFont);
 
-		csHeader.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0,
-				(byte) 0, (byte) 102 }));
+		csHeader.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0, (byte) 0, (byte) 102 }));
 		csHeader.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csHeader.setAlignment(CellStyle.ALIGN_CENTER);
 		Cell headerCell = headerRow.createCell(3);
 		headerCell.setCellStyle(csHeader);
-		headerCell.setCellValue(SEMAINE_SHEET_NAME + " "
-				+ DateUtils.getWeekNumber(DateUtils.getYesterday()) + " du "
+		headerCell.setCellValue(SEMAINE_SHEET_NAME + " " + DateUtils.getWeekNumber(DateUtils.getYesterday()) + " du "
 				+ sdfNoTime.format(DateUtils.getFirstDayOfWeek()) + " au "
 				+ sdfNoTime.format(DateUtils.getLastDayOfWeek()));
 		sh.setColumnWidth(headerCell.getColumnIndex(), (short) (50 * 300));
 
 		// style cellule header villes
 		XSSFCellStyle csCellVille = wb.createCellStyle();
-		csCellVille.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 221, (byte) 235, (byte) 247 }));
+		csCellVille.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 221, (byte) 235, (byte) 247 }));
 		csCellVille.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellVille.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellVille.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -161,8 +155,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 		// style cellule total du header
 		XSSFCellStyle csCellTot = wb.createCellStyle();
-		csCellTot.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0,
-				(byte) 176, (byte) 80 }));
+		csCellTot.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0, (byte) 176, (byte) 80 }));
 		csCellTot.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellTot.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellTot.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -171,8 +164,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csCellTot.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		// style cellule techno
 		XSSFCellStyle csCellTechno = wb.createCellStyle();
-		csCellTechno.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 255, (byte) 192, (byte) 0 }));
+		csCellTechno.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 255, (byte) 192, (byte) 0 }));
 		csCellTechno.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellTechno.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellTechno.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -211,7 +203,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 		Row lignValTech;
 		long val = 0;
-		int sommeTech = 0;
+
 		Cell cell;
 		for (int i = 0; i < regions.size(); i++) {
 			lignValTech = sh.createRow(rowNum++);
@@ -219,14 +211,12 @@ public class ExporterReportingExcelServiceImpl implements
 			cell.setCellValue(regions.get(i).getCode());
 			cell.setCellStyle(csCellTechno);
 			sh.setColumnWidth(cell.getColumnIndex(), (short) (50 * 160));
-			sommeTech = 0;
+			int sommeTech = 0;
 			for (int j = 0; j < technologies.size(); j++) {
 				Boolean found = false;
 				for (SyntheseCandidatDto syntheseCandidatDto : listeSyntheseSemaine) {
-					if (syntheseCandidatDto.getRegion().equalsIgnoreCase(
-							regions.get(i).getCode())
-							&& syntheseCandidatDto.getTechnologie()
-									.getLibelle()
+					if (syntheseCandidatDto.getRegion().equalsIgnoreCase(regions.get(i).getCode())
+							&& syntheseCandidatDto.getTechnologie().getLibelle()
 									.equals(technologies.get(j).getLibelle())) {
 						val = syntheseCandidatDto.getTotalCandidat();
 						sommeTech += val;
@@ -249,15 +239,14 @@ public class ExporterReportingExcelServiceImpl implements
 		Row ligneVil = sh.createRow(r);
 		Cell cellHdrVill;
 		cellHdrVill = ligneVil.createCell(3);
-		cellHdrVill.setCellValue("Total");
+		cellHdrVill.setCellValue(total);
 		cellHdrVill.setCellStyle(csCellTot);
 
 		for (int i = 0; i < technologies.size(); i++) {
 			int sumtech = 0;
 			for (SyntheseCandidatDto syntheseCandidatDto : listeSyntheseSemaine) {
 
-				if (syntheseCandidatDto.getTechnologie().equals(
-						technologies.get(i))) {
+				if (syntheseCandidatDto.getTechnologie().equals(technologies.get(i))) {
 					val = syntheseCandidatDto.getTotalCandidat();
 					sumtech += val;
 				}
@@ -273,8 +262,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 		headerCell = headerRow.createCell(3);
 		headerCell.setCellStyle(csHeader);
-		headerCell.setCellValue(JOURNEE_SHEET_NAME + " "
-				+ sdfNoTime.format(DateUtils.getYesterday()));
+		headerCell.setCellValue(JOURNEE_SHEET_NAME + " " + sdfNoTime.format(DateUtils.getYesterday()));
 		CellUtil.setAlignment(headerCell, wb, CellStyle.ALIGN_CENTER);
 
 		sh.createRow(rowNum++);
@@ -286,21 +274,18 @@ public class ExporterReportingExcelServiceImpl implements
 			cellHdrVille.setCellStyle(csCellVille);
 
 		}
-		val = 0;
-		sommeTech = 0;
+
 		for (int i = 0; i < regions.size(); i++) {
 			lignValTech = sh.createRow(rowNum++);
 			cell = lignValTech.createCell(3);
 			cell.setCellValue(regions.get(i).getCode());
 			cell.setCellStyle(csCellTechno);
-			sommeTech = 0;
+			int sommeTech = 0;
 			for (int j = 0; j < technologies.size(); j++) {
 				Boolean found = false;
 				for (SyntheseCandidatDto syntheseCandidatDto : listeSynthese) {
-					if (syntheseCandidatDto.getRegion().equals(
-							regions.get(i).getCode())
-							&& syntheseCandidatDto.getTechnologie().equals(
-									technologies.get(j))) {
+					if (syntheseCandidatDto.getRegion().equals(regions.get(i).getCode())
+							&& syntheseCandidatDto.getTechnologie().equals(technologies.get(j))) {
 						val = syntheseCandidatDto.getTotalCandidat();
 						sommeTech += val;
 						found = true;
@@ -322,14 +307,13 @@ public class ExporterReportingExcelServiceImpl implements
 		Row ligneVil1 = sh.createRow(r1);
 		Cell cellHdrVill1;
 		cellHdrVill1 = ligneVil1.createCell(3);
-		cellHdrVill1.setCellValue("Total");
+		cellHdrVill1.setCellValue(total);
 		cellHdrVill1.setCellStyle(csCellTot);
 
 		for (int i1 = 0; i1 < technologies.size(); i1++) {
 			int sumtech = 0;
 			for (SyntheseCandidatDto syntheseCandidatDto : listeSynthese) {
-				if (syntheseCandidatDto.getTechnologie().equals(
-						technologies.get(i1))) {
+				if (syntheseCandidatDto.getTechnologie().equals(technologies.get(i1))) {
 					val = syntheseCandidatDto.getTotalCandidat();
 					sumtech += val;
 				}
@@ -339,9 +323,8 @@ public class ExporterReportingExcelServiceImpl implements
 			cellHdrVill1.setCellStyle(csCellTot);
 		}
 		sh.createRow(rowNum);
-		sh.addMergedRegion(new CellRangeAddress(rowNum, rowNum, 0, regions
-				.size()));
-		rowNum++;
+		sh.addMergedRegion(new CellRangeAddress(rowNum, rowNum, 0, regions.size()));
+
 		return sh;
 	}
 
@@ -350,18 +333,17 @@ public class ExporterReportingExcelServiceImpl implements
 		calendar.setTime(DateUtils.getFirstDayOfWeek());
 		for (int i = 0; i < DateUtils.getCurrentDayOfWeek(); i++) {
 			Date date = calendar.getTime();
-			List<SyntheseCandidatDto> listeSynthese = candidatService
-					.rechercherSyntheseCandidatParDate(date);
+			List<SyntheseCandidatDto> listeSynthese = candidatService.rechercherSyntheseCandidatParDate(date);
 			createDaySheet(wb, listeSynthese, date);
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
 
 	}
 
-	private void createDaySheet(XSSFWorkbook wb,
-			List<SyntheseCandidatDto> listeSyntheseCandidatDto, Date date) {
-		Sheet sh = wb.createSheet(REPORTING + " "
-				+ SHEET_TITLE_FORMAT.format(date.getTime()));
+	
+
+	private void createDaySheet(XSSFWorkbook wb, List<SyntheseCandidatDto> listeSyntheseCandidatDto, Date date) {
+		Sheet sh = wb.createSheet(REPORTING + " " + SheetTitleFormat.format(date.getTime()));
 
 		sh.setDisplayGridlines(false);
 
@@ -394,8 +376,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 		// style cellule header villes
 		XSSFCellStyle csCellVille = wb.createCellStyle();
-		csCellVille.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 255, (byte) 192, (byte) 0 }));
+		csCellVille.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 255, (byte) 192, (byte) 0 }));
 		csCellVille.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellVille.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellVille.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -403,8 +384,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csCellVille.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		// style cellule total du header
 		XSSFCellStyle csCellTot = wb.createCellStyle();
-		csCellTot.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0,
-				(byte) 176, (byte) 80 }));
+		csCellTot.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0, (byte) 176, (byte) 80 }));
 		csCellTot.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellTot.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellTot.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -412,8 +392,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csCellTot.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		// style cellule techno
 		XSSFCellStyle csCellTechno = wb.createCellStyle();
-		csCellTechno.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 221, (byte) 235, (byte) 247 }));
+		csCellTechno.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 221, (byte) 235, (byte) 247 }));
 		csCellTechno.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellTechno.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellTechno.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -440,8 +419,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csCellTotVal.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		Cell cellTitle = headerRow.createCell(0);
 		cellTitle.setCellType(Cell.CELL_TYPE_STRING);
-		cellTitle.setCellValue("Reporting Sourcing du "
-				+ sdfNoTime.format(date));
+		cellTitle.setCellValue("Reporting Sourcing du " + sdfNoTime.format(date));
 		cellTitle.setCellStyle(csTitle);
 
 		// saut de ligne
@@ -449,7 +427,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 		// content
 
-		HashMap<Utilisateur, List<SyntheseCandidatDto>> map = new HashMap<Utilisateur, List<SyntheseCandidatDto>>();
+		HashMap<Utilisateur, List<SyntheseCandidatDto>> map = new HashMap<>();
 		List<Utilisateur> utilisateurs = new ArrayList<>();
 		for (SyntheseCandidatDto syntheseCandidatDto : listeSyntheseCandidatDto) {
 			if (!map.containsKey(syntheseCandidatDto.getCreePar())) {
@@ -458,8 +436,7 @@ public class ExporterReportingExcelServiceImpl implements
 				map.put(syntheseCandidatDto.getCreePar(), liste);
 				utilisateurs.add(syntheseCandidatDto.getCreePar());
 			} else {
-				List<SyntheseCandidatDto> liste = map.get(syntheseCandidatDto
-						.getCreePar());
+				List<SyntheseCandidatDto> liste = map.get(syntheseCandidatDto.getCreePar());
 				liste.add(syntheseCandidatDto);
 			}
 		}
@@ -490,37 +467,31 @@ public class ExporterReportingExcelServiceImpl implements
 			hderRow = sh.createRow(rowNum++);
 			if (u1 != null) {
 				hdrCell = hderRow.createCell(0);
-				hdrCell.setCellValue("Sourceur: ");
+				hdrCell.setCellValue(sourceur);
 				hdrCell.setCellStyle(sousTitre);
 				nomSourceurCell = hderRow.createCell(1);
-				nomSourceurCell.setCellValue(utilisateurs.get(i).getNom() + " "
-						+ utilisateurs.get(i).getPrenom());
+				nomSourceurCell.setCellValue(utilisateurs.get(i).getNom() + " " + utilisateurs.get(i).getPrenom());
 				nomSourceurCell.setCellStyle(csNomSrc);
-				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum - 1,
-						1, 2));
+				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum - 1, 1, 2));
 			}
 			if (u2 != null) {
 				Cell cell = hderRow.createCell(technologies.size() + 2);
-				cell.setCellValue("Sourceur: ");
+				cell.setCellValue(sourceur);
 				cell.setCellStyle(sousTitre);
 				nomSourceurCell = hderRow.createCell(technologies.size() + 3);
-				nomSourceurCell
-						.setCellValue(u2.getNom() + " " + u2.getPrenom());
+				nomSourceurCell.setCellValue(u2.getNom() + " " + u2.getPrenom());
 				nomSourceurCell.setCellStyle(csNomSrc);
-				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum - 1,
-						technologies.size() + 3, technologies.size() + 4));
+				sh.addMergedRegion(
+						new CellRangeAddress(rowNum - 1, rowNum - 1, technologies.size() + 3, technologies.size() + 4));
 			}
 			if (u3 != null) {
 				Cell cellSrc = hderRow.createCell(2 * technologies.size() + 3);
-				cellSrc.setCellValue("Sourceur: ");
+				cellSrc.setCellValue(sourceur);
 				cellSrc.setCellStyle(sousTitre);
-				nomSourceurCell = hderRow
-						.createCell(2 * technologies.size() + 4);
-				nomSourceurCell
-						.setCellValue(u3.getNom() + " " + u3.getPrenom());
+				nomSourceurCell = hderRow.createCell(2 * technologies.size() + 4);
+				nomSourceurCell.setCellValue(u3.getNom() + " " + u3.getPrenom());
 				nomSourceurCell.setCellStyle(csNomSrc);
-				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum - 1,
-						2 * technologies.size() + 4,
+				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum - 1, 2 * technologies.size() + 4,
 						2 * technologies.size() + 5));
 			}
 			if (u1 != null) {
@@ -529,29 +500,21 @@ public class ExporterReportingExcelServiceImpl implements
 				for (int l = 0; l < technologies.size(); l++) {
 					if (u1 != null) {
 						technoCell = technoRow.createCell(l + 1);
-						technoCell.setCellValue(technologies.get(l)
-								.getLibelle());
+						technoCell.setCellValue(technologies.get(l).getLibelle());
 						technoCell.setCellStyle(csCellTechno);
-						sh.setColumnWidth(technoCell.getColumnIndex(),
-								(short) (50 * 80));
+						sh.setColumnWidth(technoCell.getColumnIndex(), (short) (50 * 80));
 					}
 					if (u2 != null) {
-						technoCell = technoRow.createCell(l
-								+ technologies.size() + 2);
-						technoCell.setCellValue(technologies.get(l)
-								.getLibelle());
+						technoCell = technoRow.createCell(l + technologies.size() + 2);
+						technoCell.setCellValue(technologies.get(l).getLibelle());
 						technoCell.setCellStyle(csCellTechno);
-						sh.setColumnWidth(technoCell.getColumnIndex(),
-								(short) (50 * 80));
+						sh.setColumnWidth(technoCell.getColumnIndex(), (short) (50 * 80));
 					}
 					if (u3 != null) {
-						technoCell = technoRow.createCell(l + 2
-								* technologies.size() + 3);
-						technoCell.setCellValue(technologies.get(l)
-								.getLibelle());
+						technoCell = technoRow.createCell(l + 2 * technologies.size() + 3);
+						technoCell.setCellValue(technologies.get(l).getLibelle());
 						technoCell.setCellStyle(csCellTechno);
-						sh.setColumnWidth(technoCell.getColumnIndex(),
-								(short) (50 * 80));
+						sh.setColumnWidth(technoCell.getColumnIndex(), (short) (50 * 80));
 					}
 				}
 			}
@@ -563,8 +526,7 @@ public class ExporterReportingExcelServiceImpl implements
 				cellVille = villeRow.createCell(0);
 				cellVille.setCellValue(regions.get(m).getCode());
 				cellVille.setCellStyle(csCellVille);
-				sh.setColumnWidth(cellVille.getColumnIndex(),
-						(short) (50 * 150));
+				sh.setColumnWidth(cellVille.getColumnIndex(), (short) (50 * 150));
 				Cell cellTechno;
 				if (u1 != null) {
 
@@ -579,46 +541,28 @@ public class ExporterReportingExcelServiceImpl implements
 						Boolean foundU3 = false;
 						int sommeRegionU3 = 0;
 						for (SyntheseCandidatDto candidatDtoU1 : listeU1) {
-							if (candidatDtoU1.getRegion().equals(
-									regions.get(m).getCode())
-									&& candidatDtoU1
-											.getTechnologie()
-											.getLibelle()
-											.equals(technologies.get(l)
-													.getLibelle())) {
-								sommeRegionU1 += candidatDtoU1
-										.getTotalCandidat();
+							if (candidatDtoU1.getRegion().equals(regions.get(m).getCode()) && candidatDtoU1
+									.getTechnologie().getLibelle().equals(technologies.get(l).getLibelle())) {
+								sommeRegionU1 += candidatDtoU1.getTotalCandidat();
 								foundU1 = true;
 							}
 						}
 						if (u2 != null) {
 							listeU2 = map.get(u2);
 							for (SyntheseCandidatDto candidatDtoU2 : listeU2) {
-								if (candidatDtoU2.getRegion().equals(
-										regions.get(m).getCode())
-										&& candidatDtoU2
-												.getTechnologie()
-												.getLibelle()
-												.equals(technologies.get(l)
-														.getLibelle())) {
-									sommeRegionU2 += candidatDtoU2
-											.getTotalCandidat();
+								if (candidatDtoU2.getRegion().equals(regions.get(m).getCode()) && candidatDtoU2
+										.getTechnologie().getLibelle().equals(technologies.get(l).getLibelle())) {
+									sommeRegionU2 += candidatDtoU2.getTotalCandidat();
 									foundU2 = true;
 								}
 							}
 							if (u3 != null) {
 								listeU3 = map.get(u3);
 								for (SyntheseCandidatDto candidatDtoU3 : listeU3) {
-									if (candidatDtoU3.getRegion().equals(
-											regions.get(m).getCode())
-											&& candidatDtoU3
-													.getTechnologie()
-													.getLibelle()
-													.equals(technologies.get(l)
-															.getLibelle())) {
-										val = candidatDtoU3.getTotalCandidat();
-										sommeRegionU3 += candidatDtoU3
-												.getTotalCandidat();
+									if (candidatDtoU3.getRegion().equals(regions.get(m).getCode()) && candidatDtoU3
+											.getTechnologie().getLibelle().equals(technologies.get(l).getLibelle())) {
+
+										sommeRegionU3 += candidatDtoU3.getTotalCandidat();
 										foundU3 = true;
 									}
 								}
@@ -635,13 +579,11 @@ public class ExporterReportingExcelServiceImpl implements
 
 							if (u2 != null) {
 								if (foundU2) {
-									cellTechno = villeRow.createCell(l
-											+ technologies.size() + 2);
+									cellTechno = villeRow.createCell(l + technologies.size() + 2);
 									cellTechno.setCellValue(sommeRegionU2 + "");
 									cellTechno.setCellStyle(csCellNumber);
 								} else {
-									cellTechno = villeRow.createCell(l
-											+ technologies.size() + 2);
+									cellTechno = villeRow.createCell(l + technologies.size() + 2);
 									cellTechno.setCellValue("-");
 									cellTechno.setCellStyle(csCellNumber);
 								}
@@ -649,13 +591,11 @@ public class ExporterReportingExcelServiceImpl implements
 
 							if (u3 != null) {
 								if (foundU3) {
-									cellTechno = villeRow.createCell(l + 2
-											* technologies.size() + 3);
+									cellTechno = villeRow.createCell(l + 2 * technologies.size() + 3);
 									cellTechno.setCellValue(sommeRegionU3 + "");
 									cellTechno.setCellStyle(csCellNumber);
 								} else {
-									cellTechno = villeRow.createCell(l + 2
-											* technologies.size() + 3);
+									cellTechno = villeRow.createCell(l + 2 * technologies.size() + 3);
 									cellTechno.setCellValue("-");
 									cellTechno.setCellStyle(csCellNumber);
 								}
@@ -670,10 +610,9 @@ public class ExporterReportingExcelServiceImpl implements
 				Row totRow = sh.createRow(rowNum++);
 				Cell totCell;
 				Cell cellHdrVill1;
-				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum, 0,
-						0));
+				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum, 0, 0));
 				cellHdrVill1 = totRow.createCell(0);
-				cellHdrVill1.setCellValue("Total");
+				cellHdrVill1.setCellValue(total);
 				cellHdrVill1.setCellStyle(csCellTot);
 
 				for (int l = 0; l < technologies.size(); l++) {
@@ -681,8 +620,7 @@ public class ExporterReportingExcelServiceImpl implements
 					int sumtechU2 = 0;
 					int sumtechU3 = 0;
 					for (SyntheseCandidatDto syntheseCandidatDto : listeU1) {
-						if (syntheseCandidatDto.getTechnologie().equals(
-								technologies.get(l))) {
+						if (syntheseCandidatDto.getTechnologie().equals(technologies.get(l))) {
 							sumtechU1 += syntheseCandidatDto.getTotalCandidat();
 						}
 					}
@@ -694,15 +632,12 @@ public class ExporterReportingExcelServiceImpl implements
 						listeU2 = map.get(u2);
 						for (SyntheseCandidatDto syntheseCandidatDto : listeU2) {
 
-							if (syntheseCandidatDto.getTechnologie().equals(
-									technologies.get(l))) {
-								sumtechU2 += syntheseCandidatDto
-										.getTotalCandidat();
+							if (syntheseCandidatDto.getTechnologie().equals(technologies.get(l))) {
+								sumtechU2 += syntheseCandidatDto.getTotalCandidat();
 
 							}
 						}
-						totCell = totRow
-								.createCell(l + technologies.size() + 2);
+						totCell = totRow.createCell(l + technologies.size() + 2);
 						totCell.setCellValue(sumtechU2);
 						totCell.setCellStyle(csCellTot);
 
@@ -711,14 +646,11 @@ public class ExporterReportingExcelServiceImpl implements
 						listeU3 = map.get(u3);
 						for (SyntheseCandidatDto syntheseCandidatDto : listeU3) {
 
-							if (syntheseCandidatDto.getTechnologie().equals(
-									technologies.get(l))) {
-								sumtechU3 += syntheseCandidatDto
-										.getTotalCandidat();
+							if (syntheseCandidatDto.getTechnologie().equals(technologies.get(l))) {
+								sumtechU3 += syntheseCandidatDto.getTotalCandidat();
 							}
 						}
-						totCell = totRow.createCell(l + 2 * technologies.size()
-								+ 3);
+						totCell = totRow.createCell(l + 2 * technologies.size() + 3);
 						totCell.setCellValue(sumtechU3);
 						totCell.setCellStyle(csCellTot);
 					}
@@ -815,8 +747,7 @@ public class ExporterReportingExcelServiceImpl implements
 
 		// style for region cell
 		XSSFCellStyle csRow = wb.createCellStyle();
-		csRow.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 255,
-				(byte) 192, (byte) 0 }));
+		csRow.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 255, (byte) 192, (byte) 0 }));
 		csRow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csRow.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csRow.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -825,8 +756,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csRow.setFont(fontNormale);
 
 		XSSFCellStyle csCellUser = wb.createCellStyle();
-		csCellUser.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 221, (byte) 235, (byte) 247 }));
+		csCellUser.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 221, (byte) 235, (byte) 247 }));
 		csCellUser.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellUser.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellUser.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -843,15 +773,14 @@ public class ExporterReportingExcelServiceImpl implements
 		csStyleNumber.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		XSSFCellStyle csStyleTotale = wb.createCellStyle();
-		csStyleTotale.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 0, (byte) 176, (byte) 80 }));
+		csStyleTotale.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0, (byte) 176, (byte) 80 }));
 		csStyleTotale.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csStyleTotale.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csStyleTotale.setBorderTop(HSSFCellStyle.BORDER_THIN);
 		csStyleTotale.setBorderRight(HSSFCellStyle.BORDER_THIN);
 		csStyleTotale.setBorderLeft(HSSFCellStyle.BORDER_THIN);
 		csStyleTotale.setAlignment(HSSFCellStyle.ALIGN_CENTER);
-		
+
 		// set style for subtitle
 		CellStyle csStyleSousTitre = wb.createCellStyle();
 		csStyleSousTitre.setFont(fontSousTitre);
@@ -863,7 +792,8 @@ public class ExporterReportingExcelServiceImpl implements
 		// create row for commentaire
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell((short) 1);
-		cell.setCellValue("Nombre de CVs mis par tous les sourceurs par région, et par technologie et par outil, nombre de CVs mis sur toute la France");
+		cell.setCellValue(
+				"Nombre de CVs mis par tous les sourceurs par région, et par technologie et par outil, nombre de CVs mis sur toute la France");
 		sheet.setColumnWidth(cell.getColumnIndex(), (short) (30 * 300));
 		sheet.createRow(rowIndex++);
 
@@ -881,12 +811,11 @@ public class ExporterReportingExcelServiceImpl implements
 		for (j = 0; j < utilisateurs.size(); j++) {
 			cell = row.createCell((short) j + 2);
 			sheet.setColumnWidth(cell.getColumnIndex(), (short) (50 * 100));
-			cell.setCellValue(utilisateurs.get(j).getNom() + " "
-					+ utilisateurs.get(j).getPrenom());
+			cell.setCellValue(utilisateurs.get(j).getNom() + " " + utilisateurs.get(j).getPrenom());
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) j + 2);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csCellUser);
 
 		List<Integer> totParSourceur = new ArrayList<>();
@@ -901,9 +830,8 @@ public class ExporterReportingExcelServiceImpl implements
 			cell.setCellStyle(csRow);
 			int totale = 0;
 			for (j = 0; j < utilisateurs.size(); j++) {
-				int valeur = utilisateurService
-						.nbrCVParSourceurParRegion(utilisateurs.get(j),
-								regions.get(i), dateDebut, dateFin);
+				int valeur = utilisateurService.nbrCVParSourceurParRegion(utilisateurs.get(j), regions.get(i),
+						dateDebut, dateFin);
 				cell = row.createCell(j + 2);
 				cell.setCellValue(valeur);
 				cell.setCellStyle(csStyleNumber);
@@ -916,7 +844,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csStyleTotale);
 
 		int totSrcs = 0;
@@ -947,7 +875,7 @@ public class ExporterReportingExcelServiceImpl implements
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) i + 2);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csCellUser);
 
 		List<Integer> totParTechnologie = new ArrayList<>();
@@ -962,9 +890,8 @@ public class ExporterReportingExcelServiceImpl implements
 			cell.setCellStyle(csRow);
 			int totale = 0;
 			for (j = 0; j < technologies.size(); j++) {
-				int valeur = utilisateurService.nbrCVParOrigineParTechnologie(
-						origines.get(i), technologies.get(j), dateDebut,
-						dateFin);
+				int valeur = utilisateurService.nbrCVParOrigineParTechnologie(origines.get(i), technologies.get(j),
+						dateDebut, dateFin);
 				cell = row.createCell(j + 2);
 				cell.setCellValue(valeur);
 				cell.setCellStyle(csStyleNumber);
@@ -977,7 +904,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csStyleTotale);
 
 		int totTechngs = 0;
@@ -1007,7 +934,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 
 		cell = row.createCell((short) i + 2);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csCellUser);
 
 		List<Integer> totParCharge = new ArrayList<>();
@@ -1017,14 +944,12 @@ public class ExporterReportingExcelServiceImpl implements
 		for (i = 0; i < charges.size(); i++) {
 			row = sheet.createRow(rowIndex++);
 			cell = row.createCell(1);
-			cell.setCellValue(charges.get(i).getNom() + " "
-					+ charges.get(i).getPrenom());
+			cell.setCellValue(charges.get(i).getNom() + " " + charges.get(i).getPrenom());
 			cell.setCellStyle(csRow);
 			int totale = 0;
 			for (j = 0; j < technologies.size(); j++) {
-				int valeur = utilisateurService
-						.nbrCVParChargeParTechnologie(charges.get(i),
-								technologies.get(j), dateDebut, dateFin);
+				int valeur = utilisateurService.nbrCVParChargeParTechnologie(charges.get(i), technologies.get(j),
+						dateDebut, dateFin);
 				cell = row.createCell(j + 2);
 				cell.setCellValue(valeur);
 				cell.setCellStyle(csStyleNumber);
@@ -1037,7 +962,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csStyleTotale);
 		int totCharges = 0;
 		for (j = 0; j < totParCharge.size(); j++) {
@@ -1071,16 +996,16 @@ public class ExporterReportingExcelServiceImpl implements
 
 		Row row = null;
 		Cell cell = null;
-		
+
 		// set row index to first row
 		int rowIndex = 0;
 
 		sheet.createRow(rowIndex++);
 		sheet.createRow(rowIndex++);
-		
+
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell((short) 1);
-		
+
 		Font fontNormale = wb.createFont();
 		fontNormale.setCharSet(HSSFFont.ANSI_CHARSET);
 
@@ -1102,11 +1027,10 @@ public class ExporterReportingExcelServiceImpl implements
 		CellStyle csStyleSousTitre = wb.createCellStyle();
 		csStyleSousTitre.setFont(fontSousTitre);
 		csStyleTitre.setWrapText(true);
-		
+
 		// style for region cell
 		XSSFCellStyle csRow = wb.createCellStyle();
-		csRow.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 255,
-				(byte) 192, (byte) 0 }));
+		csRow.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 255, (byte) 192, (byte) 0 }));
 		csRow.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csRow.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csRow.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -1115,8 +1039,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csRow.setFont(fontNormale);
 
 		XSSFCellStyle csCellUser = wb.createCellStyle();
-		csCellUser.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 221, (byte) 235, (byte) 247 }));
+		csCellUser.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 221, (byte) 235, (byte) 247 }));
 		csCellUser.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csCellUser.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csCellUser.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -1133,8 +1056,7 @@ public class ExporterReportingExcelServiceImpl implements
 		csStyleNumber.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 
 		XSSFCellStyle csStyleTotale = wb.createCellStyle();
-		csStyleTotale.setFillForegroundColor(new XSSFColor(new byte[] {
-				(byte) 0, (byte) 176, (byte) 80 }));
+		csStyleTotale.setFillForegroundColor(new XSSFColor(new byte[] { (byte) 0, (byte) 176, (byte) 80 }));
 		csStyleTotale.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
 		csStyleTotale.setBorderBottom(HSSFCellStyle.BORDER_THIN);
 		csStyleTotale.setBorderTop(HSSFCellStyle.BORDER_THIN);
@@ -1150,18 +1072,18 @@ public class ExporterReportingExcelServiceImpl implements
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell((short) 1);
 		cell.setCellType(Cell.CELL_TYPE_STRING);
-		cell.setCellValue("Nombre de CVs mis par chaque sourceur dans le mois avec le nombre de CVs trouvés dans chaque outil");
+		cell.setCellValue(
+				"Nombre de CVs mis par chaque sourceur dans le mois avec le nombre de CVs trouvés dans chaque outil");
 		cell.setCellStyle(csStyleSousTitre);
 		row = sheet.createRow(rowIndex++);
 		for (j = 0; j < utilisateurs.size(); j++) {
 			cell = row.createCell((short) j + 2);
 			sheet.setColumnWidth(cell.getColumnIndex(), (short) (50 * 100));
-			cell.setCellValue(utilisateurs.get(j).getNom() + " "
-					+ utilisateurs.get(j).getPrenom());
+			cell.setCellValue(utilisateurs.get(j).getNom() + " " + utilisateurs.get(j).getPrenom());
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) j + 2);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csCellUser);
 		List<Integer> totParSrcParOrigine = new ArrayList<>();
 		for (j = 0; j < utilisateurs.size(); j++) {
@@ -1174,9 +1096,8 @@ public class ExporterReportingExcelServiceImpl implements
 			cell.setCellStyle(csRow);
 			int totale = 0;
 			for (j = 0; j < utilisateurs.size(); j++) {
-				int valeur = utilisateurService.nbrCVParSourceurParOrigine(
-						utilisateurs.get(j), origines.get(i), fromDate, toDate,
-						false);
+				int valeur = utilisateurService.nbrCVParSourceurParOrigine(utilisateurs.get(j), origines.get(i),
+						fromDate, toDate, false);
 				cell = row.createCell(j + 2);
 				cell.setCellValue(valeur);
 				cell.setCellStyle(csStyleNumber);
@@ -1189,7 +1110,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csStyleTotale);
 		int totSrcsOrigines = 0;
 		for (j = 0; j < totParSrcParOrigine.size(); j++) {
@@ -1209,18 +1130,18 @@ public class ExporterReportingExcelServiceImpl implements
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell((short) 1);
 		cell.setCellType(Cell.CELL_TYPE_STRING);
-		cell.setCellValue("Nombre de CVs hors cible par sourceur dans le mois (ce qui nous permettra de mesurer la qualité de profils mis dans l’outil)");
+		cell.setCellValue(
+				"Nombre de CVs hors cible par sourceur dans le mois (ce qui nous permettra de mesurer la qualité de profils mis dans l’outil)");
 		cell.setCellStyle(csStyleSousTitre);
 		row = sheet.createRow(rowIndex++);
 		for (j = 0; j < utilisateurs.size(); j++) {
 			cell = row.createCell((short) j + 2);
 			sheet.setColumnWidth(cell.getColumnIndex(), (short) (50 * 100));
-			cell.setCellValue(utilisateurs.get(j).getNom() + " "
-					+ utilisateurs.get(j).getPrenom());
+			cell.setCellValue(utilisateurs.get(j).getNom() + " " + utilisateurs.get(j).getPrenom());
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) j + 2);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csCellUser);
 		List<Integer> totHorsCible = new ArrayList<>();
 		for (j = 0; j < utilisateurs.size(); j++) {
@@ -1233,9 +1154,8 @@ public class ExporterReportingExcelServiceImpl implements
 			cell.setCellStyle(csRow);
 			int totale = 0;
 			for (j = 0; j < utilisateurs.size(); j++) {
-				int valeur = utilisateurService.nbrCVParSourceurParOrigine(
-						utilisateurs.get(j), origines.get(i), fromDate, toDate,
-						true);
+				int valeur = utilisateurService.nbrCVParSourceurParOrigine(utilisateurs.get(j), origines.get(i),
+						fromDate, toDate, true);
 				cell = row.createCell(j + 2);
 				cell.setCellValue(valeur);
 				cell.setCellStyle(csStyleNumber);
@@ -1248,7 +1168,7 @@ public class ExporterReportingExcelServiceImpl implements
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue("TOTAL");
+		cell.setCellValue(totalCell);
 		cell.setCellStyle(csStyleTotale);
 		int totCvsHorsCible = 0;
 		for (j = 0; j < totHorsCible.size(); j++) {

@@ -17,10 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
 
 import org.hibernate.annotations.Proxy;
 import com.fr.adaming.jsfapp.enums.CVSource;
@@ -74,13 +72,11 @@ public class Candidat implements java.io.Serializable {
 	private Boolean emailSessionEnvoyer;
 	private Boolean emailSourceurEnvoyer;
 	private Boolean emailCandidatEnvoyer;
-//	private Boolean emailCandi;
-//	private Boolean test;
-//	private Boolean testd;
-//	private Boolean tes;
-//	private Boolean ops;
-	
-	private Set<Competence> candidatCompetence = new HashSet<Competence>();
+	// private Boolean test;
+	// private Boolean testd;
+	// private Boolean tes;
+	// private Boolean ops;
+	private Set<Competence> candidatCompetence = new HashSet<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -301,12 +297,7 @@ public class Candidat implements java.io.Serializable {
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name="candidat_competence",
-    joinColumns=
-        @JoinColumn(name="candidat_id", referencedColumnName="id"),
-    inverseJoinColumns=
-        @JoinColumn(name="competence_id", referencedColumnName="id")
-    )
+	@JoinTable(name = "candidat_competence", joinColumns = @JoinColumn(name = "candidat_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "competence_id", referencedColumnName = "id"))
 	public Set<Competence> getCandidatCompetence() {
 		return candidatCompetence;
 	}
@@ -416,46 +407,6 @@ public class Candidat implements java.io.Serializable {
 	public void setCvSource(CVSource cvSource) {
 		this.cvSource = cvSource;
 	}
-//	@Column(name = "EMAIL_CANDID", nullable = true)
-//	public Boolean getEmailCandi() {
-//		return emailCandi;
-//	}
-//
-//	public void setEmailCandi(Boolean emailCandi) {
-//		this.emailCandi = emailCandi;
-//	}
-//	@Column(name = "test", nullable = true)
-//	public Boolean getTest() {
-//		return test;
-//	}
-//
-//	public void setTest(Boolean test) {
-//		this.test = test;
-//	}
-//	@Column(name="testd", nullable=true)
-//	public Boolean getTestd() {
-//		return testd;
-//	}
-//
-//	public void setTestd(Boolean testd) {
-//		this.testd = testd;
-//	}
-//	@Column(name="tes", nullable=true)
-//	public Boolean getTes() {
-//		return tes;
-//	}
-//
-//	public void setTes(Boolean tes) {
-//		this.tes = tes;
-//	}
-//	@Column(name="ops", nullable=true)
-//	public Boolean getOps() {
-//		return ops;
-//	}
-//
-//	public void setOps(Boolean ops) {
-//		this.ops = ops;
-//	}
 
 	@Override
 	public String toString() {
@@ -472,6 +423,5 @@ public class Candidat implements java.io.Serializable {
 				+ emailSourceurEnvoyer + ", emailCandidatEnvoyer=" + emailCandidatEnvoyer + ", candidatCompetence="
 				+ candidatCompetence + "]";
 	}
-	
-	
+
 }

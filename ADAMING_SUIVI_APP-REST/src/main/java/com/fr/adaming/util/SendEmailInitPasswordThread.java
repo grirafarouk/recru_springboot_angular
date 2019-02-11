@@ -1,11 +1,13 @@
 package com.fr.adaming.util;
 
+import javax.mail.MessagingException;
+
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
 public class SendEmailInitPasswordThread extends Thread {
 
-	public Utilisateur utilisateur;
-	public String url;
+	private Utilisateur utilisateur;
+	private String url;
 
 	/**
 	 * 
@@ -16,9 +18,8 @@ public class SendEmailInitPasswordThread extends Thread {
 	public void run() {
 
 		if (utilisateur != null && url != null) {
-
-			EnvoiMailUtil.sendMailInitPassword(utilisateur, url);
-
+				EnvoiMailUtil.sendMailInitPassword(utilisateur, url);
+			
 		}
 	}
 

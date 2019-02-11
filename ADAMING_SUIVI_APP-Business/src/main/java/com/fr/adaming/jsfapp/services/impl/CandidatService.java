@@ -1,8 +1,8 @@
 package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.fr.adaming.jsfapp.dao.ICandidatDao;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
@@ -27,7 +26,7 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 		ICandidatService {
 
 	/**
-	 * 
+	 * 	
 	 */
 	private static final long serialVersionUID = 8725956076501227820L;
 
@@ -38,12 +37,6 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	@Override
 	public IManagerDao<Candidat, Long> getDao() {
 		return candidatDao;
-	}
-
-	@Override
-	public List<Candidat> rechercherCandidats(CandidatDto candidatDto,
-			Boolean all) {
-		return candidatDao.rechercherCandidats(candidatDto, all);
 	}
 
 	@Override
@@ -98,15 +91,11 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 
 	@Override
 	public List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut,
-			Date DateFin) {
-		return candidatDao.rechercherSyntheseSemaine(dateDebut, DateFin);
+			Date dateFin) {
+		return candidatDao.rechercherSyntheseSemaine(dateDebut, dateFin);
 	}
 
-	// @Override
-	// public List<Candidat> rechercherReporting(ReportingCandidatDto
-	// reportingCandidatDto) {
-	// return candidatDao.rechercherReporting(reportingCandidatDto);
-	// }
+	
 
 	@Override
 	public List<Candidat> rechercherCandidatEnAttenteEvaluation() {
@@ -148,8 +137,8 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 	
 	
-	public Integer CvARelancer(UtilisateurDto charge) {
-		return candidatDao.CvARelancer(charge);
+	public Integer cvArelancer(UtilisateurDto charge) {
+		return candidatDao.cvArelancer(charge);
 	}
 	
 	@Override
@@ -163,13 +152,13 @@ public class CandidatService extends ManagerService<Candidat, Long> implements
 	}
 	
 	@Override
-	public HashMap<String, Integer> nbrCVParTechnologie(){
+	public Map<String, Integer> nbrCVParTechnologie(){
 		return candidatDao.nbrCVParTechnologie();
 	}
 	
 	@Override
-	public Integer NombreTechnologieParCandidat() {
-		return candidatDao.NombreTechnologieParCandidat();
+	public Integer nombreTechnologieParCandidat() {
+		return candidatDao.nombreTechnologieParCandidat();
 	}
 	
 	@Override

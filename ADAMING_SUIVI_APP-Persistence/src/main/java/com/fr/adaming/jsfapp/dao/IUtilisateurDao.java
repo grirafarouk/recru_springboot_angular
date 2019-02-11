@@ -1,8 +1,9 @@
 package com.fr.adaming.jsfapp.dao;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingListSourceurDto;
@@ -13,11 +14,10 @@ import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
-public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long> {
+public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long>,Serializable {
 
 	/**
-	 * Récupérer un {@link Utilisateur} a partir de son Login et son Mot de
-	 * Passe
+	 * Récupérer un {@link Utilisateur} a partir de son Login et son Mot de Passe
 	 * 
 	 * @author Elyess Tekaya
 	 * @return Utilisateur
@@ -66,38 +66,51 @@ public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long> {
 	List<Utilisateur> rechercherSourceurPourReporting();
 
 	List<Utilisateur> findAllSourceurs();
-	
+
 	List<Utilisateur> findAllCharges();
-	
+
 	Integer nbrCVParSourceurParRegion(Utilisateur utilisateur, Region region, Date dateDebut, Date dateFin);
 
 	Integer nbrCVParOrigineParTechnologie(Origine origine, Technologie technologie, Date dateDebut, Date dateFin);
-	
-	Integer nbrCVParChargeParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut, Date dateFin);
-	
-	Integer nbrCVParSourceurParOrigine(Utilisateur utilisateur, Origine origine, Date dateDebut, Date dateFin, boolean horsCible);
-	
-	Integer nbrCVParSourceur(Utilisateur utilisateur, Date dateDebut, Date dateFin, boolean horsCible, boolean disponible);
-	
-	Integer nbrCVParSourceurParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut, Date dateFin);
-	
-	Integer nbrCVParSourceurParMainframe(Utilisateur utilisateur);
-	
-	Integer nbrCVParSourceurParMainframePlus(Utilisateur utilisateur);
-	
-	Integer nbrCVParSourceurParNtic(Utilisateur utilisateur);
-	
-	Integer nbrCVParSourceurAutreTechnologie(Utilisateur utilisateur);
-	
-	List<ReportingChargeRelanceDto> rechercherChargeParRelance();
-	List<ReportingSourceurTechnologieDto> rechercherSourceurTechnologies();
-	List<ReportingListSourceurDto> rechercherReportingListSourceur();
-	List<ReportingSourceurParDispoDto> rechercherReportingSourceurParDispo(ReportingListSourceurDto utilisateur, Date dateDebut,
-			Date dateFin);
-	HashMap<String, Integer> ReportingCVParTechnologieParSourceur();
-	List<ReportingSourceurParDispoDto> rechercherReportingSourceur();
-	HashMap<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur, Date dateDebut,
+
+	Integer nbrCVParChargeParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut,
 			Date dateFin);
 
-	
+	Integer nbrCVParSourceurParOrigine(Utilisateur utilisateur, Origine origine, Date dateDebut, Date dateFin,
+			boolean horsCible);
+
+	Integer nbrCVParSourceur(Utilisateur utilisateur, Date dateDebut, Date dateFin, boolean horsCible,
+			boolean disponible);
+
+	Integer nbrCVParSourceurParTechnologie(Utilisateur utilisateur, Technologie technologie, Date dateDebut,
+			Date dateFin);
+
+	Integer nbrCVParSourceurParMainframe(Utilisateur utilisateur);
+
+	Integer nbrCVParSourceurParMainframePlus(Utilisateur utilisateur);
+
+	Integer nbrCVParSourceurParNtic(Utilisateur utilisateur);
+
+	Integer nbrCVParSourceurAutreTechnologie(Utilisateur utilisateur);
+
+	Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin);
+
+	Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut, Date dateFin);
+
+	List<ReportingChargeRelanceDto> rechercherChargeParRelance();
+
+	List<ReportingSourceurTechnologieDto> rechercherSourceurTechnologies();
+
+	List<ReportingListSourceurDto> rechercherReportingListSourceur();
+
+	List<ReportingSourceurParDispoDto> rechercherReportingSourceurParDispo(ReportingListSourceurDto utilisateur,
+			Date dateDebut, Date dateFin);
+
+	Map<String, Integer> reportingCVParTechnologieParSourceur();
+
+	List<ReportingSourceurParDispoDto> rechercherReportingSourceur();
+
+	Map<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur,
+			Date dateDebut, Date dateFin);
+
 }

@@ -1,9 +1,8 @@
 package com.fr.adaming.util;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
-
+import java.util.ResourceBundle;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -19,8 +18,8 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
-import javax.servlet.ServletContext;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -28,10 +27,8 @@ import org.springframework.stereotype.Component;
 @Component("convocationMail")
 public class ConvocationMail implements IConvocationMail {
 
-	private static final String SMTP_HOST1 = "smtp.gmail.com";
-	private static final String LOGIN_SMTP1 = "recrutement.adaming@gmail.com";
-	private static final String IMAP_ACCOUNT1 = "recrutement.adaming@gmail.com";
-	private static final String PASSWORD_SMTP1 = "recrutementAdaming2017";
+	private static final Logger LOGGER = LoggerFactory.getLogger(ConvocationMail.class);
+	ResourceBundle bundle=ResourceBundle.getBundle("properties.email");
 	private Properties properties;
 	private Session session;
 	private boolean emailEntretien;
@@ -40,15 +37,15 @@ public class ConvocationMail implements IConvocationMail {
 	public ConvocationMail() {
 		properties = new Properties();
 		properties.setProperty("mail.transport.protocol", "smtps");
-		properties.setProperty("mail.smtp.host", SMTP_HOST1);
-		properties.setProperty("mail.smtp.user", LOGIN_SMTP1);
+		properties.setProperty("mail.smtp.host", bundle.getString("SMTP_HOST1"));
+		properties.setProperty("mail.smtp.user", bundle.getString("LOGIN_SMTP1"));
 		properties.setProperty("mail.smtp.starttls.enable", "true");
-		properties.setProperty("mail.from", IMAP_ACCOUNT1);
+		properties.setProperty("mail.from", bundle.getString("IMAP_ACCOUNT1"));
 		session = Session.getInstance(properties);
 	}
 
-	public void envoyerMail(String objet, String message,
-			List<String> destinataires, String destCc, String destCcTwo,String destCcThree, List<PieceJointe> pjList) {
+	public void envoyerMail(String objet, String message, List<String> destinataires, String destCc, String destCcTwo,
+			String destCcThree, List<PieceJointe> pjList) {
 		MimeMessage msg = new MimeMessage(session);
 
 		try {
@@ -65,19 +62,18 @@ public class ConvocationMail implements IConvocationMail {
 				msg.addRecipients(Message.RecipientType.CC, destCcThree);
 			}
 			Transport transport = session.getTransport("smtp");
-			transport.connect(LOGIN_SMTP1, PASSWORD_SMTP1);
+			transport.connect(bundle.getString("LOGIN_SMTP1"),bundle.getString("PASSWORD_SMTP1"));
 			for (String dest : destinataires) {
 				msg.addRecipients(Message.RecipientType.TO, dest);
 			}
 			transport.sendMessage(msg, msg.getAllRecipients());
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.info("context",e);
 		}
 	}
 
-	private Multipart getPjsMimeMultiPart(String message,
-			List<PieceJointe> pjList) throws MessagingException {
+	private Multipart getPjsMimeMultiPart(String message, List<PieceJointe> pjList) throws MessagingException {
 		MimeMultipart multiPartMsg = new MimeMultipart();
 		MimeBodyPart mdp;
 		MimeBodyPart content = new MimeBodyPart();
@@ -89,45 +85,43 @@ public class ConvocationMail implements IConvocationMail {
 				multiPartMsg.addBodyPart(mdp);
 			}
 		}
-		if (emailEntretien||emailEntretienHorsCible) {
+		if (emailEntretien || emailEntretienHorsCible) {
 			content = new MimeBodyPart();
 			try {
-				//file = new ClassPathResource("/images/imageADM.png").getFile();
 
-				DataSource fds = new FileDataSource( new ClassPathResource("/images/imageADM.png").getFile());
+				DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds));
 				content.setHeader("Content-ID", "<image>");
 
 				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
-			content = new MimeBodyPart();
-			DataSource fds1 = new FileDataSource( new ClassPathResource("/images/facebook-icon.png").getFile());
+				multiPartMsg.addBodyPart(content);
+				content = new MimeBodyPart();
+				DataSource fds1 = new FileDataSource(new ClassPathResource("/images/facebook-icon.png").getFile());
 
-			content.setDataHandler(new DataHandler(fds1));
-			content.setHeader("Content-ID", "<imageFacebook>");
-
-				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
-			content = new MimeBodyPart();
-			DataSource fds2 = new FileDataSource( new ClassPathResource("/images/linkedin-icon.png").getFile() );
-
-			content.setDataHandler(new DataHandler(fds2));
-			content.setHeader("Content-ID", "<imageLinkedin>");
+				content.setDataHandler(new DataHandler(fds1));
+				content.setHeader("Content-ID", "<imageFacebook>");
 
 				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
-			content = new MimeBodyPart();
-			DataSource fds3 = new FileDataSource(  new ClassPathResource("/images/twitter-icon.png").getFile());
+				multiPartMsg.addBodyPart(content);
+				content = new MimeBodyPart();
+				DataSource fds2 = new FileDataSource(new ClassPathResource("/images/linkedin-icon.png").getFile());
 
-			content.setDataHandler(new DataHandler(fds3));
-			content.setHeader("Content-ID", "<imagetwitter>");
+				content.setDataHandler(new DataHandler(fds2));
+				content.setHeader("Content-ID", "<imageLinkedin>");
 
 				// add image to the multipart
-			multiPartMsg.addBodyPart(content);
+				multiPartMsg.addBodyPart(content);
+				content = new MimeBodyPart();
+				DataSource fds3 = new FileDataSource(new ClassPathResource("/images/twitter-icon.png").getFile());
+
+				content.setDataHandler(new DataHandler(fds3));
+				content.setHeader("Content-ID", "<imagetwitter>");
+
+				// add image to the multipart
+				multiPartMsg.addBodyPart(content);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				LOGGER.info("contextgetPjsMimeMultiPart",e);
 			}
 		}
 		return multiPartMsg;
@@ -135,60 +129,22 @@ public class ConvocationMail implements IConvocationMail {
 
 	private MimeBodyPart getMimeBodyPart(PieceJointe pj) {
 
-		DataSource datasource = new ByteArrayDataSource(pj.getContent()
-				.toByteArray(), pj.getMimeType());
+		DataSource datasource = new ByteArrayDataSource(pj.getContent().toByteArray(), pj.getMimeType());
 		DataHandler dataHandler = new DataHandler(datasource);
 		MimeBodyPart pjMimeBodyPart = null;
-		if (pj != null && pj.getContent() != null) {
+		if (pj.getContent() != null) {
 			try {
 				pjMimeBodyPart = new MimeBodyPart();
 				pjMimeBodyPart.setDataHandler(dataHandler);
-				pjMimeBodyPart.setFileName(StringUtils.isNotEmpty(pj
-						.getFileName()) ? pj.getFileName() : "pj");
+				pjMimeBodyPart.setFileName(StringUtils.isNotEmpty(pj.getFileName()) ? pj.getFileName() : "pj");
 			} catch (MessagingException e) {
-				e.printStackTrace();
+				LOGGER.info("contextgetMimeBodyPart",e);
 			}
 		}
 		return pjMimeBodyPart;
 	}
 
-	/**
-	 * Méthode qui construit la liste des adresses des destinataires
-	 * 
-	 * @param destinataires
-	 *            liste des destinataire
-	 * @param cc
-	 *            adresse en copie
-	 * @return liste des destinataires
-	 * @throws AddressException
-	 *             en ca d'erreur
-	 */
-	private Address[] getAddresses(List<String> destinataires, String cc, String ccTwo)
-			throws AddressException {
-		int nbAdress = destinataires.size();
-		boolean withCc = false;
-		boolean withCcTwo = false;
-		if (StringUtils.isNotEmpty(cc)) {
-			nbAdress++;
-			withCc = true;
-		}
-		if (StringUtils.isNotEmpty(ccTwo)) {
-			nbAdress++;
-			withCcTwo = true;
-		}
-		Address[] adresses = new Address[nbAdress];
-		int i = 0;
-		for (String dest : destinataires) {
-			adresses[i++] = new InternetAddress(dest);
-		}
-		if (withCc) {
-			adresses[i] = new InternetAddress(cc);
-		}
-		if (withCcTwo) {
-			adresses[i] = new InternetAddress(ccTwo);
-		}
-		return adresses;
-	}
+
 
 	public boolean isEmailEntretien() {
 		return emailEntretien;

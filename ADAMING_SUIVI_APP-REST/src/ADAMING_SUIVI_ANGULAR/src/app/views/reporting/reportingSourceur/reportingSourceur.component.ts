@@ -4,8 +4,8 @@ import { NotifierService } from "angular-notifier";
 import { ReportingSourceurService } from "../../../services/reportingSourceurService/ReportingSourceur/reportingSourceur.service";
 import { SourceurReporting } from "../../../models/SourceurReporting";
 import { ChartColors } from '../../../helper/application.constant';
+//import 'chartjs-plugin-labels';
 import 'chart.piecelabel.js';
-
 
 
 @Component({
@@ -15,7 +15,7 @@ import 'chart.piecelabel.js';
   
 })
 export class ReportingSourceurComponent implements OnInit {
-  
+  totalCv = null;
   dateFin = Date();
   dateDebut =  Date();
   currentDate = new Date();
@@ -24,6 +24,8 @@ export class ReportingSourceurComponent implements OnInit {
   pieChartData: number[] = [];
   pieChartLabels: string[]=[];
   pieChartType = 'pie';
+  chartOptions = {};
+  chartOptions2 = {};
   ChartColors : any[]=ChartColors
    autresCv = null;
    totalCVDisponible = null;
@@ -44,10 +46,12 @@ export class ReportingSourceurComponent implements OnInit {
     this.dateFin=null;
     this.reportingSourceur.findAllSourceur().subscribe(data=>{
       this.ListSourceur = data;
+      console.log(this.ListReporting);
     })
 
     this.reportingSourceur.findReportingSourceur().subscribe(data=>{
       this.ListReporting = data;
+      console.log(this.ListReporting);
       for( let i=0; i<this.ListReporting.length; i++)
       {      
           this.autresCv = this.autresCv + this.ListReporting[i].autre,
@@ -56,37 +60,42 @@ export class ReportingSourceurComponent implements OnInit {
       }
       this.pieChart2Data=[this.autresCv, this.totalCVDisponible, this.totalCVhorsCible]
     })
- 
     this.getChart();
  
   }
 
-  chartOptions = {
-    pieceLabel: {
-      render: function (args) {
-        const value = args.value;
-        var tooltipPercentage = Math.round((value / 40958) * 100)
-        return tooltipPercentage + '%';
-      }
-    }
-  }
-
-  chartOptions2 = {
-    pieceLabel: {
-      render: function (args) {
-        const value = args.value;
-        var tooltipPercentage = Math.round((value / 38715) * 100)
-        return tooltipPercentage + '%';
-      }
-    }
-  }
-
-
+  
 
   rechercherReportingSourceur(sourceur){
     this.autresCv = 0;
     this.totalCVDisponible = 0;
     this.totalCVhorsCible = 0;
+    this.reportingSourceur.getNbrTechnologieSourceur(sourceur,this.dateDebut,this.dateFin).subscribe(result => {
+      console.log(sourceur);
+      console.log(this.dateDebut);
+      this.chartOptions = {
+        pieceLabel: {
+          render: function (args) {
+            const value = args.value;
+            var tooltipPercentage = Math.round((value / result) * 100)
+            return tooltipPercentage + '%';
+          }
+        }
+      }
+    });
+    this.reportingSourceur.getNbrTotalCvParCandidat(sourceur,this.dateDebut,this.dateFin).subscribe(result => {
+      console.log(sourceur);
+      console.log(this.dateDebut);
+      this.chartOptions2 = {
+        pieceLabel: {
+          render: function (args) {
+            const value = args.value;
+            var tooltipPercentage = Math.round((value / result) * 100)
+            return tooltipPercentage + '%';
+          }
+        }
+      }
+    });
     this.reportingSourceur.rechercheReportingSourceur(this.sourceur,this.dateDebut,this.dateFin).subscribe(data =>{
       this.ListReporting = data;
       for( let i=0; i<this.ListReporting.length; i++)
@@ -114,6 +123,29 @@ export class ReportingSourceurComponent implements OnInit {
   }
 
   private getChart(){
+    this.reportingSourceur.getNbrTechnologie().subscribe(result => {
+      this.chartOptions = {
+        pieceLabel: {
+          render: function (args) {
+            const value = args.value;
+            var tooltipPercentage = Math.round((value / result) * 100)
+            return tooltipPercentage + '%';
+          }
+        }
+      }
+    });
+    this.reportingSourceur.getNbrTotalCv().subscribe(result => {
+
+      this.chartOptions2 = {
+        pieceLabel: {
+          render: function (args) {
+            const value = args.value;
+            var tooltipPercentage = Math.round((value / result) * 100)
+            return tooltipPercentage + '%';
+          }
+        }
+      }
+    });
     this.reportingSourceur.getChartTechnologies().subscribe(result => { 
       this.pieChartData = Object.values(result);
       for(var i=0;i<Object.keys(result).length;i++){

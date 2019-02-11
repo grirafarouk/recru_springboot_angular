@@ -5,35 +5,32 @@ import java.util.ResourceBundle;
 public interface IConstants {
 	ResourceBundle messageBundle = ResourceBundle.getBundle("MessageResource");
 
-	
-
-	public static final String Profil_Ap = "Profil_Ap";
-	public static final String Profil_FR = "Profil_FR";
-	public static final String resourcesPath = "resources/img/default_avatar.png";
-	public static final String imagePng = "image/png";
-	public static final String URL_APP = messageBundle
-			.getString("url.application");
+	public static final String PROFIL_AP = "Profil_Ap";
+	public static final String PROFIL_FR = "Profil_FR";
+	public static final String RECOURCES_PATH = "resources/img/default_avatar.png";
+	public static final String IMAGE_PNG = "image/png";
+	public static final String URL_APP = messageBundle.getString("url.application");
 
 	public interface projectName {
-		public static final String conseil = "adaming-conseil";
-		public static final String ingenierie = "adaming-ing";
-		public static final String tunisie = "adaming-tunisie";
-		public static final String service ="adaming-service";
+		public static final String CONSEIL = "adaming-conseil";
+		public static final String INGENIERIE = "adaming-ing";
+		public static final String TUNISIE = "adaming-tunisie";
+		public static final String SERVICE = "adaming-service";
 	}
 
-	public static final String png = ".png";
-	public static final String jpeg = ".jpeg";
-	public static final String jpg = ".jpg";
-	public static final String gif = ".gif";
-	public static final String PNG = ".PNG";
-	public static final String JPEG = ".JPEG";
-	public static final String JPG = ".JPG";
-	public static final String GIF = ".GIF";
+	public static final String PNG_MIN = ".png";
+	public static final String JPEG_MIN = ".jpeg";
+	public static final String JPG_MIN = ".jpg";
+	public static final String GIF_MIN = ".gif";
+	public static final String PNG_MAJ = ".PNG";
+	public static final String JPEG_MAJ = ".JPEG";
+	public static final String JPG_MAJ = ".JPG";
+	public static final String GIF_MAJ = ".GIF";
 
 	public static final String AD = "AD";
 	public static final String AP = "AP";
 
-	public interface typeJour {
+	public interface TypeJour {
 		public static final int TRAVAIL = 1;
 		public static final int FORMATION = 2;
 		public static final int FERIER = 3;
@@ -49,7 +46,7 @@ public interface IConstants {
 		public static final String FACTURE_EXTERNE = "Facture Externe";
 	}
 
-	public interface periodeEssai {
+	public final class PeriodeEssai {
 		public static final String NULL = "...";
 		public static final String UNMOIS = "Un mois";
 		public static final String DEUXMOIS = "Deux mois";
@@ -59,21 +56,21 @@ public interface IConstants {
 		public static final String UNAN = "Un an";
 
 	}
-	
-	public interface statutCollaborateur {
-		
-		public static final String CADRE="Cadre";
-		public static final String ETAM="Etam";
-		
+
+	public final class StatutCollaborateur {
+
+		public static final String CADRE = "Cadre";
+		public static final String ETAM = "Etam";
+
 	}
 
-	public interface GROUPE_CLIENT {
+	public final class GroupeCLIENT {
 		public static final String SOPRA = "SOPRA STERIA";
 		public static final String INFOTEL = "INFOTEL";
 		public static final String AUTRES = "Autres";
 	}
 
-	public interface ALERTE {
+	public final class ALERTE {
 		public static final int ALERTE_CONTRAT = 1;
 		public static final int ALERTE_INSCRIPTION_COL = 2;
 		public static final int CRA_MODIF = 3;
@@ -83,14 +80,14 @@ public interface IConstants {
 
 	}
 
-	public interface PARAM_FACTURE {
-		public static final Float TVA = new Float(20);
+	public final class ParamFacture {
+		public static final Float TVA = Float.valueOf(20);
 		public static final int DUREE_ECHEANCE = 45;
 		public static final String LIBELLE_GRATUIT = "Nombre de jour gratuit";
 
 	}
 
-	public interface PARAM {
+	public final class PARAM {
 		public static final String RIB = "RIB";
 		public static final String DOMICILLIATION = "DOMICILLIATION";
 		public static final String TITULAIRE = "TITULAIRE";
@@ -98,17 +95,17 @@ public interface IConstants {
 		public static final String INDEMNITE_RETARD_PAIEMENT = "INDEMNITE_RETARD_PAIEMENT";
 	}
 
-	public interface PORFIL {
+	public final class PORFIL {
 		public static final String PROFIL_RH = "PROFIL_RH";
 		public static final String PROFIL_COLL = "PROFIL_COLL";
 		public static final String PROFIL_CLIENT = "PROFIL_CLIENT";
-		public static final String Profil_SUP_ADMIN = "Profil_SUP_ADMIN";
-		public static final String Profil_COMMERCIAL = "PROFIL_CM";
-		public static final String Profil_AGENT = "PROFIL_AGENT";
-		public static final String Profil_COMPTABLE ="PROFIL_COMPTABLE";
+		public static final String PROFIL_SUP_ADMIN = "Profil_SUP_ADMIN";
+		public static final String PROFIL_COMMERCIAL = "PROFIL_CM";
+		public static final String PROFIL_AGENT = "PROFIL_AGENT";
+		public static final String PROFIL_COMPTABLE = "PROFIL_COMPTABLE";
 	}
 
-	public interface TYPE_SEANCE {
+	public final class TypeSeance {
 		public static final String TRAVAIL = "P";
 		public static final String FORMATION = "F";
 		public static final String FERIER = "Fe";
@@ -119,18 +116,17 @@ public interface IConstants {
 
 	}
 
-	public interface TYPE_CONGE{
-		
-		public static final String CONGEPAYE="CP";
-		public static final String CONGESANSSOLDE="CSS";
-		public static final String CONGEDECES="DC";
-		public static final String CONGEMARIAGE="CM";
-		public static final String AUTRE="Autre";
+	public final class TypeConge {
 
-		
+		public static final String CONGEPAYE = "CP";
+		public static final String CONGESANSSOLDE = "CSS";
+		public static final String CONGEDECES = "DC";
+		public static final String CONGEMARIAGE = "CM";
+		public static final String AUTRE = "Autre";
+
 	}
-	
-	public interface COMPETENCE_COLLAB {
+
+	public final class CompetenceCollab {
 		public static final String JAVA = "JAVA";
 		public static final String MAINFRAME = "Mainframe";
 		public static final String TEST_RECETTE = "Test/Recette";
@@ -144,13 +140,13 @@ public interface IConstants {
 
 	}
 
-	public interface TYPE {
+	public final class TYPE {
 		public static final String Matin = "Séance matin";
 		public static final String APREM = "Séance après-midi";
 		public static final String TOUTE = "Toute la journée";
 	}
 
-	public interface LIBELLE {
+	public final class LIBELLE {
 		public static final String NBR_JR_TRAVAIL = "Les jours travaillés";
 		public static final String NBR_JR_SAMEDI = "Les samedis travaillés";
 		public static final String NBR_JR_DIMANCHE = "Les dimanches travaillés";
@@ -161,7 +157,7 @@ public interface IConstants {
 		public static final String NBR_AUTRE = "Autres";
 	}
 
-	public interface TYPE_ETABLISSEMENT {
+	public final class TypeEtablissment {
 		public static final String ADA_ING = "Adaming Ingénierie";
 		public static final String ADA_SER = "Adaming Service";
 		public static final String GR_ADA = "Groupe Adaming";
@@ -170,11 +166,15 @@ public interface IConstants {
 
 	}
 
-	public interface LIEN_APP {
-		public static final String path = "http://188.165.118.132:8083/AdamingCras";
+	public final class LienApp {
+		public static final String PATH = "http://188.165.118.132:8083/AdamingCras";
 	}
 
-	public class ContextParams {
+	public final class ContextParams {
+		private ContextParams() {
+			throw new IllegalStateException("ContextParams class");
+		}
+
 		// JSF context params
 		public static final String INTERPRET_EMPTY_STRING_AS_NULL = "javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL";
 
@@ -191,6 +191,10 @@ public interface IConstants {
 	}
 
 	public class RequestParams {
+		private RequestParams() {
+			throw new IllegalStateException("RequestParams class");
+		}
+
 		// JSF request params
 		public static final String PARTIAL_REQUEST_PARAM = "javax.faces.partial.ajax";
 		public static final String PARTIAL_UPDATE_PARAM = "javax.faces.partial.render";
@@ -202,45 +206,51 @@ public interface IConstants {
 		public static final String RESET_VALUES_PARAM = "primefaces.resetvalues";
 		public static final String IGNORE_AUTO_UPDATE_PARAM = "primefaces.ignoreautoupdate";
 	}
-	
-	
-	public class TypeMessage{
-		
-		public static final String DEMANDE_DOCUMENT="Demande de document";
-		public static final String DEMANDE_INFORMATION ="Demande d’information";
-		public static final String DEMANDE_PRISE_RENDEZ_VOUS="Demande de rendez-vous";
-		public static final String AUTRES_DEMANDES="Autres Demandes";
-		public static final String BUGUE="Bugue";
+
+	public class TypeMessage {
+		private TypeMessage() {
+			throw new IllegalStateException("TypeMessage class");
+		}
+
+		public static final String DEMANDE_DOCUMENT = "Demande de document";
+		public static final String DEMANDE_INFORMATION = "Demande d’information";
+		public static final String DEMANDE_PRISE_RENDEZ_VOUS = "Demande de rendez-vous";
+		public static final String AUTRES_DEMANDES = "Autres Demandes";
+		public static final String BUGUE = "Bugue";
 	}
 
-	public class EtatDemande{
-		
-		public static final String ETAT_ENCOURS="En Cours";
-		public static final String ETAT_IMPORTANT ="Important";
-		public static final String ETAT_TRAITEE="Traitée";
-		public static final String ETAT_CLOTUREE="Clôturée";
+	public class EtatDemande {
+		private EtatDemande() {
+			throw new IllegalStateException("EtatDemande class");
+		}
+
+		public static final String ETAT_ENCOURS = "En Cours";
+		public static final String ETAT_IMPORTANT = "Important";
+		public static final String ETAT_TRAITEE = "Traitée";
+		public static final String ETAT_CLOTUREE = "Clôturée";
 	}
+
 	public static final String DOWNLOAD_COOKIE = "primefaces.download";
 
-	public final static String LIBRARY = "primefaces";
+	public static final String LIBRARY = "primefaces";
 
-	public final static String CUSTOM_EVENT = "CUSTOM_EVENT";
+	public static final String CUSTOM_EVENT = "CUSTOM_EVENT";
 
-	public final static String PUSH_PATH = "/primepush";
+	public static final String PUSH_PATH = "/primepush";
 
 	public static final String DYNAMIC_CONTENT_PARAM = "pfdrid";
 	public static final String DYNAMIC_CONTENT_CACHE_PARAM = "pfdrid_c";
 
-	public final static String FRAGMENT_ID = "primefaces.fragment";
-	public final static String FRAGMENT_AUTO_RENDERED = "primefaces.fragment.autorendered";
+	public static final String FRAGMENT_ID = "primefaces.fragment";
+	public static final String FRAGMENT_AUTO_RENDERED = "primefaces.fragment.autorendered";
 
-	public final static String DIALOG_OUTCOME = "dialog.outcome";
-	public final static String DIALOG_OPTIONS = "dialog.options";
-	public final static String DIALOG_PARAMS = "dialog.params";
-	public final static String DIALOG_SOURCE_COMPONENT = "dialog.source.component";
-	public final static String DIALOG_SOURCE_WIDGET = "dialog.source.widget";
-	public final static String DIALOG_CONVERSATION_PARAM = "pfdlgcid";
-	public final static String ADRESSE_MAIL_DEMANDE_CRA ="mfrikha@adaming.fr";
-	public final static String ADRESSE_MAIL_COMPTABLE="mohamedanowar.frikha@gmail.com";
+	public static final String DIALOG_OUTCOME = "dialog.outcome";
+	public static final String DIALOG_OPTIONS = "dialog.options";
+	public static final String DIALOG_PARAMS = "dialog.params";
+	public static final String DIALOG_SOURCE_COMPONENT = "dialog.source.component";
+	public static final String DIALOG_SOURCE_WIDGET = "dialog.source.widget";
+	public static final String DIALOG_CONVERSATION_PARAM = "pfdlgcid";
+	public static final String ADRESSE_MAIL_DEMANDE_CRA = "mfrikha@adaming.fr";
+	public static final String ADRESSE_MAIL_COMPTABLE = "mohamedanowar.frikha@gmail.com";
 
 }

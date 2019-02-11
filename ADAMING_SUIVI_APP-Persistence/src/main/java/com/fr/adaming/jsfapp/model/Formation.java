@@ -25,11 +25,7 @@ public class Formation implements java.io.Serializable {
 	private Lieu lieu;
 	private TypeFormation typeFormation;
 	private Technologie technologie;
-
-	public Formation() {
-
-	}
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)

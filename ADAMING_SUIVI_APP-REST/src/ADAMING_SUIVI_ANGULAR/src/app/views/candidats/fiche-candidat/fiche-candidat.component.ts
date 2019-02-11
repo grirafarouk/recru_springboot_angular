@@ -374,7 +374,7 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private envoiMailHorCibleFunction() {
-    if (this.currentCandidat.motif != undefined && this.currentCandidat.motif != undefined) {
+    if (this.currentCandidat.motif != null && this.currentCandidat.motif != undefined) {
       this.candidatsService.envoyerEmailHorsCibleCandidats(this.currentCandidat, this.userService.getConnetedUserInfo().login, this.commentaireMotif).subscribe(data => {
         this.notifierService.notify("success", "Mail envoyé avec succès");
         this.currentCandidat.motif = new Motif();

@@ -63,6 +63,7 @@ export class SessionsFormationsCloturesComponent implements OnInit {
       this.formations = data;
       this.sessionFormationEnCoursService.getSessionFormationClotures(this.session).subscribe(data => {
         this.sessionFormations = data;
+        console.log(this.sessionFormations);
         this.sessionFormations.forEach(element => {
           this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
             element.nombreParticipants = data;
@@ -90,4 +91,5 @@ export class SessionsFormationsCloturesComponent implements OnInit {
       else this.isCollapsed[index] = true;
     }
   }
+
 }

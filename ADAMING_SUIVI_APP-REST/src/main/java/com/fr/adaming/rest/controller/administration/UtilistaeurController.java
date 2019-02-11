@@ -5,14 +5,20 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fr.adaming.jsfapp.dto.UtilisateurDto;
+import com.fr.adaming.jsfapp.mapper.UtilisateurMapper;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
@@ -28,7 +34,9 @@ public class UtilistaeurController {
 	@Autowired
 	private IUtilisateurService utilisateurService;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	private UtilisateurMapper utilisateurMapper = Mappers.getMapper(UtilisateurMapper.class);
+
+	@GetMapping("/all")
 	public Collection<Utilisateur> findAll() {
 		return utilisateurService.findAll();
 	}
@@ -37,88 +45,93 @@ public class UtilistaeurController {
 		return utilisateurService.merge(entity);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public Utilisateur create(@RequestBody Utilisateur entity) throws NoSuchAlgorithmException {
-		entity.setActif(true);
-		entity.setDateCreation(new Date());
-		entity.setDateModificationMotPasse(new Date());
-		entity.setExpire(false);
-		entity.setPassword(Utilitaire.hashMD5Crypt(entity.getPassword()));
-		return utilisateurService.create(entity);
+	@PostMapping("/add")
+	public UtilisateurDto create(@RequestBody UtilisateurDto utilisateurDto) throws NoSuchAlgorithmException {
+		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		utilisateur.setActif(true);
+		utilisateur.setDateCreation(new Date());
+		utilisateur.setDateModificationMotPasse(new Date());
+		utilisateur.setExpire(false);
+		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()).toString());
+		utilisateur = utilisateurService.create(utilisateur);
+		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Utilisateur Update(@RequestBody Utilisateur entity) {
-		entity.setDateModificationMotPasse(new Date());
-		return utilisateurService.update(entity);
+	@PostMapping("/update")
+	public UtilisateurDto update(@RequestBody UtilisateurDto utilisateurDto) {
+		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		utilisateur.setDateModificationMotPasse(new Date());
+		utilisateur = utilisateurService.update(utilisateur);
+		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping("/{id}")
 	public Utilisateur findById(@PathVariable Long id) {
 		return utilisateurService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	public void delete(@RequestBody Utilisateur entity) {
-		utilisateurService.delete(entity);
+	@DeleteMapping("")
+	public void delete(@RequestBody UtilisateurDto utilisateurDto) {
+		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		utilisateurService.delete(utilisateur);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping("/{id}")
 	public void deleteById(@PathVariable Long id) {
 		utilisateurService.deleteById(id);
 	}
 
-	@RequestMapping(value = "/login={login}passw={passw}", method = RequestMethod.GET)
+	@GetMapping("/login={login}passw={passw}")
 	public Utilisateur findByLoginPass(@PathVariable String login, @PathVariable String passw) {
 		return utilisateurService.findByLoginPass(login, passw);
 	}
 
-	@RequestMapping(value = "/username/{login}", method = RequestMethod.GET)
+	@GetMapping("/username/{login}")
 	public Utilisateur findbyUsernameSpringS(@PathVariable String login) {
 		return utilisateurService.findbyUsernameSpringS(login);
 	}
 
-	@RequestMapping(value = "/login={login}/id={idUser}", method = RequestMethod.GET)
+	@GetMapping("/login={login}/id={idUser}")
 	public Utilisateur findByLoginAndIdUser(@PathVariable String login, @PathVariable Long idUser) {
 		return utilisateurService.findByLoginAndIdUser(login, idUser);
 	}
 
-	@RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
+	@GetMapping("/login/{login}")
 	public Utilisateur findByLogin(@PathVariable String login) {
 		return utilisateurService.findByLogin(login);
 	}
 
-	@RequestMapping(value = "/email/{email}/", method = RequestMethod.GET)
+	@GetMapping("/email/{email}/")
 	public Utilisateur findByEmail(@PathVariable String email) {
 		return utilisateurService.findByEmail(email);
 	}
 
-	@RequestMapping(value = "/actif", method = RequestMethod.GET)
+	@GetMapping("/actif")
 	public List<Utilisateur> findAllUserActif() {
 		return utilisateurService.findAllUserActif();
 	}
 
-	@RequestMapping(value = "/usercharge", method = RequestMethod.GET)
+	@GetMapping("/usercharge")
 	public List<Utilisateur> findAllUserCharge() {
 		return utilisateurService.findAllUserCharge();
 	}
 
-	@RequestMapping(value = "/usersourceur", method = RequestMethod.GET)
+	@GetMapping("/usersourceur")
 	public List<Utilisateur> findAllUserSourceur() {
 		return utilisateurService.findAllUserSourceur();
 	}
 
-	@RequestMapping(value = "/sourceur", method = RequestMethod.GET)
+	@GetMapping("/sourceur")
 	public List<Utilisateur> findAllSourceurs() {
 		return utilisateurService.findAllSourceurs();
 	}
 
-	@RequestMapping(value = "/charge", method = RequestMethod.GET)
+	@GetMapping("/charge")
 	public List<Utilisateur> findAllCharges() {
 		return utilisateurService.findAllCharges();
 	}
 
-	@RequestMapping(value = "/sourceurpourreporting", method = RequestMethod.GET)
+	@GetMapping("/sourceurpourreporting")
 	public List<Utilisateur> rechercherSourceurPourReporting() {
 		return utilisateurService.rechercherSourceurPourReporting();
 	}

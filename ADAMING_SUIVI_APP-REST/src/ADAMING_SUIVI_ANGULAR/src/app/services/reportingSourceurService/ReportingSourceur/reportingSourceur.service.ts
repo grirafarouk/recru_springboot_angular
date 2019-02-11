@@ -26,6 +26,42 @@ export class ReportingSourceurService {
   getChartTechnologies(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/ReportingSourceur/mapTechnologieParSourceur");
   }
+
+  getNbrTotalCvParCandidat(sourceur,dateDebut,dateFin): Observable<any> {
+    var url = "/ReportingSourceur/nbrTotalCvParCandidat";
+    if (dateDebut != null && dateDebut != undefined) {
+      url += "?dateDebut=" + dateDebut.getTime();
+      if (dateFin != null && dateFin != undefined)
+        url += "&dateFin=" + dateFin.getTime();
+    }
+    else  if (dateFin != null && dateFin != undefined){
+      url += "?dateFin=" + dateFin.getTime();
+    }
+    return this.httpClient.post(BACK_END_URL + url,sourceur,httpOptions);
+  }
+
+  getNbrTotalCv(): Observable<any> {
+    return this.httpClient.get(BACK_END_URL + "/ReportingSourceur/nbrTotalCV");
+  }
+
+  getNbrTechnologieSourceur(sourceur,dateDebut,dateFin): Observable<any> {
+    var url = "/ReportingSourceur/nbrTotalTechnologieSourceur";
+    if (dateDebut != null && dateDebut != undefined) {
+      url += "?dateDebut=" + dateDebut.getTime();
+      if (dateFin != null && dateFin != undefined)
+        url += "&dateFin=" + dateFin.getTime();
+    }
+    else  if (dateFin != null && dateFin != undefined){
+      url += "?dateFin=" + dateFin.getTime();
+    }
+    return this.httpClient.post(BACK_END_URL+url,sourceur,httpOptions);
+  }
+
+  getNbrTechnologie(): Observable<any> {
+    var url = "/ReportingSourceur/nbrTotalTechnologie";
+    return this.httpClient.get(BACK_END_URL+url);
+  }
+
   rechercheReportingSourceur(sourceur, dateDebut, datFin): Observable<any> {
     var url = "/ReportingSourceur/RechercheReportingSourceur";
     if (dateDebut != null && dateDebut != undefined) {
