@@ -114,6 +114,7 @@ export class FiliereComponent implements OnInit {
     this.sessionFormationService.updateSession(sessionF).subscribe(data => {
 
     })
+
   }
 
   showFormationModal(){

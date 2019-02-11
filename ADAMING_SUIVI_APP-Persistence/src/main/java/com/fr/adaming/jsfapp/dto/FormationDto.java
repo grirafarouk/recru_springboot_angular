@@ -6,7 +6,7 @@ import com.fr.adaming.jsfapp.model.Lieu;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.TypeFormation;
 
-public class FormationDto  implements Serializable{
+public class FormationDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -15,9 +15,6 @@ public class FormationDto  implements Serializable{
 	private Lieu lieu;
 	private TypeFormation typeFormation;
 	private Technologie technologie;
-
-	public FormationDto() {
-	}
 
 	public Long getId() {
 		return id;
@@ -59,7 +56,6 @@ public class FormationDto  implements Serializable{
 		this.typeFormation = typeFormation;
 	}
 
-
 	public Technologie getTechnologie() {
 		return technologie;
 	}
@@ -89,7 +85,7 @@ public class FormationDto  implements Serializable{
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
+				  return false;
 		return true;
 	}
 

@@ -13,7 +13,7 @@ import com.fr.adaming.jsfapp.model.TypeFormation;
 public interface TypeFormationMapper {
 	List<TypeFormationDto> typeFormationsToTypeFormationDtos(List<TypeFormation> typeFormations);
 
-	List<TypeFormation> TypeFormationDtosToTypeFormations(List<TypeFormationDto> typeFormationDtos);
+	List<TypeFormation> typeFormationDtosToTypeFormations(List<TypeFormationDto> typeFormationDtos);
 
 	@Mappings({ @Mapping(source = "id", target = "id"), @Mapping(source = "libelle", target = "libelle") })
 

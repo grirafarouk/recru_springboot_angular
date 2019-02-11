@@ -46,8 +46,37 @@ public class Suivi implements java.io.Serializable {
 	private String commentaire;
 	private Set<Region> regions;
 
+
 	public Suivi() {
+		super();
 	}
+	
+
+	public Suivi(Long id, Utilisateur charge, Boolean mobilite, Boolean relance, Integer anglais, Date dateRelance,
+			Double notePresentation, Double noteSavoir, Double noteFiabilite, Double noteAttrait, Double notePret,
+			Double noteMobilite, Double noteResultat, Double noteCoherence, Double notePistes, String commentaire,
+			Set<Region> regions) {
+		super();
+		this.id = id;
+		this.charge = charge;
+		this.mobilite = mobilite;
+		this.relance = relance;
+		this.anglais = anglais;
+		this.dateRelance = dateRelance;
+		this.notePresentation = notePresentation;
+		this.noteSavoir = noteSavoir;
+		this.noteFiabilite = noteFiabilite;
+		this.noteAttrait = noteAttrait;
+		this.notePret = notePret;
+		this.noteMobilite = noteMobilite;
+		this.noteResultat = noteResultat;
+		this.noteCoherence = noteCoherence;
+		this.notePistes = notePistes;
+		this.commentaire = commentaire;
+		this.regions = regions;
+	}
+
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

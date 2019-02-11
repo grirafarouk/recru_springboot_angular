@@ -114,7 +114,7 @@
                         <td [ngStyle]="{'color' :( rep.taux < 80 )?'#ff6666' :''}">{{rep.nomSourceur}}</td>
                         <td style=" text-align: center;  ">{{rep.nbrTotal}}</td>
                         <td style=" text-align: center;  ">{{rep.nbrDsipo}}</td>
-                        <td style=" text-align: center;  " [class]="rep.taux_hors<20 ?'table-success':'table-danger'">{{rep.nbrHors}}</td>
+                        <td style=" text-align: center;  " [class]="rep.tauxHors<20 ?'table-success':'table-danger'">{{rep.nbrHors}}</td>
                         <td style=" text-align: center;  "  [class]="rep.taux>80 ?'table-success':'table-danger'">{{rep.taux}} %</td>
                         
                       </tr>

@@ -5,7 +5,10 @@ import java.util.Collection;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,49 +29,49 @@ public class MotifController {
 
 	private MotifMapper motifMapper = Mappers.getMapper(MotifMapper.class);
 
-	@RequestMapping(value = "/libelle/{libelle}", method = RequestMethod.GET)
+	@GetMapping(path = "/libelle/{libelle}")
 	public Motif rechercheMotifParLibelle(@PathVariable String libelle) {
 		return motifService.rechercheMotifParLibelle(libelle);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@PostMapping(path = "/add")
 	public MotifDto create(@RequestBody MotifDto motifDto) {
 		Motif motif = motifMapper.motifDtoToMotif(motifDto);
 		motif = motifService.create(motif);
 		return motifMapper.motifToMotifDto(motif);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping(path = "/update")
 	public MotifDto update(@RequestBody MotifDto motifDto) {
 		Motif motif = motifMapper.motifDtoToMotif(motifDto);
 		motif = motifService.update(motif);
 		return motifMapper.motifToMotifDto(motif);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@PostMapping(path = "")
 	public MotifDto createOrUpdate(@RequestBody MotifDto motifDto) {
 		Motif motif = motifMapper.motifDtoToMotif(motifDto);
 		motif = motifService.createOrUpdate(motif);
 		return motifMapper.motifToMotifDto(motif);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(path = "/{id}")
 	public Motif findById(@PathVariable Long id) {
 		return motifService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(path = "")
 	public Collection<Motif> findAll() {
 		return motifService.findAll();
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
+	@DeleteMapping(path = "")
 	public void delete(@RequestBody MotifDto motifDto) {
 		Motif motif = motifMapper.motifDtoToMotif(motifDto);
 		motifService.delete(motif);
 	}
 
-	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(path = "{id}")
 	public void deleteById(@PathVariable Long id) {
 		motifService.deleteById(id);
 	}

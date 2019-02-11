@@ -4,32 +4,30 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
-import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
-import com.fr.adaming.jsfapp.model.V_ListeCandidats;
+import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
+import com.fr.adaming.jsfapp.model.VListeCandidats;
 
-public interface IV_ListeCandidatsService extends IManagerService<V_ListeCandidats, Long> {
+public interface IV_ListeCandidatsService extends IManagerService<VListeCandidats, Long> {
 
-	public Integer rechercherCandidatAvecEntretienNbr(V_ListeCandidatsDto v_ListeCandidatsDto, Boolean all);
+	public Integer rechercherCandidatAvecEntretienNbr(VListeCandidatsDto vListeCandidatsDto, Boolean all);
 
-	public Integer rechercherV_ListeCandidatsARelancerNbr(@RequestBody V_ListeCandidatsDto NCD);
-	
-	public List<V_ListeCandidats> rechercherCandidatAvecEntretien(V_ListeCandidatsDto v_ListeCandidatsDto, int page, int size,
-			Boolean all);
+	public Integer rechercherV_ListeCandidatsARelancerNbr(@RequestBody VListeCandidatsDto NCD);
 
+	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto v_ListeCandidatsDto, int page,
+			int size, Boolean all);
 
-	public List<V_ListeCandidats> rechercherV_ListeCandidatsARelancer(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
+	public List<VListeCandidats> rechercherV_ListeCandidatsARelancer(VListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);
-	
-	List<V_ListeCandidats> rechercherNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto);
 
+	List<VListeCandidats> rechercherNouveauxCandidats(VListeCandidatsDto v_ListeCandidatsDto);
 
-	public List<V_ListeCandidats> rechercherV_ListeCandidats(V_ListeCandidatsDto v_ListeCandidatsDto, int page, int size);
+	public List<VListeCandidats> rechercherV_ListeCandidats(VListeCandidatsDto v_ListeCandidatsDto, int page, int size);
 
-	public Integer rechercherV_ListeCandidatsNbr(V_ListeCandidatsDto v_ListeCandidatsDto);
-	
-	public List<V_ListeCandidats> rechercherV_ListeNouveauxCandidats(V_ListeCandidatsDto v_ListeCandidatsDto, int page,
+	public Integer rechercherV_ListeCandidatsNbr(VListeCandidatsDto v_ListeCandidatsDto);
+
+	public List<VListeCandidats> rechercherV_ListeNouveauxCandidats(VListeCandidatsDto v_ListeCandidatsDto, int page,
 			int size);
-	
-	public Integer rechercherV_ListeNouveauxCandidatsNbr(V_ListeCandidatsDto v_ListeCandidatsDto);
+
+	public Integer rechercherV_ListeNouveauxCandidatsNbr(VListeCandidatsDto v_ListeCandidatsDto);
 
 }

@@ -9,31 +9,26 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
-
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ICandidatDao;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
 import com.fr.adaming.jsfapp.dto.SyntheseCandidatDto;
 import com.fr.adaming.jsfapp.dto.UtilisateurDto;
-import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
@@ -41,148 +36,26 @@ import com.fr.adaming.jsfapp.utils.DateUtils;
 
 @Repository("candidatDao")
 public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidatDao {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 855012502334886128L;
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-	@Override
-	public List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all) {
+	private static final String dateHeure = " 00:00:00' AND '";
+	private static final String dateHeure2 = " 23:59:59'";
+	private static final String technologie = "technologie";
+	private static final String totalCandidat = "totalCandidat";
+	private static final String posRegion = "pos.region";
+	private static final String regionR = "region";
 
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		if (candidatDto != null) {
-			if (candidatDto.getId() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "id", candidatDto.getId());
-			}
-			if (candidatDto.getNom() != null) {
-				DaoUtils.addLikeRestrictionIfNotNull(crit, "nom", candidatDto.getNom());
-			}
-			if (candidatDto.getPrenom() != null) {
-				DaoUtils.addLikeRestrictionIfNotNull(crit, "prenom", candidatDto.getPrenom());
-			}
-			if (candidatDto.getEmail() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "email", candidatDto.getEmail().trim());
-			}
-			if (candidatDto.getNumeroTel() != null) {
-				/*
-				 * Récupérer Numéro de Téléphone sans caractère "-" Gérer le problème de
-				 * insertion de donnée mal insert au niveau de base
-				 */
-				String telSlipt = candidatDto.getNumeroTel().replace("-", "");
-				/*
-				 * exemple in = 33-63-79-41-23 , out =3363794123 , rechercher par or SQL
-				 */
-				crit.add(Restrictions.or(Restrictions.like("numeroTel", telSlipt, MatchMode.ANYWHERE),
-						Restrictions.like("numeroTel", candidatDto.getNumeroTel(), MatchMode.ANYWHERE)));
-			}
-			if (candidatDto.getDateInscription() != null) {
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(candidatDto.getDateInscription());
-				calendar.set(Calendar.HOUR_OF_DAY, 0);
-				calendar.set(Calendar.MINUTE, 0);
-				calendar.set(Calendar.SECOND, 0);
-				Date fromDate = calendar.getTime();
+	private static final String TEL = "numeroTel";
+	private static final String DATE_INSCRIPTION = "dateInscription";
+	private static final String CODE_POSTAL = "codePostal";
+	private static final String EN_DATE = "en.date";
+	private static final String ENTRETIEN = "entretien";
 
-				calendar.set(Calendar.HOUR_OF_DAY, 23);
-				calendar.set(Calendar.MINUTE, 59);
-				calendar.set(Calendar.SECOND, 59);
-				Date toDate = calendar.getTime();
-				crit.add(Restrictions.between("dateInscription", fromDate, toDate));
-			}
 
-			if (candidatDto.getCritereRecheche() != null) {
-				System.out.println("********critère de recherche ***********************************");
-				if (candidatDto.getCritereRecheche().equals("1")) {
-					Calendar calendar = Calendar.getInstance();
-					Date date = calendar.getTime();
-					calendar.add(Calendar.MONTH, -1);
-					Date toDate = calendar.getTime();
-					crit.add(Restrictions.between("dateInscription", toDate, date));
-				} else if (candidatDto.getCritereRecheche().equals("2")) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.add(Calendar.MONTH, -1);
-					Date date = calendar.getTime();
-					calendar.add(Calendar.MONTH, -6);
-					Date toDate = calendar.getTime();
-					crit.add(Restrictions.between("dateInscription", toDate, date));
-
-				} else if (candidatDto.getCritereRecheche().equals("3")) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.add(Calendar.MONTH, -6);
-					Date date = calendar.getTime();
-					calendar.add(Calendar.YEAR, -3);
-					Date toDate = calendar.getTime();
-					crit.add(Restrictions.between("dateInscription", toDate, date));
-
-				} else {
-
-				}
-
-			}
-
-			if (candidatDto.getMobiliteSrc() != null) {
-				crit.add(Restrictions.eq("mobiliteSrc", candidatDto.getMobiliteSrc()));
-			}
-			if (candidatDto.getPosteEnCours() != null) {
-				crit.add(Restrictions.eq("posteEnCours", candidatDto.getPosteEnCours()));
-			}
-			if (candidatDto.getStatut() != null) {
-				crit.add(Restrictions.eq("statut", candidatDto.getStatut()));
-			}
-			if (candidatDto.getTechnologie() != null) {
-				crit.add(Restrictions.eq("technologie.id", candidatDto.getTechnologie().getId()));
-			}
-			if (candidatDto.getCodePostal() != null) {
-				crit.createAlias("codePostal", "cod");
-				crit.add(Restrictions.eq("cod.region", candidatDto.getCodePostal().getRegion()));
-			}
-			if (candidatDto.getCreePar() != null) {
-				DaoUtils.addEqRestrictionIfNotNull(crit, "creePar.id", candidatDto.getCreePar().getId());
-			}
-			if (!all) {
-				crit.add(Restrictions.isNull("entretien"));
-			} else {
-				if (candidatDto.getEntretien() != null
-						&& (candidatDto.getEntretien().getLieu() != null || candidatDto.getEntretien().getDate() != null
-								|| candidatDto.getEntretien().getDisponible() != null
-								|| candidatDto.getEntretien().getConfirmation() != null
-								|| candidatDto.getEntretien().getCharge() != null
-								|| candidatDto.getEntretien().getDateRelance() != null)) {
-					crit.createAlias("entretien", "en");
-
-					DaoUtils.addEqRestrictionIfNotNull(crit, "en.date", candidatDto.getEntretien().getDate());
-					DaoUtils.addEqRestrictionIfNotNull(crit, "en.disponible",
-							candidatDto.getEntretien().getDisponible());
-					DaoUtils.addEqRestrictionIfNotNull(crit, "en.confirmation",
-							candidatDto.getEntretien().getConfirmation());
-					if (candidatDto.getEntretien().getLieu() != null) {
-						DaoUtils.addEqRestrictionIfNotNull(crit, "en.lieu.id",
-								candidatDto.getEntretien().getLieu().getId());
-					}
-
-					if (candidatDto.getEntretien().getCharge() != null) {
-						DaoUtils.addEqRestrictionIfNotNull(crit, "en.charge.id",
-								candidatDto.getEntretien().getCharge().getId());
-					}
-					if (candidatDto.getEntretien().getDateRelance() != null) {
-						Calendar calendar = Calendar.getInstance();
-						calendar.setTime(candidatDto.getEntretien().getDateRelance());
-
-						calendar.add(Calendar.MONTH, 1);
-						calendar.set(Calendar.DAY_OF_MONTH, 1);
-						calendar.add(Calendar.DATE, -1);
-
-						Date lastDayOfMonth = calendar.getTime();
-						crit.add(Restrictions.between("en.dateRelance", candidatDto.getEntretien().getDateRelance(),
-								lastDayOfMonth));
-					}
-				}
-			}
-
-		}
-		crit.addOrder(Order.desc("dateInscription"));
-		String sql = crit.toString();
-		System.err.println(sql);
-		return DaoUtils.castList(Candidat.class, crit.list());
-	}
 
 	@Override
 	public Candidat rechercherCandidatParEmail(String email) {
@@ -202,9 +75,49 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		DaoUtils.addEqRestrictionIfNotNull(crit, "numeroTel", numero);
+		DaoUtils.addEqRestrictionIfNotNull(crit, TEL, numero);
 		crit.setMaxResults(1);
 		return (Candidat) crit.uniqueResult();
+	}
+
+	public boolean testerNullAndEmpty(String test) {
+		if (test != null && !test.isEmpty()) {
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean testerNullAndEmptyObject(Object ob, Object test) {
+		if (ob != null && test != null) {
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean testerNullAndEmptyStringObject(String test, Object ob) {
+		if (test != null && !test.isEmpty() && ob != null) {
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean testerNullAndEmptyObjectObject(Object ob, Object test, Object ob2) {
+		if (ob != null && test != null && ob2 != null) {
+
+			return true;
+		}
+		return false;
+	}
+
+	public boolean testerNullAndEmptyObjectObjectString(Object ob, String test1, Object test, Object ob2) {
+		if (ob != null && !test1.isEmpty() && test != null && ob2 != null) {
+
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -212,41 +125,37 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		String query = "select * from candidat this_ inner join code_postal codepostal3_ on this_.CODE_POSTAL=codepostal3_.ID inner join utilisateur utilisateu4_ on this_.CREE_PAR=utilisateu4_.ID inner join entretien en1_ on this_.ENTRETIEN=en1_.ID left outer join utilisateur utilisateu6_ on en1_.CHARGE=utilisateu6_.ID left outer join lieu lieu7_ on en1_.LIEU=lieu7_.ID inner join origine origine8_ on this_.ORIGINE=origine8_.ID left outer join session_formation sessionfor9_ on this_.SESSION_FORMATION=sessionfor9_.ID left outer join formation formation10_ on sessionfor9_.FORMATION=formation10_.ID left outer join suivi suivi11_ on this_.SUIVI=suivi11_.ID left outer join utilisateur utilisateu12_ on suivi11_.CHARGE=utilisateu12_.ID inner join technologie technologi13_ on this_.TECHNOLOGIE=technologi13_.ID where 1=1 ";
 
 		if (candidatDto != null) {
-			if (candidatDto.getNom() != null && !candidatDto.getNom().isEmpty()) {
+			if (testerNullAndEmpty(candidatDto.getNom())) {
 				query = query + " AND this_.NOM LIKE '%" + candidatDto.getNom() + "%'";
 			}
-			if (candidatDto.getPrenom() != null && !candidatDto.getPrenom().isEmpty()) {
+			if (testerNullAndEmpty(candidatDto.getPrenom())) {
 				query = query + " AND this_.PRENOM LIKE '%" + candidatDto.getPrenom() + "%'";
 			}
-			if (candidatDto.getNumeroTel() != null && !candidatDto.getNumeroTel().isEmpty()) {
+			if (testerNullAndEmpty(candidatDto.getNumeroTel())) {
 				query = query + " AND this_.NUMERO_TEL = '" + candidatDto.getNumeroTel() + "'";
 			}
 			if (all) {
-				// if (candidatDto.getStatut() != null) {
 				query = query
 						+ " AND this_.STATUT IN ('1','2','3','4') AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
-				// }
 			} else {
-				// if (candidatDto.getStatut() != null) {
 				query = query
 						+ " AND this_.STATUT IN ('2','3','4') AND en1_.DATE IS NOT NULL  AND en1_.DATE <= CURRENT_DATE() AND en1_.LIEU IS NOT NULL AND lieu7_.LIBELLE IS NOT NULL ";
-				// }
-			}
-			if (candidatDto.getEntretien() != null) {
-				if (candidatDto.getEntretien().getDate() != null) {
-					query = query + " AND en1_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate())
-							+ " 00:00:00' AND '" + df.format(candidatDto.getEntretien().getDate()) + " 23:59:59'";
-				}
-
-				if (candidatDto.getEntretien().getLieu() != null) {
-					query = query + " AND en1_.LIEU = '" + candidatDto.getEntretien().getLieu().getId() + "'";
-				}
-				if (candidatDto.getEntretien().getCharge() != null) {
-					query = query + " AND en1_.CHARGE = " + candidatDto.getEntretien().getCharge().getId() + "";
-				}
 			}
 
-			if (candidatDto.getSuivi() != null && candidatDto.getSuivi().getMobilite() != null) {
+			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getDate())) {
+				query = query + " AND en1_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate()) + dateHeure
+
+						+ df.format(candidatDto.getEntretien().getDate()) + dateHeure2;
+			}
+
+			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getLieu())) {
+				query = query + " AND en1_.LIEU = '" + candidatDto.getEntretien().getLieu().getId() + "'";
+			}
+			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getCharge())) {
+				query = query + " AND en1_.CHARGE = " + candidatDto.getEntretien().getCharge().getId() + "";
+			}
+
+			if (testerNullAndEmptyObject(candidatDto.getSuivi(), candidatDto.getSuivi().getMobilite())) {
 				query = query + " AND suivi11_.MOBILITE = " + candidatDto.getSuivi().getMobilite() + "";
 			}
 		}
@@ -269,19 +178,20 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			Conjunction conjunction = Restrictions.conjunction();
 
 			// The order date must be >= 17-04-2011 - 00h00
-			conjunction.add(Restrictions.ge("dateInscription", minDate));
+			conjunction.add(Restrictions.ge(DATE_INSCRIPTION, minDate));
 			// And the order date must be < 18-04-2011 - 00h00
-			conjunction.add(Restrictions.lt("dateInscription", maxDate));
+			conjunction.add(Restrictions.lt(DATE_INSCRIPTION, maxDate));
 			crit.add(conjunction);
 		}
 		crit.addOrder(Order.asc("creePar.id"));
-		crit.createAlias("codePostal", "pos");
+		crit.createAlias(CODE_POSTAL, "pos");
 
 		crit.setProjection(Projections.projectionList().add(Projections.groupProperty("creePar"), "creePar")
-				.add(Projections.groupProperty("dateInscription"), "dateInscription")
-				.add(Projections.groupProperty("technologie"), "technologie")
-				.add(Projections.groupProperty("pos.region"), "region").add(Projections.count("id"), "totalCandidat"))
-				.list();
+				.add(Projections.groupProperty(DATE_INSCRIPTION), DATE_INSCRIPTION)
+				.add(Projections.groupProperty(technologie), technologie)
+				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
+
+
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
 	}
@@ -297,40 +207,37 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			Conjunction conjunction = Restrictions.conjunction();
 
 			// The order date must be >= 17-04-2011 - 00h00
-			conjunction.add(Restrictions.ge("dateInscription", minDate));
+			conjunction.add(Restrictions.ge(DATE_INSCRIPTION, minDate));
 			// And the order date must be < 18-04-2011 - 00h00
-			conjunction.add(Restrictions.lt("dateInscription", maxDate));
+			conjunction.add(Restrictions.lt(DATE_INSCRIPTION, maxDate));
 			crit.add(conjunction);
 		}
-		crit.createAlias("codePostal", "pos");
+		crit.createAlias(CODE_POSTAL, "pos");
 
-		crit.setProjection(Projections.projectionList().add(Projections.groupProperty("technologie"), "technologie")
-				.add(Projections.groupProperty("pos.region"), "region").add(Projections.count("id"), "totalCandidat"))
-				.list();
+		crit.setProjection(Projections.projectionList().add(Projections.groupProperty(technologie), technologie)
+				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
 	}
 
 	@Override
-	public List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut, Date DateFin) {
+	public List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut, Date dateFin) {
 
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		if (dateDebut != null && DateFin != null) {
+		if (dateDebut != null && dateFin != null) {
 			Conjunction conjunction = Restrictions.conjunction();
 
 			// The order date must be >= 17-04-2011 - 00h00
-			conjunction.add(Restrictions.ge("dateInscription", DaoUtils.getDateWithoutTime(dateDebut)));
+			conjunction.add(Restrictions.ge(DATE_INSCRIPTION, DaoUtils.getDateWithoutTime(dateDebut)));
 			// And the order date must be < 18-04-2011 - 00h00
-			conjunction
-					.add(Restrictions.lt("dateInscription", new Date(DateFin.getTime() + TimeUnit.DAYS.toMillis(1))));
+			conjunction.add(Restrictions.lt(DATE_INSCRIPTION, new Date(dateFin.getTime() + TimeUnit.DAYS.toMillis(1))));
 			crit.add(conjunction);
 		}
-		crit.createAlias("codePostal", "pos");
+		crit.createAlias(CODE_POSTAL, "pos");
 
-		crit.setProjection(Projections.projectionList().add(Projections.groupProperty("technologie"), "technologie")
-				.add(Projections.groupProperty("pos.region"), "region").add(Projections.count("id"), "totalCandidat"))
-				.list();
+		crit.setProjection(Projections.projectionList().add(Projections.groupProperty(technologie), technologie)
+				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
 	}
@@ -389,9 +296,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			Conjunction conjunction = Restrictions.conjunction();
 
 			// The order date must be >= 17-04-2011 - 00h00
-			conjunction.add(Restrictions.ge("en.date", minDate));
+			conjunction.add(Restrictions.ge(EN_DATE, minDate));
 			// And the order date must be < 18-04-2011 - 00h00
-			conjunction.add(Restrictions.lt("en.date", maxDate));
+			conjunction.add(Restrictions.lt(EN_DATE, maxDate));
 			crit.add(conjunction);
 		}
 
@@ -402,8 +309,8 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	public List<Candidat> rechercherCandidatsSansEtretiens() {
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		crit.addOrder(Order.desc("dateInscription"));
-		crit.add(Restrictions.isNull("entretien"));
+		crit.addOrder(Order.desc(DATE_INSCRIPTION));
+		crit.add(Restrictions.isNull(ENTRETIEN));
 		return DaoUtils.castList(Candidat.class, crit.list());
 	}
 
@@ -460,8 +367,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	public List<Candidat> rechercherCandidatParDate(CandidatDto candidatDto) {
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		crit.addOrder(Order.desc("dateInscription"));
-		String st = crit.toString();
+		crit.addOrder(Order.desc(DATE_INSCRIPTION));
 		return DaoUtils.castList(Candidat.class, crit.list());
 	}
 
@@ -480,73 +386,76 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	public List<Candidat> candidatARelancer(CandidatDto candidatDto) {
 		String query = "select * from candidat this_ inner join code_postal codepostal2_ on this_.CODE_POSTAL=codepostal2_.ID inner join utilisateur utilisateu3_ on this_.CREE_PAR=utilisateu3_.ID left outer join entretien entretien4_ on this_.ENTRETIEN=entretien4_.ID left outer join utilisateur utilisateu5_ on entretien4_.CHARGE=utilisateu5_.ID left outer join lieu lieu6_ on entretien4_.LIEU=lieu6_.ID inner join origine origine7_ on this_.ORIGINE=origine7_.ID left outer join session_formation sessionfor8_ on this_.SESSION_FORMATION=sessionfor8_.ID left outer join formation formation9_ on sessionfor8_.FORMATION=formation9_.ID left outer join suivi suivi10_ on this_.SUIVI=suivi10_.ID left outer join utilisateur utilisateu11_ on suivi10_.CHARGE=utilisateu11_.ID inner join technologie technologi12_ on this_.TECHNOLOGIE=technologi12_.ID WHERE  entretien4_.RELANCE = 1 ";
 		String numerTelTraite = "";
-		if (candidatDto != null) {
-			if (candidatDto.getId() != null) {
-				query = query + " AND this_.ID =" + candidatDto.getId();
-			}
-			if (candidatDto.getNom() != null && !candidatDto.getNom().isEmpty()) {
-				query = query + " AND this_.NOM LIKE '%" + candidatDto.getNom() + "%'";
-			}
-			if (candidatDto.getPrenom() != null && !candidatDto.getPrenom().isEmpty()) {
-				query = query + " AND this_.PRENOM LIKE '%" + candidatDto.getPrenom() + "%'";
-			}
-			if (candidatDto.getEmail() != null && !candidatDto.getEmail().isEmpty()) {
-				query = query + " AND this_.EMAIL LIKE '%" + candidatDto.getEmail().trim() + "%'";
-			}
-			if (candidatDto.getNumeroTel() != null && !candidatDto.getNumeroTel().isEmpty()) {
-				/*
-				 * Récupérer Numéro de Téléphone sans caractère "-" Gérer le problème de
-				 * insertion de donnée mal insert au niveau de base
-				 */
-				numerTelTraite = candidatDto.getNumeroTel();
-				query = query + " AND this_.numero_Tel LIKE '%" + numerTelTraite + "%'";
-			}
-			if (candidatDto.getTechnologie() != null) {
-				query = query + " AND technologi12_.ID= " + candidatDto.getTechnologie().getId();
-			}
-			if (candidatDto.getCreePar() != null) {
-				query = query + " AND this_.CREE_PAR= " + candidatDto.getCreePar().getId() + "";
-			}
-			if (candidatDto.getEntretien().getCharge() != null) {
-				query = query + " AND entretien4_.CHARGE= " + candidatDto.getEntretien().getCharge().getId() + "";
-			}
-			if (candidatDto.getEntretien().getDisponible() != null) {
-				query = query + " AND entretien4_.DISPONIBLE= " + candidatDto.getEntretien().getDisponible().ordinal()
-						+ "";
-			}
-			if (candidatDto.getEntretien() != null) {
-				if (candidatDto.getEntretien().getDate() != null) {
-					query = query + " AND entretien4_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate())
-							+ " 00:00:00' AND '" + df.format(candidatDto.getEntretien().getDate()) + " 23:59:59'";
-				}
-				if (candidatDto.getEntretien().getLieu() != null) {
-					query = query + " AND entretien4_.LIEU= " + candidatDto.getEntretien().getLieu().getId() + "";
-				}
-				if (candidatDto.getEntretien().getConfirmation() != null) {
-					query = query + " AND entretien4_.CONFIRMATION= "
-							+ candidatDto.getEntretien().getConfirmation().booleanValue() + "";
-				}
-				if (candidatDto.getCodePostal() != null) {
-					query = query + " AND codepostal2_.REGION LIKE '" + candidatDto.getCodePostal().getRegion() + "'";
-				}
-				if (candidatDto.getEntretien().getDateRelance() != null) {
-					Calendar calendar = Calendar.getInstance();
-					calendar.setTime(candidatDto.getEntretien().getDateRelance());
 
-					calendar.add(Calendar.MONTH, 1);
-					calendar.set(Calendar.DAY_OF_MONTH, 1);
-					calendar.add(Calendar.DATE, -1);
-
-					Date lastDayOfMonth = calendar.getTime();
-					query = query + " AND entretien4_.DATE_RELANCE BETWEEN '"
-							+ df.format(candidatDto.getEntretien().getDateRelance()) + " 00:00:00' AND '"
-							+ df.format(lastDayOfMonth.getTime()) + " 23:59:59'";
-				}
-				if (candidatDto.getStatut() != null && !candidatDto.getStatut().getLabel().isEmpty()) {
-					query = query + " AND this_.STATUT = '" + candidatDto.getStatut().ordinal() + "'";
-				}
-			}
+		if (testerNullAndEmptyObject(candidatDto, candidatDto.getId())) {
+			query = query + " AND this_.ID =" + candidatDto.getId();
 		}
+		if (testerNullAndEmptyStringObject(candidatDto.getNom(), candidatDto)) {
+			query = query + " AND this_.NOM LIKE '%" + candidatDto.getNom() + "%'";
+		}
+		if (testerNullAndEmptyStringObject(candidatDto.getPrenom(), candidatDto)) {
+			query = query + " AND this_.PRENOM LIKE '%" + candidatDto.getPrenom() + "%'";
+		}
+		if (testerNullAndEmptyStringObject(candidatDto.getEmail(), candidatDto)) {
+			query = query + " AND this_.EMAIL LIKE '%" + candidatDto.getEmail().trim() + "%'";
+		}
+		if (testerNullAndEmptyStringObject(candidatDto.getNumeroTel(), candidatDto)) {
+			/*
+			 * Récupérer Numéro de Téléphone sans caractère "-" Gérer le problème de
+			 * insertion de donnée mal insert au niveau de base
+			 */
+			numerTelTraite = candidatDto.getNumeroTel();
+			query = query + " AND this_.numero_Tel LIKE '%" + numerTelTraite + "%'";
+		}
+		if (testerNullAndEmptyObject(candidatDto.getTechnologie(), candidatDto)) {
+			query = query + " AND technologi12_.ID= " + candidatDto.getTechnologie().getId();
+		}
+		if (testerNullAndEmptyObject(candidatDto.getCreePar(), candidatDto)) {
+			query = query + " AND this_.CREE_PAR= " + candidatDto.getCreePar().getId() + "";
+		}
+		if (testerNullAndEmptyObject(candidatDto.getEntretien().getCharge(), candidatDto)) {
+			query = query + " AND entretien4_.CHARGE= " + candidatDto.getEntretien().getCharge().getId() + "";
+		}
+		if (testerNullAndEmptyObject(candidatDto.getEntretien().getDisponible(), candidatDto)) {
+			query = query + " AND entretien4_.DISPONIBLE= " + candidatDto.getEntretien().getDisponible().ordinal() + "";
+		}
+
+		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getDate(), candidatDto.getEntretien(),
+				candidatDto)) {
+			query = query + " AND entretien4_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate())
+					+ dateHeure + df.format(candidatDto.getEntretien().getDate()) + dateHeure2;
+		}
+		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getLieu(), candidatDto.getEntretien(),
+				candidatDto)) {
+			query = query + " AND entretien4_.LIEU= " + candidatDto.getEntretien().getLieu().getId() + "";
+		}
+		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getConfirmation(), candidatDto.getEntretien(),
+				candidatDto)) {
+			query = query + " AND entretien4_.CONFIRMATION= "
+					+ candidatDto.getEntretien().getConfirmation().booleanValue() + "";
+		}
+		if (testerNullAndEmptyObjectObject(candidatDto.getCodePostal(), candidatDto.getEntretien(), candidatDto)) {
+			query = query + " AND codepostal2_.REGION LIKE '" + candidatDto.getCodePostal().getRegion() + "'";
+		}
+		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getDateRelance(), candidatDto.getEntretien(),
+				candidatDto)) {
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(candidatDto.getEntretien().getDateRelance());
+
+			calendar.add(Calendar.MONTH, 1);
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
+			calendar.add(Calendar.DATE, -1);
+
+			Date lastDayOfMonth = calendar.getTime();
+			query = query + " AND entretien4_.DATE_RELANCE BETWEEN '"
+					+ df.format(candidatDto.getEntretien().getDateRelance()) + dateHeure
+					+ df.format(lastDayOfMonth.getTime()) + dateHeure2;
+		}
+		if (testerNullAndEmptyObjectObjectString(candidatDto.getStatut(), candidatDto.getStatut().getLabel(),
+				candidatDto.getEntretien(), candidatDto)) {
+			query = query + " AND this_.STATUT = '" + candidatDto.getStatut().ordinal() + "'";
+		}
+
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
 		List<Candidat> liste = (List<Candidat>) st.addEntity(Candidat.class).list();
@@ -564,7 +473,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		return nbr;
 	}
 
-	public Integer CvARelancer(UtilisateurDto charge) {
+	public Integer cvArelancer(UtilisateurDto charge) {
 		int nbr = 1;
 		String query = "select Count('disticnt(c.ID)') from candidat left outer join entretien  on candidat.ENTRETIEN=entretien.ID where entretien.RELANCE=1 and entretien.DATE_RELANCE < CURRENT_DATE() and  entretien.CHARGE="
 				+ charge.getId();
@@ -598,8 +507,8 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	}
 
 	@Override
-	public HashMap<String, Integer> nbrCVParTechnologie() {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
+	public Map<String, Integer> nbrCVParTechnologie() {
+		Map<String, Integer> map = new HashMap<>();
 		String query = "select "
 				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre "
 				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE "
@@ -618,12 +527,12 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		return map;
 	}
-	
+
 	@Override
-	public Integer NombreTechnologieParCandidat() {
-		String query = "select count(*) " + 
-				"FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE " + 
-				"WHERE c.ENTRETIEN is NULL and c.STATUT=2";
+	public Integer nombreTechnologieParCandidat() {
+
+		String query = "select count(*) " + "FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE "
+				+ "WHERE c.ENTRETIEN is NULL and c.STATUT=2";
 		SQLQuery st = getSession().createSQLQuery(query);
 		return ((BigInteger) st.uniqueResult()).intValue();
 	}
@@ -645,7 +554,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				String prenom = (String) o[1];
 				String numero = (String) o[2];
 				String email = (String) o[3];
-				String date = (String)o[4];
+				String date = (String) o[4];
 				String technologie = (String) o[5];
 
 				data.add(new ReportingFicheCVRelance(nom, prenom, numero, email, date, technologie));
@@ -663,8 +572,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				+ "ue.NOM as nom_charge, " + "ue.PRENOM as prenom_charge " + "from candidat c "
 				+ "JOIN entretien e on e.ID=c.ENTRETIEN " + "JOIN utilisateur ue on ue.ID=e.CHARGE "
 				+ "join session_formation s on s.ID=c.SESSION_FORMATION " + "JOIN utilisateur u on u.ID=c.CREE_PAR "
-				+ "where c.DOC_CONSULTATION=1 and s.ID= :idsession"
-				+ " ORDER BY c.CREE_PAR";
+				+ "where c.DOC_CONSULTATION=1 and s.ID= :idsession" + " ORDER BY c.CREE_PAR";
 		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("idsession", idsession);
 		List<ReportingFicheSourceur> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
@@ -688,5 +596,5 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		return data;
 	}
-	
+
 }

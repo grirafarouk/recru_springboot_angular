@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.hibernate.Criteria;
@@ -39,6 +40,10 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 6647205927605972562L;
+	/**
+	 * 
 	 * 
 	 * @see com.fr.adaming.jsfapp.dao.IUtilisateurDao#findbyLoginPass(java.lang.String,
 	 *      java.lang.String)
@@ -47,6 +52,24 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	 * @return
 	 * 
 	 */
+	private static final String LOGIN = "login";
+	private static final String ACTIF = "actif";
+	private static final String PROFIL = "profil";
+	private static final String INSCRI_DATE = " AND c.DATE_INSCRIPTION BETWEEN '";
+	private static final String F_HEURE = " 00:00:00' AND '";
+	private static final String SELECT_REQ = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join entretien AS e ON c.ENTRETIEN = e.ID WHERE  c.CREE_PAR= ";
+	private static final String F_HEURE_FIN = " 23:59:59' ";
+	private static final String WHERE_CL = " WHERE c.CREE_PAR = ";
+	private static final String D_INS_SUP = " AND c.DATE_INSCRIPTION > '";
+	private static final String D_INS_INF = " AND c.DATE_INSCRIPTION < '";
+	private static final String F_HEURE_DEB = " 00:00:00' ";
+	private static final String FROM = "FROM ";
+	private static final String SELECT_ONLY = "select ";
+	private static final String FROM_C = "FROM candidat c ";
+	private static final String JOIN_UT = "JOIN utilisateur u on u.ID = c.CREE_PAR ";
+	private static final String SEL_DEB = "(select ";
+	private static final String ID_SOUR = "tmp.ID as id_sourceur, ";
+	private static final String TMP_GROUP = "as tmp group by ID )";
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
@@ -54,7 +77,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		crit.add(Restrictions.eq("login", login));
+		crit.add(Restrictions.eq(LOGIN, login));
 		crit.add(Restrictions.eq("password", passw));
 
 		List<Utilisateur> liste = DaoUtils.castList(Utilisateur.class, crit.list());
@@ -78,8 +101,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	public Utilisateur findbyUsernameSpringS(String login) {
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
-		DaoUtils.addEqRestrictionIfNotNull(crit, "login", login);
-		crit.add(Restrictions.eq("actif", true));
+		DaoUtils.addEqRestrictionIfNotNull(crit, LOGIN, login);
+		crit.add(Restrictions.eq(ACTIF, true));
 
 		List<Utilisateur> liste = DaoUtils.castList(Utilisateur.class, crit.list());
 
@@ -104,7 +127,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
-		DaoUtils.addEqRestrictionIfNotNull(crit, "login", login);
+		DaoUtils.addEqRestrictionIfNotNull(crit, LOGIN, login);
 		DaoUtils.addEqRestrictionIfNotNull(crit, "idUtilisateur", idUser);
 
 		List<Utilisateur> liste = DaoUtils.castList(Utilisateur.class, crit.list());
@@ -122,7 +145,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		DaoUtils.addEqRestrictionIfNotNull(crit, "login", login);
+		DaoUtils.addEqRestrictionIfNotNull(crit, LOGIN, login);
 
 		List<Utilisateur> liste = DaoUtils.castList(Utilisateur.class, crit.list());
 
@@ -153,7 +176,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		crit.add(Restrictions.eq("actif", true));
+		crit.add(Restrictions.eq(ACTIF, true));
 
 		return DaoUtils.castList(Utilisateur.class, crit.list());
 	}
@@ -183,7 +206,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		liste.add(Profil.ADMINISTRATEUR);
 		liste.add(Profil.CHARGE);
 		liste.add(Profil.DIRECTION);
-		crit.add(Restrictions.in("profil", liste));
+		crit.add(Restrictions.in(PROFIL, liste));
 
 		return DaoUtils.castList(Utilisateur.class, crit.list());
 	}
@@ -199,7 +222,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		liste.add(Profil.COMMERCIAL);
 		liste.add(Profil.DIRECTION);
 		liste.add(Profil.SOURCEUR);
-		crit.add(Restrictions.in("profil", liste));
+		crit.add(Restrictions.in(PROFIL, liste));
 
 		return DaoUtils.castList(Utilisateur.class, crit.list());
 	}
@@ -215,7 +238,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		liste.add(Profil.COMMERCIAL);
 		liste.add(Profil.DIRECTION);
 		liste.add(Profil.SOURCEUR);
-		crit.add(Restrictions.in("profil", liste));
+		crit.add(Restrictions.in(PROFIL, liste));
 
 		crit.add(Restrictions.eq("reporting", true));
 
@@ -230,8 +253,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		liste.add(Profil.ADMINISTRATEUR);
 		liste.add(Profil.CHARGE);
 		liste.add(Profil.SOURCEUR);
-		crit.add(Restrictions.in("profil", liste));
-		crit.add(Restrictions.eq("actif", true));
+		crit.add(Restrictions.in(PROFIL, liste));
+		crit.add(Restrictions.eq(ACTIF, true));
 
 		return DaoUtils.castList(Utilisateur.class, crit.list());
 	}
@@ -241,8 +264,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		crit.add(Restrictions.eq("profil", Profil.CHARGE));
-		crit.add(Restrictions.eq("actif", true));
+		crit.add(Restrictions.eq(PROFIL, Profil.CHARGE));
+		crit.add(Restrictions.eq(ACTIF, true));
 
 		return DaoUtils.castList(Utilisateur.class, crit.list());
 	}
@@ -252,8 +275,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		int nbr = 0;
 
 		String query = "SELECT Count(c.ID) FROM candidat AS c Inner Join code_postal AS cp ON c.CODE_POSTAL = cp.ID  WHERE c.CREE_PAR = "
-				+ utilisateur.getId() + " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-				+ df.format(dateFin) + " 23:59:59' AND cp.ID_REGION = " + region.getId() + "";
+				+ utilisateur.getId() + INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin)
+				+ " 23:59:59' AND cp.ID_REGION = " + region.getId() + "";
 		SQLQuery st = getSession().createSQLQuery(query);
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
 		return nbr;
@@ -264,9 +287,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 			Date dateFin) {
 		int nbr = 0;
 		String query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c  Inner Join utilisateur AS u ON c.CREE_PAR = u.ID WHERE c.ORIGINE = "
-				+ origine.getId() + " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-				+ df.format(dateFin) + " 23:59:59' AND c.TECHNOLOGIE = " + technologie.getId()
-				+ " AND u.PROFIL= 2 AND u.ACTIF=1";
+				+ origine.getId() + INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin)
+				+ " 23:59:59' AND c.TECHNOLOGIE = " + technologie.getId() + " AND u.PROFIL= 2 AND u.ACTIF=1";
 		SQLQuery st = getSession().createSQLQuery(query);
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
 		return nbr;
@@ -277,8 +299,8 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 			Date dateFin) {
 		int nbr = 0;
 		String query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join entretien AS e ON c.ENTRETIEN = e.ID Inner Join utilisateur AS u ON e.CHARGE = u.ID WHERE u.ID = "
-				+ utilisateur.getId() + " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-				+ df.format(dateFin) + " 23:59:59' AND c.TECHNOLOGIE = " + technologie.getId() + "";
+				+ utilisateur.getId() + INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin)
+				+ " 23:59:59' AND c.TECHNOLOGIE = " + technologie.getId() + "";
 		SQLQuery st = getSession().createSQLQuery(query);
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
 		return nbr;
@@ -290,14 +312,13 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		int nbr = 0;
 		String query;
 		if (horsCible) {
-			query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join entretien AS e ON c.ENTRETIEN = e.ID WHERE  c.CREE_PAR= "
-					+ utilisateur.getId() + " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut)
-					+ " 00:00:00' AND '" + df.format(dateFin) + " 23:59:59' AND c.ORIGINE= " + origine.getId() + "";
+			query = SELECT_REQ + utilisateur.getId() + INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin)
+					+ " 23:59:59' AND c.ORIGINE= " + origine.getId() + "";
 			query += " AND (e.DISPONIBLE=8 OR e.PERTINENCE IN ('0','1'))";
 		} else {
 			query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c WHERE  c.CREE_PAR= " + utilisateur.getId()
-					+ " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-					+ df.format(dateFin) + " 23:59:59' AND c.ORIGINE= " + origine.getId() + "";
+					+ INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin) + " 23:59:59' AND c.ORIGINE= "
+					+ origine.getId() + "";
 		}
 		SQLQuery st = getSession().createSQLQuery(query);
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
@@ -311,27 +332,22 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		int nbr = 0;
 		String query;
 		if (horsCible) {
-			query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join entretien AS e ON c.ENTRETIEN = e.ID WHERE  c.CREE_PAR= "
-					+ utilisateur.getId();
+			query = SELECT_REQ + utilisateur.getId();
 			if (dateDebut != null && dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-						+ df.format(dateFin) + " 23:59:59' ";
+				query += INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin) + F_HEURE_FIN;
 			}
 			query += " AND (e.DISPONIBLE=8)";
 		} else if (disponible) {
-			query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join entretien AS e ON c.ENTRETIEN = e.ID WHERE  c.CREE_PAR= "
-					+ utilisateur.getId();
+			query = SELECT_REQ + utilisateur.getId();
 			if (dateDebut != null && dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-						+ df.format(dateFin) + " 23:59:59'";
+				query += INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin) + " 23:59:59'";
 			}
 			query += " AND (e.DISPONIBLE=0)";
 		} else {
 			query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c WHERE  c.CREE_PAR= "
 					+ utilisateur.getId();
 			if (dateDebut != null && dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-						+ df.format(dateFin) + " 23:59:59' ";
+				query += INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin) + F_HEURE_FIN;
 			}
 		}
 		SQLQuery st = getSession().createSQLQuery(query);
@@ -395,54 +411,49 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		String query = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join utilisateur AS u ON c.CREE_PAR = u.ID where u.ID = "
 				+ utilisateur.getId() + " ";
 		if (dateDebut != null && dateFin != null) {
-			query += " AND c.DATE_INSCRIPTION BETWEEN '" + df.format(dateDebut) + " 00:00:00' AND '"
-					+ df.format(dateFin) + " 23:59:59'";
+			query += INSCRI_DATE + df.format(dateDebut) + F_HEURE + df.format(dateFin) + " 23:59:59'";
 		}
 		query += " AND c.TECHNOLOGIE = " + technologie.getId() + "";
 		SQLQuery st = getSession().createSQLQuery(query);
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
 		return nbr;
 	}
-	
+
 	@Override
-	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur, Date dateDebut,
-			Date dateFin) {
-		String query = "SELECT Count(*) FROM candidat c LEFT JOIN entretien e on e.ID=c.ENTRETIEN JOIN utilisateur u on u.ID = c.CREE_PAR";
-		if (utilisateur != null) {
-			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
-			if (dateDebut != null) {
-				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
-			}
-			if (dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
-			}
-		}
-		SQLQuery st = getSession().createSQLQuery(query);
-		return ((BigInteger) st.uniqueResult()).intValue();
+	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur2, Date dateDebut2, Date dateFin2) {
+		String queryNbrCV = "SELECT Count(*) FROM candidat c LEFT JOIN entretien e on e.ID=c.ENTRETIEN JOIN utilisateur u on u.ID = c.CREE_PAR";
+		Integer nbrTot = addUserAndDateForQuerySQL(utilisateur2, dateDebut2, dateFin2, queryNbrCV);
+		return nbrTot;
 	}
+
 	@Override
-	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur, Date dateDebut,
-			Date dateFin) {
-		String query = "select count(*) FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE ";
-		if (utilisateur != null) {
-			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
-			if (dateDebut != null) {
-				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur3, Date dateDebut3, Date dateFin3) {
+		String queryNbrTotTech = "select count(*) FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE ";
+		Integer nbrTot = addUserAndDateForQuerySQL(utilisateur3, dateDebut3, dateFin3, queryNbrTotTech);
+		return nbrTot;
+	}
+
+	public Integer addUserAndDateForQuerySQL(ReportingListSourceurDto utilisateur1, Date dateDebut1, Date dateFin1,
+			String query1) {
+		if (utilisateur1 != null) {
+			query1 += WHERE_CL + utilisateur1.getIdUser();
+			if (dateDebut1 != null) {
+				query1 += D_INS_SUP + df.format(dateDebut1) + F_HEURE_DEB;
 			}
-			if (dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+			if (dateFin1 != null) {
+				query1 += D_INS_INF + df.format(dateFin1) + F_HEURE_FIN;
 			}
 		}
-		SQLQuery st = getSession().createSQLQuery(query);
+		SQLQuery st = getSession().createSQLQuery(query1);
 		return ((BigInteger) st.uniqueResult()).intValue();
 	}
 
 	@Override
 	public List<ReportingChargeRelanceDto> rechercherChargeParRelance() {
 		String query = "(select group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_CHARGE,tmp.NOMBRE_RELANCE AS cv_relancer,tmp.ID "
-				+ "FROM " + "( " + "select "
+				+ FROM + "( " + SELECT_ONLY
 				+ "u.ID as ID,u.nom,u.PRENOM,sum(case when (e.RELANCE is not null and e.RELANCE) then 1 else 0 end) AS NOMBRE_RELANCE "
-				+ "FROM candidat c " + "join entretien e on e.ID=c.ENTRETIEN "
+				+ FROM_C + "join entretien e on e.ID=c.ENTRETIEN "
 				+ "join utilisateur u on u.ID=e.CHARGE where u.PROFIL=1 and e.DATE_RELANCE < CURRENT_DATE() "
 				+ "GROUP BY u.id " + ") " + "as tmp GROUP BY tmp.ID)";
 
@@ -467,14 +478,13 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	@Override
 	public List<ReportingSourceurTechnologieDto> rechercherSourceurTechnologies() {
 		String query = "(select group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR,"
-				+ "tmp.MAINFRAMME," + "tmp.MAINFRAMME_PLUS," + "tmp.NTIC," + "tmp.AUTRE_TECHNO," + "tmp.TOTAL "
-				+ "FROM " + "(" + "select u.NOM,u.PRENOM, "
+				+ "tmp.MAINFRAMME," + "tmp.MAINFRAMME_PLUS," + "tmp.NTIC," + "tmp.AUTRE_TECHNO," + "tmp.TOTAL " + FROM
+				+ "(" + "select u.NOM,u.PRENOM, "
 				+ "SUM( case when (t.libelle = 'MAINFRAME') then 1 else 0  end ) as MAINFRAMME,"
 				+ "SUM( case when (t.libelle = 'MAINFRAME ++') then 1 else 0  end ) as MAINFRAMME_PLUS,"
 				+ "SUM(case when (t.libelle = 'NTIC') then 1 else 0 end ) as NTIC,"
 				+ "SUM( case when (t.libelle <> 'NTIC' and t.libelle <> 'MAINFRAME ++' and t.libelle <> 'MAINFRAME') then 1 else 0 end ) as AUTRE_TECHNO,"
-				+ "count(*) as TOTAL,u.ID as ID " + "FROM candidat c " + "JOIN utilisateur u on u.ID = c.CREE_PAR "
-				+ "JOIN technologie t on t.ID = c.TECHNOLOGIE "
+				+ "count(*) as TOTAL,u.ID as ID " + FROM_C + JOIN_UT + "JOIN technologie t on t.ID = c.TECHNOLOGIE "
 				+ "WHERE c.DATE_INSCRIPTION < CURRENT_DATE AND c.DATE_INSCRIPTION >= (CURRENT_DATE + INTERVAL -1 DAY) "
 				+ "group by u.ID ) as tmp group by ID )" + " UNION "
 				+ "( select case when (u.NOM <> '') then 'TOTAL' end,"
@@ -482,7 +492,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "SUM(case when (t.libelle = 'MAINFRAME ++') then 1 else 0 end ) as MAINFRAMME_PLUS,"
 				+ "SUM(case when (t.libelle = 'NTIC') then 1 else 0 end ) as NTIC,"
 				+ "SUM(case when (t.libelle <> 'NTIC' and t.libelle <> 'MAINFRAME ++' and t.libelle <> 'MAINFRAME') then 1 else 0 end) as AUTRE_TECHNO,"
-				+ "count(*) as TOTAL " + "FROM candidat c " + "JOIN utilisateur u on u.ID = c.CREE_PAR "
+				+ "count(*) as TOTAL " + FROM_C + JOIN_UT
 				+ "JOIN technologie t on t.ID = c.TECHNOLOGIE WHERE c.DATE_INSCRIPTION < CURRENT_DATE AND c.DATE_INSCRIPTION >= (CURRENT_DATE + INTERVAL -1 DAY)) ";
 
 		SQLQuery st = getSession().createSQLQuery(query);
@@ -508,10 +518,9 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 	@Override
 	public List<ReportingListSourceurDto> rechercherReportingListSourceur() {
-		String query = "(select " + "tmp.ID as id_sourceur, "
-				+ "group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR " + "FROM " + "( "
-				+ "select u.NOM,u.PRENOM,u.ID as ID " + "FROM utilisateur u " + "where u.PROFIL <> 5 "
-				+ "group by u.ID) " + "as tmp group by ID )";
+		String query = SEL_DEB + ID_SOUR + "group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR "
+				+ FROM + "( " + "select u.NOM,u.PRENOM,u.ID as ID " + "FROM utilisateur u " + "where u.PROFIL <> 5 "
+				+ "group by u.ID) " + TMP_GROUP;
 
 		SQLQuery st = getSession().createSQLQuery(query);
 
@@ -533,11 +542,10 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	@Override
 	public List<ReportingSourceurParDispoDto> rechercherReportingSourceurParDispo(ReportingListSourceurDto utilisateur,
 			Date dateDebut, Date dateFin) {
-		String query = "(select " + "tmp.ID as id_sourceur, "
-				+ "group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR, "
+		String query = SEL_DEB + ID_SOUR + "group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR, "
 				+ "tmp.nombre as nombre_total, " + "IFNULL(tmp.nombre_dipo,0) as nombre_dispo, "
 				+ "IFNULL(tmp.nombre_hors,0) as nombre_hors, " + "IFNULL(tmp.autre,0) as autre, "
-				+ "IFNULL(tmp.taux_satis,0) as satis, " + "IFNULL(tmp.taux_hors,0) as hors " + "FROM " + "( "
+				+ "IFNULL(tmp.taux_satis,0) as satis, " + "IFNULL(tmp.taux_hors,0) as hors " + FROM + "( "
 				+ "select u.NOM,u.PRENOM,u.ID as ID, "
 				+ "SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ) as nombre, "
 				+ "IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=0) ),0) as nombre_dipo, "
@@ -545,20 +553,25 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE<>0)  AND (e.DISPONIBLE<>8)),0) as autre, "
 				+ "(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end )- (IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8)),0)))/(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_satis, "
 				+ "(IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8) ),0)/SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_hors "
-				+ "FROM candidat c " + "LEFT JOIN entretien e on e.ID=c.ENTRETIEN "
-				+ "JOIN utilisateur u on u.ID = c.CREE_PAR ";
+				+ FROM_C + "LEFT JOIN entretien e on e.ID=c.ENTRETIEN " + JOIN_UT;
 		if (utilisateur != null) {
-			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
+			query += WHERE_CL + utilisateur.getIdUser();
 			if (dateDebut != null) {
-				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+				query += D_INS_SUP + df.format(dateDebut) + F_HEURE_DEB;
 			}
 			if (dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+				query += D_INS_INF + df.format(dateFin) + F_HEURE_FIN;
 			}
 		}
-		query += " group by u.ID) " + "as tmp group by ID )";
 
-		SQLQuery st = getSession().createSQLQuery(query);
+		List<ReportingSourceurParDispoDto> data = reportingSourceur(query);
+		return data;
+	}
+
+	public List<ReportingSourceurParDispoDto> reportingSourceur(String queryAll) {
+		queryAll += " group by u.ID) " + TMP_GROUP;
+
+		SQLQuery st = getSession().createSQLQuery(queryAll);
 
 		List<ReportingSourceurParDispoDto> data = new ArrayList<>();
 		@SuppressWarnings("unchecked")
@@ -571,26 +584,24 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				BigDecimal nbrDispo = (BigDecimal) o[3];
 				BigDecimal nbrHors = (BigDecimal) o[4];
 				BigDecimal autre = (BigDecimal) o[5];
-				BigDecimal taux_satis = (BigDecimal) o[6];
-				BigDecimal taux_hors = (BigDecimal) o[7];
-				taux_satis = taux_satis.setScale(0, RoundingMode.HALF_UP);
+				BigDecimal tauxSatis = (BigDecimal) o[6];
+				BigDecimal tauxHors = (BigDecimal) o[7];
+				tauxSatis = tauxSatis.setScale(0, RoundingMode.HALF_UP);
 
-				data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo, nbrHors, autre, taux_satis,
-						taux_hors));
+				data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo, nbrHors, autre, tauxSatis,
+						tauxHors));
 
 			}
 		}
-		System.out.println("query" + query);
 		return data;
 	}
-	
+
 	@Override
 	public List<ReportingSourceurParDispoDto> rechercherReportingSourceur() {
-		String query = "(select " + "tmp.ID as id_sourceur, "
-				+ "group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR, "
+		String query1 = SEL_DEB + ID_SOUR + "group_concat(tmp.nom,' ',tmp.PRENOM separator '') as NOM_PRENOM_SOURCEUR, "
 				+ "tmp.nombre as nombre_total, " + "IFNULL(tmp.nombre_dipo,0) as nombre_dispo, "
 				+ "IFNULL(tmp.nombre_hors,0) as nombre_hors, " + "IFNULL(tmp.autre,0) as autre, "
-				+ "IFNULL(tmp.taux_satis,0) as satis, " + "IFNULL(tmp.taux_hors,0) as hors " + "FROM " + "( "
+				+ "IFNULL(tmp.taux_satis,0) as satis, " + "IFNULL(tmp.taux_hors,0) as hors " + FROM + "( "
 				+ "select u.NOM,u.PRENOM,u.ID as ID, "
 				+ "SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ) as nombre, "
 				+ "IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=0) ),0) as nombre_dipo, "
@@ -598,52 +609,24 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE<>0)  AND (e.DISPONIBLE<>8)),0) as autre, "
 				+ "(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end )- (IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8)),0)))/(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_satis, "
 				+ "(IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8) ),0)/SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_hors "
-				+ "FROM candidat c " + "LEFT JOIN entretien e on e.ID=c.ENTRETIEN "
-				+ "JOIN utilisateur u on u.ID = c.CREE_PAR ";
-		query += " group by u.ID) " + "as tmp group by ID )";
-
-		SQLQuery st = getSession().createSQLQuery(query);
-
-		List<ReportingSourceurParDispoDto> data = new ArrayList<>();
-		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = st.list();
-		if (!dataObject.isEmpty()) {
-			for (Object[] o : dataObject) {
-				BigInteger idUser = (BigInteger) o[0];
-				String nom = (String) o[1];
-				BigDecimal nbrTotal = (BigDecimal) o[2];
-				BigDecimal nbrDispo = (BigDecimal) o[3];
-				BigDecimal nbrHors = (BigDecimal) o[4];
-				BigDecimal autre = (BigDecimal) o[5];
-				BigDecimal taux_satis = (BigDecimal) o[6];
-				BigDecimal taux_hors = (BigDecimal) o[7];
-				taux_satis = taux_satis.setScale(0, RoundingMode.HALF_UP);
-
-				data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo, nbrHors, autre, taux_satis,
-						taux_hors));
-
-			}
-		}
-
+				+ FROM_C + "LEFT JOIN entretien e on e.ID=c.ENTRETIEN " + JOIN_UT;
+		List<ReportingSourceurParDispoDto> data = reportingSourceur(query1);
 		return data;
 	}
-	
 
 	@Override
-	public HashMap<String, Integer> ReportingCVParTechnologieParSourceur() {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		String query = "select "
-				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre "
-				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE ";
-		// if (dateDebut != null && dateFin != null && utilisateur!=null) {
-		// query +="WHERE c.DATE_INSCRIPTION BETWEEN '"+
-		// df.format(dateDebut) + " 00:00:00' AND '"+
-		// df.format(dateFin) + " 23:59:59' "+
-		// " AND c.CREE_PAR = "+ utilisateur.getIdUser();
-		// }
-		// else if (utilisateur!=null) {
-		// query +=" AND c.CREE_PAR = "+ utilisateur.getIdUser();
-		// }
+	public Map<String, Integer> reportingCVParTechnologieParSourceur() {
+
+		String queryCV = SELECT_ONLY
+				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre " + FROM_C
+				+ "join technologie t on t.ID=c.TECHNOLOGIE ";
+		Map<String, Integer> mapCV = reportingAll(queryCV);
+
+		return mapCV;
+	}
+
+	public Map<String, Integer> reportingAll(String query) {
+		Map<String, Integer> map = new HashMap<>();
 		query += " GROUP BY t.ID ";
 		query += "ORDER BY t.ID";
 
@@ -662,43 +645,28 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		}
 
 		return map;
+
 	}
 
 	@Override
-	public HashMap<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur,
+	public Map<String, Integer> rechercherReportingCVParTechnologieParSourceur(ReportingListSourceurDto utilisateur,
 			Date dateDebut, Date dateFin) {
-		HashMap<String, Integer> map = new HashMap<String, Integer>();
-		String query = "select "
-				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre "
-				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE ";
+		String queryCVTech = SELECT_ONLY
+				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre " + FROM_C
+				+ "join technologie t on t.ID=c.TECHNOLOGIE ";
 		if (utilisateur != null) {
-			query += " WHERE c.CREE_PAR = " + utilisateur.getIdUser();
+			queryCVTech += WHERE_CL + utilisateur.getIdUser();
 			if (dateDebut != null) {
-				query += " AND c.DATE_INSCRIPTION > '" + df.format(dateDebut) + " 00:00:00' ";
+				queryCVTech += D_INS_SUP + df.format(dateDebut) + F_HEURE_DEB;
 			}
 			if (dateFin != null) {
-				query += " AND c.DATE_INSCRIPTION < '" + df.format(dateFin) + " 23:59:59' ";
+				queryCVTech += D_INS_INF + df.format(dateFin) + F_HEURE_FIN;
 			}
 		}
 
-		query += " GROUP BY t.ID ";
-		query += "ORDER BY t.ID";
+		Map<String, Integer> mapCVTech = reportingAll(queryCVTech);
 
-		SQLQuery st = getSession().createSQLQuery(query);
-		@SuppressWarnings("unchecked")
-		final List<Object[]> dataObject = st.list();
-		if (!dataObject.isEmpty()) {
-			for (Object[] o : dataObject) {
-				String nom = (String) o[0];
-				BigDecimal nbr = (BigDecimal) o[1];
-
-				map.put(nom, nbr.intValue());
-
-			}
-
-		}
-
-		return map;
+		return mapCVTech;
 	}
 
 }

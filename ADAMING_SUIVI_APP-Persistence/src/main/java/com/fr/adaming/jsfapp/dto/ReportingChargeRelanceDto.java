@@ -15,7 +15,7 @@ public class ReportingChargeRelanceDto implements Serializable{
 	 */
 	public ReportingChargeRelanceDto() {
 		super();
-		// TODO Auto-generated constructor stub
+	
 	}
 	/**
 	 * 

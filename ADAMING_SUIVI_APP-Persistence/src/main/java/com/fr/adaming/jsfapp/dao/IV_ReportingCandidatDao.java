@@ -2,16 +2,16 @@ package com.fr.adaming.jsfapp.dao;
 
 import java.util.List;
 
-import com.fr.adaming.jsfapp.dto.V_ListeCandidatsDto;
-import com.fr.adaming.jsfapp.dto.V_ReportingCandidatDto;
-import com.fr.adaming.jsfapp.model.V_ReportingCandidat;
+
+import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
+import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 
-public interface IV_ReportingCandidatDao extends IManagerDao<V_ReportingCandidat, Long> {
+public interface IV_ReportingCandidatDao extends IManagerDao<VReportingCandidat, Long> {
 
-	List<V_ReportingCandidat> rechercherReportingCandidat(V_ReportingCandidatDto ReportingCandidatDto, int page,
+	List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto ReportingCandidatDto, int page,
 			int size);
 	
-	public Integer rechercherReportingCandidatNbr(V_ReportingCandidatDto ReportingCandidatDto);
+	public Integer rechercherReportingCandidatNbr(VReportingCandidatDto ReportingCandidatDto);
 
 }

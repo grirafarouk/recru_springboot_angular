@@ -4,147 +4,129 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class SessionFormationReportingDto implements Serializable  {
-	
-	private static final long serialVersionUID = 1055919298931903979L;
-	
-	
-	private String nom_Formation;
-	private String lieu_Formation;
-	private String type_Formation;
-	private String date_demarrage;
-	private BigDecimal candidat_affectation;
-	private BigDecimal candidat_acceptation;
-	private Integer nombre_place;
-	private BigDecimal taux_acceptation;
-	private BigDecimal taux_remplissage;
+public class SessionFormationReportingDto implements Serializable {
+
+	private static final long serialVersionUID = 8909913779116184745L;
+
+	private String nomFormation;
+	private String lieuFormation;
+	private String typeFormation;
+	private String dateDemarrage;
+	private BigDecimal candidatAffectation;
+	private BigDecimal candidatAcceptation;
+	private Integer nombrePlace;
+	private BigDecimal tauxAcceptation;
+	private BigDecimal tauxRemplissage;
 	private BigInteger idSession;
 	
-
-	/**
-	 * 
-	 */
 	public SessionFormationReportingDto() {
 		super();
-		// TODO Auto-generated constructor stub
+
 	}
 	
 
-
-	/**
-	 * @param nom_Formation
-	 * @param lieu_Formation
-	 * @param type_Formation
-	 * @param date_demarrage
-	 * @param candidat_affectation
-	 * @param candidat_acceptation
-	 * @param nombre_place
-	 * @param taux_acceptation
-	 * @param taux_remplissage
-	 * @param idSession
-	 */
-	public SessionFormationReportingDto(String nom_Formation,
-			String lieu_Formation, String type_Formation,
-			String date_demarrage, BigDecimal candidat_affectation,
-			BigDecimal candidat_acceptation, Integer nombre_place,
-			BigDecimal taux_acceptation, BigDecimal taux_remplissage,
-			BigInteger idSession) {
+	public SessionFormationReportingDto(String nomFormation, String lieuFormation, String typeFormation,
+			String dateDemarrage, BigDecimal candidatAffectation, BigDecimal candidatAcceptation, Integer nombrePlace,
+			BigDecimal tauxAcceptation, BigDecimal tauxRemplissage, BigInteger idSession) {
 		super();
-		this.nom_Formation = nom_Formation;
-		this.lieu_Formation = lieu_Formation;
-		this.type_Formation = type_Formation;
-		this.date_demarrage = date_demarrage;
-		this.candidat_affectation = candidat_affectation;
-		this.candidat_acceptation = candidat_acceptation;
-		this.nombre_place = nombre_place;
-		this.taux_acceptation = taux_acceptation;
-		this.taux_remplissage = taux_remplissage;
+		this.nomFormation = nomFormation;
+		this.lieuFormation = lieuFormation;
+		this.typeFormation = typeFormation;
+		this.dateDemarrage = dateDemarrage;
+		this.candidatAffectation = candidatAffectation;
+		this.candidatAcceptation = candidatAcceptation;
+		this.nombrePlace = nombrePlace;
+		this.tauxAcceptation = tauxAcceptation;
+		this.tauxRemplissage = tauxRemplissage;
 		this.idSession = idSession;
 	}
 
 
 
-	public String getNom_Formation() {
-		return nom_Formation;
-	}
-	public void setNom_Formation(String nom_Formation) {
-		this.nom_Formation = nom_Formation;
+	public String getNomFormation() {
+		return nomFormation;
 	}
 
-	public String getLieu_Formation() {
-		return lieu_Formation;
-	}
-	public void setLieu_Formation(String lieu_Formation) {
-		this.lieu_Formation = lieu_Formation;
+	public void setNomFormation(String nomFormation) {
+		this.nomFormation = nomFormation;
 	}
 
-	public String getType_Formation() {
-		return type_Formation;
+	public String getLieuFormation() {
+		return lieuFormation;
 	}
 
-	public void setType_Formation(String type_Formation) {
-		this.type_Formation = type_Formation;
+	public void setLieuFormation(String lieuFormation) {
+		this.lieuFormation = lieuFormation;
 	}
 
-	public String getDate_demarrage() {
-		return date_demarrage;
-	}
-	public void setDate_demarrage(String date_demarrage) {
-		this.date_demarrage = date_demarrage;
-	}
-	public BigDecimal getCandidat_affectation() {
-		return candidat_affectation;
+	public String getTypeFormation() {
+		return typeFormation;
 	}
 
-	public void setCandidat_affectation(BigDecimal candidat_affectation) {
-		this.candidat_affectation = candidat_affectation;
+	public void setTypeFormation(String typeFormation) {
+		this.typeFormation = typeFormation;
 	}
 
-	public BigDecimal getCandidat_acceptation() {
-		return candidat_acceptation;
+	public String getDateDemarrage() {
+		return dateDemarrage;
 	}
 
-	public void setCandidat_acceptation(BigDecimal candidat_acceptation) {
-		this.candidat_acceptation = candidat_acceptation;
+	public void setDateDemarrage(String dateDemarrage) {
+		this.dateDemarrage = dateDemarrage;
 	}
 
-	public Integer getNombre_place() {
-		return nombre_place;
+	public BigDecimal getCandidatAffectation() {
+		return candidatAffectation;
 	}
 
-	public void setNombre_place(Integer nombre_place) {
-		this.nombre_place = nombre_place;
-	}
-	
-
-	public BigDecimal getTaux_acceptation() {
-		return taux_acceptation;
-	}
-	public void setTaux_acceptation(BigDecimal taux_acceptation) {
-		this.taux_acceptation = taux_acceptation;
-	}
-	public BigDecimal getTaux_remplissage() {
-		return taux_remplissage;
+	public void setCandidatAffectation(BigDecimal candidatAffectation) {
+		this.candidatAffectation = candidatAffectation;
 	}
 
-	public void setTaux_remplissage(BigDecimal taux_remplissage) {
-		this.taux_remplissage = taux_remplissage;
+	public BigDecimal getCandidatAcceptation() {
+		return candidatAcceptation;
 	}
-	
+
+	public void setCandidatAcceptation(BigDecimal candidatAcceptation) {
+		this.candidatAcceptation = candidatAcceptation;
+	}
+
+	public Integer getNombrePlace() {
+		return nombrePlace;
+	}
+
+	public void setNombrePlace(Integer nombrePlace) {
+		this.nombrePlace = nombrePlace;
+	}
+
+	public BigDecimal getTauxAcceptation() {
+		return tauxAcceptation;
+	}
+
+	public void setTauxAcceptation(BigDecimal tauxAcceptation) {
+		this.tauxAcceptation = tauxAcceptation;
+	}
+
+	public BigDecimal getTauxRemplissage() {
+		return tauxRemplissage;
+	}
+
+	public void setTauxRemplissage(BigDecimal tauxRemplissage) {
+		this.tauxRemplissage = tauxRemplissage;
+	}
 
 	public BigInteger getIdSession() {
 		return idSession;
 	}
 
+
 	public void setIdSession(BigInteger idSession) {
 		this.idSession = idSession;
 	}
 
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-	
+
 }

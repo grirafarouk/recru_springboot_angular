@@ -1,11 +1,11 @@
 package com.fr.adaming.jsfapp.enums;
 
 public enum Disponibilite {
-	DISPONIBLE("Disponible"), EN_POSTE("En poste"), PREAVIS("Préavis"), message_vocal(
-			"message vocal"), pas_interesse("pas intéressé"), envoi_de_la_plaquette(
+	DISPONIBLE("Disponible"), EN_POSTE("En poste"), PREAVIS("Préavis"), MESSAGE_VOCAL(
+			"message vocal"), PAS_INTERESSE("pas intéressé"), ENVOI_DE_LA_PLAQUETTE(
 			"envoi de la plaquette"), EN_ATTENTE_FORMATION(
-			"en attente pour une prochaine formation"), mail_envoye(
-			"mail envoyé"), hors_cible("hors cible"), Déjà_chez_ADAMING(
+			"en attente pour une prochaine formation"), MAIL_ENVOYE(
+			"mail envoyé"), HORS_CIBLE("hors cible"), DEJA_CHEZ_ADAMING(
 			"Déjà chez ADAMING");
 	private String label;
 

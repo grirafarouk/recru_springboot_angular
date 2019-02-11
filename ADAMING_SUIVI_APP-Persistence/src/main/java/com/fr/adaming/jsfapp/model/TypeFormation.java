@@ -22,6 +22,8 @@ public class TypeFormation implements java.io.Serializable {
 	private String libelle;
 
 	public TypeFormation() {
+		super();
+
 	}
 
 	@Id
@@ -65,6 +67,8 @@ public class TypeFormation implements java.io.Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		else
+			return true;
 		return true;
 	}
 

@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
@@ -31,12 +30,11 @@ public class RegionDao extends ManagerDao<Region, Long> implements IRegionDao {
 		cal.setTimeInMillis(a);
 		final int minutes = cal.get(Calendar.MINUTE);
 		// and here's how to get the String representation
-		final String timeString =
-		    new SimpleDateFormat("mm:ss:SSS").format(cal.getTime());
+		final String timeString = new SimpleDateFormat("mm:ss:SSS").format(cal.getTime());
 		System.out.println(minutes);
 		System.out.println(timeString);
 		return ref;
-		
+
 	}
 
 	@Override

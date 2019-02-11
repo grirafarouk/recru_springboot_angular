@@ -58,7 +58,10 @@ export class DashboardComponent implements OnInit {
           render: function (args) {
             const value = args.value;
             var tooltipPercentage = Math.round((value / result) * 100)
+            if(tooltipPercentage > 10)
             return tooltipPercentage + '%';
+            else
+            return null;
           }
         }
       }

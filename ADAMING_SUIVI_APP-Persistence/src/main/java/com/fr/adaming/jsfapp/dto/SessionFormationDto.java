@@ -3,22 +3,22 @@ package com.fr.adaming.jsfapp.dto;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.persistence.Transient;
-
 import com.fr.adaming.jsfapp.model.Formation;
 
-public class SessionFormationDto implements Serializable{
+public class SessionFormationDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Date dateDemarrage;
 	private Date dateFin;
 	private Formation formation;
 	private String itemLabel;
-	private String datedemarrage;
-	private Boolean FActif;
+	private String dateDem;
+	private Boolean fActif;
 
 	public SessionFormationDto() {
+		super();
+
 	}
 
 	public Long getId() {
@@ -80,7 +80,6 @@ public class SessionFormationDto implements Serializable{
 
 	public void populateItemLabel() {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-
 		this.itemLabel = formation.getCode() + " " + format.format(dateDemarrage);
 	}
 
@@ -93,24 +92,25 @@ public class SessionFormationDto implements Serializable{
 	}
 
 	@Transient
-	public String getDatedemarrage() {
+	public String getDateDem() {
 		SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 		if (dateDemarrage != null) {
-		datedemarrage = format.format(dateDemarrage);
+			dateDem = format.format(dateDemarrage);
 		}
-		return datedemarrage;
+		return dateDem;
 	}
+
 	@Transient
-	public void setDatedemarrage(String datedemarrage) {
-		this.datedemarrage = datedemarrage;
+	public void setDateDem(String dateDem) {
+		this.dateDem = dateDem;
 	}
 
-	public Boolean getFActif() {
-		return FActif;
+	public Boolean getfActif() {
+		return fActif;
 	}
 
-	public void setFActif(Boolean fActif) {
-		FActif = fActif;
+	public void setfActif(Boolean fActif) {
+		this.fActif = fActif;
 	}
-	
+
 }

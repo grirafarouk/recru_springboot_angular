@@ -1,11 +1,11 @@
 package com.fr.adaming.jsfapp.dao;
 
+import java.io.Serializable;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
@@ -15,9 +15,8 @@ import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
-public interface ICandidatDao extends IManagerDao<Candidat, Long> {
+public interface ICandidatDao  extends IManagerDao<Candidat, Long>,Serializable {
 
-	List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all);
 
 	Candidat rechercherCandidatParEmail(String email);
 
@@ -31,7 +30,7 @@ public interface ICandidatDao extends IManagerDao<Candidat, Long> {
 	List<SyntheseCandidatDto> rechercherSyntheseJournee(Date date);
 
 	List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut,
-			Date DateFin);
+			Date dateFin);
 
 	List<Candidat> rechercherCandidatParIdOrigine(Long idOrigine);
 
@@ -59,15 +58,15 @@ public interface ICandidatDao extends IManagerDao<Candidat, Long> {
 	
 	Integer nbrCVParTechnologie(Technologie technologie);
 	
-	Integer CvARelancer(UtilisateurDto charge);
+	Integer cvArelancer(UtilisateurDto charge);
 	
 	List<Candidat> rechercherCandidatParCharge(UtilisateurDto charge);
 	
 	List<Candidat> rechercherCandidatSession(SessionFormationDto session);
 	
-	HashMap<String, Integer> nbrCVParTechnologie();
+	Map<String, Integer> nbrCVParTechnologie();
 	
-	Integer NombreTechnologieParCandidat() ;
+	Integer nombreTechnologieParCandidat() ;
 
 	
 	List<ReportingFicheCVRelance> rechercherCandidatParCharge(int idcharge);

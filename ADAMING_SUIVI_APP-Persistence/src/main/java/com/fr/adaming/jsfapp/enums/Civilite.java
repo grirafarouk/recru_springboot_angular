@@ -1,7 +1,7 @@
 package com.fr.adaming.jsfapp.enums;
 
 public enum Civilite {
-	M("M"), Mme("Mme");
+	M("M"), MME("Mme");
 	private String label;
 
 	private Civilite(String label) {

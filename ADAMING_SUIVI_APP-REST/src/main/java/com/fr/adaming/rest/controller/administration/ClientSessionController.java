@@ -6,16 +6,18 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.ClientSessionDto;
 import com.fr.adaming.jsfapp.mapper.ClientSessionMapper;
 import com.fr.adaming.jsfapp.model.ClientSession;
-import com.fr.adaming.jsfapp.model.Origine;
+
 import com.fr.adaming.jsfapp.services.IClientSessionService;
 
 @RestController
@@ -28,24 +30,24 @@ public class ClientSessionController {
 
 	private ClientSessionMapper clientSessionMapper = Mappers.getMapper(ClientSessionMapper.class);
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(value = "")
 	public Collection<ClientSession> findAll() {
 		return clientSessionService.findAll();
 	}
 
-	@RequestMapping(value = "/libelle/{libelle}", method = RequestMethod.GET)
+	@GetMapping(value = "/libelle/{libelle}")
 	public ClientSession rechercherClientSessionParLibelle(@PathVariable String libelle) {
 		return clientSessionService.rechercheClientSessionParLibelle(libelle);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@PostMapping(value = "/add")
 	public ClientSessionDto create(@RequestBody ClientSessionDto clientSessionDto) {
 		ClientSession clientSession = clientSessionMapper.clientSessionDtoToClientSession(clientSessionDto);
 		clientSession = clientSessionService.create(clientSession);
 		return clientSessionMapper.motifToMotifDto(clientSession);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping(value = "/update")
 	public ClientSessionDto update(@RequestBody ClientSessionDto clientSessionDto) {
 		ClientSession clientSession = clientSessionMapper.clientSessionDtoToClientSession(clientSessionDto);
 		clientSession = clientSessionService.update(clientSession);

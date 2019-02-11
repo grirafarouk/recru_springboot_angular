@@ -1,11 +1,10 @@
 package com.fr.adaming.jsfapp.services;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.fr.adaming.jsfapp.dto.CandidatDto;
-import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
 import com.fr.adaming.jsfapp.dto.ReportingFicheSourceur;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
@@ -17,14 +16,11 @@ import com.fr.adaming.jsfapp.model.Utilisateur;
 
 public interface ICandidatService extends IManagerService<Candidat, Long> {
 
-	List<Candidat> rechercherCandidats(CandidatDto candidatDto, Boolean all);
-
 	Candidat rechercherCandidatParEmail(String email);
 
 	Candidat rechercherCandidatParNumTel(String numero);
 
-	List<Candidat> rechercherCandidatAvecEntretien(CandidatDto candidatDto,
-			Boolean all);
+	List<Candidat> rechercherCandidatAvecEntretien(CandidatDto candidatDto, Boolean all);
 
 	List<Candidat> candidatARelancer(CandidatDto candidatDto);
 
@@ -34,19 +30,13 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 
 	List<SyntheseCandidatDto> rechercherSyntheseCandidatParDate(Date date);
 
-	List<Candidat> rechercherCandidatAvecSessionFormation(
-			SessionFormationDto sessionFormationDto);
-	
-	List<Candidat> rechercherCandidatAccepterAvecSessionFormation(
-			SessionFormationDto sessionFormationDto);
+	List<Candidat> rechercherCandidatAvecSessionFormation(SessionFormationDto sessionFormationDto);
+
+	List<Candidat> rechercherCandidatAccepterAvecSessionFormation(SessionFormationDto sessionFormationDto);
 
 	List<SyntheseCandidatDto> rechercherSyntheseJournee(Date date);
 
-	List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut,
-			Date DateFin);
-
-	// List<Candidat> rechercherReporting(ReportingCandidatDto
-	// reportingCandidatDto);
+	List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut, Date DateFin);
 
 	List<Candidat> rechercherCandidatEnAttenteEvaluation();
 
@@ -59,20 +49,20 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 	List<Candidat> rechercherCandidatParDate(CandidatDto candidatDto);
 
 	List<Candidat> candidatARelancer(Utilisateur charge);
-	
+
 	Integer nbrCVParTechnologie(Technologie technologie);
-	
-	Integer CvARelancer(UtilisateurDto charge);
-	
+
+	Integer cvArelancer(UtilisateurDto charge);
+
 	List<Candidat> rechercherCandidatParCharge(UtilisateurDto charge);
-	
+
 	List<Candidat> rechercherCandidatSession(SessionFormationDto session);
-	
-	HashMap<String, Integer> nbrCVParTechnologie();
-	
-	Integer NombreTechnologieParCandidat() ;
+
+	Map<String, Integer> nbrCVParTechnologie();
+
+	Integer nombreTechnologieParCandidat();
 
 	List<ReportingFicheCVRelance> rechercherCandidatParCharge(int idcharge);
-	
-    List<ReportingFicheSourceur> rechercherCandidatSessionAccueil(int idsession);
+
+	List<ReportingFicheSourceur> rechercherCandidatSessionAccueil(int idsession);
 }

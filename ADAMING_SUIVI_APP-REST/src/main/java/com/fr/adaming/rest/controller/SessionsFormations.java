@@ -16,10 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.fr.adaming.jsfapp.dto.FormationDto;
 import com.fr.adaming.jsfapp.dto.SessionFormationDto;
-import com.fr.adaming.jsfapp.mapper.FormationMapper;
 import com.fr.adaming.jsfapp.mapper.SessionFormationMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.SessionFormation;
@@ -39,8 +37,7 @@ public class SessionsFormations {
 	
 	private SessionFormationMapper sessionFormationMapper=Mappers.getMapper(SessionFormationMapper.class);
 
-	@PostMapping()
-
+	@PostMapping("")
 	public SessionFormationDto createOrUpdate(@RequestBody SessionFormationDto sessionFormationDto) {
 		SessionFormation sessionFormation=sessionFormationMapper.sessionFormationDtoToSessionFormation(sessionFormationDto);
 		sessionFormation=sessionFormationService.createOrUpdate(sessionFormation);
@@ -48,12 +45,12 @@ public class SessionsFormations {
 
 	}
 
-	@RequestMapping(value = "/CandidatParSession", method = RequestMethod.GET)
+	@GetMapping("/CandidatParSession")
 	public SessionFormation findById(Long id) {
 		return sessionFormationService.findById(id);
 	}
 
-	@RequestMapping(value = "/AllSessions", method = RequestMethod.GET)
+	@GetMapping("/AllSessions")
 	public Collection<SessionFormation> findAll() {
 		return sessionFormationService.findAll();
 	}
@@ -62,7 +59,7 @@ public class SessionsFormations {
 		sessionFormationService.delete(entity);
 	}
 
-	@RequestMapping(value = "/sessionFormationEnCoursparformation", method = RequestMethod.POST)
+	@PostMapping("/sessionFormationEnCoursparformation")
 	public List<SessionFormation> rechercherSessionsFormationParFormation(
 			@RequestBody FormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherSessionsFormationParFormation(sessionFormationDto);
@@ -84,22 +81,22 @@ public class SessionsFormations {
 		return sessionFormationService.rechercherSessionsFormationEnCours(sessionFormationDto);
 	}
 	
-	@RequestMapping(value = "/rechercherSessionFormation", method = RequestMethod.POST)
+	@PostMapping("/rechercherSessionFormation")
 	public List<SessionFormation> rechercherSessionFormation(@RequestBody SessionFormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherSessionFormation(sessionFormationDto);
 	}
 
-	@RequestMapping(value = "/sessionFormationEnCours", method = RequestMethod.POST)
+	@PostMapping("/sessionFormationEnCours")
 	public List<SessionFormation> rechercherFormationEnCours(@RequestBody SessionFormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherFormationEnCours(sessionFormationDto);
 	}
 
-	@RequestMapping(value = "/sessionFormation", method = RequestMethod.GET, produces = "application/json")
+	@GetMapping("/sessionFormation")
 	public List<SessionFormation> rechercherSession() {
 		return sessionFormationService.rechercherSession();
 	}
 
-	@RequestMapping(value = "/sessionFormationCloturee", method = RequestMethod.POST)
+	@PostMapping("/sessionFormationCloturee")
 	public List<SessionFormation> rechercherSessionsFormationCloture(
 			@RequestBody SessionFormationDto sessionFormationDto) {
 		return sessionFormationService.rechercherSessionsFormationCloture(sessionFormationDto);
@@ -113,7 +110,7 @@ public class SessionsFormations {
 		return sessionFormationService.rechercherSessionsFormationEnCourParFormation(formationDto);
 	}
 
-	@RequestMapping(value = "/listeCandidats", method = RequestMethod.POST)
+	@PostMapping("/listeCandidats")
 	public JSONObject rechercherCandidatAvecSessionFormation(@RequestBody SessionFormationDto sessionFormationDto,
 			@RequestParam int page, @RequestParam int size) {
 		List<Candidat> liste = new ArrayList<>(

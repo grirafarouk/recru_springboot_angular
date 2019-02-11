@@ -6,7 +6,10 @@ import java.util.List;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,47 +30,47 @@ public class RegionController {
 
 	private RegionMapper regionMapper = Mappers.getMapper(RegionMapper.class);
 
-	@RequestMapping(value = "/reporting", method = RequestMethod.GET)
+	@GetMapping(path = "/reporting")
 	public List<Region> rechercherRegionPourReporting() {
 		return regionService.rechercherRegionPourReporting();
 	}
 
-	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	@GetMapping(path = "recherche/{text}")
 	public List<Region> rechercherRegion(@PathVariable String text) {
 		return regionService.rechercherRegion(text);
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@PostMapping(path = "/update")
 	public RegionDto update(@RequestBody RegionDto regionDto) {
 		Region region = regionMapper.regionDtoToRegion(regionDto);
 		region = regionService.update(region);
 		return regionMapper.regionToRegionDto(region);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.POST)
+	@PostMapping(path = "")
 	public RegionDto createOrUpdate(@RequestBody RegionDto regionDto) {
 		Region region = regionMapper.regionDtoToRegion(regionDto);
 		region = regionService.createOrUpdate(region);
 		return regionMapper.regionToRegionDto(region);
 	}
 
-	@RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+	@GetMapping(path = "/id/{id}")
 	public Region findById(@PathVariable Long id) {
 		return regionService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(path = "")
 	public Collection<Region> findAll() {
 		return regionService.findAll();
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
+	@DeleteMapping(path = "")
 	public void delete(@RequestBody RegionDto regionDto) {
 		Region region = regionMapper.regionDtoToRegion(regionDto);
 		regionService.delete(region);
 	}
 
-	@RequestMapping(value = "/{ID}", method = RequestMethod.DELETE)
+	@DeleteMapping(path = "/{ID}")
 	public void deleteById(@PathVariable Long id) {
 		regionService.deleteById(id);
 	}

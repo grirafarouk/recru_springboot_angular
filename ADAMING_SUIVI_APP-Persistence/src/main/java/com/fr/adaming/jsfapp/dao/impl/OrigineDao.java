@@ -9,8 +9,7 @@ import com.fr.adaming.jsfapp.dao.IOrigineDao;
 import com.fr.adaming.jsfapp.model.Origine;
 
 @Repository("origineDao")
-public class OrigineDao extends ManagerDao<Origine, Long> implements
-		IOrigineDao {
+public class OrigineDao extends ManagerDao<Origine, Long> implements IOrigineDao {
 
 	@Override
 	public Origine rechercherOrigineParLibelle(String libelle) {
@@ -18,22 +17,18 @@ public class OrigineDao extends ManagerDao<Origine, Long> implements
 		if (libelle != null) {
 			query = query + " AND  origine.libelle = :libelle";
 		}
-		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle);;
+		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("libelle", libelle);
 
-		Origine origine = (Origine) st.addEntity(Origine.class).uniqueResult();
-
-		return origine;
+		return (Origine) st.addEntity(Origine.class).uniqueResult();
 	}
+
 	@Override
-	public List<Origine>findAllOrigines() {
+	public List<Origine> findAllOrigines() {
 		String query = "  SELECT *  FROM origine ";
-		
+
 		SQLQuery st = this.getSession().createSQLQuery(query);
 
-		List<Origine> origine = (List<Origine>) st.addEntity(Origine.class).list();
-
-		return origine;
+		return (List<Origine>) st.addEntity(Origine.class).list();
 	}
-
 
 }

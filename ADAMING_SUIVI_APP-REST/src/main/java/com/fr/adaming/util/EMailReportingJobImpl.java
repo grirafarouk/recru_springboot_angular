@@ -43,61 +43,62 @@ public class EMailReportingJobImpl {
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
 		List<String> destinataires = new ArrayList<String>();
-		destinataires.add("mounir.oueslati@sesame.com.tn");
 
+		destinataires.add("moueslati@adaming.fr");
 		// generer la flux de sortie de la piece jointe
 
 		XSSFWorkbook wb = exportExcelService.exporterExcel();
 		XSSFWorkbook wb1 = exportExcelService.contenuMail();
 
-		ByteArrayOutputStream reportContent = (ByteArrayOutputStream) writeToOutputStream(wb);
-		String content = parse(wb1);
+		ByteArrayOutputStream reportContent = (ByteArrayOutputStream) writeToOutputStreamRopJob(wb);
+		String content = parseRopJob(wb1);
 
 		// creation de la piece jointe
-		PieceJointe pj = createPj(reportContent);
-		List<PieceJointe> pjList = new ArrayList<PieceJointe>();
-		pjList.add(pj);
+		PieceJointe pjRopJob = createPjRopJob(reportContent);
+		List<PieceJointe> pjListRopJob = new ArrayList<PieceJointe>();
+		pjListRopJob.add(pjRopJob);
 		// message du mail
 		// objet du mail
-		String objet = "Compte rendu quotidien de sourcing ("
+		String objetRopJob = "Compte rendu quotidien de sourcing ("
 				+ sdf.format(DateUtils.getYesterday()) + ")";
-		eMailApi.envoyerMail(objet, content, destinataires, "","","", pjList);
+		eMailApi.envoyerMail(objetRopJob, content, destinataires, "","","", pjListRopJob);
 		logger.info("Email reporting finished.");
 	}
 
-	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
-		PieceJointe pj = new PieceJointe();
+	private PieceJointe createPjRopJob(ByteArrayOutputStream reportContentRopJob) {
+		PieceJointe pjListRopJob = new PieceJointe();
 
-		String fileName = "reporting_" + sdf.format(DateUtils.getYesterday())
+		String fileNameRopJob = "reporting_" + sdf.format(DateUtils.getYesterday())
 				+ ".xlsx";
-		pj.setFileName(fileName);
-		pj.setMimeType(PieceJointe.MIME_TYPE_EXCEL_DOCUMENT);
-		pj.setContent(reportContent);
-		return pj;
+		pjListRopJob.setFileName(fileNameRopJob);
+		pjListRopJob.setMimeType(PieceJointe.MIME_TYPE_EXCEL_DOCUMENT);
+		pjListRopJob.setContent(reportContentRopJob);
+		return pjListRopJob;
 	}
 
-	private String parse(XSSFWorkbook wb1) throws Exception {
-		String realPath = File.separator+"opt"+File.separator+"apache-tomcat8097"+File.separator+"reporting"+File.separator;
+	private String parseRopJob(XSSFWorkbook wb1RopJob) throws Exception {
+		String realPathRopJob = File.separator+"opt"+File.separator+"mounir"+File.separator+"apache-tomcat8097"+File.separator+"reporting"+File.separator;
 		String nameFile = "reporting.xls";
-		FileOutputStream fileOut = new FileOutputStream(realPath + nameFile);
-		wb1.write(fileOut);
-		Workbook workbook = new Workbook(realPath + nameFile);
-		workbook.save(realPath + "out1.xls");
-		HSSFWorkbook myWorkBook = new HSSFWorkbook(new POIFSFileSystem(
-				new FileInputStream(realPath + "out1.xls")));
-		ExcelToHtml nExcelToHtml = new ExcelToHtml(myWorkBook);
-		String content = nExcelToHtml.getHTML();
-		return content.toString();
+		FileOutputStream fileOut = new FileOutputStream(realPathRopJob + nameFile);
+		wb1RopJob.write(fileOut);
+		Workbook workbook = new Workbook(realPathRopJob + nameFile);
+		workbook.save(realPathRopJob + "out1.xls");
+		HSSFWorkbook myWorkBookRopJob = new HSSFWorkbook(new POIFSFileSystem(
+				new FileInputStream(realPathRopJob + "out1.xls")));
+		ExcelToHtml nExcelToHtmlRopJob = new ExcelToHtml(myWorkBookRopJob);
+		String contentRopJob = nExcelToHtmlRopJob.getHTML();
+		return contentRopJob.toString();
 	}
 
-	private OutputStream writeToOutputStream(XSSFWorkbook wb) {
-		OutputStream os = null;
+	private OutputStream writeToOutputStreamRopJob(XSSFWorkbook wbRopJob) {
+		OutputStream osRopJob = null;
 		try {
-			os = new ByteArrayOutputStream();
-			wb.write(os);
-			os.close();
+			osRopJob = new ByteArrayOutputStream();
+			wbRopJob.write(osRopJob);
+			osRopJob.close();
 		} catch (IOException e) {
+			logger.info("contest"+e);
 		}
-		return os;
+		return osRopJob;
 	}
 }

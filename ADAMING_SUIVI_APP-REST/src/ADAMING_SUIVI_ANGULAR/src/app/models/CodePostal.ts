@@ -5,5 +5,5 @@ export class CodePostal {
     actif: boolean;
     libelleDepartement: string;
     region: string;
-    id_region: number;
+    idRegion: number;
 }

@@ -19,13 +19,13 @@ public interface SessionFormationMapper {
 
 	@Mappings({ @Mapping(source = "id", target = "id"),
 			@Mapping(source = "dateDemarrage", target = "dateDemarrage"),@Mapping(source = "dateFin", target = "dateFin"),
-			@Mapping(source = "formation", target = "formation"),@Mapping(source = "FActif", target = "FActif") })
+			@Mapping(source = "formation", target = "formation"),@Mapping(source = "fActif", target = "fActif") })
 	SessionFormationDto sessionFormationToSessionFormationDto(
 			SessionFormation sessionFormation);
 
 	@Mappings({ @Mapping(source = "id", target = "id"),
 			@Mapping(source = "dateDemarrage", target = "dateDemarrage"),@Mapping(source = "dateFin", target = "dateFin"),
-			@Mapping(source = "formation", target = "formation"),@Mapping(source = "FActif", target = "FActif") })
+			@Mapping(source = "formation", target = "formation"),@Mapping(source = "fActif", target = "fActif") })
 	SessionFormation sessionFormationDtoToSessionFormation(
 			SessionFormationDto sessionFormationDto);
 }

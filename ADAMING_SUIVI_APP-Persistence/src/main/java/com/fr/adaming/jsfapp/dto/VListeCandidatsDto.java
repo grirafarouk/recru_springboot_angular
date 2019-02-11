@@ -11,12 +11,16 @@ import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.enums.Statut;
 
-public class V_ListeCandidatsDto implements Serializable {
+public class VListeCandidatsDto implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1167960673108782985L;
+	private static final long serialVersionUID = 3479832671541366667L;
+	/**
+	 * 
+	 */
+	
 
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	private Long id;
@@ -50,11 +54,11 @@ public class V_ListeCandidatsDto implements Serializable {
 	private String critereRecheche;
 
 	@Transient
-	private String dateentretien;
+	private String dateEntretienCandidat;
 	@Transient
 	private String dateisncription;
 	@Transient
-	private String daterelance;
+	private String dateRelanceCandidat;
 
 	public Long getId() {
 		return id;
@@ -261,16 +265,16 @@ public class V_ListeCandidatsDto implements Serializable {
 	}
 
 	@Transient
-	public String getDateentretien() {
+	public String getDateEntretienCandidat() {
 		if (dateEntretien != null) {
-			dateentretien = sdf.format(dateEntretien);
+			dateEntretienCandidat = sdf.format(dateEntretien);
 		}
-		return dateentretien;
+		return dateEntretienCandidat;
 	}
 
 	@Transient
-	public void setDateentretien(String dateentretien) {
-		this.dateentretien = dateentretien;
+	public void setDateEntretienCandidat(String dateentretien) {
+		this.dateEntretienCandidat = dateentretien;
 	}
 
 	@Transient
@@ -287,16 +291,16 @@ public class V_ListeCandidatsDto implements Serializable {
 	}
 
 	@Transient
-	public String getDaterelance() {
+	public String getDateRelanceCandidat() {
 		if (dateRelance != null) {
-			daterelance = sdf.format(dateRelance);
+			dateRelanceCandidat = sdf.format(dateRelance);
 		}
-		return daterelance;
+		return dateRelanceCandidat;
 	}
 
 	@Transient
-	public void setDaterelance(String daterelance) {
-		this.daterelance = daterelance;
+	public void setDateRelanceCandidat(String daterelance) {
+		this.dateRelanceCandidat = daterelance;
 	}
 
 	public String getCritereRecheche() {

@@ -11,10 +11,9 @@ import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.enums.Statut;
 
-public class V_ReportingCandidatDto implements Serializable {
+public class VReportingCandidatDto implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private SimpleDateFormat sdf = new SimpleDateFormat(
-			"dd/MM/yyyy");
+	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	private Long id;
 	private String nom;
 	private String prenom;
@@ -43,13 +42,13 @@ public class V_ReportingCandidatDto implements Serializable {
 	private String origine;
 	private String diplome;
 	private Date dateObtentionDiplome;
-	
+
 	@Transient
 	private String dateisncription;
 
 	@Transient
 	private String stringDateObtentionDiplome;
-	
+
 	@Transient
 	public String getDateisncription() {
 		if (dateInscription != null) {
@@ -64,35 +63,35 @@ public class V_ReportingCandidatDto implements Serializable {
 	}
 
 	@Transient
-	private String dateentretien;
+	private String datEnt;
 
 	@Transient
-	public String getDateentretien() {
+	public String getDatEnt() {
 		if (dateEntretien != null) {
-			dateentretien = sdf.format(dateEntretien);
+			datEnt = sdf.format(dateEntretien);
 		}
-		return dateentretien;
+		return datEnt;
 	}
 
 	@Transient
-	public void setDateentretien(String dateentretien) {
-		this.dateentretien = dateentretien;
+	public void setDatEnt(String datEnt) {
+		this.datEnt = datEnt;
 	}
 
 	@Transient
-	private String datedemarrageFormation;
+	private String dateDemForm;
 
 	@Transient
-	public String getDatedemarrageFormation() {
+	public String getDateDemForm() {
 		if (dateDemarrageFormation != null) {
-			datedemarrageFormation = sdf.format(dateDemarrageFormation);
+			dateDemForm = sdf.format(dateDemarrageFormation);
 		}
-		return datedemarrageFormation;
+		return dateDemForm;
 	}
 
 	@Transient
-	public void setDatedemarrageFormation(String datedemarrageFormation) {
-		this.datedemarrageFormation = datedemarrageFormation;
+	public void setDateDemForm(String dateDemForm) {
+		this.dateDemForm = dateDemForm;
 	}
 
 	public Long getId() {
@@ -242,6 +241,7 @@ public class V_ReportingCandidatDto implements Serializable {
 		}
 		return stringDateObtentionDiplome;
 	}
+
 	@Transient
 	public void setStringDateObtentionDiplome(String stringDateObtentionDiplome) {
 		this.stringDateObtentionDiplome = stringDateObtentionDiplome;
@@ -338,6 +338,5 @@ public class V_ReportingCandidatDto implements Serializable {
 	public void setCvSource(CVSource cvSource) {
 		this.cvSource = cvSource;
 	}
-	
-	
+
 }

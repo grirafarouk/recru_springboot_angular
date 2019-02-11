@@ -34,8 +34,40 @@ public class SuiviDto implements Serializable{
 	private List<Region> regions;
 	private List<Long> idsRegions;
 
+	
+
 	public SuiviDto() {
+		super();
 	}
+	
+
+	public SuiviDto(Long id, Utilisateur charge, Boolean mobilite, Boolean relance, Integer anglais, Date dateRelance,
+			Integer notePresentation, Integer noteSavoir, Integer noteFiabilite, Integer noteAttrait, Integer notePret,
+			Integer noteMobilite, Integer noteResultat, Integer noteCoherence, Integer notePistes, String commentaire,
+			Double noteTotal, List<Region> regions, List<Long> idsRegions) {
+		super();
+		this.id = id;
+		this.charge = charge;
+		this.mobilite = mobilite;
+		this.relance = relance;
+		this.anglais = anglais;
+		this.dateRelance = dateRelance;
+		this.notePresentation = notePresentation;
+		this.noteSavoir = noteSavoir;
+		this.noteFiabilite = noteFiabilite;
+		this.noteAttrait = noteAttrait;
+		this.notePret = notePret;
+		this.noteMobilite = noteMobilite;
+		this.noteResultat = noteResultat;
+		this.noteCoherence = noteCoherence;
+		this.notePistes = notePistes;
+		this.commentaire = commentaire;
+		this.noteTotal = noteTotal;
+		this.regions = regions;
+		this.idsRegions = idsRegions;
+	}
+
+
 
 	public Double calculerNoteTotal() {
 		

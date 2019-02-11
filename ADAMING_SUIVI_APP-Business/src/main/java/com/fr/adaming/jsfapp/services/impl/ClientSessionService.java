@@ -26,7 +26,7 @@ public class ClientSessionService extends ManagerService<ClientSession, Long> im
 
 	@Override
 	public IManagerDao<ClientSession, Long> getDao() {
-		// TODO Auto-generated method stub
+	
 		return clientSessionDao;
 	}
 

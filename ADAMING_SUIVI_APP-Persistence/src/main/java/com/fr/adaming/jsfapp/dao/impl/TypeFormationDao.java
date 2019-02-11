@@ -6,10 +6,8 @@ import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
-
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ITypeFormationDao;
-import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.TypeFormation;
 
 @Repository("typeFormationDao")

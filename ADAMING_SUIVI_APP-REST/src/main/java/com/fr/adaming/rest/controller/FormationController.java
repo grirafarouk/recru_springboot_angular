@@ -7,11 +7,12 @@ import java.util.List;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.FormationDto;
@@ -37,70 +38,70 @@ public class FormationController {
 		return formationMapper.formationToFormationDto(formation);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@GetMapping(path = "/{id}")
 	public Formation findById(@PathVariable Long id) {
 		return formationService.findById(id);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@GetMapping(path = "")
 	public Collection<Formation> findAll() {
 		return formationService.findAll();
 	}
 
-	@RequestMapping(value = "/parcode/{code}", method = RequestMethod.GET)
+	@GetMapping(path = "/parcode/{code}")
 	public Formation rechercherSessionsFormationParCode(@PathVariable String code) {
 		return formationService.rechercherSessionsFormationParCode(code);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
+	@DeleteMapping(path = "")
 	public void delete(@RequestBody FormationDto formationDto) {
 		Formation formation = formationMapper.formationDtoToFormation(formationDto);
 		formationService.delete(formation);
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@DeleteMapping(path = "/{id}")
 	public void deleteById(@PathVariable Long id) {
 		formationService.deleteById(id);
 	}
 
-	@RequestMapping(value = "/parcode", method = RequestMethod.GET)
+	@GetMapping(path = "/parcode")
 	public Formation rechercherSessionsFormationParCode(@RequestBody FormationDto formation) {
 		return formationService.rechercherSessionsFormationParCode(formation);
 	}
 	
-	@RequestMapping(value = "/rechercherFormations", method = RequestMethod.POST)
+	@PostMapping(path = "/rechercherFormations")
 	public List<Formation> rechercherFormations(@RequestBody
 			SessionFormationDto searchDto) {
 
-		List<Formation> liste = new ArrayList<>(formationService.rechercherFormations(searchDto));
-		return liste;
+	
+		return new ArrayList<>(formationService.rechercherFormations(searchDto));
 	}
 
-	@RequestMapping(value = "/formationencours", method = RequestMethod.POST)
+	@PostMapping(path = "/formationencours")
 	public List<Formation> rechercherFormationsEnCours(@RequestBody SessionFormationDto searchDto) {
 
-		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsEnCours(searchDto));
-		return liste;
+		
+		return new ArrayList<>(formationService.rechercherFormationsEnCours(searchDto));	
 	}
 
-	@RequestMapping(value = "/formationclotures", method = RequestMethod.POST)
+	@PostMapping(path = "/formationclotures")
 	public List<Formation> rechercherFormationsClotures(@RequestBody SessionFormationDto searchDto) {
-		List<Formation> liste = new ArrayList<>(formationService.rechercherFormationsClotures(searchDto));
-		return liste;
+		return formationService.rechercherFormationsClotures(searchDto);
+
 	}
 
-	@RequestMapping(value = "/listeformationparsession", method = RequestMethod.POST)
+	@PostMapping(path = "/listeformationparsession")
 	public List<Formation> rechercherFormationParSessionFormation(@RequestBody FormationDto formationDto,
 			SessionFormationDto sessionFormationDto) {
 		return formationService.rechercherFormationParSessionFormation(formationDto, sessionFormationDto);
 	}
 
-	@RequestMapping(value = "/listeformationencours", method = RequestMethod.GET)
+	@GetMapping(path = "/listeformationencours")
 	public List<Formation> findAllFormationsEnCours() {
 		return formationService.findAllFormationsEnCours();
 	}
 
-	@RequestMapping(value = "/listeformationclotures", method = RequestMethod.GET)
+	@GetMapping(path = "/listeformationclotures")
 	public List<Formation> findAllFormationsClotures() {
 		return formationService.findAllFormationsClotures();
 	}

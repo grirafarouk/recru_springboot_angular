@@ -48,7 +48,7 @@
     "canvasjs": "^1.8.1",
     "chart.js": "^2.7.2",
     "chart.piecelabel.js": "^0.15.0",
-    "chartjs-plugin-labels": "^1.1.0",
+    "chartjs-plugin-labels": "1.1.0",
     "core-js": "^2.5.7",
     "devextreme": "^18.1.6",
     "devextreme-angular": "^18.1.6",

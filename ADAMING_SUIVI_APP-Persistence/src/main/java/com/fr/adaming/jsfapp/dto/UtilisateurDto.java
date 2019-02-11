@@ -25,6 +25,7 @@ public class UtilisateurDto implements Serializable {
 
 
 	public UtilisateurDto() {
+		super();
 	}
 
 	public Long getId() {
@@ -137,6 +138,7 @@ public class UtilisateurDto implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		else return true;
 		return true;
 	}
 
