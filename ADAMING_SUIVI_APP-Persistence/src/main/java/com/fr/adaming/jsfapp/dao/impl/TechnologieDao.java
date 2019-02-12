@@ -18,6 +18,8 @@ import com.fr.adaming.jsfapp.model.Technologie;
 public class TechnologieDao extends ManagerDao<Technologie, Long> implements
 		ITechnologieDao {
 
+	private static final long serialVersionUID = 5472739602298322984L;
+
 	@Override
 	public Technologie rechercherTechnologieParLibelle(String libelle) {
 

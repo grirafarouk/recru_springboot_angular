@@ -20,6 +20,8 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ICandidatDao;
@@ -42,20 +44,18 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	private static final long serialVersionUID = 855012502334886128L;
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-	private static final String dateHeure = " 00:00:00' AND '";
-	private static final String dateHeure2 = " 23:59:59'";
-	private static final String technologie = "technologie";
-	private static final String totalCandidat = "totalCandidat";
-	private static final String posRegion = "pos.region";
-	private static final String regionR = "region";
-
+	private static final String DATE_HEURE = " 00:00:00' AND '";
+	private static final String DATE_HEURE2 = " 23:59:59'";
+	private static final String TECHNOLOGIE = "technologie";
+	private static final String TOTAL_CANDIDAT = "totalCandidat";
+	private static final String POS_REGION = "pos.region";
+	private static final String REGION_R = "region";
 	private static final String TEL = "numeroTel";
 	private static final String DATE_INSCRIPTION = "dateInscription";
 	private static final String CODE_POSTAL = "codePostal";
 	private static final String EN_DATE = "en.date";
 	private static final String ENTRETIEN = "entretien";
-
-
+	private Logger logger = LoggerFactory.getLogger(CandidatDao.class);
 
 	@Override
 	public Candidat rechercherCandidatParEmail(String email) {
@@ -63,10 +63,8 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
 		DaoUtils.addEqRestrictionIfNotNull(crit, "email", email);
-		System.out.println(email);
 		crit.setMaxResults(1);
 		Candidat c = (Candidat) crit.uniqueResult();
-		System.out.println(c);
 		return c;
 	}
 
@@ -81,43 +79,28 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	}
 
 	public boolean testerNullAndEmpty(String test) {
-		if (test != null && !test.isEmpty()) {
 
-			return true;
-		}
-		return false;
+		return ((test != null) && (!test.isEmpty()));
 	}
 
 	public boolean testerNullAndEmptyObject(Object ob, Object test) {
-		if (ob != null && test != null) {
 
-			return true;
-		}
-		return false;
+		return ((ob != null) && (test != null));
 	}
 
 	public boolean testerNullAndEmptyStringObject(String test, Object ob) {
-		if (test != null && !test.isEmpty() && ob != null) {
 
-			return true;
-		}
-		return false;
+		return ((test != null) && (!test.isEmpty()) && (ob != null));
 	}
 
 	public boolean testerNullAndEmptyObjectObject(Object ob, Object test, Object ob2) {
-		if (ob != null && test != null && ob2 != null) {
 
-			return true;
-		}
-		return false;
+		return ((ob != null) && (test != null) && (ob2 != null));
 	}
 
 	public boolean testerNullAndEmptyObjectObjectString(Object ob, String test1, Object test, Object ob2) {
-		if (ob != null && !test1.isEmpty() && test != null && ob2 != null) {
 
-			return true;
-		}
-		return false;
+		return ((ob != null) && (!test1.isEmpty()) && (test != null) && (ob2 != null));
 	}
 
 	@Override
@@ -143,9 +126,10 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			}
 
 			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getDate())) {
-				query = query + " AND en1_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate()) + dateHeure
+				query = query + " AND en1_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate())
+						+ DATE_HEURE
 
-						+ df.format(candidatDto.getEntretien().getDate()) + dateHeure2;
+						+ df.format(candidatDto.getEntretien().getDate()) + DATE_HEURE2;
 			}
 
 			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getLieu())) {
@@ -188,9 +172,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 		crit.setProjection(Projections.projectionList().add(Projections.groupProperty("creePar"), "creePar")
 				.add(Projections.groupProperty(DATE_INSCRIPTION), DATE_INSCRIPTION)
-				.add(Projections.groupProperty(technologie), technologie)
-				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
-
+				.add(Projections.groupProperty(TECHNOLOGIE), TECHNOLOGIE)
+				.add(Projections.groupProperty(POS_REGION), REGION_R).add(Projections.count("id"), TOTAL_CANDIDAT))
+				.list();
 
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
@@ -214,8 +198,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		}
 		crit.createAlias(CODE_POSTAL, "pos");
 
-		crit.setProjection(Projections.projectionList().add(Projections.groupProperty(technologie), technologie)
-				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
+		crit.setProjection(Projections.projectionList().add(Projections.groupProperty(TECHNOLOGIE), TECHNOLOGIE)
+				.add(Projections.groupProperty(POS_REGION), REGION_R).add(Projections.count("id"), TOTAL_CANDIDAT))
+				.list();
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
 	}
@@ -236,8 +221,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		}
 		crit.createAlias(CODE_POSTAL, "pos");
 
-		crit.setProjection(Projections.projectionList().add(Projections.groupProperty(technologie), technologie)
-				.add(Projections.groupProperty(posRegion), regionR).add(Projections.count("id"), totalCandidat)).list();
+		crit.setProjection(Projections.projectionList().add(Projections.groupProperty(TECHNOLOGIE), TECHNOLOGIE)
+				.add(Projections.groupProperty(POS_REGION), REGION_R).add(Projections.count("id"), TOTAL_CANDIDAT))
+				.list();
 		crit.setResultTransformer(Transformers.aliasToBean(SyntheseCandidatDto.class));
 		return DaoUtils.castList(SyntheseCandidatDto.class, crit.list());
 	}
@@ -289,7 +275,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
 		Date date = DateUtils.getYesterday();
-		crit.createAlias("entretien", "en");
+		crit.createAlias(ENTRETIEN, "en");
 		if (date != null) {
 			Date minDate = DaoUtils.getDateWithoutTime(date);
 			Date maxDate = new Date(minDate.getTime() + TimeUnit.DAYS.toMillis(1));
@@ -423,7 +409,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getDate(), candidatDto.getEntretien(),
 				candidatDto)) {
 			query = query + " AND entretien4_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate())
-					+ dateHeure + df.format(candidatDto.getEntretien().getDate()) + dateHeure2;
+					+ DATE_HEURE + df.format(candidatDto.getEntretien().getDate()) + DATE_HEURE2;
 		}
 		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getLieu(), candidatDto.getEntretien(),
 				candidatDto)) {
@@ -448,8 +434,8 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 			Date lastDayOfMonth = calendar.getTime();
 			query = query + " AND entretien4_.DATE_RELANCE BETWEEN '"
-					+ df.format(candidatDto.getEntretien().getDateRelance()) + dateHeure
-					+ df.format(lastDayOfMonth.getTime()) + dateHeure2;
+					+ df.format(candidatDto.getEntretien().getDateRelance()) + DATE_HEURE
+					+ df.format(lastDayOfMonth.getTime()) + DATE_HEURE2;
 		}
 		if (testerNullAndEmptyObjectObjectString(candidatDto.getStatut(), candidatDto.getStatut().getLabel(),
 				candidatDto.getEntretien(), candidatDto)) {
@@ -555,9 +541,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				String numero = (String) o[2];
 				String email = (String) o[3];
 				String date = (String) o[4];
-				String technologie = (String) o[5];
+				String tech = (String) o[5];
 
-				data.add(new ReportingFicheCVRelance(nom, prenom, numero, email, date, technologie));
+				data.add(new ReportingFicheCVRelance(nom, prenom, numero, email, date, tech));
 
 			}
 		}

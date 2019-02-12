@@ -17,7 +17,7 @@ public interface IvListeCandidatsDao extends IManagerDao<VListeCandidats, Long> 
 	public List<VListeCandidats> rechercherVlisteCandidatsARelancer(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size);
 
-	public Integer rechercherVlisteCandidatsARelancerNbr(@RequestBody VListeCandidatsDto NCD);
+	public Integer rechercherVlisteCandidatsARelancerNbr(@RequestBody VListeCandidatsDto numero);
 
 	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto vListeCandidatsDto, int page, int size);
 

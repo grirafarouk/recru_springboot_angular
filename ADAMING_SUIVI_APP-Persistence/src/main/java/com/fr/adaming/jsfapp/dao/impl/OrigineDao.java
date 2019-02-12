@@ -11,6 +11,9 @@ import com.fr.adaming.jsfapp.model.Origine;
 @Repository("origineDao")
 public class OrigineDao extends ManagerDao<Origine, Long> implements IOrigineDao {
 
+	
+	private static final long serialVersionUID = -1832801984520480939L;
+
 	@Override
 	public Origine rechercherOrigineParLibelle(String libelle) {
 		String query = "SELECT *  FROM origine  WHERE 1=1";

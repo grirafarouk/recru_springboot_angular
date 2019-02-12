@@ -15,6 +15,9 @@ import com.fr.adaming.jsfapp.model.CodePostal;
 public class CodePostalDao extends ManagerDao<CodePostal, Long> implements
 		ICodePostalDao {
 
+
+	private static final long serialVersionUID = 602784068384628060L;
+
 	@Override
 	public List<CodePostal> rechercherCodePostal(String text) {
 

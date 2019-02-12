@@ -63,10 +63,9 @@ public class SessionFormationDto implements Serializable {
 			return false;
 		SessionFormationDto other = (SessionFormationDto) obj;
 		if (id == null) {
-			if (other.id != null)
+			if ((other.id != null) || (!id.equals(other.id)))
 				return false;
-		} else if (!id.equals(other.id))
-			return false;
+		}
 		return true;
 	}
 

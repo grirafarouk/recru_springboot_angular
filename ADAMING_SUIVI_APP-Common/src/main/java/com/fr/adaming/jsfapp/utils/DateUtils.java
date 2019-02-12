@@ -48,25 +48,5 @@ public class DateUtils {
 		calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 		return calendar.getTime();
 	}
-	
-	@SuppressWarnings("deprecation")
-	public static void setHoursMinuitesOfTwoDates(Date datedebut, Date dateFin) {
-		datedebut.setHours(0);
-		datedebut.setMinutes(0);
-		dateFin.setHours(23);
-		dateFin.setMinutes(59);
-	}
-	
-	@SuppressWarnings("deprecation")
-	public static void setHoursMinuitesOfDateDebut(Date date) {
-		date.setHours(0);
-		date.setMinutes(0);
-	}
-
-	@SuppressWarnings("deprecation")
-	public static void setHoursMinuitesOfDateFin(Date date) {
-		date.setHours(23);
-		date.setMinutes(59);
-	}
 
 }

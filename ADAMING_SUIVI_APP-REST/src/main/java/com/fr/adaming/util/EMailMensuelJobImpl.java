@@ -48,7 +48,7 @@ public class EMailMensuelJobImpl {
 
 		// creation de la piece jointe
 		PieceJointe pjMensuel = createPj(reportContentMensuel);
-		List<PieceJointe> pjListMensuel = new ArrayList<PieceJointe>();
+		List<PieceJointe> pjListMensuel = new ArrayList<>();
 		pjListMensuel.add(pjMensuel);
 		// message du mail
 		// objet du mail
@@ -79,7 +79,7 @@ public class EMailMensuelJobImpl {
 				new FileInputStream(realPathMensuel + "out1.xls")));
 		ExcelToHtml nExcelToHtmlMensuel = new ExcelToHtml(myWorkBookMensuel);
 		String contentMensuel = nExcelToHtmlMensuel.getHTML();
-		return contentMensuel.toString();
+		return contentMensuel;
 	}
 
 	private OutputStream writeToOutputStream(XSSFWorkbook wb) {

@@ -17,6 +17,6 @@ export class Suivi{
 	  noteResultat:number;
 	  noteCoherence:number;
 	  notePistes:number;
-	  commentaire:String;
+	  commentaire:string;
 	  regions:Array<Region >;
 }

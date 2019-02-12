@@ -25,14 +25,13 @@ import com.fr.adaming.jsfapp.model.SessionFormation;
 @Repository("sessionFormationDao")
 public class SessionFormationDao extends ManagerDao<SessionFormation, Long> implements ISessionFormationDao {
 
-
 	private static final long serialVersionUID = -6891843417767030009L;
-	private static final String dateFormat = "yyyy-MM-dd";
-	private static final String dateDemmarage = " and session_formation.DATE_DEMARRAGE BETWEEN '";
-	private static final String dateExpression = " 00:00:00' AND '";
-	private static final String dateExpression2 = " 23:59:59'";
-	private static final String dateFin = " and session_formation.DATE_FIN BETWEEN '";
-	public static final String querryFormation = "select " + "f.NOM as NOM_FORMATION, " + "l.libelle as LIEU, "
+	private static final String DATE_FORMAT = "yyyy-MM-dd";
+	private static final String DATE_DEMMARAGE = " and session_formation.DATE_DEMARRAGE BETWEEN '";
+	private static final String DATE_EXPRESSION = " 00:00:00' AND '";
+	private static final String DATE_EXPRESSION2 = " 23:59:59'";
+	private static final String DATE_FIN = " and session_formation.DATE_FIN BETWEEN '";
+	public static final String QUERRY_FORMATION = "select " + "f.NOM as NOM_FORMATION, " + "l.libelle as LIEU, "
 			+ "tf.libelle as TYPE_FORMATION, " + "DATE_FORMAT(sf.DATE_DEMARRAGE,'%d/%m/%Y') as DATE_DEMARAGE, "
 			+ "sum(case when c.SESSION_FORMATION is null then 0 else 1 end) as TOTAL_CANDIDAT_Affecter, "
 			+ "sum(case when (c.DOC_CONSULTATION is not null and c.DOC_CONSULTATION) then 1 else 0 end) as TOTAL_CANDIDAT_ACCEPTER, "
@@ -43,7 +42,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			+ "join formation f on f.ID = sf.FORMATION " + "JOIN type_formation tf on tf.ID = f.TYPE_FORMATION "
 			+ "JOIN lieu l on l.ID = f.LIEU " + "where sf.F_Actif group by sf.ID ORDER BY sf.DATE_DEMARRAGE ASC;";
 	private static final String REQ_SELECT = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
-
 
 	@Override
 	public List<SessionFormation> rechercherSessionsFormationParFormation(FormationDto formationDto) {
@@ -93,43 +91,39 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		return DaoUtils.castList(SessionFormation.class, crit.list());
 	}
 
-
 	public SQLQuery validateQuerryString(SessionFormationDto dto, Date date, Date date2, String query,
 			DateFormat format) {
 		if (dto != null) {
 			if (date != null) {
-				query += dateDemmarage + format.format(date) + dateExpression + format.format(date) + dateExpression2;
+				query += DATE_DEMMARAGE + format.format(date) + DATE_EXPRESSION + format.format(date)
+						+ DATE_EXPRESSION2;
 			}
 			if (date2 != null) {
-				query += dateFin + format.format(date2) + dateExpression + format.format(date2) + dateExpression2;
+				query += DATE_FIN + format.format(date2) + DATE_EXPRESSION + format.format(date2) + DATE_EXPRESSION2;
 
 			}
 		}
 
-		SQLQuery st = getSession().createSQLQuery(query);
-
-		return st;
+		return getSession().createSQLQuery(query);
 	}
 
 	@Override
 
 	public List<SessionFormation> rechercherSessionsFormationEnCours(SessionFormationDto sessionFormationDtoEnCours) {
-		DateFormat dFormatEnCours = new SimpleDateFormat(dateFormat);
-		String queryStringEnCours = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
+		DateFormat dFormatEnCours = new SimpleDateFormat(DATE_FORMAT);
+		String queryStringEnCours = REQ_SELECT;
 		SQLQuery sEnCours = validateQuerryString(sessionFormationDtoEnCours,
 				sessionFormationDtoEnCours.getDateDemarrage(), sessionFormationDtoEnCours.getDateFin(),
 				queryStringEnCours, dFormatEnCours);
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> listeEnCours = sEnCours.addEntity(SessionFormation.class).list();
 
-
 		return listeEnCours;
 	}
 
-
 	@Override
 	public List<SessionFormation> rechercherSessionFormation(SessionFormationDto sessionFormationDto) {
-		DateFormat dFormatFormation = new SimpleDateFormat(dateFormat);
+		DateFormat dFormatFormation = new SimpleDateFormat(DATE_FORMAT);
 		String queryStringFormation = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where 1=1";
 		SQLQuery sFormation = validateQuerryString(sessionFormationDto, sessionFormationDto.getDateDemarrage(),
 				sessionFormationDto.getDateFin(), queryStringFormation, dFormatFormation);
@@ -137,13 +131,11 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> listeFormation = sFormation.addEntity(SessionFormation.class).list();
 
-
 		return listeFormation;
 	}
 
 	@Override
-	public List<SessionFormation> rechercherFormationEnCours(
-			SessionFormationDto sessionFormationDto) {
+	public List<SessionFormation> rechercherFormationEnCours(SessionFormationDto sessionFormationDto) {
 		return rechercherSessionsFormationEnCours(sessionFormationDto);
 
 	}
@@ -161,7 +153,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 
 	@Override
 	public List<SessionFormation> rechercherSessionsFormationCloture(SessionFormationDto sessionFormationDtoCloture) {
-		DateFormat dFormatFormationCloture = new SimpleDateFormat(dateFormat);
+		DateFormat dFormatFormationCloture = new SimpleDateFormat(DATE_FORMAT);
 		String queryStringFormationCloture = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=0";
 
 		SQLQuery sFormationEncours = validateQuerryString(sessionFormationDtoCloture,
@@ -203,7 +195,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		return liste;
 	}
 
-
 	public SessionFormationReportingDto getAllFormation(Object[] o) {
 
 		String nom = (String) o[0];
@@ -216,16 +207,14 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		BigDecimal tauxAccep = (BigDecimal) o[7];
 		BigDecimal taux = (BigDecimal) o[8];
 		BigInteger idSession = (BigInteger) o[9];
-		SessionFormationReportingDto data = new SessionFormationReportingDto(nom, lieu, type, date, affectaion,
-				acceptation, nombrePlace, tauxAccep, taux, idSession);
-
-		return data;
+		return new SessionFormationReportingDto(nom, lieu, type, date, affectaion, acceptation, nombrePlace, tauxAccep,
+				taux, idSession);
 
 	}
 
 	@Override
 	public List<SessionFormationReportingDto> rechercherSessionreorting() {
-		String queryReporting = querryFormation;
+		String queryReporting = QUERRY_FORMATION;
 		SQLQuery stReporting = getSession().createSQLQuery(queryReporting);
 		List<SessionFormationReportingDto> dataReporting = new ArrayList<>();
 		@SuppressWarnings("unchecked")
@@ -238,7 +227,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 				sessionReporting.setTauxAcceptation(tauxAccep);
 				sessionReporting.setTauxRemplissage(taux);
 				dataReporting.add(sessionReporting);
-
 
 			}
 		}
@@ -274,12 +262,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 	}
 
 	public boolean isNullObject(Object o, Object var) {
-		if (o != null && var != null) {
-			return true;
-		}
-		return false;
-
+		return o != null && var != null;
 	}
-
 
 }

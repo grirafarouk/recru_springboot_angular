@@ -422,15 +422,13 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	@Override
 	public Integer nombreCVParCandidat(ReportingListSourceurDto utilisateur2, Date dateDebut2, Date dateFin2) {
 		String queryNbrCV = "SELECT Count(*) FROM candidat c LEFT JOIN entretien e on e.ID=c.ENTRETIEN JOIN utilisateur u on u.ID = c.CREE_PAR";
-		Integer nbrTot = addUserAndDateForQuerySQL(utilisateur2, dateDebut2, dateFin2, queryNbrCV);
-		return nbrTot;
+		return addUserAndDateForQuerySQL(utilisateur2, dateDebut2, dateFin2, queryNbrCV);
 	}
 
 	@Override
 	public Integer nbrTotalTechnologie(ReportingListSourceurDto utilisateur3, Date dateDebut3, Date dateFin3) {
 		String queryNbrTotTech = "select count(*) FROM candidat c join technologie t on t.ID=c.TECHNOLOGIE ";
-		Integer nbrTot = addUserAndDateForQuerySQL(utilisateur3, dateDebut3, dateFin3, queryNbrTotTech);
-		return nbrTot;
+		return addUserAndDateForQuerySQL(utilisateur3, dateDebut3, dateFin3, queryNbrTotTech);
 	}
 
 	public Integer addUserAndDateForQuerySQL(ReportingListSourceurDto utilisateur1, Date dateDebut1, Date dateFin1,
@@ -563,9 +561,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				query += D_INS_INF + df.format(dateFin) + F_HEURE_FIN;
 			}
 		}
-
-		List<ReportingSourceurParDispoDto> data = reportingSourceur(query);
-		return data;
+		return reportingSourceur(query);
 	}
 
 	public List<ReportingSourceurParDispoDto> reportingSourceur(String queryAll) {
@@ -610,8 +606,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				+ "(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end )- (IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8)),0)))/(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_satis, "
 				+ "(IFNULL(SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end AND (e.DISPONIBLE=8) ),0)/SUM(case when (c.CREE_PAR = u.ID) then 1 else 0 end ))*100 as taux_hors "
 				+ FROM_C + "LEFT JOIN entretien e on e.ID=c.ENTRETIEN " + JOIN_UT;
-		List<ReportingSourceurParDispoDto> data = reportingSourceur(query1);
-		return data;
+		return reportingSourceur(query1);
 	}
 
 	@Override
@@ -620,9 +615,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		String queryCV = SELECT_ONLY
 				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre " + FROM_C
 				+ "join technologie t on t.ID=c.TECHNOLOGIE ";
-		Map<String, Integer> mapCV = reportingAll(queryCV);
-
-		return mapCV;
+		return reportingAll(queryCV);
 	}
 
 	public Map<String, Integer> reportingAll(String query) {
@@ -664,9 +657,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 			}
 		}
 
-		Map<String, Integer> mapCVTech = reportingAll(queryCVTech);
-
-		return mapCVTech;
+		return reportingAll(queryCVTech);
 	}
 
 }

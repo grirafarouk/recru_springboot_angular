@@ -1,6 +1,5 @@
 package com.fr.adaming.rest.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,9 +32,7 @@ public class AccueilController {
 
 	@GetMapping(path = "/map")
 	public Map<String, Integer> findChart() {
-		Map<String, Integer> map = new HashMap<>();
-		map = candidatService.nbrCVParTechnologie();
-		return map;
+		return candidatService.nbrCVParTechnologie();
 	}
 
 	@GetMapping(path = "/ReportingChargeRelance")

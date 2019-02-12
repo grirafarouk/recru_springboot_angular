@@ -28,7 +28,7 @@ export class DefaultLayoutComponent implements OnInit {
       this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
     });
 
-    this.changes.observe(<Element>this.element, {
+    this.changes.observe(this.element, {
       attributes: true
     });
   }

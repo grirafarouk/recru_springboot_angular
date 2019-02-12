@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Transient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 
 	@Autowired()
 	@Qualifier("utilisateurDao")
+	@Transient
 	private IUtilisateurDao utilisateurDao;
 
 	@Override

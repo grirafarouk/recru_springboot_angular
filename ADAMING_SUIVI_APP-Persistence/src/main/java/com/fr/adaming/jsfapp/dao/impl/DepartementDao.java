@@ -8,4 +8,7 @@ import com.fr.adaming.jsfapp.model.Departement;
 @Repository("departementDao")
 public class DepartementDao extends ManagerDao<Departement, Long> implements IDepartementDao {
 
+	
+	private static final long serialVersionUID = 1787793861310622081L;
+
 }

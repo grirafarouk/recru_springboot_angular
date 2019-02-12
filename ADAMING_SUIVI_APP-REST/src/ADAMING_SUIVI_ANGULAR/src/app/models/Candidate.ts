@@ -32,21 +32,21 @@ export class Candidate {
 	sessionFormation: SessionFormation;
 	statut: Status;
 	relancech: Relance;
-	docConsult: Boolean;
-	docRefus: Boolean;
-	posteEnCours: Boolean;
-	mobiliteSrc: Boolean;
+	docConsult: boolean;
+	docRefus: boolean;
+	posteEnCours: boolean;
+	mobiliteSrc: boolean;
 	mobiliteLille: MobiliteSurLille;
 	cvSource: CVSource;
-	cvAnonyme: Boolean = false;
+	cvAnonyme: boolean = false;
 	age: number;
 	nomCV: string;
 	diplome: string;
 	dateObtentionDiplome: Date;
 	motif: Motif = new Motif();
-	emailSessionEnvoyer: Boolean=false;
-	emailSourceurEnvoyer: Boolean=false;
-	emailCandidatEnvoyer: Boolean=false;
+	emailSessionEnvoyer: boolean=false;
+	emailSourceurEnvoyer: boolean=false;
+	emailCandidatEnvoyer: boolean=false;
 	candidatCompetence: Array<any> = new Array();
 }
 

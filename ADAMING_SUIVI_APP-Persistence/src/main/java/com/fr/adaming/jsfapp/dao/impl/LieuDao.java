@@ -14,6 +14,9 @@ import com.fr.adaming.jsfapp.model.Lieu;
 @Repository("lieuDao")
 public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao {
 
+
+	private static final long serialVersionUID = -5552822211530723503L;
+
 	@Override
 	public Lieu rechercherLieu(Lieu lieu) {
 		Session hibernateSession = this.getSession();
