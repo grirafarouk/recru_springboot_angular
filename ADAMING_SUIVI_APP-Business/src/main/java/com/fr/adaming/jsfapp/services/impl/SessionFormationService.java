@@ -2,6 +2,8 @@ package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class SessionFormationService extends ManagerService<SessionFormation, Lo
 	private static final long serialVersionUID = 1L;
 	@Autowired()
 	@Qualifier("sessionFormationDao")
+	@Transient
 	private ISessionFormationDao sessionFormation;
 
 	@Override

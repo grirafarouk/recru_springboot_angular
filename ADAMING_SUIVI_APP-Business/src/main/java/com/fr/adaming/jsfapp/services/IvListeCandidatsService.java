@@ -11,7 +11,7 @@ public interface IvListeCandidatsService extends IManagerService<VListeCandidats
 
 	public Integer rechercherCandidatAvecEntretienNbr(VListeCandidatsDto vListeCandidatsDto, Boolean all);
 
-	public Integer rechercherVlisteCandidatsARelancerNbr(@RequestBody VListeCandidatsDto NCD);
+	public Integer rechercherVlisteCandidatsARelancerNbr(@RequestBody VListeCandidatsDto numero);
 	
 	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto vListeCandidatsDto, int page, int size,
 			Boolean all);

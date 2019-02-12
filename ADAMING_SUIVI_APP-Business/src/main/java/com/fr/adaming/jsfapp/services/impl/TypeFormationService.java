@@ -2,6 +2,8 @@ package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class TypeFormationService extends ManagerService<TypeFormation, Long>
 	private static final long serialVersionUID = -4128842610867708520L;
 	@Autowired()
 	@Qualifier("typeFormationDao")
+	@Transient
 	private ITypeFormationDao typeFormationDao;
 
 	@Override

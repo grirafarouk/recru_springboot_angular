@@ -8,4 +8,7 @@ import com.fr.adaming.jsfapp.model.Suivi;
 @Repository("suiviDao")
 public class SuiviDao extends ManagerDao<Suivi, Long> implements ISuiviDao {
 
+
+	private static final long serialVersionUID = -428358218089651583L;
+
 }

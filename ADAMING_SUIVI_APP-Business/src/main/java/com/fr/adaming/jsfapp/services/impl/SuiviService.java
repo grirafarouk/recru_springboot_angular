@@ -1,5 +1,7 @@
 package com.fr.adaming.jsfapp.services.impl;
 
+import javax.persistence.Transient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class SuiviService extends ManagerService<Suivi, Long> implements ISuiviS
 
 	@Autowired()
 	@Qualifier("suiviDao")
+	@Transient
 	private ISuiviDao suiviDao;
 
 	@Override

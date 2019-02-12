@@ -45,11 +45,11 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 	private static final String SEMAINE_SHEET_NAME = "Résumé de la semaine";
 	private static final String JOURNEE_SHEET_NAME = "Résumé de la journée";
 	private static final String REPORTING = "Reporting";
-	private static final String total = "Total";
-	private static final String sourceur = "Sourceur: ";	
-	private static final String totalCell="TOTAL";
+	private static final String TOTAL = "Total";
+	private static final String SOURCEUR = "Sourceur: ";	
+	private static final String TOTALCELL="TOTAL";
 	private SimpleDateFormat sdfNoTime = new SimpleDateFormat("dd/MM/yyyy");
-	private SimpleDateFormat SheetTitleFormat = new SimpleDateFormat("dd-MM");
+	private SimpleDateFormat sheetTitleFormat = new SimpleDateFormat("dd-MM");
 
 	@Autowired(required = true)
 	@Qualifier("candidatService")
@@ -239,7 +239,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		Row ligneVil = sh.createRow(r);
 		Cell cellHdrVill;
 		cellHdrVill = ligneVil.createCell(3);
-		cellHdrVill.setCellValue(total);
+		cellHdrVill.setCellValue(TOTAL);
 		cellHdrVill.setCellStyle(csCellTot);
 
 		for (int i = 0; i < technologies.size(); i++) {
@@ -307,7 +307,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		Row ligneVil1 = sh.createRow(r1);
 		Cell cellHdrVill1;
 		cellHdrVill1 = ligneVil1.createCell(3);
-		cellHdrVill1.setCellValue(total);
+		cellHdrVill1.setCellValue(TOTAL);
 		cellHdrVill1.setCellStyle(csCellTot);
 
 		for (int i1 = 0; i1 < technologies.size(); i1++) {
@@ -343,7 +343,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 	
 
 	private void createDaySheet(XSSFWorkbook wb, List<SyntheseCandidatDto> listeSyntheseCandidatDto, Date date) {
-		Sheet sh = wb.createSheet(REPORTING + " " + SheetTitleFormat.format(date.getTime()));
+		Sheet sh = wb.createSheet(REPORTING + " " + sheetTitleFormat.format(date.getTime()));
 
 		sh.setDisplayGridlines(false);
 
@@ -467,7 +467,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			hderRow = sh.createRow(rowNum++);
 			if (u1 != null) {
 				hdrCell = hderRow.createCell(0);
-				hdrCell.setCellValue(sourceur);
+				hdrCell.setCellValue(SOURCEUR);
 				hdrCell.setCellStyle(sousTitre);
 				nomSourceurCell = hderRow.createCell(1);
 				nomSourceurCell.setCellValue(utilisateurs.get(i).getNom() + " " + utilisateurs.get(i).getPrenom());
@@ -476,7 +476,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			}
 			if (u2 != null) {
 				Cell cell = hderRow.createCell(technologies.size() + 2);
-				cell.setCellValue(sourceur);
+				cell.setCellValue(SOURCEUR);
 				cell.setCellStyle(sousTitre);
 				nomSourceurCell = hderRow.createCell(technologies.size() + 3);
 				nomSourceurCell.setCellValue(u2.getNom() + " " + u2.getPrenom());
@@ -486,7 +486,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			}
 			if (u3 != null) {
 				Cell cellSrc = hderRow.createCell(2 * technologies.size() + 3);
-				cellSrc.setCellValue(sourceur);
+				cellSrc.setCellValue(SOURCEUR);
 				cellSrc.setCellStyle(sousTitre);
 				nomSourceurCell = hderRow.createCell(2 * technologies.size() + 4);
 				nomSourceurCell.setCellValue(u3.getNom() + " " + u3.getPrenom());
@@ -612,7 +612,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 				Cell cellHdrVill1;
 				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum, 0, 0));
 				cellHdrVill1 = totRow.createCell(0);
-				cellHdrVill1.setCellValue(total);
+				cellHdrVill1.setCellValue(TOTAL);
 				cellHdrVill1.setCellStyle(csCellTot);
 
 				for (int l = 0; l < technologies.size(); l++) {
@@ -815,7 +815,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) j + 2);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csCellUser);
 
 		List<Integer> totParSourceur = new ArrayList<>();
@@ -844,7 +844,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csStyleTotale);
 
 		int totSrcs = 0;
@@ -875,7 +875,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) i + 2);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csCellUser);
 
 		List<Integer> totParTechnologie = new ArrayList<>();
@@ -904,7 +904,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csStyleTotale);
 
 		int totTechngs = 0;
@@ -934,7 +934,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		}
 
 		cell = row.createCell((short) i + 2);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csCellUser);
 
 		List<Integer> totParCharge = new ArrayList<>();
@@ -962,7 +962,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csStyleTotale);
 		int totCharges = 0;
 		for (j = 0; j < totParCharge.size(); j++) {
@@ -1083,7 +1083,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) j + 2);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csCellUser);
 		List<Integer> totParSrcParOrigine = new ArrayList<>();
 		for (j = 0; j < utilisateurs.size(); j++) {
@@ -1110,7 +1110,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csStyleTotale);
 		int totSrcsOrigines = 0;
 		for (j = 0; j < totParSrcParOrigine.size(); j++) {
@@ -1141,7 +1141,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			cell.setCellStyle(csCellUser);
 		}
 		cell = row.createCell((short) j + 2);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csCellUser);
 		List<Integer> totHorsCible = new ArrayList<>();
 		for (j = 0; j < utilisateurs.size(); j++) {
@@ -1168,7 +1168,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		}
 		row = sheet.createRow(rowIndex++);
 		cell = row.createCell(1);
-		cell.setCellValue(totalCell);
+		cell.setCellValue(TOTALCELL);
 		cell.setCellStyle(csStyleTotale);
 		int totCvsHorsCible = 0;
 		for (j = 0; j < totHorsCible.size(); j++) {
