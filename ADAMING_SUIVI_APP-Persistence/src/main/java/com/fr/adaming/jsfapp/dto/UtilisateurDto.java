@@ -23,7 +23,6 @@ public class UtilisateurDto implements Serializable {
 	private String numeroTelF;
 	private String numeroTelP;
 
-
 	public UtilisateurDto() {
 		super();
 	}
@@ -134,11 +133,9 @@ public class UtilisateurDto implements Serializable {
 			return false;
 		UtilisateurDto other = (UtilisateurDto) obj;
 		if (id == null) {
-			if (other.id != null)
+			if ((other.id != null) || (!id.equals(other.id)))
 				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		else return true;
+		}
 		return true;
 	}
 
@@ -165,6 +162,5 @@ public class UtilisateurDto implements Serializable {
 	public void setNumeroTelP(String numeroTelP) {
 		this.numeroTelP = numeroTelP;
 	}
-	
 
 }

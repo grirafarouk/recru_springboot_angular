@@ -42,9 +42,9 @@ public class EMailReportingJobImpl {
 		logger.info("Email reporting started...");
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
-		List<String> destinataires = new ArrayList<String>();
+		List<String> destinataires = new ArrayList<>();
 
-		destinataires.add("moueslati@adaming.fr");
+		destinataires.add("farouka82@gmail.com");
 		// generer la flux de sortie de la piece jointe
 
 		XSSFWorkbook wb = exportExcelService.exporterExcel();
@@ -55,7 +55,7 @@ public class EMailReportingJobImpl {
 
 		// creation de la piece jointe
 		PieceJointe pjRopJob = createPjRopJob(reportContent);
-		List<PieceJointe> pjListRopJob = new ArrayList<PieceJointe>();
+		List<PieceJointe> pjListRopJob = new ArrayList<>();
 		pjListRopJob.add(pjRopJob);
 		// message du mail
 		// objet du mail

@@ -2,6 +2,8 @@ package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class RegionService extends ManagerService<Region, Long> implements IRegi
 
 	@Autowired()
 	@Qualifier("regionDao")
+	@Transient
 	private IRegionDao regionDao;
 
 	@Override

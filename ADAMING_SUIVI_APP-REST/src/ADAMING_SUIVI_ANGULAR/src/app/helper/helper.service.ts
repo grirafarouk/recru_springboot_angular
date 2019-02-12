@@ -137,7 +137,7 @@ export class HelperService {
             elementFound = childs[i];
           }
         }
-        ;
+        
       }
     });
     return elementFound;

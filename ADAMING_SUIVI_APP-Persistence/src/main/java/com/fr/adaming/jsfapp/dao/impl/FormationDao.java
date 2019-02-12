@@ -19,9 +19,6 @@ import com.fr.adaming.jsfapp.model.Formation;
 @Repository("formationDao")
 public class FormationDao extends ManagerDao<Formation, Long> implements IFormationDao {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private static final String FORMAT_DATE = "yyyy-MM-dd";
@@ -75,27 +72,18 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 	}
 
 	public boolean testerNullAndEmptyStringObject(String test, Object ob) {
-		if (test != null && !test.isEmpty() && ob != null) {
 
-			return true;
-		}
-		return false;
+		return ((test != null) && (!test.isEmpty()) && (ob != null));
 	}
 
 	public boolean testerNullAndEmptyObjectObject(Object ob, Object test, Object ob2) {
-		if (ob != null && test != null && ob2 != null) {
 
-			return true;
-		}
-		return false;
+		return ((ob != null) && (test != null) && (ob2 != null));
 	}
 
 	public boolean testerNullAndEmptyObject(Object ob, Object test) {
-		if (ob != null && test != null) {
 
-			return true;
-		}
-		return false;
+		return ((ob != null) && (test != null));
 	}
 
 	@Override

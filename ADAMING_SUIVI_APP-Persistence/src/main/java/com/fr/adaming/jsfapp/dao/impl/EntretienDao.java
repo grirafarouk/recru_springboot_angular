@@ -8,4 +8,7 @@ import com.fr.adaming.jsfapp.model.Entretien;
 @Repository("entretienDao")
 public class EntretienDao extends ManagerDao<Entretien, Long> implements IEntretienDao {
 
+
+	private static final long serialVersionUID = -139561281086987868L;
+
 }

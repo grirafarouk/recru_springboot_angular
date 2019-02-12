@@ -14,6 +14,9 @@ import com.fr.adaming.jsfapp.model.TypeFormation;
 public class TypeFormationDao extends ManagerDao<TypeFormation, Long> implements
 		ITypeFormationDao {
 
+
+	private static final long serialVersionUID = 6162184630241475680L;
+
 	@Override
 	public TypeFormation rechercherTypeFormationParLibelle(String libelle) {
 
