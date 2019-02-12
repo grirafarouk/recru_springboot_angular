@@ -52,16 +52,14 @@ public class EMailMensuelJobImpl {
 		pjListMensuel.add(pjMensuel);
 		// message du mail
 		// objet du mail
-		String objetMensuel = "rapport mensuel du sourcing ("
-				+ sdf.format(DateUtils.getYesterday()) + ")";
-		eMailApi.envoyerMail(objetMensuel, contentMensuel, destinataires, "","","", pjListMensuel);
+		String objetMensuel = "rapport mensuel du sourcing (" + sdf.format(DateUtils.getYesterday()) + ")";
+		eMailApi.envoyerMail(objetMensuel, contentMensuel, destinataires, "", "", "", pjListMensuel);
 		logger.info("Email reporting finished.");
 	}
 
 	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
 		PieceJointe pjMensuel = new PieceJointe();
-		String fileNameMensuel = "rapport_" + sdf.format(DateUtils.getYesterday())
-				+ ".xlsx";
+		String fileNameMensuel = "rapport_" + sdf.format(DateUtils.getYesterday()) + ".xlsx";
 		pjMensuel.setFileName(fileNameMensuel);
 		pjMensuel.setMimeType(PieceJointe.MIME_TYPE_EXCEL_DOCUMENT);
 		pjMensuel.setContent(reportContent);
@@ -69,17 +67,17 @@ public class EMailMensuelJobImpl {
 	}
 
 	private String parse(XSSFWorkbook wb1) throws Exception {
-		String realPathMensuel = File.separator+"opt"+File.separator+"apache-tomcat8097"+File.separator+"reporting"+File.separator;
+		String realPathMensuel = File.separator + "opt" + File.separator + "apache-tomcat8097" + File.separator
+				+ "reporting" + File.separator;
 		String nameFileMensuel = "rapport.xls";
 		FileOutputStream fileOutMensuel = new FileOutputStream(realPathMensuel + nameFileMensuel);
 		wb1.write(fileOutMensuel);
 		Workbook workbookMensuel = new Workbook(realPathMensuel + nameFileMensuel);
 		workbookMensuel.save(realPathMensuel + "out1.xls");
-		HSSFWorkbook myWorkBookMensuel = new HSSFWorkbook(new POIFSFileSystem(
-				new FileInputStream(realPathMensuel + "out1.xls")));
+		HSSFWorkbook myWorkBookMensuel = new HSSFWorkbook(
+				new POIFSFileSystem(new FileInputStream(realPathMensuel + "out1.xls")));
 		ExcelToHtml nExcelToHtmlMensuel = new ExcelToHtml(myWorkBookMensuel);
-		String contentMensuel = nExcelToHtmlMensuel.getHTML();
-		return contentMensuel;
+		return nExcelToHtmlMensuel.getHTML();
 	}
 
 	private OutputStream writeToOutputStream(XSSFWorkbook wb) {

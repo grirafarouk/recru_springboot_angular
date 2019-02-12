@@ -11,7 +11,7 @@ import com.fr.adaming.dao.tools.HibernateUtil;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 
 @Repository("managerDao")
-public abstract class ManagerDao<T, id extends Serializable> extends HibernateUtil implements IManagerDao<T, id> {
+public abstract class ManagerDao<T, idType extends Serializable> extends HibernateUtil implements IManagerDao<T, idType> {
 
 	/**
 	 * la classe de persistance sur laquelle travailler.
@@ -107,7 +107,7 @@ public abstract class ManagerDao<T, id extends Serializable> extends HibernateUt
 	 * @see com.inetpsa.fwk.v3.dao.GenericDao#deleteById(java.io.Serializable)
 	 * @inheritDoc {@inheritDoc}
 	 */
-	public void deleteById(id id) {
+	public void deleteById(idType id) {
 		T entity = findById(id);
 		this.getSession().delete(entity);
 	}
@@ -130,7 +130,7 @@ public abstract class ManagerDao<T, id extends Serializable> extends HibernateUt
 	 * @inheritDoc {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public T findById(id id) {
+	public T findById(idType id) {
 		T entity = (T) this.getSession().load(getPersistentClass(), id);
 		return entity;
 	}

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,7 +18,7 @@ import com.fr.adaming.jsfapp.dao.IFormationDao;
 import com.fr.adaming.jsfapp.model.Formation;
 
 @Repository("formationDao")
-public class FormationDao extends ManagerDao<Formation, Long> implements IFormationDao {
+public class FormationDao extends ManagerDao<Formation, Long> implements IFormationDao,Serializable {
 
 	private static final long serialVersionUID = 1L;
 

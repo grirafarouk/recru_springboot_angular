@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,11 @@ import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
 
 @Repository("v_ListeCandidatsDao")
-public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implements IvListeCandidatsDao {
+public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implements IvListeCandidatsDao, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4881184117785155062L;
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override

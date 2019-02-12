@@ -6,14 +6,11 @@ import java.util.ResourceBundle;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -26,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 @Component("convocationMail")
 public class ConvocationMail implements IConvocationMail {
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConvocationMail.class);
 	ResourceBundle bundle=ResourceBundle.getBundle("properties.email");
 	private Properties properties;
