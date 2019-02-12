@@ -1,4 +1,5 @@
 package com.fr.adaming.jsfapp.dao.impl;
+import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -10,7 +11,7 @@ import com.fr.adaming.jsfapp.dao.IRegionDao;
 import com.fr.adaming.jsfapp.model.Region;
 
 @Repository("regionDao")
-public class RegionDao extends ManagerDao<Region, Long> implements IRegionDao {
+public class RegionDao extends ManagerDao<Region, Long> implements IRegionDao,Serializable {
 
 	private static final long serialVersionUID = 7444035908063684921L;
 

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -36,7 +37,7 @@ import com.fr.adaming.jsfapp.model.Utilisateur;
  * 
  */
 @Repository("utilisateurDao")
-public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUtilisateurDao {
+public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUtilisateurDao, Serializable {
 
 	/**
 	 * 

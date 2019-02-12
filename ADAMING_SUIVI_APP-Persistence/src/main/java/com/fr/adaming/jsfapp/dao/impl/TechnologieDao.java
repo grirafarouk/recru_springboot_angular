@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import com.fr.adaming.jsfapp.model.Technologie;
 
 @Repository("technologieDao")
 public class TechnologieDao extends ManagerDao<Technologie, Long> implements
-		ITechnologieDao {
+		ITechnologieDao,Serializable {
 
 	private static final long serialVersionUID = 5472739602298322984L;
 

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -14,7 +15,13 @@ import com.fr.adaming.jsfapp.model.Competence;
 
 @Repository("competenceDao")
 public class CompetenceDao extends ManagerDao<Competence, Long> implements
-		ICompetenceDao {
+		ICompetenceDao ,Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8438368011428264307L;
+
 	public List<Competence> rechercherCandidatCompetences(long id) {
 		String query = "SELECT * FROM competence   WHERE competence.ID IN ( SELECT candidat_competence.COMPETENCE_ID  FROM candidat_competence WHERE candidat_competence.CANDIDAT_ID= :id)";
 		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("id", id);

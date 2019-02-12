@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -23,7 +24,8 @@ import com.fr.adaming.jsfapp.dto.SessionFormationReportingDto;
 import com.fr.adaming.jsfapp.model.SessionFormation;
 
 @Repository("sessionFormationDao")
-public class SessionFormationDao extends ManagerDao<SessionFormation, Long> implements ISessionFormationDao {
+public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
+		implements ISessionFormationDao, Serializable {
 
 	private static final long serialVersionUID = -6891843417767030009L;
 	private static final String DATE_FORMAT = "yyyy-MM-dd";

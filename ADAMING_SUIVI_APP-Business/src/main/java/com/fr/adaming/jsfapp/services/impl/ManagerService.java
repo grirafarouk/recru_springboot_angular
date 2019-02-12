@@ -8,21 +8,17 @@ import org.springframework.stereotype.Service;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.services.IManagerService;
 
-
 @Service("managerService")
-public abstract class ManagerService<T, id extends Serializable> implements IManagerService<T, id>, Serializable{
+public abstract class ManagerService<T, idType extends Serializable>
+		implements IManagerService<T, idType>, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5566103257929717385L;
-	
-	
+
 	@Override
 	public T create(T entity) {
 		return getDao().create(entity);
 	}
-
+   
 	@Override
 	public T update(T entity) {
 		return getDao().update(entity);
@@ -39,7 +35,7 @@ public abstract class ManagerService<T, id extends Serializable> implements IMan
 	}
 
 	@Override
-	public T findById(id id) {
+	public T findById(idType id) {
 		return getDao().findById(id);
 	}
 
@@ -54,9 +50,9 @@ public abstract class ManagerService<T, id extends Serializable> implements IMan
 	}
 
 	@Override
-	public void deleteById(id id) {
+	public void deleteById(idType id) {
 		getDao().deleteById(id);
 	}
 
-	public abstract IManagerDao<T, id> getDao();
+	public abstract IManagerDao<T, idType> getDao();
 }

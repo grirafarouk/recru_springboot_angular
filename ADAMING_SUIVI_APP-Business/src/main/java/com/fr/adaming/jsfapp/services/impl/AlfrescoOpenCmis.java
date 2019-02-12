@@ -77,9 +77,7 @@ public class AlfrescoOpenCmis {
 		Map<String, Object> properties = new HashMap<>();
 		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
 		properties.put(PropertyIds.NAME, name);
-
 		ContentStream contentStream = new ContentStreamImpl(name, BigInteger.valueOf(length), mimeTypes, stream);
-
 		return cvFolder.createDocument(properties, contentStream, VersioningState.MAJOR);
 	}
 
