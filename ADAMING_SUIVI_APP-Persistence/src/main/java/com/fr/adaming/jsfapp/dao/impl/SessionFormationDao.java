@@ -25,7 +25,6 @@ import com.fr.adaming.jsfapp.model.SessionFormation;
 @Repository("sessionFormationDao")
 public class SessionFormationDao extends ManagerDao<SessionFormation, Long> implements ISessionFormationDao {
 
-
 	private static final long serialVersionUID = -6891843417767030009L;
 	private static final String dateFormat = "yyyy-MM-dd";
 	private static final String dateDemmarage = " and session_formation.DATE_DEMARRAGE BETWEEN '";
@@ -43,7 +42,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 			+ "join formation f on f.ID = sf.FORMATION " + "JOIN type_formation tf on tf.ID = f.TYPE_FORMATION "
 			+ "JOIN lieu l on l.ID = f.LIEU " + "where sf.F_Actif group by sf.ID ORDER BY sf.DATE_DEMARRAGE ASC;";
 	private static final String REQ_SELECT = "select * from session_formation inner join formation  on session_formation.FORMATION=formation.ID where session_formation.F_Actif=1";
-
 
 	@Override
 	public List<SessionFormation> rechercherSessionsFormationParFormation(FormationDto formationDto) {
@@ -93,7 +91,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		return DaoUtils.castList(SessionFormation.class, crit.list());
 	}
 
-
 	public SQLQuery validateQuerryString(SessionFormationDto dto, Date date, Date date2, String query,
 			DateFormat format) {
 		if (dto != null) {
@@ -122,10 +119,8 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> listeEnCours = sEnCours.addEntity(SessionFormation.class).list();
 
-
 		return listeEnCours;
 	}
-
 
 	@Override
 	public List<SessionFormation> rechercherSessionFormation(SessionFormationDto sessionFormationDto) {
@@ -137,13 +132,11 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		@SuppressWarnings("unchecked")
 		List<SessionFormation> listeFormation = sFormation.addEntity(SessionFormation.class).list();
 
-
 		return listeFormation;
 	}
 
 	@Override
-	public List<SessionFormation> rechercherFormationEnCours(
-			SessionFormationDto sessionFormationDto) {
+	public List<SessionFormation> rechercherFormationEnCours(SessionFormationDto sessionFormationDto) {
 		return rechercherSessionsFormationEnCours(sessionFormationDto);
 
 	}
@@ -203,7 +196,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 		return liste;
 	}
 
-
 	public SessionFormationReportingDto getAllFormation(Object[] o) {
 
 		String nom = (String) o[0];
@@ -239,7 +231,6 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 				sessionReporting.setTauxRemplissage(taux);
 				dataReporting.add(sessionReporting);
 
-
 			}
 		}
 
@@ -274,12 +265,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long> impl
 	}
 
 	public boolean isNullObject(Object o, Object var) {
-		if (o != null && var != null) {
-			return true;
-		}
-		return false;
-
+		return o != null && var != null;
 	}
-
 
 }

@@ -187,8 +187,8 @@ public class CandidatController {
 	}
 
 	@PostMapping(path = "/RechercheReportingNbr")
-	public Integer rechercheReportingNbr(@RequestBody VReportingCandidatDto NCD) {
-		return vReportingCandidatService.rechercherReportingCandidatNbr(NCD);
+	public Integer rechercheReportingNbr(@RequestBody VReportingCandidatDto newCandidat) {
+		return vReportingCandidatService.rechercherReportingCandidatNbr(newCandidat);
 	}
 
 	@GetMapping(path = "/getcandidatById/{id}", produces = "application/json")
@@ -222,11 +222,11 @@ public class CandidatController {
 	}
 
 	@PostMapping(path = "/ajoutCandidat")
-	public Candidat ajoutCandidat(@RequestBody Candidat entity, @RequestParam String login, @RequestParam String mime) {
-		Candidat candidat = null;
-		if (creerCv(entity, login, mime)) {
-			entity.setStatut(Statut.VIDE);
-			candidat = candidatService.createOrUpdate(entity);
+	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login, @RequestParam String mime) {
+		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
+		if (creerCv(candidat, login, mime)) {
+			candidat.setStatut(Statut.VIDE);
+			candidat = candidatService.createOrUpdate(candidat);
 		}
 		return candidat;
 	}
@@ -424,14 +424,11 @@ public class CandidatController {
 					}
 				}
 			}
-			LOGGER.info("" + pjList);
 			convocationMail.envoyerMail(objet, content, dst, "moueslati@adaming.fr", dest.get(0), dest.get(1), pjList);
 			convocationMail.setEmailEntretien(false);
-		} catch (IOException e) {
+		} catch (IOException|MessagingException e) {
 			LOGGER.info(CONTEXT, e);
-		} catch (MessagingException e) {
-			LOGGER.info(CONTEXT, e);
-		}
+		} 
 	}
 
 	public String creerEmailEntretien(Candidat candidatDto, Utilisateur connectedUser)

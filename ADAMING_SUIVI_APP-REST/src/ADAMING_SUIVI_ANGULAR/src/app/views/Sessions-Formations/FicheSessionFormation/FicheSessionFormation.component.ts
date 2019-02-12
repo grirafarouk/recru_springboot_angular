@@ -80,7 +80,7 @@ export class FicheSessionFormationComponent implements OnInit {
   }
 
   activerDesactiverSession() {
-    if (this.session.factif != null && this.session.factif == true) {
+    if (this.session.factif != null && this.session.factif) {
       this.notifierService.notify("success", "Succès !! " + "Session Désactivée !");
       this.session.factif = false;
     }

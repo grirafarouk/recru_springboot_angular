@@ -237,7 +237,7 @@ get f() { return this.myForm.controls; }
   private verfierSuiviRelance() {
     let error = false;
 
-    if (this.currentCandidat.suivi.relance == true && this.currentCandidat.suivi.dateRelance == undefined) {
+    if (this.currentCandidat.suivi.relance && this.currentCandidat.suivi.dateRelance == undefined) {
       this.notifierService.notify("error", "Champ obligatoire, Date relance dépend  Relancer !")
       error = true;
     }

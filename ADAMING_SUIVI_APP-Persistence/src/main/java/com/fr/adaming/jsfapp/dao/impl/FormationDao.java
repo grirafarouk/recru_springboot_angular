@@ -19,7 +19,6 @@ import com.fr.adaming.jsfapp.model.Formation;
 @Repository("formationDao")
 public class FormationDao extends ManagerDao<Formation, Long> implements IFormationDao {
 
-
 	/**
 	 * 
 	 */
@@ -27,6 +26,7 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 
 	private static final String FORMAT_DATE = "yyyy-MM-dd";
 	private static final String FORMATION_NOM_LIKE = " and formation.NOM LIKE '%";
+	private static final String FORMATION_CODE_LIKE = " and formation.CODE LIKE '%";
 	private static final String TECH_LIB_LIKE = " and technologie.libelle LIKE '%";
 	private static final String LIEU_LIB_LIKE = " and lieu.libelle LIKE '%";
 	private static final String TFORM_LIB_LIKE = " and type_formation.libelle LIKE '%";
@@ -138,7 +138,7 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 		if (formationDto != null) {
 			if (isNullOrEmptyString(formationDto.getCode())) {
 
-				queryString += " and formation.CODE LIKE '%" + formationDto.getCode() + "%'";
+				queryString += FORMATION_CODE_LIKE + formationDto.getCode() + "%'";
 			}
 			if (isNullOrEmptyString(formationDto.getNom())) {
 				queryString += FORMATION_NOM_LIKE + formationDto.getNom() + "%'";
@@ -191,38 +191,26 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 	}
 
 	public boolean isNullOrEmptyString(String var) {
-		if (var != null && !var.isEmpty()) {
-			return true;
-		}
-		return false;
+		return var != null && !var.isEmpty();
 	}
 
 	public boolean isNullObject(Object o, Object var) {
-		if (o != null && var != null) {
-			return true;
-		}
-		return false;
+		return o != null && var != null;
 	}
 
-	public boolean isNullObjectAndString(Object o, Object var) {
-		if (o != null && var != null) {
-			return true;
-		}
-		return false;
+	public boolean isNullObjectAndString(Object o, String var) {
+		return o != null && var != null;
 	}
 
 	public boolean isNullOrEmptyDateAndObject(Object o, Date var) {
-		if (o != null && var != null) {
-			return true;
-		}
-		return false;
+		return o != null && var != null;
 	}
 
 	public String critereRechercheFormationCloture(SessionFormationDto searchDtoCR, String queryStringCR) {
 		DateFormat df = new SimpleDateFormat(FORMAT_DATE);
 
 		if (isNullOrEmptyString(searchDtoCR.getFormation().getCode()))
-			queryStringCR += " and formation.CODE LIKE '%" + searchDtoCR.getFormation().getCode() + "%'";
+			queryStringCR += FORMATION_CODE_LIKE + searchDtoCR.getFormation().getCode() + "%'";
 		if (isNullOrEmptyString(searchDtoCR.getFormation().getNom()))
 			queryStringCR += FORMATION_NOM_LIKE + searchDtoCR.getFormation().getNom() + "%'";
 
@@ -249,11 +237,12 @@ public class FormationDao extends ManagerDao<Formation, Long> implements IFormat
 		return queryStringCR;
 
 	}
+
 	public String critereRechercheFormationEnCours(SessionFormationDto searchDtoCR, String queryStringCR) {
 		DateFormat df = new SimpleDateFormat(FORMAT_DATE);
 
 		if (isNullOrEmptyString(searchDtoCR.getFormation().getCode()))
-			queryStringCR += " and formation.CODE LIKE '%" + searchDtoCR.getFormation().getCode() + "%'";
+			queryStringCR += FORMATION_CODE_LIKE + searchDtoCR.getFormation().getCode() + "%'";
 		if (isNullOrEmptyString(searchDtoCR.getFormation().getNom()))
 			queryStringCR += FORMATION_NOM_LIKE + searchDtoCR.getFormation().getNom() + "%'";
 
