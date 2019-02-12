@@ -20,8 +20,6 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ICandidatDao;
@@ -55,7 +53,6 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	private static final String CODE_POSTAL = "codePostal";
 	private static final String EN_DATE = "en.date";
 	private static final String ENTRETIEN = "entretien";
-	private Logger logger = LoggerFactory.getLogger(CandidatDao.class);
 
 	@Override
 	public Candidat rechercherCandidatParEmail(String email) {
