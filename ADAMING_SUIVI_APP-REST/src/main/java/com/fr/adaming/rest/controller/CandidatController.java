@@ -224,7 +224,7 @@ public class CandidatController {
 	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login, @RequestParam String mime) {
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
 		if (creerCv(candidat, login, mime)) {
-			candidat.setStatut(Statut.VIDE);
+			candidat.getStatut().setLibelle("Vide");
 			candidat = candidatService.createOrUpdate(candidat);
 		}
 		return candidat;
