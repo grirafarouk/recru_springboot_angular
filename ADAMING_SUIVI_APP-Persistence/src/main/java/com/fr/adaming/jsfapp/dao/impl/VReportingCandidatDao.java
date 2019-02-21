@@ -11,7 +11,6 @@ import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Repository("v_ReportingCandidatDao")
-<<<<<<< HEAD
 public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 		implements IvReportingCandidatDao,Serializable {
 	
@@ -20,9 +19,6 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 	 */
 	private static final long serialVersionUID = 6079291315252650409L;
 
-=======
-public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long> implements IvReportingCandidatDao {
->>>>>>> 014369f27220e36fed41b07f7d3bf413afff1b34
 
 	@Override
 	public List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto vReportingcandidatDto, int page,

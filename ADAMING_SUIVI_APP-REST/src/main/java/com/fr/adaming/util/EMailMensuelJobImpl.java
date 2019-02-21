@@ -53,11 +53,7 @@ public class EMailMensuelJobImpl {
 		// objet du mail
 		String objetMensuel = "rapport mensuel du sourcing (" + sdf.format(DateUtils.getYesterday()) + ")";
 		eMailApi.envoyerMail(objetMensuel, contentMensuel, destinataires, "", "", "", pjListMensuel);
-<<<<<<< HEAD
-		logger.info("Email reporting finished.");
-=======
 		log.info("Email reporting finished.");
->>>>>>> 014369f27220e36fed41b07f7d3bf413afff1b34
 	}
 
 	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
