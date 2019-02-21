@@ -119,10 +119,10 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		}
 		if (all) {
 			query = query
-					+ " AND this_.STATUTS IN ('2','3','4','5') AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
+					+ " AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
 		} else {
 			query = query
-					+ " AND this_.STATUTS IN ('3','4','5') AND en1_.DATE IS NOT NULL  AND en1_.DATE <= CURRENT_DATE() AND en1_.LIEU IS NOT NULL AND lieu7_.LIBELLE IS NOT NULL ";
+					+ " AND en1_.DATE IS NOT NULL  AND en1_.DATE <= CURRENT_DATE() AND en1_.LIEU IS NOT NULL AND lieu7_.LIBELLE IS NOT NULL ";
 		}
 		
 		if (testerNullAndEmpty(candidatDto, candidatDto.getStatut().getLibelle())) {

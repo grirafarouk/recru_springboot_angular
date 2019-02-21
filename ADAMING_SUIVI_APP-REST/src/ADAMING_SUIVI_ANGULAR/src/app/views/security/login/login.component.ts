@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.authenticationService.logout()
   }
-
   doLogin() {
     this.diableButton = true
     this.authenticationService.login(this.login).toPromise().then(
@@ -50,6 +49,7 @@ export class LoginComponent implements OnInit {
       }
     )
   }
+
 
  private redirectForgetPwd(){
   this.router.navigate([NAVIGATION_RULES.forgetpwd.url])
