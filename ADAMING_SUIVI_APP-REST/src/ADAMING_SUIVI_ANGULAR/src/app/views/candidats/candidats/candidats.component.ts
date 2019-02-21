@@ -173,7 +173,24 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     e.node.itemData.icon = "assets/img/tree/iconfinder_folder.png"
   }
   //#endregion
-
+  deletefile(){
+    this.candidate.nomCV = this.currentFile.name
+    var reader = new FileReader();
+    reader.onload = (e) => {
+      var fileBase64Value = reader.result + ''
+      var file = {
+        filename: this.currentFile.name,
+        filetype: this.currentFile.file.type,
+        value: fileBase64Value.split(',')[1],
+        loginUser: this.utilisateurService.getConnetedUserInfo().login
+      }
+      this.candidatsService.deletewordfile(file).subscribe(data => {
+        this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl("data:application/pdf;base64," + data.value)
+      })
+    }
+    reader.readAsDataURL(this.currentFile.file);
+  }
+  
   afficherPdf() {
     this.candidate.nomCV = this.currentFile.name
     var reader = new FileReader();
@@ -240,10 +257,12 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   }
 
   async  onSubmit() {
+    
     let fn =(e)=>{
     this.annuler()
     }
     await  this.saveCandidat(fn)
+  
   }
 
   annuler(){
@@ -349,6 +368,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")
+          this.deletefile()
           this.loading=false;
           callback(data.id) 
         } else {
@@ -361,5 +381,4 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     this.loading=false;
   }
   
-
 }

@@ -35,7 +35,14 @@ public class Utilitaire {
 	            deleteDir(new File(dir, children[i]));
 	        }
 	    }
-	    dir.delete();
+	    if (dir.delete()) {
+	    	
+	    System.out.println(dir.getName()+"file is deleted");	
+	    }
+	    else {
+	    	
+	    	System.out.println("Delete operation is failed ");
+	    }
 	}
 
 }

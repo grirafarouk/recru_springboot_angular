@@ -77,8 +77,7 @@ public class EMailMensuelJobImpl {
 		HSSFWorkbook myWorkBookMensuel = new HSSFWorkbook(
 				new POIFSFileSystem(new FileInputStream(realPathMensuel + "out1.xls")));
 		ExcelToHtml nExcelToHtmlMensuel = new ExcelToHtml(myWorkBookMensuel);
-		String contentMensuel = nExcelToHtmlMensuel.getHTML();
-		return contentMensuel;
+		return nExcelToHtmlMensuel.getHTML();
 	}
 
 	private OutputStream writeToOutputStream(XSSFWorkbook wb) {

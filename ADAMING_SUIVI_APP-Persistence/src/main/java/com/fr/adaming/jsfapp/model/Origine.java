@@ -20,7 +20,6 @@ public class Origine implements java.io.Serializable {
 	private static final long serialVersionUID = -2783344197331072362L;
 	private Long id;
 	private String libelle;
-
 	public Origine() {
 		super();
 	}
@@ -43,6 +42,5 @@ public class Origine implements java.io.Serializable {
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
-
 
 }

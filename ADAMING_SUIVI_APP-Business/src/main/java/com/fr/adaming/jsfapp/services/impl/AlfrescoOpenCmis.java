@@ -41,7 +41,6 @@ public class AlfrescoOpenCmis {
 			// user credentials
 			parameter.put(SessionParameter.USER, "admin");
 			parameter.put(SessionParameter.PASSWORD, "admin");
-
 			// connection settings
 			parameter.put(SessionParameter.ATOMPUB_URL,
 					"http://127.0.0.1:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
@@ -71,15 +70,14 @@ public class AlfrescoOpenCmis {
 		return folder;
 	}
 
-	public static Document createCv(InputStream stream, String name, Long length, String mimeTypes) {
+	public static Document createCv(InputStream stream, String name, Long length, String mimeTypes)
+			throws NullPointerException {
 		Folder cvFolder = createCvFolderIfNotExist();
 
 		Map<String, Object> properties = new HashMap<>();
 		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
 		properties.put(PropertyIds.NAME, name);
-
 		ContentStream contentStream = new ContentStreamImpl(name, BigInteger.valueOf(length), mimeTypes, stream);
-
 		return cvFolder.createDocument(properties, contentStream, VersioningState.MAJOR);
 	}
 

@@ -6,6 +6,9 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 public class DateUtils {
+	private DateUtils() {
+		super();
+	}
 
 	public static Date getYesterday() {
 		Calendar cal = Calendar.getInstance();

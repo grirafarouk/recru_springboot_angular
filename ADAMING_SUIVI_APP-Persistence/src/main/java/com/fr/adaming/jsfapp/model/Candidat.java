@@ -25,7 +25,7 @@ import com.fr.adaming.jsfapp.enums.CVSource;
 
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.enums.Relance;
-import com.fr.adaming.jsfapp.enums.Statut;
+import com.fr.adaming.jsfapp.model.Statut;
 
 @Entity
 @Table(name = "candidat")
@@ -246,8 +246,8 @@ public class Candidat implements java.io.Serializable {
 		this.sessionFormation = sessionFormation;
 	}
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "STATUT", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "STATUTS", nullable = false)
 	public Statut getStatut() {
 		return statut;
 	}

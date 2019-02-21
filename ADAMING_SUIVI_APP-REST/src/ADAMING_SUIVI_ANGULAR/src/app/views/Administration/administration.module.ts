@@ -1,3 +1,4 @@
+import { ProfilComponent } from './profil/profil.component';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -27,6 +28,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { FiliereComponent } from './Filiere/filiere.component';
 import { CommonCustomModule } from '../../common/common.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { StatusComponent } from './status/status.component';
 
 
 
@@ -51,8 +53,8 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     CommonCustomModule,
     TooltipModule.forRoot(),
   ],
-  declarations: [  competenceComponent,utilisateursComponent,lieuxComponent,
+  declarations: [  competenceComponent,ProfilComponent, utilisateursComponent,lieuxComponent,
     origineCVComponent,technologiesComponent,typeFormationComponent,FiliereComponent,clientSessionComponent,
-  motifHorsCibleComponent,regionComponent]
+  motifHorsCibleComponent,regionComponent, StatusComponent]
 })
 export class administrationModule { }

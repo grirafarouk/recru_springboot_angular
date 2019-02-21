@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -12,7 +13,7 @@ import com.fr.adaming.jsfapp.dao.ILieuDao;
 import com.fr.adaming.jsfapp.model.Lieu;
 
 @Repository("lieuDao")
-public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao {
+public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao ,Serializable{
 
 
 	private static final long serialVersionUID = -5552822211530723503L;

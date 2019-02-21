@@ -521,7 +521,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label>Statut:</label>
-                    <ng-select bindValue="value"  bindLabel="label" [items]="refStatus"  [(ngModel)]="currentCandidat.statut" name="statut"
+                    <ng-select  bindvalue="libelle" bindLabel="libelle" [items]="statuts"  [(ngModel)]="currentCandidat.statut" name="statut"
                       id="statut" style="font-weight: bold;color: black;" [disabled]="disabledtime==true">
                     </ng-select>
                   </div>
@@ -530,7 +530,7 @@
                
               </div>
               <div class="row">
-                <div class="col-12" *ngIf="currentCandidat.statut=='VALIDE'">
+                <div class="col-12" *ngIf="currentCandidat.statut=='Valide'">
                   <div class="form-group">
                     <label for="sessionFormation">Affectation Candidat</label>
                     <ng-select placeholder="--Sélectionner--" bindLabel="itemLabel" [items]="sessionFormations"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.sessionFormation" name="sessionFormation"
@@ -580,7 +580,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" (click)="selectionnerTousRegion()" class="btn btn-primary">Toute la France</button>
-          <button type="button" (click)="validerRegion()" class="btn btn-primary">Valider</button>
+          <button type="button" (click)="validerRegion()" class="btn btn-primary">Valid er</button>
           <button type="button" class="btn btn-secondary" (click)="regionFranceModal.hide()">Annuler</button>
         </div>
       </div><!-- /.modal-content -->

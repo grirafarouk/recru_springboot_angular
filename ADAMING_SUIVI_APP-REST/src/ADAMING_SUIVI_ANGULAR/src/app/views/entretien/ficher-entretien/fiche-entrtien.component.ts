@@ -1,3 +1,5 @@
+import { StatutService } from './../../../services/administrationService/StatutService';
+import { Statut } from './../../../models/Statut';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Candidate } from '../../../models/Candidate';
@@ -57,6 +59,7 @@ export class FicheEntrtienComponent implements OnInit {
   civilites: Array<Civilite> = [];
   competences: Array<Competence> = []
   lieux: Array<Lieu> = []
+  statuts:Array<Statut> =[] 
 
   pertinenecesValeurs = [1, 2, 3, 4, 5]
   pdfSource;
@@ -82,7 +85,7 @@ get f() { return this.myForm.controls; }
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService,
     private routingState: RoutingState, private entretienService: EntretienService, private regionService: RegionService,
-    private userService: UtilisateurService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
+    private userService: UtilisateurService, private statutservice:StatutService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
     private formBuilder: FormBuilder) { 
       this.myForm = formBuilder.group({     
         publishedYear: ['', [Validators.min(0), Validators.max(45)]]
@@ -114,7 +117,11 @@ get f() { return this.myForm.controls; }
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
-
+    this.statutservice.findAllStatut().subscribe(data=>
+      {
+       this.statuts=data;
+      } 
+       )
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
     })
@@ -220,7 +227,7 @@ get f() { return this.myForm.controls; }
 
   private verfierStatus() {
     let error = false;
-    if (Status[this.currentCandidat.statut] == Status.VALIDE && (this.currentCandidat.sessionFormation == null || this.currentCandidat.sessionFormation == undefined)) {
+    if (this.currentCandidat.statut.libelle == "Valide" && (this.currentCandidat.sessionFormation == null || this.currentCandidat.sessionFormation == undefined)) {
       this.notifierService.notify("error", " Champ obligatoire,Affectation candidat pour une session de fromation !")
       error = true;
     }

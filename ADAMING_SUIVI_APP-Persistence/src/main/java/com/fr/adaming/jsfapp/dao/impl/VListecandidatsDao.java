@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -16,7 +17,11 @@ import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
 
 @Repository("v_ListeCandidatsDao")
-public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implements IvListeCandidatsDao {
+public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implements IvListeCandidatsDao, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4881184117785155062L;
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private static final String LISTE_CANDIDAT_NOM = " AND V_ListeCandidats.NOM_CANDIDAT LIKE '%";
 	private static final String LISTE_CANDIDAT_PRENOM = " AND V_ListeCandidats.PRENOM_CANDIDAT LIKE '%";
@@ -66,13 +71,14 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	private String generateEntretienConditionQuery(VListeCandidatsDto vListeCandidatsDto, Boolean all, String query) {
 		if (vListeCandidatsDto != null) {
 			generateEntretienConditionQueryTesterCandidat(vListeCandidatsDto, query);
+
 		}
 		if (all) {
 			query = query
-					+ " AND V_ListeCandidats.STATUT IN ('1','2','3','4') AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() ";
+					+ " AND V_ListeCandidats.STATUTS='Refuser' OR V_ListeCandidats.STATUTS='Vide' OR V_ListeCandidats.STATUTS='En attente d’évaluation' OR V_ListeCandidats.STATUTS='En attente d’affectation' AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() ";
 		} else {
 			query = query
-					+ " AND V_ListeCandidats.STATUT IN ('2','3','4') AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL  AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() AND V_ListeCandidats.LIEU_ENTRETIEN IS NOT NULL ";
+					+ " AND V_ListeCandidats.STATUTS='Vide' OR V_ListeCandidats.STATUTS='En attente d’évaluation' OR V_ListeCandidats.STATUTS='En attente d’affectation'  AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL  AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() AND V_ListeCandidats.LIEU_ENTRETIEN IS NOT NULL ";
 		}
 		return query;
 	}
@@ -109,7 +115,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		}
 
 		if (vListeCandidatsDto.getStatut() != null) {
-			query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut().ordinal() + "";
+			query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "";
 		}
 		return query;
 	}
@@ -139,7 +145,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	@Override
 	public List<VListeCandidats> rechercherVlisteNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size) {
-		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
+		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		query = generateConditionQuery(vListeCandidatsDto, query);
 
 		if (vListeCandidatsDto != null && vListeCandidatsDto.getCritereRecheche() != null) {
@@ -178,7 +184,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 	@Override
 	public Integer rechercherVlisteNouveauxCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
-		String query = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT=2  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
+		String query = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.STATUTS='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		query = generateConditionQuery(vListeCandidatsDto, query);
 
 		if (vListeCandidatsDto != null && vListeCandidatsDto.getCritereRecheche() != null) {
@@ -216,6 +222,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNom())) {
 			query = query + LISTE_CANDIDAT_NOM + vListeCandidatsDto.getNom() + "%'";
 		}
+
 
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenom())) {
 			query = query + LISTE_CANDIDAT_PRENOM + vListeCandidatsDto.getPrenom() + "%'";
@@ -384,7 +391,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 			}
 
 			if (vListeCandidatsDto.getStatut() != null) {
-				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut().ordinal() + "";
+				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "";
 			}
 
 			if (vListeCandidatsDto.getConfirmationRdv() != null) {
@@ -436,6 +443,10 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (vListeCandidatsDto != null) {
 			if (vListeCandidatsDto.getDateInscription() != null) {
 				query = query + LISTE_CANDIDAT_DATE_EQUAL + sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+
+			}
+			if (vListeCandidatsDto.getStatut()!= null) {
+				query = query + " AND V_ListeCandidats.STATUTS = " + vListeCandidatsDto.getStatut() + "";
 			}
 			if (vListeCandidatsDto.getDateEntretien() != null) {
 				query = query + LISTE_CANDIDAT_DATE + sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
@@ -455,7 +466,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	public String rechercheNonTemporelle(VListeCandidatsDto vListeCandidatsDto, String query) {
 		if (vListeCandidatsDto != null) {
 			if (vListeCandidatsDto.getStatut() != null) {
-				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut().ordinal() + "";
+				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "";
 			}
 			if (vListeCandidatsDto.getRelancer() != null) {
 				query = query + " AND V_ListeCandidats.RELANCER = " + vListeCandidatsDto.getRelancer() + "";
@@ -524,7 +535,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 						+ vListeCandidatsDto.getDisponibilite().ordinal() + "";
 			}
 			if (vListeCandidatsDto.getStatut() != null) {
-				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut().ordinal() + "";
+				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "";
 			}
 			if (vListeCandidatsDto.getNomSourceur() != null) {
 				query = query + LISTE_CANDIDAT_NOM_SOUR + vListeCandidatsDto.getNomSourceur() + "%'";

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.SQLQuery;
@@ -9,7 +10,7 @@ import com.fr.adaming.jsfapp.dao.IOrigineDao;
 import com.fr.adaming.jsfapp.model.Origine;
 
 @Repository("origineDao")
-public class OrigineDao extends ManagerDao<Origine, Long> implements IOrigineDao {
+public class OrigineDao extends ManagerDao<Origine, Long> implements IOrigineDao,Serializable {
 
 	
 	private static final long serialVersionUID = -1832801984520480939L;

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -13,7 +14,7 @@ import com.fr.adaming.jsfapp.model.CodePostal;
 
 @Repository("codePostalDao")
 public class CodePostalDao extends ManagerDao<CodePostal, Long> implements
-		ICodePostalDao {
+		ICodePostalDao,Serializable {
 
 
 	private static final long serialVersionUID = 602784068384628060L;
@@ -47,11 +48,10 @@ public class CodePostalDao extends ManagerDao<CodePostal, Long> implements
 	public List<String> rechercherRegion(String region) {
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(CodePostal.class);
-		List results = crit.setProjection(
+		return DaoUtils.castList(String.class,crit.setProjection(
 				Projections.projectionList().add(
 						Projections.distinct(Projections.property("region"))))
-				.list();
-		return DaoUtils.castList(String.class, results);
+				.list());
 
 	}
 }

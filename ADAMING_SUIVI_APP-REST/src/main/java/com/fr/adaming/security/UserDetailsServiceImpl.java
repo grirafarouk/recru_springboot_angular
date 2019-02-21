@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		if (user == null)
 			throw new UsernameNotFoundException(username);
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		if (user.getProfil() != null) {
+		if (user.getProfil()!=null) {
 
 			authorities.add(new SimpleGrantedAuthority(user.getProfil().getLabel()));
 

@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,11 @@ import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Repository("v_ReportingCandidatDao")
-public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long> implements IvReportingCandidatDao {
+
+public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
+		implements IvReportingCandidatDao, Serializable {
+
+	private static final long serialVersionUID = 6079291315252650409L;
 
 	@Override
 	public List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto vReportingcandidatDto, int page,
