@@ -14,7 +14,7 @@ public class Utilitaire {
 		super();
 	}
 
-	public static StringBuilder hashMD5Crypt(String input) throws NoSuchAlgorithmException {
+	public static String hashMD5Crypt(String input) throws NoSuchAlgorithmException {
 		MessageDigest m = MessageDigest.getInstance("MD5");
 		m.reset();
 		m.update(input.getBytes());
@@ -25,7 +25,7 @@ public class Utilitaire {
 		while (hashtext.length() < 32) {
 			hashtext.append("0" + hashtext);
 		}
-		return hashtext;
+		return hashtext.toString();
 	}
 	
 	public static void deleteDir(File dir) throws NoSuchFileException, DirectoryNotEmptyException, IOException{

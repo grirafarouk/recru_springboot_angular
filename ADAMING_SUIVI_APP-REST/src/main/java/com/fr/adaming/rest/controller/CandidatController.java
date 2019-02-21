@@ -76,9 +76,6 @@ public class CandidatController {
 	@Autowired
 	private IUtilisateurService utilisateurService;
 
-	@Autowired
-	StorageService storageService;
-
 	List<String> files = new ArrayList<>();
 
 	private Disponibilite[] refDisponibilite = Disponibilite.values();

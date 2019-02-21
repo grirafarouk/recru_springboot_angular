@@ -35,7 +35,7 @@ public class EnvoiMailUtil {
 			email.setContent(
 					"Bonjour " + utilisateurExiste.getPrenom() + " " + utilisateurExiste.getNom() + ","
 							+ "Pour réinitialiser votre mot de passe, merci de vous rendre sur:" + ACTION_1 + url
-							+ ACTION_1 + "Cordialement," + ACTION_1 + "L'équipe Adaming CRA",
+							+ ACTION_1 + "Cordialement," + ACTION_1 + "L'équipe Adaming Recrutement",
 					"text/html; charset=ISO-8859-1");
 			email.send();
 			LOGGER.info(utilisateurExiste.getEmail());

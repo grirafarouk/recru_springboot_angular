@@ -121,7 +121,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         categoryId: categoryId.join('_'),
         expanded: false,
         type: 'file',
-        icon: "assets/img/tree/pdf-file.png"
+        icon: "assets/img/tree/pdf-icon-round.png"
       })
     });
     this.folders = structure;
