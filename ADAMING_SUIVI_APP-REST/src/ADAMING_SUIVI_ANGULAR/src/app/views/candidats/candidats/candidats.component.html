@@ -34,16 +34,16 @@
                     <div class="card-body">
 
                         <div class="row">
-                        <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="civilite">Civilité</label>
-                                    <label style="color: firebrick">*</label>
-                                    <ng-select [items]="civilites"  required style="font-weight: bold;"
-                                         name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label for="civilite">Civilité</label>
+                            <label style="color: firebrick">*</label>
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="civilites" [(ngModel)]="candidate.civilite.id"
+                                name="civilite" [disabled]="candidateFound===false" id="civilite">
+                            </ng-select>
 
-                                    </ng-select>
-                                </div>
-                            </div> 
+                        </div>
+                    </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>

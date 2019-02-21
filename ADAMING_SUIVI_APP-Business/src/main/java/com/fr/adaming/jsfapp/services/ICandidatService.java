@@ -36,7 +36,7 @@ public interface ICandidatService extends IManagerService<Candidat, Long> {
 
 	List<SyntheseCandidatDto> rechercherSyntheseJournee(Date date);
 
-	List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut, Date DateFin);
+	List<SyntheseCandidatDto> rechercherSyntheseSemaine(Date dateDebut, Date dateFin);
 
 	List<Candidat> rechercherCandidatEnAttenteEvaluation();
 

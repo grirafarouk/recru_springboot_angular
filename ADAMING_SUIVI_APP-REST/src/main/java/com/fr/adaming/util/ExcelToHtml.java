@@ -105,7 +105,7 @@ public class ExcelToHtml {
 	}
 
 	public HSSFClientAnchor verif(final HSSFShape pic)
-			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+			throws NoSuchFieldException, IllegalAccessException {
 
 		final Field f = HSSFShape.class.getDeclaredField("anchor");
 		f.setAccessible(true);
