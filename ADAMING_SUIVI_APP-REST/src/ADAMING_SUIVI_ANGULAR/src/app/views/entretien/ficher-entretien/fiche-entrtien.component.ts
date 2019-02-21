@@ -4,8 +4,10 @@ import { Candidate } from '../../../models/Candidate';
 import { CodePostal } from '../../../models/CodePostal';
 import { Technologie } from '../../../models/Technologie';
 import { Origine } from '../../../models/Origine';
+import { Civilite } from "../../../models/Civilite";
 import { TechnologieService } from '../../../services/administrationService/TechnologieService';
 import { OriginesService } from '../../../services/administrationService/origines.service';
+import { CivilitesService } from "../../../services/administrationService/civilites.service";
 import { CodePostalService } from '../../../services/administrationService/code-postal.service';
 import { CompetencesService } from '../../../services/administrationService/competences.service';
 import { Competence } from '../../../models/Competence';
@@ -51,7 +53,8 @@ export class FicheEntrtienComponent implements OnInit {
   timeEntretien: Date;
   codePostals: Array<CodePostal> = [];
   technologies: Array<Technologie> = []
-  origines: Array<Origine> = []
+  origines: Array<Origine> = [];
+  civilites: Array<Civilite> = [];
   competences: Array<Competence> = []
   lieux: Array<Lieu> = []
 
@@ -74,7 +77,7 @@ get f() { return this.myForm.controls; }
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
     private suiviService:SuiviService,
-    private codePostalService: CodePostalService, private originesService: OriginesService,
+    private codePostalService: CodePostalService, private originesService: OriginesService,private civilitesService: CivilitesService,
     private technologiesService: TechnologieService, private candidatsService: CandidatsService,
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService,
@@ -115,7 +118,9 @@ get f() { return this.myForm.controls; }
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
     })
-
+    this.civilitesService.findAllCivilites().subscribe(data => {
+      this.civilites = data;
+    })
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })

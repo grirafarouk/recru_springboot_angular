@@ -209,8 +209,9 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 		BigDecimal tauxAccep = (BigDecimal) o[7];
 		BigDecimal taux = (BigDecimal) o[8];
 		BigInteger idSession = (BigInteger) o[9];
-		return new SessionFormationReportingDto(nom, lieu, type, date, affectaion, acceptation, nombrePlace, tauxAccep,
-				taux, idSession);
+		return new SessionFormationReportingDto.Builder().setNomFormation(nom).setLieuFormation(lieu).setTypeFormation(type).
+				setDateDemarrage(date).setCandidatAffectation(affectaion).setCandidatAcceptation(acceptation).setNombrePlace(nombrePlace).
+				setTauxAcceptation(tauxAccep).setTauxRemplissage(taux).setIdSession(idSession).buildSessionFormationReportingDto();
 
 	}
 
@@ -264,11 +265,7 @@ public class SessionFormationDao extends ManagerDao<SessionFormation, Long>
 	}
 
 	public boolean isNullObject(Object o, Object var) {
-		if (o != null && var != null) {
-			return true;
-		}
-		return false;
-
+		return o != null && var != null;
 	}
 
 }

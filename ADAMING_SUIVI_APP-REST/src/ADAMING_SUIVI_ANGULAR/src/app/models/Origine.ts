@@ -1,4 +1,4 @@
 export class Origine{
     id:number;
-    libelle:String
+    libelle:string
 }

@@ -1,5 +1,5 @@
 export class Lieu{
     id:number;
-    libelle:String
+    libelle:string;
     adresseAdaming:string;
 }

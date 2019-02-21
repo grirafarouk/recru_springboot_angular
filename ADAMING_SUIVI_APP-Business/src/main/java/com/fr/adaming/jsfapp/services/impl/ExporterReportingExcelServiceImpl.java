@@ -428,7 +428,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 		// content
 
 		HashMap<Utilisateur, List<SyntheseCandidatDto>> map = new HashMap<>();
-		List<Utilisateur> utilisateurs = new ArrayList<>();
+		List<Utilisateur> listUtilisateurs = new ArrayList<>();
 		for (SyntheseCandidatDto syntheseCandidatDto : listeSyntheseCandidatDto) {
 			if (!map.containsKey(syntheseCandidatDto.getCreePar())) {
 				List<SyntheseCandidatDto> liste = new ArrayList<>();
@@ -441,7 +441,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			}
 		}
 		//
-		for (int i = 0, j = 1, k = 2; k <= utilisateurs.size(); i = i + 3, j = j + 3, k = k + 3) {
+		for (int i = 0, j = 1, k = 2; k <= listUtilisateurs.size(); i = i + 3, j = j + 3, k = k + 3) {
 			Utilisateur u1 = null;
 			Utilisateur u2 = null;
 			Utilisateur u3 = null;
@@ -451,15 +451,15 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 			List<SyntheseCandidatDto> listeU1;
 			List<SyntheseCandidatDto> listeU2;
 			List<SyntheseCandidatDto> listeU3;
-			if (utilisateurs.size() - i >= 3) {
-				u1 = utilisateurs.get(i);
-				u2 = utilisateurs.get(j);
-				u3 = utilisateurs.get(k);
-			} else if (utilisateurs.size() - i == 2) {
-				u1 = utilisateurs.get(i);
-				u2 = utilisateurs.get(j);
-			} else if (utilisateurs.size() - i == 1) {
-				u1 = utilisateurs.get(i);
+			if (listUtilisateurs.size() - i >= 3) {
+				u1 = listUtilisateurs.get(i);
+				u2 = listUtilisateurs.get(j);
+				u3 = listUtilisateurs.get(k);
+			} else if (listUtilisateurs.size() - i == 2) {
+				u1 = listUtilisateurs.get(i);
+				u2 = listUtilisateurs.get(j);
+			} else if (listUtilisateurs.size() - i == 1) {
+				u1 = listUtilisateurs.get(i);
 			}
 			Row hderRow;
 			Cell hdrCell;
@@ -470,7 +470,7 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 				hdrCell.setCellValue(SOURCEUR);
 				hdrCell.setCellStyle(sousTitre);
 				nomSourceurCell = hderRow.createCell(1);
-				nomSourceurCell.setCellValue(utilisateurs.get(i).getNom() + " " + utilisateurs.get(i).getPrenom());
+				nomSourceurCell.setCellValue(listUtilisateurs.get(i).getNom() + " " + listUtilisateurs.get(i).getPrenom());
 				nomSourceurCell.setCellStyle(csNomSrc);
 				sh.addMergedRegion(new CellRangeAddress(rowNum - 1, rowNum - 1, 1, 2));
 			}
@@ -518,7 +518,6 @@ public class ExporterReportingExcelServiceImpl implements IExporterReportingExce
 					}
 				}
 			}
-			long val = 0;
 			Row villeRow;
 			for (int m = 0; m < regions.size(); m++) {
 				villeRow = sh.createRow(rowNum++);

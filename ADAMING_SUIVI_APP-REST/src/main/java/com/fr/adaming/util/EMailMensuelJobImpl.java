@@ -24,7 +24,6 @@ import com.fr.adaming.jsfapp.services.IExporterReportingExcelService;
 
 @Component("eMailMensuelJob")
 public class EMailMensuelJobImpl {
-	Logger LOGGER = LoggerFactory.getLogger(EMailEvaluationJobImpl.class);
 	@Autowired
 	@Qualifier("exporterReportingExcelService")
 	private IExporterReportingExcelService exportExcelService;
@@ -33,10 +32,10 @@ public class EMailMensuelJobImpl {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory.getLogger(EMailReportingJobImpl.class);
+	private Logger log = LoggerFactory.getLogger(EMailReportingJobImpl.class);
 
 	public void doBusiness() throws Exception {
-		logger.info("Email reporting started...");
+		log.info("Email reporting started...");
 		IEMailApi eMailApi = new JavaMailApi();
 		// creation de la liste des destinataires
 		List<String> destinataires = new ArrayList<>();
@@ -54,7 +53,11 @@ public class EMailMensuelJobImpl {
 		// objet du mail
 		String objetMensuel = "rapport mensuel du sourcing (" + sdf.format(DateUtils.getYesterday()) + ")";
 		eMailApi.envoyerMail(objetMensuel, contentMensuel, destinataires, "", "", "", pjListMensuel);
+<<<<<<< HEAD
 		logger.info("Email reporting finished.");
+=======
+		log.info("Email reporting finished.");
+>>>>>>> 014369f27220e36fed41b07f7d3bf413afff1b34
 	}
 
 	private PieceJointe createPj(ByteArrayOutputStream reportContent) {
@@ -87,7 +90,7 @@ public class EMailMensuelJobImpl {
 			wb.write(osMensuel);
 			osMensuel.close();
 		} catch (IOException e) {
-			LOGGER.info("context", e);
+			log.info("context", e);
 		}
 		return osMensuel;
 	}

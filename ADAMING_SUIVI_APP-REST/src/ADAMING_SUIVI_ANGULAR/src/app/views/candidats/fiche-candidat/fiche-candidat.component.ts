@@ -4,8 +4,10 @@ import { Candidate } from '../../../models/Candidate';
 import { CodePostal } from '../../../models/CodePostal';
 import { Technologie } from '../../../models/Technologie';
 import { Origine } from '../../../models/Origine';
+import { Civilite } from "../../../models/Civilite";
 import { TechnologieService } from '../../../services/administrationService/TechnologieService';
 import { OriginesService } from '../../../services/administrationService/origines.service';
+import { CivilitesService } from "../../../services/administrationService/civilites.service";
 import { CodePostalService } from '../../../services/administrationService/code-postal.service';
 import { CompetencesService } from '../../../services/administrationService/competences.service';
 import { Competence } from '../../../models/Competence';
@@ -26,6 +28,7 @@ import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
 
+
 @Component({
   selector: 'app-fiche-candidat',
   templateUrl: './fiche-candidat.component.html',
@@ -41,7 +44,7 @@ export class FicheCandidatComponent implements OnInit {
 
   @ViewChild("emailModalHorCible")
   public emailModalHorCible;
-  civilites = ["M", "Mme"];
+  civilites: Array<Civilite> = [];
 
   public showDetailsButton 
 
@@ -73,7 +76,7 @@ export class FicheCandidatComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
-    private codePostalService: CodePostalService, private originesService: OriginesService,
+    private codePostalService: CodePostalService, private originesService: OriginesService,private civilitesService: CivilitesService,
     private technologiesService: TechnologieService, private candidatsService: CandidatsService,
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService, private motifService: MotifService,
@@ -105,6 +108,9 @@ export class FicheCandidatComponent implements OnInit {
     })
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
+    })
+    this.civilitesService.findAllCivilites().subscribe(data => {
+      this.civilites = data;
     })
 
     this.lieuxService.findAllLieux().subscribe(data => {
