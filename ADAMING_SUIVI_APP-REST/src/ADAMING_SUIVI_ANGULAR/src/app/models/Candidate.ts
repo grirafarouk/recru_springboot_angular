@@ -10,12 +10,13 @@ import { MobiliteSurLille } from "./MobiliteSurLille";
 import { CVSource } from "./CVSource";
 import { Motif } from "./Motif";
 import { Status } from "./enum/Status";
+import { Civilite } from "./Civilite";
 
 export class Candidate {
 	id: number;
 	nom: string;
 	prenom: string;
-	civilite: string = "M";
+	civilite: Civilite = new Civilite();
 	adresse: string;
 	dateInscription: Date;
 	dateNaissance: Date;

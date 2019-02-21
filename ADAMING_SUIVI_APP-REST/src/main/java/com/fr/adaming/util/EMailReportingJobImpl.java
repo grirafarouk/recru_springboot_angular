@@ -87,7 +87,7 @@ public class EMailReportingJobImpl {
 				new FileInputStream(realPathRopJob + "out1.xls")));
 		ExcelToHtml nExcelToHtmlRopJob = new ExcelToHtml(myWorkBookRopJob);
 		String contentRopJob = nExcelToHtmlRopJob.getHTML();
-		return contentRopJob.toString();
+		return contentRopJob;
 	}
 
 	private OutputStream writeToOutputStreamRopJob(XSSFWorkbook wbRopJob) {

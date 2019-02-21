@@ -66,7 +66,7 @@ public class CandidatARelancerJobImpl {
 		c.setTime(dt);
 		c.add(Calendar.DATE, 1);
 		dt = c.getTime();
-		List<Candidat> candidatsARelancer = new ArrayList<>();
+		List<Candidat> candidatsARelancer;
 		for (Utilisateur charge : charges) {
 			builder = new StringBuilder();
 

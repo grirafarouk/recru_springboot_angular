@@ -34,8 +34,8 @@ public class VReportingCandidatService extends ManagerService<VReportingCandidat
 	}
 
 	@Override
-	public Integer rechercherReportingCandidatNbr(VReportingCandidatDto ReportingCandidatDto) {
-		return vReportingCandidatDao.rechercherReportingCandidatNbr(ReportingCandidatDto);
+	public Integer rechercherReportingCandidatNbr(VReportingCandidatDto reportingCandidatDto) {
+		return vReportingCandidatDao.rechercherReportingCandidatNbr(reportingCandidatDto);
 
 	}
 }

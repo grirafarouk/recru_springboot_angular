@@ -570,9 +570,9 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 				String prenomsourceur = (String) o[5];
 				String nomcharge = (String) o[6];
 				String prenomcharge = (String) o[7];
-
-				data.add(new ReportingFicheSourceur(nom, prenom, numero, email, nomsourceur, prenomsourceur, nomcharge,
-						prenomcharge));
+				data.add(new ReportingFicheSourceur.Builder().setNom(nom).setPrenom(prenom).setNumero(numero)
+						.setEmail(email).setNomsourceur(nomsourceur).setPrenomsourceur(prenomsourceur)
+						.setNomcharge(nomcharge).setPrenomcharge(prenomcharge).buildReportingFicheSourceur());
 
 			}
 		}

@@ -55,7 +55,7 @@ public class EMailEvaluationJobImpl {
 		destinataires.add("oayari@adaming.fr");
 
 		// generer la flux de sortie de la piece jointe
-		if (candidatsEnAttentEvaluation != null && candidatsEnAttentEvaluation.isEmpty()==false) {
+		if (candidatsEnAttentEvaluation != null && !candidatsEnAttentEvaluation.isEmpty()) {
 			String content = parse(candidatService.rechercherCandidatEnAttenteEvaluation());
 			List<PieceJointe> pjList = new ArrayList<>();
 

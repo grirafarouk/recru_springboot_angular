@@ -25,28 +25,23 @@ public class ReportingSourceurParDispoDto implements Serializable {
 
 	private BigDecimal taux;
 
-
 	private BigDecimal tauxHors;
 
-	
 	public ReportingSourceurParDispoDto() {
 		super();
 	}
 
-
-	public ReportingSourceurParDispoDto(BigInteger idUser, String nomSourceur, BigDecimal nbrTotal, BigDecimal nbrDsipo,
-			BigDecimal nbrHors, BigDecimal autre, BigDecimal taux, BigDecimal tauxHors) {
+	public ReportingSourceurParDispoDto(Builder builder) {
 		super();
-		this.idUser = idUser;
-		this.nomSourceur = nomSourceur;
-		this.nbrTotal = nbrTotal;
-		this.nbrDsipo = nbrDsipo;
-		this.nbrHors = nbrHors;
-		this.autre = autre;
-		this.taux = taux;
-		this.tauxHors = tauxHors;
+		this.idUser = builder.idUser;
+		this.nomSourceur = builder.nomSourceur;
+		this.nbrTotal = builder.nbrTotal;
+		this.nbrDsipo = builder.nbrDsipo;
+		this.nbrHors = builder.nbrHors;
+		this.autre = builder.autre;
+		this.taux = builder.taux;
+		this.tauxHors = builder.tauxHors;
 	}
-
 
 	public BigInteger getIdUser() {
 		return idUser;
@@ -112,5 +107,69 @@ public class ReportingSourceurParDispoDto implements Serializable {
 		this.tauxHors = tauxHors;
 	}
 
+	public static class Builder {
+		private BigInteger idUser;
+
+		private String nomSourceur;
+
+		private BigDecimal nbrTotal;
+
+		private BigDecimal nbrDsipo;
+
+		private BigDecimal nbrHors;
+
+		private BigDecimal autre;
+
+		private BigDecimal taux;
+
+		private BigDecimal tauxHors;
+
+		public Builder() {
+		}
+
+		public Builder setIdUser(BigInteger idUser) {
+			this.idUser = idUser;
+			return this;
+		}
+
+		public Builder setNomSourceur(String nomSourceur) {
+			this.nomSourceur = nomSourceur;
+			return this;
+		}
+
+		public Builder setNbrTotal(BigDecimal nbrTotal) {
+			this.nbrTotal = nbrTotal;
+			return this;
+		}
+
+		public Builder setNbrDsipo(BigDecimal nbrDsipo) {
+			this.nbrDsipo = nbrDsipo;
+			return this;
+		}
+
+		public Builder setNbrHors(BigDecimal nbrHors) {
+			this.nbrHors = nbrHors;
+			return this;
+		}
+
+		public Builder setAutre(BigDecimal autre) {
+			this.autre = autre;
+			return this;
+		}
+
+		public Builder setTaux(BigDecimal taux) {
+			this.taux = taux;
+			return this;
+		}
+
+		public Builder setTauxHors(BigDecimal tauxHors) {
+			this.tauxHors = tauxHors;
+			return this;
+		}
+
+		public ReportingSourceurParDispoDto buildReportingSourceurParDispoDto() {
+			return new ReportingSourceurParDispoDto(this);
+		}
+	}
 
 }

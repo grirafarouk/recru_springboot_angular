@@ -584,8 +584,10 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				BigDecimal tauxHors = (BigDecimal) o[7];
 				tauxSatis = tauxSatis.setScale(0, RoundingMode.HALF_UP);
 
-				data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo, nbrHors, autre, tauxSatis,
-						tauxHors));
+//				data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo, nbrHors, autre, tauxSatis,
+//						tauxHors));
+				data.add(new ReportingSourceurParDispoDto.Builder().setIdUser(idUser).setNomSourceur(nom).setNbrTotal(nbrTotal).
+						setNbrDsipo(nbrDispo).setNbrHors(nbrHors).setAutre(autre).setTaux(tauxSatis).setTauxHors(tauxHors).buildReportingSourceurParDispoDto());
 
 			}
 		}
