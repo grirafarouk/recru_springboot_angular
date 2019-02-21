@@ -62,7 +62,7 @@ public class UtilistaeurController {
 		utilisateur = utilisateurService.update(utilisateur);
 		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
-
+ 
 	@GetMapping("/{id}")
 	public Utilisateur findById(@PathVariable Long id) {
 		return utilisateurService.findById(id);

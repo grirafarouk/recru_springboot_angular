@@ -1,3 +1,4 @@
+import { StatutService } from './../../../services/administrationService/StatutService';
 import { Component, OnInit, OnDestroy, ViewChild, forwardRef } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidateDto } from "../CandidateDto";
@@ -104,10 +105,6 @@ titleTable="List Tous les Condidats "
       data: 'statut',
       title: 'Statut',
       visible: false,
-      html: false,
-      rendered: (e) => {
-        return Status[e.statut]
-      }
     },
     {
       data: 'dateRelance',
@@ -170,6 +167,7 @@ titleTable="List Tous les Condidats "
   public loading = false;
   technologies = []
   lieux = []
+  statuts=[]
 
   mask: any[] = PHONE_MASK;
 
@@ -184,7 +182,7 @@ titleTable="List Tous les Condidats "
 
   constructor(private router: Router, private candidatsService: CandidatsService, private routingState: RoutingState,
     private notifierService: NotifierService, private technologiesService: TechnologieService,
-    private lieuxService: LieuxService, private helperService: HelperService, private regionService: RegionService,
+    private lieuxService: LieuxService, private helperService: HelperService, private statutservice: StatutService, private regionService: RegionService,
     private utilisateurService: UtilisateurService,
     private excelService:ExcelService) {
 
@@ -198,6 +196,11 @@ titleTable="List Tous les Condidats "
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
+    this.statutservice.findAllStatut().subscribe(data=>
+      {
+       this.statuts=data;
+      } 
+       )
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })

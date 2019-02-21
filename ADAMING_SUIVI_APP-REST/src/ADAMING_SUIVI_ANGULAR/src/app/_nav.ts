@@ -98,6 +98,18 @@ export const navItems = [
         profils: [Profil.ADMINISTRATEUR],
       },
       {
+        name: 'Profile',
+        icon:'fa fa-info',
+        url: '/' + NAVIGATION_RULES.administration.url+"/"+NAVIGATION_RULES.administration.profile,
+        profils: [Profil.ADMINISTRATEUR], 
+      },
+      {
+        name: 'Status',
+        icon:'fa fa-info',
+        url: '/' + NAVIGATION_RULES.administration.url+"/"+NAVIGATION_RULES.administration.status,
+        profils: [Profil.ADMINISTRATEUR], 
+      },
+      {
         name: 'Utilisateurs',
         icon:'fa fa-group',
         url: '/' + NAVIGATION_RULES.administration.url+'/'+NAVIGATION_RULES.administration.utilisateurs,

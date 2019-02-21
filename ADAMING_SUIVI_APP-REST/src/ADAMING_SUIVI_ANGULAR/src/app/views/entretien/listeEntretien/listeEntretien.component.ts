@@ -13,6 +13,7 @@ import { NAVIGATION_RULES, DATE_FORMAT, PHONE_MASK_LABEL } from "../../../helper
 import { Status } from "../../../models/enum/Status";
 import { UtilisateurService } from "../../../services/utilisateur.service";
 import * as _moment from 'moment';
+import { StatutService } from "../../../services/administrationService/StatutService";
 
 
 @Component({
@@ -55,7 +56,7 @@ export class listeEntretienComponent implements OnInit {
   mask: any[] = [/\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/];
   technologies=[]
   origines=[]
-
+  
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche : [
     { value: '1', text: 'Moins 1 mois' },
@@ -130,10 +131,6 @@ export class listeEntretienComponent implements OnInit {
       data:'statut',
       title:'Statut',
       visible:true,
-      html :false,
-      rendered : (e)=>{
-        return Status[e.statut]
-      }
     },
     {
       title: 'Appréciation',
@@ -167,6 +164,7 @@ export class listeEntretienComponent implements OnInit {
   lastPage = 1;
   pages = [];
   lieux=[]
+  statuts=[]
   listCarge: any[];
   refStatut = this.helperService.buildStatutArray();
 
@@ -174,12 +172,17 @@ export class listeEntretienComponent implements OnInit {
   constructor(private originesService:OriginesService,private technologiesService:TechnologieService,
     private sanitizer: DomSanitizer,private candidatsService:CandidatsService,  private router:Router,
     private notifierService:NotifierService,private competencesService:CompetencesService,private helperService:HelperService,
-    private lieuxService:LieuxService,    private utilisateurService: UtilisateurService) {}
+    private lieuxService:LieuxService,private statutservice:StatutService,   private utilisateurService: UtilisateurService) {}
 
   ngOnInit(): void {
     this.technologiesService.findAllTechnologies().subscribe(data=>{
     this.technologies = data;
     })
+    this.statutservice.findAllStatut().subscribe(data=>
+     {
+      this.statuts=data;
+     } 
+      )
     this.lieuxService.findAllLieux().subscribe(data=>{
       this.lieux = data;
     })

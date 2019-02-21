@@ -77,6 +77,16 @@ export class CandidatsService {
     }))
 
   }
+  public deletewordfile(fileBase):Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json',
+      })
+    }; 
+
+    return this.httpClient.post(BACK_END_URL + "/deletefile", fileBase, httpOptions);
+  }
+
 
   public uploadWordFile(fileBase): Observable<any> {
     const httpOptions = {

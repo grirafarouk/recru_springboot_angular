@@ -1,13 +1,10 @@
 package com.fr.adaming.jsfapp.services.impl;
 
 import java.util.List;
-
 import javax.persistence.Transient;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import com.fr.adaming.jsfapp.dao.ICodePostalDao;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.model.CodePostal;
@@ -16,9 +13,6 @@ import com.fr.adaming.jsfapp.services.ICodePostalService;
 @Service("codePostalService")
 public class CodePostalService extends ManagerService<CodePostal, Long> implements ICodePostalService {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2768977450715102559L;
 
 	@Autowired()

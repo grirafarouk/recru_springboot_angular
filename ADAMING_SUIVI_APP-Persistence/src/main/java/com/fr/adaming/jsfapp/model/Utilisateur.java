@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -62,7 +63,7 @@ public class Utilisateur implements java.io.Serializable {
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name = "PROFIL", nullable = false)
 	public Profil getProfil() {
-		return this.profil;
+		return profil;
 	}
 
 	public void setProfil(Profil profil) {

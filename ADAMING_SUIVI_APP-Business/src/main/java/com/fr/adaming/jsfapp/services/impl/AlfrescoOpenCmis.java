@@ -39,12 +39,12 @@ public class AlfrescoOpenCmis {
 			Map<String, String> parameter = new HashMap<>();
 
 			// user credentials
-			parameter.put(SessionParameter.USER, "admin");
-			parameter.put(SessionParameter.PASSWORD, "root");
+			parameter.put(SessionParameter.USER, "moueslati");
+			parameter.put(SessionParameter.PASSWORD, "rSXzvUB6");
 
 			// connection settings
 			parameter.put(SessionParameter.ATOMPUB_URL,
-					"http://127.0.0.1:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
+					"http://51.38.203.218:8080/alfresco/api/-default-/public/cmis/versions/1.0/atom");
 			parameter.put(SessionParameter.BINDING_TYPE, BindingType.ATOMPUB.value());
 			List<Repository> s = factory.getRepositories(parameter);
 			// create session
@@ -71,7 +71,8 @@ public class AlfrescoOpenCmis {
 		return folder;
 	}
 
-	public static Document createCv(InputStream stream, String name, Long length, String mimeTypes) {
+	public static Document createCv(InputStream stream, String name, Long length, String mimeTypes)
+			throws NullPointerException {
 		Folder cvFolder = createCvFolderIfNotExist();
 
 		Map<String, Object> properties = new HashMap<>();

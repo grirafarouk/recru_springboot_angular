@@ -1,3 +1,4 @@
+import { Statut } from './Statut';
 import { CodePostal } from "./CodePostal";
 import { Utilisateur } from "./Utilisateur";
 import { Technologie } from "./Technologie";
@@ -31,7 +32,7 @@ export class Candidate {
 	entretien: Entretien = new Entretien();
 	suivi: Suivi;
 	sessionFormation: SessionFormation;
-	statut: Status;
+	statut: Statut=new Statut();
 	relancech: Relance;
 	docConsult: boolean;
 	docRefus: boolean;

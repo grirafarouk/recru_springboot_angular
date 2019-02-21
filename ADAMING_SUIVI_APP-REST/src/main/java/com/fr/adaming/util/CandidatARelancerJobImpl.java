@@ -21,7 +21,6 @@ import com.fr.adaming.jsfapp.services.IUtilisateurService;
 
 @Component("candidatARelancerJob")
 public class CandidatARelancerJobImpl {
-
 	@Autowired
 	@Qualifier("utilisateurService")
 	private IUtilisateurService utilisateurService;
@@ -73,7 +72,7 @@ public class CandidatARelancerJobImpl {
 			destinataires = new ArrayList<>();
 			candidatsARelancer = candidatService.candidatARelancer(charge);
 			// creation de la liste de candidats à relancer
-			if (candidatsARelancer != null && candidatsARelancer.isEmpty() == false) {
+			if (candidatsARelancer != null && !(candidatsARelancer.isEmpty())) {
 				// creation de la liste des destinataires
 				destinataires.add(charge.getEmail());
 				IEMailApi eMailApi = new JavaMailApi();

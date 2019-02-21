@@ -12,13 +12,9 @@ import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Repository("v_ReportingCandidatDao")
 public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
-		implements IvReportingCandidatDao,Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6079291315252650409L;
+		implements IvReportingCandidatDao, Serializable {
 
+	private static final long serialVersionUID = 6079291315252650409L;
 
 	@Override
 	public List<VReportingCandidat> rechercherReportingCandidat(VReportingCandidatDto vReportingcandidatDto, int page,
@@ -43,6 +39,7 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 		return ((BigInteger) st.uniqueResult()).intValue();
 	}
 
+<<<<<<< Updated upstream
 	private String genereteReportingConditionQuery(VReportingCandidatDto vReportingcandidatDto, String query) {
 		if (vReportingcandidatDto != null) {
 			if (isNullOrEmptyTwoString(vReportingcandidatDto.getNomSourceur(),
@@ -63,6 +60,30 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 				query = query + " AND V_RC.REGION ='" + vReportingcandidatDto.getRegion() + "'";
 			}
 			if (isNullOrEmptyBetweenDate(vReportingcandidatDto.getDateDebut(), vReportingcandidatDto.getDateFin())) {
+=======
+	private String GenereteReportingConditionQuery(VReportingCandidatDto vReportingcandidatDto, String query) {
+		if (vReportingcandidatDto != null) {
+			if (vReportingcandidatDto.getNomSourceur() != null && !vReportingcandidatDto.getNomSourceur().isEmpty()
+					&& vReportingcandidatDto.getPrenomSourceur() != null
+					&& !vReportingcandidatDto.getPrenomSourceur().isEmpty()) {
+				query = query + " AND V_RC.Nom_sourceur = '" + vReportingcandidatDto.getNomSourceur()
+						+ "' AND V_RC.Prenom_Sourceur = '" + vReportingcandidatDto.getPrenomSourceur() + "'";
+			}
+			if (vReportingcandidatDto.getLieuEntretien() != null
+					&& !vReportingcandidatDto.getLieuEntretien().isEmpty()) {
+				query = query + " AND V_RC.Lieu_Entretien = '" + vReportingcandidatDto.getLieuEntretien() + "'";
+			}
+			if (vReportingcandidatDto.getTechnologie() != null && !vReportingcandidatDto.getTechnologie().isEmpty()) {
+				query = query + " AND V_RC.TECHNOLOGIE = '" + vReportingcandidatDto.getTechnologie() + "'";
+			}
+			if (vReportingcandidatDto.getOrigine() != null && !vReportingcandidatDto.getOrigine().isEmpty()) {
+				query = query + " AND V_RC.ORIGINE = '" + vReportingcandidatDto.getOrigine() + "'";
+			}
+			if (vReportingcandidatDto.getRegion() != null && !vReportingcandidatDto.getRegion().isEmpty()) {
+				query = query + " AND V_RC.REGION ='" + vReportingcandidatDto.getRegion() + "'";
+			}
+			if (vReportingcandidatDto.getDateDebut() != null && vReportingcandidatDto.getDateFin() != null) {
+>>>>>>> Stashed changes
 				java.sql.Timestamp fromDate = new java.sql.Timestamp(vReportingcandidatDto.getDateDebut().getTime());
 				java.sql.Timestamp toDate = new java.sql.Timestamp(vReportingcandidatDto.getDateFin().getTime());
 				query = query + " AND V_RC.DATE_INSCRIPTION >= '" + fromDate + "' AND V_RC.DATE_INSCRIPTION <= '"
@@ -80,7 +101,13 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 					query = query + "' AND V_RC.DATE_INSCRIPTION < '" + toDate + "'";
 				}
 			}
+<<<<<<< Updated upstream
 			if (isNullOrEmptyTwoString(vReportingcandidatDto.getNomCharge(), vReportingcandidatDto.getPrenomCharge())) {
+=======
+			if (vReportingcandidatDto.getNomCharge() != null && !vReportingcandidatDto.getNomCharge().isEmpty()
+					&& vReportingcandidatDto.getPrenomCharge() != null
+					&& !vReportingcandidatDto.getPrenomCharge().isEmpty()) {
+>>>>>>> Stashed changes
 				query = query + " AND V_RC.Nom_charge = '" + vReportingcandidatDto.getNomCharge()
 						+ "' AND V_RC.Prenom_charge = '" + vReportingcandidatDto.getPrenomCharge() + "'";
 			}
@@ -107,6 +134,7 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 		return query;
 	}
 
+<<<<<<< Updated upstream
 	public boolean isNullOrEmptyString(String var) {
 		return var != null && !var.isEmpty();
 	}
@@ -118,4 +146,6 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 	public boolean isNullOrEmptyBetweenDate(Date d1, Date d2) {
 		return d1 != null && d2 != null;
 	}
+=======
+>>>>>>> Stashed changes
 }

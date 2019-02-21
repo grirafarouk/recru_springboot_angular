@@ -57,6 +57,8 @@ export const NAVIGATION_RULES = {
     administration : {
         url: 'administration',
         competences:'competences',
+        profile:'profile',
+        status:'status',
         utilisateurs:'utilisateurs',
         lieux:'lieux',
         origineCV:'origineCV',

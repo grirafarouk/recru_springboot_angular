@@ -41,7 +41,6 @@ import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
-import com.fr.adaming.jsfapp.enums.Statut;
 import com.fr.adaming.jsfapp.mapper.CandidatMapper;
 import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
@@ -273,13 +272,28 @@ public class CandidatController {
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 
+	@PostMapping(path = "deletefile")
+	public void deleteFilePdf(@RequestBody JSONObject fileJson) {
+		String mime = fileJson.get("filetype").toString();
+		String nameFile = fileJson.get("filename").toString();
+		String loginUser = fileJson.get("loginUser").toString();
+		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
+				+ loginUser;
+		String name = "";
+		if (mime.equals("application/msword")) {
+			name = nameFile.replace(".doc", ".pdf");
+		}
+		name = nameFile;
+		File file = new File(realPath + File.separator + name);
+		file.delete();
+	}
+
 	@PostMapping(path = "convertWordToPdf")
 	public JSONObject convertWordToPdf(@RequestBody JSONObject fileJson) {
 		String mime = fileJson.get("filetype").toString();
 		String nameFile = fileJson.get("filename").toString();
 		String value64 = fileJson.get(VALUE).toString();
 		String loginUser = fileJson.get("loginUser").toString();
-
 		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
 				+ loginUser;
 		byte[] data = DatatypeConverter.parseBase64Binary(value64);
@@ -364,7 +378,7 @@ public class CandidatController {
 
 	@PutMapping(path = "/updateficheCandidat")
 	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
-		candidatDTO.setStatut(Statut.EN_ATTENTE_EVALUATION);
+		candidatDTO.getStatut().setLibelle("En attente d'evaluation");
 		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}
@@ -388,8 +402,8 @@ public class CandidatController {
 	@PutMapping(path = "/updateficheEntretien")
 	public CandidatDto updateficheEntretien(@RequestBody CandidatDto candidatDTO) {
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
-		if (candidat.getStatut().equals(Statut.EN_ATTENTE_EVALUATION))
-			candidat.setStatut(Statut.EN_ATTENTE_AFFECTATION);
+		if (candidat.getStatut().getLibelle().equals("En attente d'evaluation"))
+			candidat.getStatut().setLibelle("En attente d'affectation");
 		candidat = candidatService.createOrUpdate(candidat);
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}

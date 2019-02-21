@@ -3,9 +3,7 @@ package com.fr.adaming.jsfapp.services;
 import java.io.Serializable;
 import java.util.Collection;
 
-public interface IManagerService<T,  idType extends Serializable>  {
-
-
+public interface IManagerService<T, K extends Serializable> extends Serializable {
 	T create(T entity);
 
 	T update(T entity);
@@ -14,12 +12,12 @@ public interface IManagerService<T,  idType extends Serializable>  {
 
 	T createOrUpdate(T entity);
 
-	T findById(idType id);
+	T findById(K id);
 
 	Collection<T> findAll();
 
 	void delete(T entity);
 
-	void deleteById(idType id);
-	
+	void deleteById(K id);
+
 }

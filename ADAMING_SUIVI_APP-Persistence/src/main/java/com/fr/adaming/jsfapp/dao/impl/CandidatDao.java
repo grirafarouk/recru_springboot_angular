@@ -61,8 +61,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		Criteria crit = hibernateSession.createCriteria(Candidat.class);
 		DaoUtils.addEqRestrictionIfNotNull(crit, "email", email);
 		crit.setMaxResults(1);
-		Candidat c = (Candidat) crit.uniqueResult();
-		return c;
+		return (Candidat) crit.uniqueResult();
 	}
 
 	@Override
@@ -75,9 +74,14 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		return (Candidat) crit.uniqueResult();
 	}
 
-	public boolean testerNullAndEmpty(String test) {
+	public boolean testerNullAndEmpty(CandidatDto ob, String test) {
 
-		return ((test != null) && (!test.isEmpty()));
+		return ((ob != null) && (test != null) && (!test.isEmpty()));
+	}
+
+	public boolean testerNullAndEmptyObjectCandidat(CandidatDto object, Object ob, Object test) {
+
+		return ((object != null) && (ob != null) && (test != null));
 	}
 
 	public boolean testerNullAndEmptyObject(Object ob, Object test) {
@@ -102,44 +106,49 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 	@Override
 	public List<Candidat> rechercherCandidatAvecEntretien(CandidatDto candidatDto, Boolean all) {
-		String query = "select * from candidat this_ inner join code_postal codepostal3_ on this_.CODE_POSTAL=codepostal3_.ID inner join utilisateur utilisateu4_ on this_.CREE_PAR=utilisateu4_.ID inner join entretien en1_ on this_.ENTRETIEN=en1_.ID left outer join utilisateur utilisateu6_ on en1_.CHARGE=utilisateu6_.ID left outer join lieu lieu7_ on en1_.LIEU=lieu7_.ID inner join origine origine8_ on this_.ORIGINE=origine8_.ID left outer join session_formation sessionfor9_ on this_.SESSION_FORMATION=sessionfor9_.ID left outer join formation formation10_ on sessionfor9_.FORMATION=formation10_.ID left outer join suivi suivi11_ on this_.SUIVI=suivi11_.ID left outer join utilisateur utilisateu12_ on suivi11_.CHARGE=utilisateu12_.ID inner join technologie technologi13_ on this_.TECHNOLOGIE=technologi13_.ID where 1=1 ";
+		String query = "select * from candidat this_ inner join code_postal codepostal3_ on this_.CODE_POSTAL=codepostal3_.ID inner join utilisateur utilisateu4_ on this_.CREE_PAR=utilisateu4_.ID inner join entretien en1_ on this_.ENTRETIEN=en1_.ID left outer join utilisateur utilisateu6_ on en1_.CHARGE=utilisateu6_.ID left outer join lieu lieu7_ on en1_.LIEU=lieu7_.ID inner join origine origine8_ on this_.ORIGINE=origine8_.ID left outer join session_formation sessionfor9_ on this_.SESSION_FORMATION=sessionfor9_.ID left outer join formation formation10_ on sessionfor9_.FORMATION=formation10_.ID left outer join suivi suivi11_ on this_.SUIVI=suivi11_.ID left outer join utilisateur utilisateu12_ on suivi11_.CHARGE=utilisateu12_.ID inner join technologie technologi13_ on this_.TECHNOLOGIE=technologi13_.ID inner join statut statut13_ on this_.STATUTS=statut13_.ID where 1=1 ";
 
-		if (candidatDto != null) {
-			if (testerNullAndEmpty(candidatDto.getNom())) {
-				query = query + " AND this_.NOM LIKE '%" + candidatDto.getNom() + "%'";
-			}
-			if (testerNullAndEmpty(candidatDto.getPrenom())) {
-				query = query + " AND this_.PRENOM LIKE '%" + candidatDto.getPrenom() + "%'";
-			}
-			if (testerNullAndEmpty(candidatDto.getNumeroTel())) {
-				query = query + " AND this_.NUMERO_TEL = '" + candidatDto.getNumeroTel() + "'";
-			}
-			if (all) {
-				query = query
-						+ " AND this_.STATUT IN ('1','2','3','4') AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
-			} else {
-				query = query
-						+ " AND this_.STATUT IN ('2','3','4') AND en1_.DATE IS NOT NULL  AND en1_.DATE <= CURRENT_DATE() AND en1_.LIEU IS NOT NULL AND lieu7_.LIBELLE IS NOT NULL ";
-			}
-
-			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getDate())) {
-				query = query + " AND en1_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate())
-						+ DATE_HEURE
-
-						+ df.format(candidatDto.getEntretien().getDate()) + DATE_HEURE2;
-			}
-
-			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getLieu())) {
-				query = query + " AND en1_.LIEU = '" + candidatDto.getEntretien().getLieu().getId() + "'";
-			}
-			if (testerNullAndEmptyObject(candidatDto.getEntretien(), candidatDto.getEntretien().getCharge())) {
-				query = query + " AND en1_.CHARGE = " + candidatDto.getEntretien().getCharge().getId() + "";
-			}
-
-			if (testerNullAndEmptyObject(candidatDto.getSuivi(), candidatDto.getSuivi().getMobilite())) {
-				query = query + " AND suivi11_.MOBILITE = " + candidatDto.getSuivi().getMobilite() + "";
-			}
+		if (testerNullAndEmpty(candidatDto, candidatDto.getNom())) {
+			query = query + " AND this_.NOM LIKE '%" + candidatDto.getNom() + "%'";
 		}
+		if (testerNullAndEmpty(candidatDto, candidatDto.getPrenom())) {
+			query = query + " AND this_.PRENOM LIKE '%" + candidatDto.getPrenom() + "%'";
+		}
+		if (testerNullAndEmpty(candidatDto, candidatDto.getNumeroTel())) {
+			query = query + " AND this_.NUMERO_TEL = '" + candidatDto.getNumeroTel() + "'";
+		}
+		if (all) {
+			query = query
+					+ " AND this_.STATUTS IN ('2','3','4','5') AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
+		} else {
+			query = query
+					+ " AND this_.STATUTS IN ('3','4','5') AND en1_.DATE IS NOT NULL  AND en1_.DATE <= CURRENT_DATE() AND en1_.LIEU IS NOT NULL AND lieu7_.LIBELLE IS NOT NULL ";
+		}
+		
+		if (testerNullAndEmpty(candidatDto, candidatDto.getStatut().getLibelle())) {
+			query = query + " AND statut13_.LIBELLE LIKE '%" + candidatDto.getStatut().getLibelle() + "";
+		}
+		if (testerNullAndEmptyObjectCandidat(candidatDto, candidatDto.getEntretien(),
+				candidatDto.getEntretien().getDate())) {
+			query = query + " AND en1_.DATE BETWEEN '" + df.format(candidatDto.getEntretien().getDate()) + DATE_HEURE
+
+					+ df.format(candidatDto.getEntretien().getDate()) + DATE_HEURE2;
+		}
+
+		if (testerNullAndEmptyObjectCandidat(candidatDto, candidatDto.getEntretien(),
+				candidatDto.getEntretien().getLieu())) {
+			query = query + " AND en1_.LIEU = '" + candidatDto.getEntretien().getLieu().getId() + "'";
+		}
+		if (testerNullAndEmptyObjectCandidat(candidatDto, candidatDto.getEntretien(),
+				candidatDto.getEntretien().getCharge())) {
+			query = query + " AND en1_.CHARGE = " + candidatDto.getEntretien().getCharge().getId() + "";
+		}
+
+		if (testerNullAndEmptyObjectCandidat(candidatDto, candidatDto.getSuivi(),
+				candidatDto.getSuivi().getMobilite())) {
+			query = query + " AND suivi11_.MOBILITE = " + candidatDto.getSuivi().getMobilite() + "";
+		}
+
 		query = query + " ORDER BY en1_.DATE DESC ";
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
@@ -367,7 +376,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 	@Override
 	public List<Candidat> candidatARelancer(CandidatDto candidatDto) {
-		String query = "select * from candidat this_ inner join code_postal codepostal2_ on this_.CODE_POSTAL=codepostal2_.ID inner join utilisateur utilisateu3_ on this_.CREE_PAR=utilisateu3_.ID left outer join entretien entretien4_ on this_.ENTRETIEN=entretien4_.ID left outer join utilisateur utilisateu5_ on entretien4_.CHARGE=utilisateu5_.ID left outer join lieu lieu6_ on entretien4_.LIEU=lieu6_.ID inner join origine origine7_ on this_.ORIGINE=origine7_.ID left outer join session_formation sessionfor8_ on this_.SESSION_FORMATION=sessionfor8_.ID left outer join formation formation9_ on sessionfor8_.FORMATION=formation9_.ID left outer join suivi suivi10_ on this_.SUIVI=suivi10_.ID left outer join utilisateur utilisateu11_ on suivi10_.CHARGE=utilisateu11_.ID inner join technologie technologi12_ on this_.TECHNOLOGIE=technologi12_.ID WHERE  entretien4_.RELANCE = 1 ";
+		String query = "select * from candidat this_ inner join code_postal codepostal2_ on this_.CODE_POSTAL=codepostal2_.ID inner join utilisateur utilisateu3_ on this_.CREE_PAR=utilisateu3_.ID left outer join entretien entretien4_ on this_.ENTRETIEN=entretien4_.ID left outer join utilisateur utilisateu5_ on entretien4_.CHARGE=utilisateu5_.ID left outer join lieu lieu6_ on entretien4_.LIEU=lieu6_.ID inner join origine origine7_ on this_.ORIGINE=origine7_.ID left outer join session_formation sessionfor8_ on this_.SESSION_FORMATION=sessionfor8_.ID left outer join formation formation9_ on sessionfor8_.FORMATION=formation9_.ID left outer join suivi suivi10_ on this_.SUIVI=suivi10_.ID left outer join utilisateur utilisateu11_ on suivi10_.CHARGE=utilisateu11_.ID inner join technologie technologi12_ on this_.TECHNOLOGIE=technologi12_.ID inner join statut statut12_ on this_.STATUTS=statut12_.ID WHERE  entretien4_.RELANCE = 1 ";
 		String numerTelTraite = "";
 
 		if (testerNullAndEmptyObject(candidatDto, candidatDto.getId())) {
@@ -434,10 +443,10 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 					+ df.format(candidatDto.getEntretien().getDateRelance()) + DATE_HEURE
 					+ df.format(lastDayOfMonth.getTime()) + DATE_HEURE2;
 		}
-		if (testerNullAndEmptyObjectObjectString(candidatDto.getStatut(), candidatDto.getStatut().getLabel(),
-				candidatDto.getEntretien(), candidatDto)) {
-			query = query + " AND this_.STATUT = '" + candidatDto.getStatut().ordinal() + "'";
-		}
+//		if (testerNullAndEmptyObjectObjectString(candidatDto.getStatut(), candidatDto.getStatut().getLibelle(),
+//				candidatDto.getEntretien(), candidatDto)) {
+//			query = query + " AND statut12_.ID = '" + candidatDto.getStatut().getId() + "'";
+//		}
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
