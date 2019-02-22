@@ -32,7 +32,7 @@ export class Candidate {
 	entretien: Entretien = new Entretien();
 	suivi: Suivi;
 	sessionFormation: SessionFormation;
-	statut: Statut=new Statut();
+	statut: Statut =new Statut();
 	relancech: Relance;
 	docConsult: boolean;
 	docRefus: boolean;

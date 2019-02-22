@@ -19,12 +19,14 @@ public class Statut implements Serializable {
 	private long id;
 	private String libelle;
 
+
+
 	public Statut() {
 
 		super();
 	}
 
-	public Statut(long id, String libelle) {
+	public Statut (long id, String libelle) {
 		super();
 		this.id = id;
 		this.libelle = libelle;

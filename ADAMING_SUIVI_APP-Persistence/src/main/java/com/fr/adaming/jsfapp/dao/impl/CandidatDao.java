@@ -106,7 +106,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 	@Override
 	public List<Candidat> rechercherCandidatAvecEntretien(CandidatDto candidatDto, Boolean all) {
-		String query = "select * from candidat this_ inner join code_postal codepostal3_ on this_.CODE_POSTAL=codepostal3_.ID inner join utilisateur utilisateu4_ on this_.CREE_PAR=utilisateu4_.ID inner join entretien en1_ on this_.ENTRETIEN=en1_.ID left outer join utilisateur utilisateu6_ on en1_.CHARGE=utilisateu6_.ID left outer join lieu lieu7_ on en1_.LIEU=lieu7_.ID inner join origine origine8_ on this_.ORIGINE=origine8_.ID left outer join session_formation sessionfor9_ on this_.SESSION_FORMATION=sessionfor9_.ID left outer join formation formation10_ on sessionfor9_.FORMATION=formation10_.ID left outer join suivi suivi11_ on this_.SUIVI=suivi11_.ID left outer join utilisateur utilisateu12_ on suivi11_.CHARGE=utilisateu12_.ID inner join technologie technologi13_ on this_.TECHNOLOGIE=technologi13_.ID inner join statut statut13_ on this_.STATUTS=statut13_.ID where 1=1 ";
+		String query = "select * from candidat this_ inner join code_postal codepostal3_ on this_.CODE_POSTAL=codepostal3_.ID inner join utilisateur utilisateu4_ on this_.CREE_PAR=utilisateu4_.ID inner join entretien en1_ on this_.ENTRETIEN=en1_.ID left outer join utilisateur utilisateu6_ on en1_.CHARGE=utilisateu6_.ID left outer join lieu lieu7_ on en1_.LIEU=lieu7_.ID inner join origine origine8_ on this_.ORIGINE=origine8_.ID left outer join session_formation sessionfor9_ on this_.SESSION_FORMATION=sessionfor9_.ID left outer join formation formation10_ on sessionfor9_.FORMATION=formation10_.ID left outer join suivi suivi11_ on this_.SUIVI=suivi11_.ID left outer join utilisateur utilisateu12_ on suivi11_.CHARGE=utilisateu12_.ID inner join technologie technologi13_ on this_.TECHNOLOGIE=technologi13_.ID inner join statut statut13_ on this_.STATUT=statut13_.ID where 1=1 ";
 
 		if (testerNullAndEmpty(candidatDto, candidatDto.getNom())) {
 			query = query + " AND this_.NOM LIKE '%" + candidatDto.getNom() + "%'";
@@ -126,7 +126,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 		}
 		
 		if (testerNullAndEmpty(candidatDto, candidatDto.getStatut().getLibelle())) {
-			query = query + " AND statut13_.LIBELLE LIKE '%" + candidatDto.getStatut().getLibelle() + "";
+			query = query + " AND statut13_.LIBELLE LIKE '%" + candidatDto.getStatut().getLibelle() + "%'";
 		}
 		if (testerNullAndEmptyObjectCandidat(candidatDto, candidatDto.getEntretien(),
 				candidatDto.getEntretien().getDate())) {
@@ -376,7 +376,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 
 	@Override
 	public List<Candidat> candidatARelancer(CandidatDto candidatDto) {
-		String query = "select * from candidat this_ inner join code_postal codepostal2_ on this_.CODE_POSTAL=codepostal2_.ID inner join utilisateur utilisateu3_ on this_.CREE_PAR=utilisateu3_.ID left outer join entretien entretien4_ on this_.ENTRETIEN=entretien4_.ID left outer join utilisateur utilisateu5_ on entretien4_.CHARGE=utilisateu5_.ID left outer join lieu lieu6_ on entretien4_.LIEU=lieu6_.ID inner join origine origine7_ on this_.ORIGINE=origine7_.ID left outer join session_formation sessionfor8_ on this_.SESSION_FORMATION=sessionfor8_.ID left outer join formation formation9_ on sessionfor8_.FORMATION=formation9_.ID left outer join suivi suivi10_ on this_.SUIVI=suivi10_.ID left outer join utilisateur utilisateu11_ on suivi10_.CHARGE=utilisateu11_.ID inner join technologie technologi12_ on this_.TECHNOLOGIE=technologi12_.ID inner join statut statut12_ on this_.STATUTS=statut12_.ID WHERE  entretien4_.RELANCE = 1 ";
+		String query = "select * from candidat this_ inner join code_postal codepostal2_ on this_.CODE_POSTAL=codepostal2_.ID inner join utilisateur utilisateu3_ on this_.CREE_PAR=utilisateu3_.ID left outer join entretien entretien4_ on this_.ENTRETIEN=entretien4_.ID left outer join utilisateur utilisateu5_ on entretien4_.CHARGE=utilisateu5_.ID left outer join lieu lieu6_ on entretien4_.LIEU=lieu6_.ID inner join origine origine7_ on this_.ORIGINE=origine7_.ID left outer join session_formation sessionfor8_ on this_.SESSION_FORMATION=sessionfor8_.ID left outer join formation formation9_ on sessionfor8_.FORMATION=formation9_.ID left outer join suivi suivi10_ on this_.SUIVI=suivi10_.ID left outer join utilisateur utilisateu11_ on suivi10_.CHARGE=utilisateu11_.ID inner join technologie technologi12_ on this_.TECHNOLOGIE=technologi12_.ID inner join statut statut12_ on this_.STATUT=statut12_.ID WHERE  entretien4_.RELANCE = 1 ";
 		String numerTelTraite = "";
 
 		if (testerNullAndEmptyObject(candidatDto, candidatDto.getId())) {
@@ -443,10 +443,10 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 					+ df.format(candidatDto.getEntretien().getDateRelance()) + DATE_HEURE
 					+ df.format(lastDayOfMonth.getTime()) + DATE_HEURE2;
 		}
-//		if (testerNullAndEmptyObjectObjectString(candidatDto.getStatut(), candidatDto.getStatut().getLibelle(),
-//				candidatDto.getEntretien(), candidatDto)) {
-//			query = query + " AND statut12_.ID = '" + candidatDto.getStatut().getId() + "'";
-//		}
+		if (testerNullAndEmptyObjectObjectString(candidatDto.getStatut(), candidatDto.getStatut().getLibelle(),
+				candidatDto.getEntretien(), candidatDto)) {
+			query = query + " AND statut12_.ID = " + candidatDto.getStatut().getId() + "";
+		}
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")

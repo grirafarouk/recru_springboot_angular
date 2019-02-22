@@ -45,6 +45,8 @@ import com.fr.adaming.jsfapp.mapper.CandidatMapper;
 import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
+import com.fr.adaming.jsfapp.model.Statut;
+
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
@@ -218,12 +220,21 @@ public class CandidatController {
 	}
 
 	@PostMapping(path = "/ajoutCandidat")
-	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login, @RequestParam String mime) {
+	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login,
+			@RequestParam String mime) {
+		if (candidatDto.getStatut()==null)
+		{
+		Statut s=new Statut(2,"Vide");
+		candidatDto.setStatut(s);	
+		}
+		
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
 		if (creerCv(candidat, login, mime)) {
-			candidat.getStatut().setLibelle("Vide");
-			candidat = candidatService.createOrUpdate(candidat);
-		}
+			
+				candidat = candidatService.createOrUpdate(candidat);
+			}
+		
+
 		return candidat;
 	}
 
@@ -437,9 +448,9 @@ public class CandidatController {
 			}
 			convocationMail.envoyerMail(objet, content, dst, "moueslati@adaming.fr", dest.get(0), dest.get(1), pjList);
 			convocationMail.setEmailEntretien(false);
-		} catch (IOException|MessagingException e) {
+		} catch (IOException | MessagingException e) {
 			LOGGER.info(CONTEXT, e);
-		} 
+		}
 	}
 
 	public String creerEmailEntretien(Candidat candidatDto, Utilisateur connectedUser)

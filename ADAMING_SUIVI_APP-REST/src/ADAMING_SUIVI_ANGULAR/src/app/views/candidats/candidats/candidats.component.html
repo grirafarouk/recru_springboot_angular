@@ -16,7 +16,7 @@
                             class="btn btn-block btn-outline-primary">Select. fichiers</button>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body"> 
                     <dx-tree-view id="simple-treeview" [items]="folders" dataStructure="plain" parentIdExpr="categoryId"
                         keyExpr="ID" displayExpr="name" (onItemClick)="selectItem($event)" (onItemExpanded)="onItemExpanded($event)"
                         (onItemCollapsed)="onItemCollapsed($event)"></dx-tree-view>

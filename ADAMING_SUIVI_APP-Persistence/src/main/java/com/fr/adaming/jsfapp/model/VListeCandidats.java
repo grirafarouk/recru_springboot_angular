@@ -184,7 +184,7 @@ public class VListeCandidats implements java.io.Serializable {
 		this.noteTotale = noteTotale;
 	}
 
-	@Column(name = "STATUTS", nullable = true)
+	@Column(name = "STATUT", nullable = true)
 	public String getStatut() {
 		return statut;
 	}

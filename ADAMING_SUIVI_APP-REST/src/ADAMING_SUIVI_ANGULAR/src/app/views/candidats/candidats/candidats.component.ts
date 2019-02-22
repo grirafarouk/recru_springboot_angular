@@ -20,6 +20,7 @@ import { HelperService } from "../../../helper/helper.service";
 import { NAVIGATION_RULES, PHONE_MASK } from "../../../helper/application.constant";
 import { TablesComponent } from "../../base/tables.component";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Statut } from "../../../models/Statut";
 
 
 @Component({
@@ -362,7 +363,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
     if (!error ) {
       this.candidate.dateInscription = new Date();
-      this.candidate.statut = Status[Status.VIDE];
+      this.candidate.statut=null;
       this.candidate.entretien=null
       this.candidate.motif=null
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
