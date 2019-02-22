@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.model.Statut;
 
 @Entity
 @Table(name = "V_ListeCandidats")

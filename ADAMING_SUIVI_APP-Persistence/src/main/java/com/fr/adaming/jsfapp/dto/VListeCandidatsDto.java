@@ -9,7 +9,6 @@ import javax.persistence.Transient;
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.model.Statut;
 
 public class VListeCandidatsDto implements Serializable {
 

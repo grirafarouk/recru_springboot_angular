@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Candidate } from "../../../models/Candidate";
-import { Civilite } from "../../../models/Civilite";
 import { CandidatsService } from "../../../services/candidats.service";
 import { NotifierService } from "angular-notifier";
 import { OriginesService } from "../../../services/administrationService/origines.service";
-import { CivilitesService } from "../../../services/administrationService/civilites.service";
 import { CompetencesService } from "../../../services/administrationService/competences.service";
 import { TechnologieService } from "../../../services/administrationService/TechnologieService";
 import { CodePostalService } from "../../../services/administrationService/code-postal.service";
@@ -38,7 +36,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   regex = new RegExp('^([a-zA-Z]|[\\u00C0\\u00C1\\u00C2\\u00C3\\u00C4\\u00C5\\u00C6\\u00C7\\u00C8\\u00C9\\u00CA\\u00CB\\u00CC\\u00CD\\u00CE\\u00CF\\u00D0\\u00D1\\u00D2\\u00D3\\u00D4\\u00D5\\u00D6\\u00D8\\u00D9\\u00DA\\u00DB\\u00DC\\u00DD\\u00DF\\u00E0\\u00E1\\u00E2\\u00E3\\u00E4\\u00E5\\u00E6\\u00E7\\u00E8\\u00E9\\u00EA\\u00EB\\u00EC\\u00ED\\u00EE\\u00EF\\u00F0\\u00F1\\u00F2\\u00F3\\u00F4\\u00F5\\u00F6\\u00F9\\u00FA\\u00FB\\u00FC\\u00FD\\u00FF\\u0153])+$');
   regex2 = new RegExp('^[a-zA-Z]+$');
   loading=false;
-  civilites: Array<Civilite> = [];
+  civilites= ["M","Mme"];
   candidate: Candidate;
   codePostals: Array<CodePostal> = [];
   technologies: Array<Technologie> = [];
@@ -54,7 +52,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   mask: any[] = PHONE_MASK;
 
 
-  constructor(private router:Router,private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private civilitesService: CivilitesService,private technologiesService: TechnologieService,
+  constructor(private router:Router,private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,private helperService:HelperService,
     private notifierService: NotifierService, private competencesService: CompetencesService, private formBuilder: FormBuilder) {
   }
@@ -65,9 +63,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     })
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
-    })
-    this.civilitesService.findAllCivilites().subscribe(data => {
-      this.civilites = data;
     })
     this.competencesService.findAllCompetences().subscribe(data => {
       this.competences = data;

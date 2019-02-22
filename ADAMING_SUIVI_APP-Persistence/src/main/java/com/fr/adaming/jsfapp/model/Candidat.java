@@ -22,7 +22,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Proxy;
 import com.fr.adaming.jsfapp.enums.CVSource;
-
+import com.fr.adaming.jsfapp.enums.Civilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.enums.Relance;
 import com.fr.adaming.jsfapp.model.Statut;
@@ -40,6 +40,7 @@ public class Candidat implements java.io.Serializable {
 	private Long id;
 	private String nom;
 	private String prenom;
+	private Civilite civilite;
 	private String adresse;
 	private Date dateInscription;
 	private Date dateNaissance;
@@ -48,7 +49,6 @@ public class Candidat implements java.io.Serializable {
 	private String numeroTel;
 	private Utilisateur creePar;
 	private Technologie technologie;
-	private Civilite civilite;
 	private String idCv;
 	private CodePostal codePostal;
 	private Origine origine;
@@ -101,6 +101,16 @@ public class Candidat implements java.io.Serializable {
 
 	public void setPrenom(String prenom) {
 		this.prenom = prenom;
+	}
+
+	@Enumerated(EnumType.ORDINAL)
+	@Column(name = "CIVILITE", nullable = false)
+	public Civilite getCivilite() {
+		return civilite;
+	}
+
+	public void setCivilite(Civilite civilite) {
+		this.civilite = civilite;
 	}
 
 	@Column(name = "ADRESSE", nullable = true)
@@ -185,16 +195,6 @@ public class Candidat implements java.io.Serializable {
 
 	public void setTechnologie(Technologie technologie) {
 		this.technologie = technologie;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "CIVILITE", nullable = false)
-	public Civilite getCivilite() {
-		return civilite;
-	}
-
-	public void setCivilite(Civilite civilite) {
-		this.civilite = civilite;
 	}
 
 	@Column(name = "ID_CV", nullable = false, length = 250)
