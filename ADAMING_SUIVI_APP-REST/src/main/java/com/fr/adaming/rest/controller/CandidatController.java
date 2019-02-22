@@ -230,10 +230,8 @@ public class CandidatController {
 		
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
 		if (creerCv(candidat, login, mime)) {
-			
 				candidat = candidatService.createOrUpdate(candidat);
 			}
-		
 
 		return candidat;
 	}

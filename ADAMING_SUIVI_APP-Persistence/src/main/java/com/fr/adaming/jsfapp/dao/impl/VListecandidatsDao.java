@@ -144,7 +144,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	@Override
 	public List<VListeCandidats> rechercherVlisteNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size) {
-		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
+		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUTS='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		query = generateConditionQuery(vListeCandidatsDto, query);
 
 		if (vListeCandidatsDto != null) {
