@@ -11,11 +11,10 @@ import com.fr.adaming.dao.tools.HibernateUtil;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
 
 @Repository("managerDao")
-public abstract class ManagerDao<T, idType extends Serializable> extends HibernateUtil implements IManagerDao<T, idType> {
+public abstract class ManagerDao<T, K extends Serializable> extends HibernateUtil
+		implements IManagerDao<T, K>,Serializable{
 
-	/**
-	 * la classe de persistance sur laquelle travailler.
-	 */
+	private static final long serialVersionUID = -7987645081089471537L;
 	private Class<T> persistentClass;
 
 	/**
@@ -107,7 +106,7 @@ public abstract class ManagerDao<T, idType extends Serializable> extends Hiberna
 	 * @see com.inetpsa.fwk.v3.dao.GenericDao#deleteById(java.io.Serializable)
 	 * @inheritDoc {@inheritDoc}
 	 */
-	public void deleteById(idType id) {
+	public void deleteById(K id) {
 		T entity = findById(id);
 		this.getSession().delete(entity);
 	}
@@ -130,9 +129,8 @@ public abstract class ManagerDao<T, idType extends Serializable> extends Hiberna
 	 * @inheritDoc {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public T findById(idType id) {
-		T entity = (T) this.getSession().load(getPersistentClass(), id);
-		return entity;
+	public T findById(K id) {
+		return (T) this.getSession().load(getPersistentClass(), id);
 	}
 
 	/**

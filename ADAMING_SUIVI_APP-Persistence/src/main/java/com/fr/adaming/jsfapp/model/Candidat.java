@@ -25,7 +25,7 @@ import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Civilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.enums.Relance;
-import com.fr.adaming.jsfapp.enums.Statut;
+import com.fr.adaming.jsfapp.model.Statut;
 
 @Entity
 @Table(name = "candidat")
@@ -72,10 +72,6 @@ public class Candidat implements java.io.Serializable {
 	private Boolean emailSessionEnvoyer;
 	private Boolean emailSourceurEnvoyer;
 	private Boolean emailCandidatEnvoyer;
-	// private Boolean test;
-	// private Boolean testd;
-	// private Boolean tes;
-	// private Boolean ops;
 	private Set<Competence> candidatCompetence = new HashSet<>();
 
 	@Id
@@ -250,8 +246,8 @@ public class Candidat implements java.io.Serializable {
 		this.sessionFormation = sessionFormation;
 	}
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "STATUT", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "STATUT", nullable = false,columnDefinition="bigint(20) default '2'")
 	public Statut getStatut() {
 		return statut;
 	}

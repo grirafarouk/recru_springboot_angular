@@ -1,3 +1,4 @@
+import { Statut } from './Statut';
 import { CodePostal } from "./CodePostal";
 import { Utilisateur } from "./Utilisateur";
 import { Technologie } from "./Technologie";
@@ -9,7 +10,6 @@ import { Relance } from "./Relance";
 import { MobiliteSurLille } from "./MobiliteSurLille";
 import { CVSource } from "./CVSource";
 import { Motif } from "./Motif";
-import { Status } from "./enum/Status";
 
 export class Candidate {
 	id: number;
@@ -30,7 +30,7 @@ export class Candidate {
 	entretien: Entretien = new Entretien();
 	suivi: Suivi;
 	sessionFormation: SessionFormation;
-	statut: Status;
+	statut: Statut =new Statut();
 	relancech: Relance;
 	docConsult: boolean;
 	docRefus: boolean;

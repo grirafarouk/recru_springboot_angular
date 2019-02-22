@@ -26,6 +26,7 @@ import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
 
+
 @Component({
   selector: 'app-fiche-candidat',
   templateUrl: './fiche-candidat.component.html',

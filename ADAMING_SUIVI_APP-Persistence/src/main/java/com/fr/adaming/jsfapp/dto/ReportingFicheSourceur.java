@@ -15,34 +15,20 @@ public class ReportingFicheSourceur implements Serializable {
 	private String nomcharge;
 	private String prenomcharge;
 
-	/**
-	 * 
-	 */
 	public ReportingFicheSourceur() {
 		super();
 	}
 
-	/**
-	 * @param nom
-	 * @param prenom
-	 * @param numero
-	 * @param email
-	 * @param nomsourceur
-	 * @param prenomsourceur
-	 * @param nomcharge
-	 * @param prenomcharge
-	 */
-	public ReportingFicheSourceur(String nom, String prenom, String numero, String email, String nomsourceur,
-			String prenomsourceur, String nomcharge, String prenomcharge) {
+	public ReportingFicheSourceur(Builder builder) {
 		super();
-		this.nom = nom;
-		this.prenom = prenom;
-		this.numero = numero;
-		this.email = email;
-		this.nomsourceur = nomsourceur;
-		this.prenomsourceur = prenomsourceur;
-		this.nomcharge = nomcharge;
-		this.prenomcharge = prenomcharge;
+		this.nom = builder.nom;
+		this.prenom = builder.prenom;
+		this.numero = builder.numero;
+		this.email = builder.email;
+		this.nomsourceur = builder.nomsourceur;
+		this.prenomsourceur = builder.prenomsourceur;
+		this.nomcharge = builder.nomcharge;
+		this.prenomcharge = builder.prenomcharge;
 	}
 
 	public String getNom() {
@@ -93,10 +79,6 @@ public class ReportingFicheSourceur implements Serializable {
 		this.prenomsourceur = prenomsourceur;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	public String getNomcharge() {
 		return nomcharge;
 	}
@@ -113,4 +95,61 @@ public class ReportingFicheSourceur implements Serializable {
 		this.prenomcharge = prenomcharge;
 	}
 
+	public static class Builder {
+		private String nom;
+		private String prenom;
+		private String numero;
+		private String email;
+		private String nomsourceur;
+		private String prenomsourceur;
+		private String nomcharge;
+		private String prenomcharge;
+
+		public Builder() {
+		}
+
+		public Builder setNom(String nom) {
+			this.nom = nom;
+			return this;
+		}
+
+		public Builder setPrenom(String prenom) {
+			this.prenom = prenom;
+			return this;
+		}
+
+		public Builder setNumero(String numero) {
+			this.numero = numero;
+			return this;
+		}
+
+		public Builder setEmail(String email) {
+			this.email = email;
+			return this;
+		}
+
+		public Builder setNomsourceur(String nomsourceur) {
+			this.nomsourceur = nomsourceur;
+			return this;
+		}
+
+		public Builder setPrenomsourceur(String prenomsourceur) {
+			this.prenomsourceur = prenomsourceur;
+			return this;
+		}
+
+		public Builder setNomcharge(String nomcharge) {
+			this.nomcharge = nomcharge;
+			return this;
+		}
+
+		public Builder setPrenomcharge(String prenomcharge) {
+			this.prenomcharge = prenomcharge;
+			return this;
+		}
+
+		public ReportingFicheSourceur buildReportingFicheSourceur() {
+			return new ReportingFicheSourceur(this);
+		}
+	}
 }

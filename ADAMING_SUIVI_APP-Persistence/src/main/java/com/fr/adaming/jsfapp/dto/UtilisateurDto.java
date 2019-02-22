@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fr.adaming.jsfapp.enums.Profil;
 
+
 public class UtilisateurDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 

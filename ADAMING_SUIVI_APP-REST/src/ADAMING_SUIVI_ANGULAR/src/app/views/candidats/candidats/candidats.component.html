@@ -16,7 +16,7 @@
                             class="btn btn-block btn-outline-primary">Select. fichiers</button>
                     </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body"> 
                     <dx-tree-view id="simple-treeview" [items]="folders" dataStructure="plain" parentIdExpr="categoryId"
                         keyExpr="ID" displayExpr="name" (onItemClick)="selectItem($event)" (onItemExpanded)="onItemExpanded($event)"
                         (onItemCollapsed)="onItemCollapsed($event)"></dx-tree-view>
@@ -34,7 +34,7 @@
                     <div class="card-body">
 
                         <div class="row">
-                        <div class="col-sm-4">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="civilite">Civilité</label>
                                     <label style="color: firebrick">*</label>
@@ -43,7 +43,7 @@
 
                                     </ng-select>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
@@ -219,7 +219,7 @@
                                 <td>{{candidat.prenom}}</td>
                                 <td>{{candidat.numeroTel}}</td>
                                 <td>{{candidat.email}}</td>
-                                <td>{{candidat.dateInscription| date :'dd/MM/yyyy'}}</td>
+                                <td>{{candidat.dateInscription  | date :'dd/MM/yyyy'}}</td>
                                 <td>{{candidat.statut}}</td>
                                 <td>{{candidat.technologie}}</td>
                                 <td>{{candidat.nomSourceur }} {{candidat.prenomSourceur}}</td>

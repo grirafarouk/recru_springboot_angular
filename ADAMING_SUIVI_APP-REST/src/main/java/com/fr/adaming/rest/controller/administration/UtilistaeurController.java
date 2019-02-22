@@ -50,7 +50,7 @@ public class UtilistaeurController {
 		utilisateur.setDateCreation(new Date());
 		utilisateur.setDateModificationMotPasse(new Date());
 		utilisateur.setExpire(false);
-		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()).toString());
+		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()));
 		utilisateur = utilisateurService.create(utilisateur);
 		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
@@ -62,7 +62,7 @@ public class UtilistaeurController {
 		utilisateur = utilisateurService.update(utilisateur);
 		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
-
+ 
 	@GetMapping("/{id}")
 	public Utilisateur findById(@PathVariable Long id) {
 		return utilisateurService.findById(id);

@@ -70,8 +70,8 @@ public class VListeCandidatsService extends ManagerService<VListeCandidats, Long
 	}
 
 	@Override
-	public Integer rechercherVlisteCandidatsARelancerNbr(VListeCandidatsDto NCD) {
-		return vListeCandidatsDao.rechercherVlisteCandidatsARelancerNbr(NCD);
+	public Integer rechercherVlisteCandidatsARelancerNbr(VListeCandidatsDto vListeCandidatsDto) {
+		return vListeCandidatsDao.rechercherVlisteCandidatsARelancerNbr(vListeCandidatsDto);
 	}
 
 	@Override

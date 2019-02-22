@@ -1,4 +1,3 @@
-
 import { Profil } from "./enum/Profil";
 
 export class Utilisateur{

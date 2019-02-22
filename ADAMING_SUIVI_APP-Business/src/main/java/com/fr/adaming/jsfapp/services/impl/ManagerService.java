@@ -9,16 +9,15 @@ import com.fr.adaming.jsfapp.dao.IManagerDao;
 import com.fr.adaming.jsfapp.services.IManagerService;
 
 @Service("managerService")
-public abstract class ManagerService<T, idType extends Serializable>
-		implements IManagerService<T, idType>, Serializable {
-
+public abstract class ManagerService<T, K extends Serializable>
+		implements IManagerService<T, K>, Serializable {
 	private static final long serialVersionUID = -5566103257929717385L;
 
 	@Override
 	public T create(T entity) {
 		return getDao().create(entity);
 	}
-   
+
 	@Override
 	public T update(T entity) {
 		return getDao().update(entity);
@@ -35,7 +34,7 @@ public abstract class ManagerService<T, idType extends Serializable>
 	}
 
 	@Override
-	public T findById(idType id) {
+	public T findById(K id) {
 		return getDao().findById(id);
 	}
 
@@ -50,9 +49,9 @@ public abstract class ManagerService<T, idType extends Serializable>
 	}
 
 	@Override
-	public void deleteById(idType id) {
+	public void deleteById(K id) {
 		getDao().deleteById(id);
 	}
 
-	public abstract IManagerDao<T, idType> getDao();
+	public abstract IManagerDao<T, K> getDao();
 }

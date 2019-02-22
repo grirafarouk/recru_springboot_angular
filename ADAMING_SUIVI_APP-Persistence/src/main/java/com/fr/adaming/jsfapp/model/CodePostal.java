@@ -133,4 +133,5 @@ public class CodePostal implements java.io.Serializable {
 				  return false;
 		return true;
 	}
+
 }

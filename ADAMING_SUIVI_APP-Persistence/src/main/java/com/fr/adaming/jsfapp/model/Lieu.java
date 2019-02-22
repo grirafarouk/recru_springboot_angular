@@ -65,8 +65,7 @@ public class Lieu implements Serializable{
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		else return true;
+				  return false;
 		return true;
 	}
 

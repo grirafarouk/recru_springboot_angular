@@ -1,4 +1,5 @@
 package com.fr.adaming.jsfapp.dao.impl;
+
 import java.io.Serializable;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -11,7 +12,7 @@ import com.fr.adaming.jsfapp.dao.IRegionDao;
 import com.fr.adaming.jsfapp.model.Region;
 
 @Repository("regionDao")
-public class RegionDao extends ManagerDao<Region, Long> implements IRegionDao,Serializable {
+public class RegionDao extends ManagerDao<Region, Long> implements IRegionDao, Serializable {
 
 	private static final long serialVersionUID = 7444035908063684921L;
 
@@ -20,8 +21,7 @@ public class RegionDao extends ManagerDao<Region, Long> implements IRegionDao,Se
 		Session hibernateSession = this.getSession();
 		Criteria crit = hibernateSession.createCriteria(Region.class);
 		crit.add(Restrictions.eq("reporting", true));
-		List<Region> ref = DaoUtils.castList(Region.class, crit.list());
-		return ref;
+		return DaoUtils.castList(Region.class, crit.list());
 
 	}
 
