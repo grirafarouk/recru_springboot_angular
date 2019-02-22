@@ -6,14 +6,11 @@ import java.util.ResourceBundle;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
@@ -26,7 +23,7 @@ import org.springframework.stereotype.Component;
 
 @Component("convocationMail")
 public class ConvocationMail implements IConvocationMail {
-
+	private static final String CONTENT="Content-ID";
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConvocationMail.class);
 	ResourceBundle bundle=ResourceBundle.getBundle("properties.email");
 	private Properties properties;
@@ -92,7 +89,7 @@ public class ConvocationMail implements IConvocationMail {
 				DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds));
-				content.setHeader("Content-ID", "<image>");
+				content.setHeader(CONTENT, "<image>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
@@ -100,7 +97,7 @@ public class ConvocationMail implements IConvocationMail {
 				DataSource fds1 = new FileDataSource(new ClassPathResource("/images/facebook-icon.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds1));
-				content.setHeader("Content-ID", "<imageFacebook>");
+				content.setHeader(CONTENT, "<imageFacebook>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
@@ -108,7 +105,7 @@ public class ConvocationMail implements IConvocationMail {
 				DataSource fds2 = new FileDataSource(new ClassPathResource("/images/linkedin-icon.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds2));
-				content.setHeader("Content-ID", "<imageLinkedin>");
+				content.setHeader(CONTENT, "<imageLinkedin>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);
@@ -116,7 +113,7 @@ public class ConvocationMail implements IConvocationMail {
 				DataSource fds3 = new FileDataSource(new ClassPathResource("/images/twitter-icon.png").getFile());
 
 				content.setDataHandler(new DataHandler(fds3));
-				content.setHeader("Content-ID", "<imagetwitter>");
+				content.setHeader(CONTENT, "<imagetwitter>");
 
 				// add image to the multipart
 				multiPartMsg.addBodyPart(content);

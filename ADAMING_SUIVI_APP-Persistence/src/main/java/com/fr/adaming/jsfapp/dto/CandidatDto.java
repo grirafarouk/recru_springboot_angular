@@ -9,8 +9,7 @@ import javax.persistence.Transient;
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Civilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-
-import com.fr.adaming.jsfapp.enums.Statut;
+import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.CodePostal;
 import com.fr.adaming.jsfapp.model.Motif;
 import com.fr.adaming.jsfapp.model.Origine;

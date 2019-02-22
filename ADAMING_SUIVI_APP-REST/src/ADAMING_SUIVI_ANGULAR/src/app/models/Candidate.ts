@@ -1,3 +1,4 @@
+import { Statut } from './Statut';
 import { CodePostal } from "./CodePostal";
 import { Utilisateur } from "./Utilisateur";
 import { Technologie } from "./Technologie";
@@ -9,7 +10,6 @@ import { Relance } from "./Relance";
 import { MobiliteSurLille } from "./MobiliteSurLille";
 import { CVSource } from "./CVSource";
 import { Motif } from "./Motif";
-import { Status } from "./enum/Status";
 
 export class Candidate {
 	id: number;
@@ -30,23 +30,23 @@ export class Candidate {
 	entretien: Entretien = new Entretien();
 	suivi: Suivi;
 	sessionFormation: SessionFormation;
-	statut: Status;
+	statut: Statut =new Statut();
 	relancech: Relance;
-	docConsult: Boolean;
-	docRefus: Boolean;
-	posteEnCours: Boolean;
-	mobiliteSrc: Boolean;
+	docConsult: boolean;
+	docRefus: boolean;
+	posteEnCours: boolean;
+	mobiliteSrc: boolean;
 	mobiliteLille: MobiliteSurLille;
 	cvSource: CVSource;
-	cvAnonyme: Boolean = false;
+	cvAnonyme: boolean = false;
 	age: number;
 	nomCV: string;
 	diplome: string;
 	dateObtentionDiplome: Date;
 	motif: Motif = new Motif();
-	emailSessionEnvoyer: Boolean=false;
-	emailSourceurEnvoyer: Boolean=false;
-	emailCandidatEnvoyer: Boolean=false;
+	emailSessionEnvoyer: boolean=false;
+	emailSourceurEnvoyer: boolean=false;
+	emailCandidatEnvoyer: boolean=false;
 	candidatCompetence: Array<any> = new Array();
 }
 

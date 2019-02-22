@@ -15,10 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.Proxy;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 
 @Entity
@@ -44,28 +41,25 @@ public class Entretien implements java.io.Serializable {
 	private String mobilteCharge;
 	private Boolean mobilteTouFrance;
 
-	
 	public Entretien() {
 		super();
 	}
 
-	public Entretien(Long id, Utilisateur charge, Disponibilite disponible, Date date, Lieu lieu, Boolean relance,
-			Boolean confirmation, Boolean directEmploi, String commentaire, Integer pertinence, Date dateRelance,
-			String mobilteCharge, Boolean mobilteTouFrance) {
+	public Entretien(Builder builder) {
 		super();
-		this.id = id;
-		this.charge = charge;
-		this.disponible = disponible;
-		this.date = date;
-		this.lieu = lieu;
-		this.relance = relance;
-		this.confirmation = confirmation;
-		this.directEmploi = directEmploi;
-		this.commentaire = commentaire;
-		this.pertinence = pertinence;
-		this.dateRelance = dateRelance;
-		this.mobilteCharge = mobilteCharge;
-		this.mobilteTouFrance = mobilteTouFrance;
+		this.id = builder.id;
+		this.charge = builder.charge;
+		this.disponible = builder.disponible;
+		this.date = builder.date;
+		this.lieu = builder.lieu;
+		this.relance = builder.relance;
+		this.confirmation = builder.confirmation;
+		this.directEmploi = builder.directEmploi;
+		this.commentaire = builder.commentaire;
+		this.pertinence = builder.pertinence;
+		this.dateRelance = builder.dateRelance;
+		this.mobilteCharge = builder.mobilteCharge;
+		this.mobilteTouFrance = builder.mobilteTouFrance;
 	}
 
 	@Id
@@ -81,7 +75,7 @@ public class Entretien implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CHARGE", nullable = true)
-	//@JsonIgnore
+	// @JsonIgnore
 	public Utilisateur getCharge() {
 		return charge;
 	}
@@ -191,4 +185,91 @@ public class Entretien implements java.io.Serializable {
 		this.directEmploi = directEmploi;
 	}
 
+	public static class Builder {
+		private Long id;
+		private Utilisateur charge;
+		private Disponibilite disponible;
+		private Date date;
+		private Lieu lieu;
+		private Boolean relance;
+		private Boolean confirmation;
+		private Boolean directEmploi;
+		private String commentaire;
+		private Integer pertinence;
+		private Date dateRelance;
+		private String mobilteCharge;
+		private Boolean mobilteTouFrance;
+
+		public Builder() {
+		}
+
+		public Builder setId(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder setCharge(Utilisateur charge) {
+			this.charge = charge;
+			return this;
+		}
+
+		public Builder setDisponible(Disponibilite disponible) {
+			this.disponible = disponible;
+			return this;
+		}
+
+		public Builder setDate(Date date) {
+			this.date = date;
+			return this;
+		}
+
+		public Builder setLieu(Lieu lieu) {
+			this.lieu = lieu;
+			return this;
+		}
+
+		public Builder setRelance(Boolean relance) {
+			this.relance = relance;
+			return this;
+		}
+
+		public Builder setConfirmation(Boolean confirmation) {
+			this.confirmation = confirmation;
+			return this;
+		}
+
+		public Builder setDirectEmploi(Boolean directEmploi) {
+			this.directEmploi = directEmploi;
+			return this;
+		}
+
+		public Builder setCommentaire(String commentaire) {
+			this.commentaire = commentaire;
+			return this;
+		}
+
+		public Builder setPertinence(Integer pertinence) {
+			this.pertinence = pertinence;
+			return this;
+		}
+
+		public Builder setDateRelance(Date dateRelance) {
+			this.dateRelance = dateRelance;
+			return this;
+		}
+
+		public Builder setMobilteCharge(String mobilteCharge) {
+			this.mobilteCharge = mobilteCharge;
+			return this;
+		}
+
+		public Builder setMobilteTouFrance(Boolean mobilteTouFrance) {
+			this.mobilteTouFrance = mobilteTouFrance;
+			return this;
+		}
+
+		public Entretien buildEntretien() {
+			return new Entretien(this);
+		}
+	}
 }

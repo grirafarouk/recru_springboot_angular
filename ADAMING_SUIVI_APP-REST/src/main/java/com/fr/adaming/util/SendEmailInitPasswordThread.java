@@ -1,6 +1,5 @@
 package com.fr.adaming.util;
 
-import javax.mail.MessagingException;
 
 import com.fr.adaming.jsfapp.model.Utilisateur;
 

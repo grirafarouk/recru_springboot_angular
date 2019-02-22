@@ -1,3 +1,4 @@
+import { StatusComponent } from './status/status.component';
 import { NgModule } from '@angular/core';
 import { Routes,
      RouterModule } from '@angular/router';
@@ -13,6 +14,7 @@ import { regionComponent } from './Region/region.component';
 import { FiliereComponent } from './Filiere/filiere.component';
 import { CanActivateService } from '../../helper/can-activate.service';
 import { NAVIGATION_RULES } from '../../helper/application.constant';
+import { ProfilComponent } from './profil/profil.component';
 
 
 const routes: Routes = [
@@ -22,6 +24,22 @@ const routes: Routes = [
     canActivate:[CanActivateService],
     data: {
       title: 'competences'
+    }
+  },
+  {
+    path: NAVIGATION_RULES.administration.profile,
+    component: ProfilComponent,
+    canActivate:[CanActivateService],
+    data: {
+      title: 'profile'
+    }
+  },
+  {
+    path: NAVIGATION_RULES.administration.status,
+    component: StatusComponent,
+    canActivate:[CanActivateService],
+    data: {
+      title: 'profile'
     }
   },
   {

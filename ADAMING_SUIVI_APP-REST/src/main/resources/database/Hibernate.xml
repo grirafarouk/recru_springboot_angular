@@ -17,6 +17,5 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 			</props>
 		</property>
 		<property name="packagesToScan" value="com.fr.adaming.jsfapp" />
-
 	</bean>
 </beans>

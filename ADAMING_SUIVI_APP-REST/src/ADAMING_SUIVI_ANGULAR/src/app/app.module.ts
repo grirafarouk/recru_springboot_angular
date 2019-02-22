@@ -127,7 +127,8 @@ const notifierDefaultOptions: NotifierOptions = {
     LoginComponent,
     RegisterComponent,
     ForgetPwdComponent,
-    RestPwdComponent
+    RestPwdComponent,
+    
   ],
   providers: [{
     provide: LocationStrategy,

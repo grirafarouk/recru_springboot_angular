@@ -3,7 +3,7 @@ package com.fr.adaming.jsfapp.dao;
 import java.io.Serializable;
 import java.util.Collection;
 
-public interface IManagerDao<T, Id extends Serializable> {
+public interface IManagerDao<T, K extends Serializable> extends Serializable {
 
 	T create(T entity);
 
@@ -13,11 +13,11 @@ public interface IManagerDao<T, Id extends Serializable> {
 
 	T createOrUpdate(T entity);
 
-	T findById(Id id);
+	T findById(K id);
 
 	Collection<T> findAll();
 
 	void delete(T entity);
 
-	void deleteById(Id id);
+	void deleteById(K id);
 }

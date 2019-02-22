@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.fr.adaming.jsfapp.dto.UtilisateurDto;
 import com.fr.adaming.jsfapp.mapper.UtilisateurMapper;
 import com.fr.adaming.jsfapp.model.Origine;
@@ -52,7 +50,7 @@ public class UtilistaeurController {
 		utilisateur.setDateCreation(new Date());
 		utilisateur.setDateModificationMotPasse(new Date());
 		utilisateur.setExpire(false);
-		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()).toString());
+		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()));
 		utilisateur = utilisateurService.create(utilisateur);
 		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
@@ -64,7 +62,7 @@ public class UtilistaeurController {
 		utilisateur = utilisateurService.update(utilisateur);
 		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
 	}
-
+ 
 	@GetMapping("/{id}")
 	public Utilisateur findById(@PathVariable Long id) {
 		return utilisateurService.findById(id);

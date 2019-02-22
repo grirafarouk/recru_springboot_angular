@@ -79,8 +79,7 @@ public class EMailHebdomadaireJob {
 		workbook.save(realPath + "out1.xls");
 		HSSFWorkbook myWorkBook = new HSSFWorkbook(new POIFSFileSystem(new FileInputStream(realPath + "out1.xls")));
 		ExcelToHtml nExcelToHtml = new ExcelToHtml(myWorkBook);
-		String content = nExcelToHtml.getHTML();
-		return content;
+		return nExcelToHtml.getHTML();
 	}
 
 	private OutputStream writeToOutputStream(XSSFWorkbook wb) {
@@ -90,6 +89,7 @@ public class EMailHebdomadaireJob {
 			wb.write(os);
 			os.close();
 		} catch (IOException e) {
+			logger.info("context",e);
 		}
 		return os;
 	}

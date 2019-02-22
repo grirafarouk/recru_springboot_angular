@@ -5,84 +5,67 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
-
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
-public class SuiviDto implements Serializable{
+public class SuiviDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	private Utilisateur charge;
 	private Boolean mobilite;
 	private Boolean relance;
-	private Integer anglais ;
+	private Integer anglais;
 	private Date dateRelance;
-	private Integer notePresentation  ;
-	private Integer noteSavoir ;
-	private Integer noteFiabilite ;
-	private Integer noteAttrait ;
-	private Integer notePret ;
-	private Integer noteMobilite ;
-	private Integer noteResultat ;
+	private Integer notePresentation;
+	private Integer noteSavoir;
+	private Integer noteFiabilite;
+	private Integer noteAttrait;
+	private Integer notePret;
+	private Integer noteMobilite;
+	private Integer noteResultat;
 	private Integer noteCoherence;
-	private Integer notePistes ;
+	private Integer notePistes;
 	private String commentaire;
 	private Double noteTotal;
 	private List<Region> regions;
 	private List<Long> idsRegions;
 
-	
-
 	public SuiviDto() {
 		super();
 	}
-	
 
-	public SuiviDto(Long id, Utilisateur charge, Boolean mobilite, Boolean relance, Integer anglais, Date dateRelance,
-			Integer notePresentation, Integer noteSavoir, Integer noteFiabilite, Integer noteAttrait, Integer notePret,
-			Integer noteMobilite, Integer noteResultat, Integer noteCoherence, Integer notePistes, String commentaire,
-			Double noteTotal, List<Region> regions, List<Long> idsRegions) {
+	public SuiviDto(Builder builder) {
 		super();
-		this.id = id;
-		this.charge = charge;
-		this.mobilite = mobilite;
-		this.relance = relance;
-		this.anglais = anglais;
-		this.dateRelance = dateRelance;
-		this.notePresentation = notePresentation;
-		this.noteSavoir = noteSavoir;
-		this.noteFiabilite = noteFiabilite;
-		this.noteAttrait = noteAttrait;
-		this.notePret = notePret;
-		this.noteMobilite = noteMobilite;
-		this.noteResultat = noteResultat;
-		this.noteCoherence = noteCoherence;
-		this.notePistes = notePistes;
-		this.commentaire = commentaire;
-		this.noteTotal = noteTotal;
-		this.regions = regions;
-		this.idsRegions = idsRegions;
+		this.id = builder.id;
+		this.charge = builder.charge;
+		this.mobilite = builder.mobilite;
+		this.relance = builder.relance;
+		this.anglais = builder.anglais;
+		this.dateRelance = builder.dateRelance;
+		this.notePresentation = builder.notePresentation;
+		this.noteSavoir = builder.noteSavoir;
+		this.noteFiabilite = builder.noteFiabilite;
+		this.noteAttrait = builder.noteAttrait;
+		this.notePret = builder.notePret;
+		this.noteMobilite = builder.noteMobilite;
+		this.noteResultat = builder.noteResultat;
+		this.noteCoherence = builder.noteCoherence;
+		this.notePistes = builder.notePistes;
+		this.commentaire = builder.commentaire;
+		this.noteTotal = builder.noteTotal;
+		this.regions = builder.regions;
+		this.idsRegions = builder.idsRegions;
 	}
-
-
 
 	public Double calculerNoteTotal() {
-		
-		noteTotal = notePresentation * 0.1 +
-				noteSavoir * 0.1 + 
-				noteAttrait * 0.08 + 
-				noteFiabilite * 0.1
-				+ notePret * 0.12 + 
-				noteResultat * 0.0168 + 
-				noteCoherence * 0.15 + 
-				notePistes * 0.1 + 
-				noteMobilite * 0.1;
+
+		noteTotal = notePresentation * 0.1 + noteSavoir * 0.1 + noteAttrait * 0.08 + noteFiabilite * 0.1
+				+ notePret * 0.12 + noteResultat * 0.0168 + noteCoherence * 0.15 + notePistes * 0.1
+				+ noteMobilite * 0.1;
 		return noteTotal;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -124,7 +107,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNotePresentation() {
-		if (notePresentation !=null) {
+		if (notePresentation != null) {
 			return notePresentation.intValue();
 		}
 		return notePresentation;
@@ -135,7 +118,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNoteSavoir() {
-		if (noteSavoir !=null) {
+		if (noteSavoir != null) {
 			return noteSavoir.intValue();
 		}
 		return noteSavoir;
@@ -146,7 +129,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNoteFiabilite() {
-		if (noteFiabilite !=null) {
+		if (noteFiabilite != null) {
 			return noteFiabilite.intValue();
 		}
 		return noteFiabilite;
@@ -157,7 +140,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNoteAttrait() {
-		if (noteAttrait !=null) {
+		if (noteAttrait != null) {
 			return noteAttrait.intValue();
 		}
 		return noteAttrait;
@@ -168,7 +151,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNotePret() {
-		if (notePret !=null) {
+		if (notePret != null) {
 			return notePret.intValue();
 		}
 		return notePret;
@@ -179,7 +162,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNoteMobilite() {
-		if (noteMobilite !=null) {
+		if (noteMobilite != null) {
 			return noteMobilite.intValue();
 		}
 		return noteMobilite;
@@ -198,7 +181,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNoteCoherence() {
-		if (noteCoherence !=null) {
+		if (noteCoherence != null) {
 			return noteCoherence.intValue();
 		}
 		return noteCoherence;
@@ -209,7 +192,7 @@ public class SuiviDto implements Serializable{
 	}
 
 	public Integer getNotePistes() {
-		if (notePistes !=null) {
+		if (notePistes != null) {
 			return notePistes.intValue();
 		}
 		return notePistes;
@@ -246,7 +229,7 @@ public class SuiviDto implements Serializable{
 	public void setAnglais(Integer anglais) {
 		this.anglais = anglais;
 	}
-	
+
 	public List<Long> getIdsRegions() {
 		idsRegions = new ArrayList<>();
 		if (regions != null) {
@@ -261,4 +244,128 @@ public class SuiviDto implements Serializable{
 		this.idsRegions = idsRegions;
 	}
 
+	public static class Builder {
+		private Long id;
+		private Utilisateur charge;
+		private Boolean mobilite;
+		private Boolean relance;
+		private Integer anglais;
+		private Date dateRelance;
+		private Integer notePresentation;
+		private Integer noteSavoir;
+		private Integer noteFiabilite;
+		private Integer noteAttrait;
+		private Integer notePret;
+		private Integer noteMobilite;
+		private Integer noteResultat;
+		private Integer noteCoherence;
+		private Integer notePistes;
+		private String commentaire;
+		private Double noteTotal;
+		private List<Region> regions;
+		private List<Long> idsRegions;
+
+		public Builder() {
+		}
+
+		public Builder setId(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder setCharge(Utilisateur charge) {
+			this.charge = charge;
+			return this;
+		}
+
+		public Builder setMobilite(Boolean mobilite) {
+			this.mobilite = mobilite;
+			return this;
+		}
+
+		public Builder setRelance(Boolean relance) {
+			this.relance = relance;
+			return this;
+		}
+
+		public Builder setAnglais(Integer anglais) {
+			this.anglais = anglais;
+			return this;
+		}
+
+		public Builder setDateRelance(Date dateRelance) {
+			this.dateRelance = dateRelance;
+			return this;
+		}
+
+		public Builder setNotePresentation(Integer notePresentation) {
+			this.notePresentation = notePresentation;
+			return this;
+		}
+
+		public Builder setNoteSavoir(Integer noteSavoir) {
+			this.noteSavoir = noteSavoir;
+			return this;
+		}
+
+		public Builder setNoteFiabilite(Integer noteFiabilite) {
+			this.noteFiabilite = noteFiabilite;
+			return this;
+		}
+
+		public Builder setNoteAttrait(Integer noteAttrait) {
+			this.noteAttrait = noteAttrait;
+			return this;
+		}
+
+		public Builder setNotePret(Integer notePret) {
+			this.notePret = notePret;
+			return this;
+		}
+
+		public Builder setNoteMobilite(Integer noteMobilite) {
+			this.noteMobilite = noteMobilite;
+			return this;
+		}
+
+		public Builder setNoteResultat(Integer noteResultat) {
+			this.noteResultat = noteResultat;
+			return this;
+		}
+
+		public Builder setNoteCoherence(Integer noteCoherence) {
+			this.noteCoherence = noteCoherence;
+			return this;
+		}
+
+		public Builder setNotePistes(Integer notePistes) {
+			this.notePistes = notePistes;
+			return this;
+		}
+
+		public Builder setCommentaire(String commentaire) {
+			this.commentaire = commentaire;
+			return this;
+		}
+
+		public Builder setNoteTotal(Double noteTotal) {
+			this.noteTotal = noteTotal;
+			return this;
+		}
+
+		public Builder setRegions(List<Region> regions) {
+			this.regions = regions;
+			return this;
+		}
+
+		public Builder setIdsRegions(List<Long> idsRegions) {
+			this.idsRegions = idsRegions;
+			return this;
+		}
+
+		public SuiviDto buildSuiviDto() {
+			return new SuiviDto(this);
+		}
+
+	}
 }

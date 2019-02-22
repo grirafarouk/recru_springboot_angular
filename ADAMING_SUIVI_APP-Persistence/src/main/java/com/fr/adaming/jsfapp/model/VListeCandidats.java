@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.enums.Statut;
 
 @Entity
 @Table(name = "V_ListeCandidats")
@@ -32,7 +31,7 @@ public class VListeCandidats implements java.io.Serializable {
 	private CVSource cvSource;
 	private Long noteTotale;
 	private Date dateInscription;
-	private Statut statut;
+	private String  statut;
 	private String technologie;
 	private String region;
 	private String nomSourceur;
@@ -185,11 +184,11 @@ public class VListeCandidats implements java.io.Serializable {
 	}
 
 	@Column(name = "STATUT", nullable = true)
-	public Statut getStatut() {
+	public String getStatut() {
 		return statut;
 	}
 
-	public void setStatut(Statut statut) {
+	public void setStatut(String statut) {
 		this.statut = statut;
 	}
 

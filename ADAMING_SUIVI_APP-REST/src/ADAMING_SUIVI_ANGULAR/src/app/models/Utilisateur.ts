@@ -1,4 +1,3 @@
-
 import { Profil } from "./enum/Profil";
 
 export class Utilisateur{
@@ -10,9 +9,9 @@ export class Utilisateur{
 	  email:string;
 	  password:string;
 	  dateCreation:Date;
-	  actif:Boolean;
+	  actif:boolean;
 	  toke:string;
-	  expire:Boolean;
+	  expire:boolean;
 	  dateModificationMotPasse:Date;
 	  reporting:boolean;
 	  numeroTelF:string;

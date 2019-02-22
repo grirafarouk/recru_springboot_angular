@@ -1,5 +1,6 @@
 package com.fr.adaming.jsfapp.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -12,7 +13,10 @@ import com.fr.adaming.jsfapp.model.TypeFormation;
 
 @Repository("typeFormationDao")
 public class TypeFormationDao extends ManagerDao<TypeFormation, Long> implements
-		ITypeFormationDao {
+		ITypeFormationDao,Serializable {
+
+
+	private static final long serialVersionUID = 6162184630241475680L;
 
 	@Override
 	public TypeFormation rechercherTypeFormationParLibelle(String libelle) {

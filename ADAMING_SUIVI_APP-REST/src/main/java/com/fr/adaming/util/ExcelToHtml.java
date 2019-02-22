@@ -87,7 +87,7 @@ public class ExcelToHtml {
 					try {
 						final HSSFShape pic = shapes.get(i);
 						// Gain access to private field anchor.
-						final HSSFClientAnchor anchor = verif(i, pic);
+						final HSSFClientAnchor anchor = verif(pic);
 						pix.get(anchor.getRow1()).get(anchor.getCol1())
 								.add(book.getAllPictures().get(((HSSFPicture) pic).getPictureIndex()));
 					} catch (final Exception e) {
@@ -104,8 +104,8 @@ public class ExcelToHtml {
 		out.append("</table>\n");
 	}
 
-	public HSSFClientAnchor verif(int i, final HSSFShape pic)
-			throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+	public HSSFClientAnchor verif(final HSSFShape pic)
+			throws NoSuchFieldException, IllegalAccessException {
 
 		final Field f = HSSFShape.class.getDeclaredField("anchor");
 		f.setAccessible(true);

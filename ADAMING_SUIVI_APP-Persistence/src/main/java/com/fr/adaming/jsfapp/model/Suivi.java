@@ -46,37 +46,30 @@ public class Suivi implements java.io.Serializable {
 	private String commentaire;
 	private Set<Region> regions;
 
-
 	public Suivi() {
 		super();
 	}
-	
 
-	public Suivi(Long id, Utilisateur charge, Boolean mobilite, Boolean relance, Integer anglais, Date dateRelance,
-			Double notePresentation, Double noteSavoir, Double noteFiabilite, Double noteAttrait, Double notePret,
-			Double noteMobilite, Double noteResultat, Double noteCoherence, Double notePistes, String commentaire,
-			Set<Region> regions) {
+	public Suivi(Builder builder) {
 		super();
-		this.id = id;
-		this.charge = charge;
-		this.mobilite = mobilite;
-		this.relance = relance;
-		this.anglais = anglais;
-		this.dateRelance = dateRelance;
-		this.notePresentation = notePresentation;
-		this.noteSavoir = noteSavoir;
-		this.noteFiabilite = noteFiabilite;
-		this.noteAttrait = noteAttrait;
-		this.notePret = notePret;
-		this.noteMobilite = noteMobilite;
-		this.noteResultat = noteResultat;
-		this.noteCoherence = noteCoherence;
-		this.notePistes = notePistes;
-		this.commentaire = commentaire;
-		this.regions = regions;
+		this.id = builder.id;
+		this.charge = builder.charge;
+		this.mobilite = builder.mobilite;
+		this.relance = builder.relance;
+		this.anglais = builder.anglais;
+		this.dateRelance = builder.dateRelance;
+		this.notePresentation = builder.notePresentation;
+		this.noteSavoir = builder.noteSavoir;
+		this.noteFiabilite = builder.noteFiabilite;
+		this.noteAttrait = builder.noteAttrait;
+		this.notePret = builder.notePret;
+		this.noteMobilite = builder.noteMobilite;
+		this.noteResultat = builder.noteResultat;
+		this.noteCoherence = builder.noteCoherence;
+		this.notePistes = builder.notePistes;
+		this.commentaire = builder.commentaire;
+		this.regions = builder.regions;
 	}
-
-
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -217,7 +210,7 @@ public class Suivi implements java.io.Serializable {
 		this.commentaire = commentaire;
 	}
 
-	@ManyToMany( fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "suivi_region", joinColumns = @JoinColumn(name = "suivi_id"), inverseJoinColumns = @JoinColumn(name = "region_id"))
 	public Set<Region> getRegions() {
 		return regions;
@@ -234,5 +227,118 @@ public class Suivi implements java.io.Serializable {
 
 	public void setAnglais(Integer anglais) {
 		this.anglais = anglais;
+	}
+
+	public static class Builder {
+		private Long id;
+		private Utilisateur charge;
+		private Boolean mobilite;
+		private Boolean relance;
+		private Integer anglais;
+		private Date dateRelance;
+		private Double notePresentation;
+		private Double noteSavoir;
+		private Double noteFiabilite;
+		private Double noteAttrait;
+		private Double notePret;
+		private Double noteMobilite;
+		private Double noteResultat;
+		private Double noteCoherence;
+		private Double notePistes;
+		private String commentaire;
+		private Set<Region> regions;
+
+		public Builder() {
+		}
+
+		public Builder setId(Long id) {
+			this.id = id;
+			return this;
+		}
+
+		public Builder setCharge(Utilisateur charge) {
+			this.charge = charge;
+			return this;
+		}
+
+		public Builder setMobilite(Boolean mobilite) {
+			this.mobilite = mobilite;
+			return this;
+		}
+
+		public Builder setRelance(Boolean relance) {
+			this.relance = relance;
+			return this;
+		}
+
+		public Builder setAnglais(Integer anglais) {
+			this.anglais = anglais;
+			return this;
+		}
+
+		public Builder setDateRelance(Date dateRelance) {
+			this.dateRelance = dateRelance;
+			return this;
+		}
+
+		public Builder setNotePresentation(Double notePresentation) {
+			this.notePresentation = notePresentation;
+			return this;
+		}
+
+		public Builder setNoteSavoir(Double noteSavoir) {
+			this.noteSavoir = noteSavoir;
+			return this;
+		}
+
+		public Builder setNoteFiabilite(Double noteFiabilite) {
+			this.noteFiabilite = noteFiabilite;
+			return this;
+		}
+
+		public Builder setNoteAttrait(Double noteAttrait) {
+			this.noteAttrait = noteAttrait;
+			return this;
+		}
+
+		public Builder setNotePret(Double notePret) {
+			this.notePret = notePret;
+			return this;
+		}
+
+		public Builder setNoteMobilite(Double noteMobilite) {
+			this.noteMobilite = noteMobilite;
+			return this;
+		}
+
+		public Builder setNoteResultat(Double noteResultat) {
+			this.noteResultat = noteResultat;
+			return this;
+		}
+
+		public Builder setNoteCoherence(Double noteCoherence) {
+			this.noteCoherence = noteCoherence;
+			return this;
+		}
+
+		public Builder setNotePistes(Double notePistes) {
+			this.notePistes = notePistes;
+			return this;
+		}
+
+		public Builder setCommentaire(String commentaire) {
+			this.commentaire = commentaire;
+			return this;
+		}
+
+		public Builder setRegions(Set<Region> regions) {
+			this.regions = regions;
+			return this;
+		}
+
+		public Suivi buildSuivi() {
+			return new Suivi(this);
+		}
+
 	}
 }

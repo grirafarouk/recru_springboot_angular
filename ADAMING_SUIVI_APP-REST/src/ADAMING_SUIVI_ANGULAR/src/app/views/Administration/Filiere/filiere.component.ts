@@ -103,7 +103,7 @@ export class FiliereComponent implements OnInit {
   }
 
   activerDesactiverSession(sessionF) {
-    if (sessionF.factif != null && sessionF.factif == true) {
+    if (sessionF.factif != null && sessionF.factif) {
       this.notifierService.notify("success", "Succès !! " + "Session Désactivée !");
       sessionF.factif = false;
     }

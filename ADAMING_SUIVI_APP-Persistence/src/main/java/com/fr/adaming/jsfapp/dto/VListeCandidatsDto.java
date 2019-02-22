@@ -9,7 +9,6 @@ import javax.persistence.Transient;
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.enums.Statut;
 
 public class VListeCandidatsDto implements Serializable {
 
@@ -35,7 +34,7 @@ public class VListeCandidatsDto implements Serializable {
 
 	private Long noteTotale;
 	private Date dateInscription;
-	private Statut statut;
+	private String statut;
 	private String technologie;
 	private String region;
 	private String nomSourceur;
@@ -132,11 +131,11 @@ public class VListeCandidatsDto implements Serializable {
 		this.dateInscription = dateInscription;
 	}
 
-	public Statut getStatut() {
+	public String getStatut() {
 		return statut;
 	}
 
-	public void setStatut(Statut statut) {
+	public void setStatut(String statut) {
 		this.statut = statut;
 	}
 

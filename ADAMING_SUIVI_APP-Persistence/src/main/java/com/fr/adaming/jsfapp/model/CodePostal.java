@@ -113,8 +113,8 @@ public class CodePostal implements java.io.Serializable {
 		return idRegion;
 	}
 
-	public void setIdRegion(Long id_region) {
-		this.idRegion = id_region;
+	public void setIdRegion(Long idRegion) {
+		this.idRegion = idRegion;
 	}
 
 	@Override
@@ -130,8 +130,8 @@ public class CodePostal implements java.io.Serializable {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		else return true;
+				  return false;
 		return true;
 	}
+
 }

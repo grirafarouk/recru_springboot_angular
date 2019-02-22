@@ -9,7 +9,7 @@ import javax.persistence.Transient;
 import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.model.Lieu;
 
-public class EntretienDto implements Serializable{
+public class EntretienDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private UtilisateurDto charge;
@@ -24,10 +24,12 @@ public class EntretienDto implements Serializable{
 	private Date dateRelance;
 	private String mobilteCharge;
 	private Boolean mobilteTouFrance;
-	private String daterelance;
+	private String dateRel;
 	private String dateEntretien;
-	
-	public EntretienDto() {super();}
+
+	public EntretienDto() {
+		super();
+	}
 
 	public Long getId() {
 		return id;
@@ -116,6 +118,7 @@ public class EntretienDto implements Serializable{
 	public void setMobilteCharge(String mobilteCharge) {
 		this.mobilteCharge = mobilteCharge;
 	}
+
 	public Boolean getMobilteTouFrance() {
 		return mobilteTouFrance;
 	}
@@ -125,25 +128,28 @@ public class EntretienDto implements Serializable{
 	}
 
 	@Transient
-	public String getDaterelance() {
+	public String getDateRel() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		if (dateRelance != null) {
-			daterelance=sdf.format(dateRelance);
+			dateRel = sdf.format(dateRelance);
 		}
-		return daterelance;
+		return dateRel;
 	}
+
 	@Transient
-	public void setDaterelance(String daterelance) {
-		this.daterelance = daterelance;
+	public void setDateRel(String daterelance) {
+		this.dateRel = daterelance;
 	}
+
 	@Transient
 	public String getDateEntretien() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		if (date != null) {
-			dateEntretien=sdf.format(date);
+			dateEntretien = sdf.format(date);
 		}
 		return dateEntretien;
 	}
+
 	@Transient
 	public void setDateEntretien(String dateEntretien) {
 		this.dateEntretien = dateEntretien;
@@ -156,5 +162,5 @@ public class EntretienDto implements Serializable{
 	public void setDirectEmploi(Boolean directEmploi) {
 		this.directEmploi = directEmploi;
 	}
-	
+
 }
