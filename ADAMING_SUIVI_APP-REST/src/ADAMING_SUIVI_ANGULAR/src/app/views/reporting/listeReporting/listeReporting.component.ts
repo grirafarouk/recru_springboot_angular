@@ -27,7 +27,7 @@ import * as _moment from 'moment';
 })
 export class ListeReportingComponent implements OnInit {
 
-  titleTable="List Reporting"
+  titleTable="Liste Reporting"
 
   @ViewChild("table")
   table;

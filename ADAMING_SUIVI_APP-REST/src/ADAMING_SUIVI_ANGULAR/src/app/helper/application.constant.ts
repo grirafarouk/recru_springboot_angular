@@ -73,7 +73,7 @@ export const NAVIGATION_RULES = {
 export const PHONE_MASK = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 export const PHONE_MASK_LABEL = "00-00-00-00-00";
 
-export const DATE_FORMAT = "dd/M/yyyy";
+export const DATE_FORMAT = "dd/MM/yyyy";
 
 export const DATE_FORMAT_MOMENT = "DD/MM/YYYY"
 

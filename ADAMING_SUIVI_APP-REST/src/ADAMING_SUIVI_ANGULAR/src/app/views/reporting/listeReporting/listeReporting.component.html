@@ -10,14 +10,14 @@
                         <div class="form-group">
                             <label for="dateDebut" style="font-weight:bold">Date debut</label>
                             <input style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
-                                [(ngModel)]="condidat.dateDebut" id="dateDebut">
+                                [(ngModel)]="condidat.dateDebut" id="dateDebut" [max]="condidat.dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateFin" style="font-weight:bold">Date fin</label>
-                            <input style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
+                            <input [min]="condidat.dateDebut" style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
                                 [(ngModel)]="condidat.dateFin" id="dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
                         </div>
