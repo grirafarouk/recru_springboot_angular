@@ -20,7 +20,6 @@ import { NotifierService } from 'angular-notifier';
 import { RoutingState } from '../../../helper/routing-state.service';
 import { UtilisateurService } from '../../../services/utilisateur.service';
 import { HelperService } from '../../../helper/helper.service';
-import { Profil } from '../../../models/enum/Profil';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { SessionFormation } from '../../../models/SessionFormation';
@@ -29,7 +28,7 @@ import { RegionService } from '../../../services/administrationService/region.se
 import { formatDate } from '@angular/common';
 import { SuiviService } from '../../../services/suivi-service';
 import { Suivi } from '../../../models/Suivi';
-import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
+import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE } from '../../../helper/application.constant';
 declare var jQuery: any;
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from 
 '@angular/forms';
@@ -90,8 +89,8 @@ get f() { return this.myForm.controls; }
     }
 
   ngOnInit() {
-    let profil = Profil[this.userService.getConnetedUserInfo().profil];
-    this.enableSave = profil == Profil.ADMINISTRATEUR || profil == Profil.CHARGE || profil == Profil.DIRECTION
+    let role = this.userService.getConnetedUserInfo().profil.libelle;
+    this.enableSave = role == USER_ROLE.ADMINISTRATEUR || role == USER_ROLE.CHARGE || role == USER_ROLE.DIRECTION
     
     this.route.data
       .subscribe((data: { candidat: Candidate, title: string }) => {

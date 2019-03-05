@@ -2,9 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { navItems } from './../../_nav';
 import { AuthenticationService } from '../../services/authentication.service';
 import { Router } from '@angular/router';
-import { Utilisateur } from '../../models/Utilisateur';
 import { UtilisateurService } from '../../services/utilisateur.service';
-import { Profil } from '../../models/enum/Profil';
 import { HelperService } from '../../helper/helper.service';
 import { NAVIGATION_RULES } from '../../helper/application.constant';
 
@@ -17,7 +15,7 @@ export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = true;
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
-  profil = this.userService.getConnetedUserInfo().profil;
+  role = this.userService.getConnetedUserInfo().profil.libelle;
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router, private userService: UtilisateurService,
@@ -36,7 +34,7 @@ export class DefaultLayoutComponent implements OnInit {
   private cleatItem(navItems) {
     var navItemsClean = [];
     navItems.forEach(element => {
-      if (this.helperService.hasAccess(element, this.profil)) {
+      if (this.helperService.hasAccess(element, this.role)) {
         var copy = Object.assign({}, element);
         if (copy.children != undefined) {
           copy.children = this.cleatItem(element.children);
@@ -49,10 +47,10 @@ export class DefaultLayoutComponent implements OnInit {
 
   ngOnInit() {
     this.navItems = this.cleatItem(navItems);
-
   }
-  getProfiilDisplay(text) {
-    return Profil[text]
+  getRoleDisplay(text) {
+    var role = text;
+    return role
   }
 
   logout() {

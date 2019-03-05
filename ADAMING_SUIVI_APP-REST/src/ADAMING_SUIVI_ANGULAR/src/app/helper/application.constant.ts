@@ -2,6 +2,14 @@ import { environment } from "../../environments/environment";
 
 export const BACK_END_URL = environment.BACK_END_URL + "/api"
 export const BACK_END_URL_SECURITY = environment.BACK_END_URL 
+export const USER_ROLE = {
+    ADMINISTRATEUR : "Administrateur",
+    CHARGE : "Charge",
+    SOURCEUR : "Sourceur",
+    COMMERCIAL : "Commercial",
+    DIRECTION : "Direction",
+    PROFILSPECIAL : "Profil spécial"
+}
 export const NAVIGATION_RULES = {
     error404: {
         url: '404'
@@ -57,7 +65,7 @@ export const NAVIGATION_RULES = {
     administration : {
         url: 'administration',
         competences:'competences',
-        profile:'profile',
+        role:'role',
         status:'status',
         utilisateurs:'utilisateurs',
         lieux:'lieux',

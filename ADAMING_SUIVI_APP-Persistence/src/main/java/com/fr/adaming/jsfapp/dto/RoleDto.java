@@ -2,13 +2,13 @@ package com.fr.adaming.jsfapp.dto;
 
 import java.io.Serializable;
 
-public class ProfilDto implements Serializable {
+public class RoleDto implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8247403532006781599L;
 	private long id;
-	private String typeProfil;
+	private String libelle;
 
 	public long getId() {
 		return id;
@@ -18,12 +18,12 @@ public class ProfilDto implements Serializable {
 		this.id = id;
 	}
 
-	public String getTypeProfil() {
-		return typeProfil;
+	public String getLibelle() {
+		return libelle;
 	}
 
-	public void setTypeProfil(String typeProfil) {
-		this.typeProfil = typeProfil;
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 
 }

@@ -25,7 +25,6 @@ import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingListSourceurDto;
 import com.fr.adaming.jsfapp.dto.ReportingSourceurParDispoDto;
 import com.fr.adaming.jsfapp.dto.ReportingSourceurTechnologieDto;
-import com.fr.adaming.jsfapp.enums.Profil;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
@@ -55,7 +54,6 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	 */
 	private static final String LOGIN = "login";
 	private static final String ACTIF = "actif";
-	private static final String PROFIL = "profil";
 	private static final String INSCRI_DATE = " AND c.DATE_INSCRIPTION BETWEEN '";
 	private static final String F_HEURE = " 00:00:00' AND '";
 	private static final String SELECT_REQ = "SELECT Count('disticnt(c.ID)') AS nbr FROM candidat AS c Inner Join entretien AS e ON c.ENTRETIEN = e.ID WHERE  c.CREE_PAR= ";
@@ -71,6 +69,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 	private static final String SEL_DEB = "(select ";
 	private static final String ID_SOUR = "tmp.ID as id_sourceur, ";
 	private static final String TMP_GROUP = "as tmp group by ID )";
+	// private static final String PROFILSPECIAL = 5;
 	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Override
@@ -200,75 +199,56 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 	@Override
 	public List<Utilisateur> findAllUserCharge() {
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
+		String query = "select * from utilisateur where profil in(0,1,2)";
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
 
-		List<Profil> liste = new ArrayList<>();
-		liste.add(Profil.ADMINISTRATEUR);
-		liste.add(Profil.CHARGE);
-		liste.add(Profil.DIRECTION);
-		crit.add(Restrictions.in(PROFIL, liste));
-
-		return DaoUtils.castList(Utilisateur.class, crit.list());
+		return liste;
 	}
 
 	@Override
 	public List<Utilisateur> findAllUserSourceur() {
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		List<Profil> liste = new ArrayList<>();
-		liste.add(Profil.ADMINISTRATEUR);
-		liste.add(Profil.CHARGE);
-		liste.add(Profil.COMMERCIAL);
-		liste.add(Profil.DIRECTION);
-		liste.add(Profil.SOURCEUR);
-		crit.add(Restrictions.in(PROFIL, liste));
+		String query = "select * from utilisateur where profil in(0,1,2,3,4)";
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
 
-		return DaoUtils.castList(Utilisateur.class, crit.list());
+		return liste;
 	}
 
 	@Override
 	public List<Utilisateur> rechercherSourceurPourReporting() {
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		List<Profil> liste = new ArrayList<>();
-		liste.add(Profil.ADMINISTRATEUR);
-		liste.add(Profil.CHARGE);
-		liste.add(Profil.COMMERCIAL);
-		liste.add(Profil.DIRECTION);
-		liste.add(Profil.SOURCEUR);
-		crit.add(Restrictions.in(PROFIL, liste));
+		String query = "select * from utilisateur where profil in(0,1,2,3,4) and reporting = 1";
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
 
-		crit.add(Restrictions.eq("reporting", true));
-
-		return DaoUtils.castList(Utilisateur.class, crit.list());
+		return liste;
 	}
 
 	@Override
 	public List<Utilisateur> findAllSourceurs() {
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
-		List<Profil> liste = new ArrayList<>();
-		liste.add(Profil.ADMINISTRATEUR);
-		liste.add(Profil.CHARGE);
-		liste.add(Profil.SOURCEUR);
-		crit.add(Restrictions.in(PROFIL, liste));
-		crit.add(Restrictions.eq(ACTIF, true));
 
-		return DaoUtils.castList(Utilisateur.class, crit.list());
+		String query = "select * from utilisateur where profil in(0,1,2) and actif = 1";
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
+
+		return liste;
 	}
 
 	@Override
 	public List<Utilisateur> findAllCharges() {
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Utilisateur.class);
 
-		crit.add(Restrictions.eq(PROFIL, Profil.CHARGE));
-		crit.add(Restrictions.eq(ACTIF, true));
+		String query = "select * from utilisateur where profil = 1 and actif = 1";
+		SQLQuery st = getSession().createSQLQuery(query);
+		@SuppressWarnings("unchecked")
+		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
 
-		return DaoUtils.castList(Utilisateur.class, crit.list());
+		return liste;
 	}
 
 	@Override
@@ -585,10 +565,12 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 				BigDecimal tauxHors = (BigDecimal) o[7];
 				tauxSatis = tauxSatis.setScale(0, RoundingMode.HALF_UP);
 
-//				data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo, nbrHors, autre, tauxSatis,
-//						tauxHors));
-				data.add(new ReportingSourceurParDispoDto.Builder().setIdUser(idUser).setNomSourceur(nom).setNbrTotal(nbrTotal).
-						setNbrDsipo(nbrDispo).setNbrHors(nbrHors).setAutre(autre).setTaux(tauxSatis).setTauxHors(tauxHors).buildReportingSourceurParDispoDto());
+				// data.add(new ReportingSourceurParDispoDto(idUser, nom, nbrTotal, nbrDispo,
+				// nbrHors, autre, tauxSatis,
+				// tauxHors));
+				data.add(new ReportingSourceurParDispoDto.Builder().setIdUser(idUser).setNomSourceur(nom)
+						.setNbrTotal(nbrTotal).setNbrDsipo(nbrDispo).setNbrHors(nbrHors).setAutre(autre)
+						.setTaux(tauxSatis).setTauxHors(tauxHors).buildReportingSourceurParDispoDto());
 
 			}
 		}

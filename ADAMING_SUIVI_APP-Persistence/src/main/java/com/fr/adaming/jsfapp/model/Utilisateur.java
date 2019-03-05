@@ -3,34 +3,31 @@ package com.fr.adaming.jsfapp.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Proxy;
-
-import com.fr.adaming.jsfapp.enums.Profil;
+import com.fr.adaming.jsfapp.model.Role;
 
 @Entity
 @Table(name = "utilisateur")
 @Proxy(lazy = false)
 public class Utilisateur implements java.io.Serializable {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3374766637729938629L;
-
+	private static final long serialVersionUID = -1944958863913119945L;
 	private Long id;
-	private Profil profil;
+	private Role profil;
 	private String nom;
 	private String prenom;
 	private String login;
@@ -59,14 +56,13 @@ public class Utilisateur implements java.io.Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "PROFIL", nullable = false)
-	public Profil getProfil() {
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "PROFIL")
+	public Role getProfil() {
 		return profil;
 	}
 
-	public void setProfil(Profil profil) {
+	public void setProfil(Role profil) {
 		this.profil = profil;
 	}
 
@@ -188,6 +184,11 @@ public class Utilisateur implements java.io.Serializable {
 
 	public void setNumeroTelP(String numeroTelP) {
 		this.numeroTelP = numeroTelP;
+	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [profil=" + profil + "]";
 	}
 
 }

@@ -3,7 +3,6 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { HelperService } from '../../../helper/helper.service';
-import { Profil } from '../../../models/enum/Profil';
 import { UtilisateurService } from '../../../services/utilisateur.service';
 import { NAVIGATION_RULES } from '../../../helper/application.constant';
 

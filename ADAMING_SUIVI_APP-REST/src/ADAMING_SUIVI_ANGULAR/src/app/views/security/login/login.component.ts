@@ -3,9 +3,9 @@ import { AuthenticationService } from '../../../services/authentication.service'
 import { Router } from '@angular/router';
 import { NotifierService } from 'angular-notifier';
 import { HelperService } from '../../../helper/helper.service';
-import { Profil } from '../../../models/enum/Profil';
 import { UtilisateurService } from '../../../services/utilisateur.service';
 import { NAVIGATION_RULES } from '../../../helper/application.constant';
+import { USER_ROLE } from "../../../helper/application.constant";
 
 @Component({
   selector: 'app-dashboard',
@@ -32,9 +32,9 @@ export class LoginComponent implements OnInit {
     this.diableButton = true
     this.authenticationService.login(this.login).toPromise().then(
       data => {
-        if (Profil[this.userService.getConnetedUserInfo().profil] == Profil.PROFILSPECIAL)
+        if (this.userService.getConnetedUserInfo().profil.libelle == USER_ROLE.PROFILSPECIAL)
           this.router.navigate([NAVIGATION_RULES.sessionsFormationsAcceuil.url+'/'+NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil]);
-        else if (Profil[this.userService.getConnetedUserInfo().profil] == Profil.SOURCEUR)
+        else if (this.userService.getConnetedUserInfo().profil.libelle == USER_ROLE.SOURCEUR)
           this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]);
         else
           this.router.navigate([NAVIGATION_RULES.dashboard.url])

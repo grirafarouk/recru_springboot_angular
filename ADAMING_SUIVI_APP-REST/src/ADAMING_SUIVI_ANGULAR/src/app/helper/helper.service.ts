@@ -1,11 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Disponibilite } from "../models/enum/Disponibilite";
 import { Status } from "../models/enum/Status";
-import { Profil } from "../models/enum/Profil";
+import { Role } from "../models/Role";
 import { Candidate } from "../models/Candidate";
 import { Competence } from "../models/Competence";
 import { navItems } from "../_nav";
-import { Observable } from "rxjs";
 import { CandidateDto } from "../views/candidats/CandidateDto";
 
 
@@ -26,8 +25,9 @@ export class HelperService {
   }
 
   public buildProfilArray(): Object[] {
-    return Object.keys(Profil)
-      .map(key => ({ label: Profil[key], value: key }))
+    console.log(Object.keys(Role));
+    return Object.keys(Role)
+      .map(key => ({ label: Role[key], value: key }))
   }
 
   public buildStatutArray(): Object[] {
@@ -114,16 +114,15 @@ export class HelperService {
     return value;
   }
 
-  public hasAccess(item, profil) {
+  public hasAccess(item, role) {
     if (item.profils == undefined)
-      return true;
+     return true;
     else {
-      if (item.profils.indexOf(Profil[profil]) == -1)
-        return false;
+      if (item.profils.indexOf(role) == -1)
+       return false;
       else return true;
+      }
     }
-  }
-
   public findNavItemByUrl(url) {
     var elementFound = {};
     navItems.forEach(element => {
@@ -144,9 +143,9 @@ export class HelperService {
   }
 
 
-  hasAccessByUrl(url: string, profil: any): boolean {
+  hasAccessByUrl(url: string, role: any): boolean {
     var item = this.findNavItemByUrl(url);
-    return this.hasAccess(item, profil)
+    return this.hasAccess(item, role)
   }
 
   public getAge(birthDate):number {

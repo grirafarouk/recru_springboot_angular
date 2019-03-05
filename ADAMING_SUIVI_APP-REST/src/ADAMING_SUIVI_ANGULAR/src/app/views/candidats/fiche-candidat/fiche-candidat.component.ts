@@ -21,10 +21,9 @@ import { RoutingState } from '../../../helper/routing-state.service';
 import { UtilisateurService } from '../../../services/utilisateur.service';
 import { Disponibilite } from '../../../models/enum/Disponibilite';
 import { HelperService } from '../../../helper/helper.service';
-import { Profil } from '../../../models/enum/Profil';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
-import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
+import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE } from '../../../helper/application.constant';
 
 
 @Component({
@@ -345,8 +344,8 @@ export class FicheCandidatComponent implements OnInit {
         }
       }
       //#endregion
-      let userProfil = this.userService.getConnetedUserInfo().profil;
-      if (Profil[userProfil] == Profil.ADMINISTRATEUR || Profil[userProfil] == Profil.CHARGE || Profil[userProfil] == Profil.DIRECTION) {
+      let userRole = this.userService.getConnetedUserInfo().profil.libelle;
+      if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION) {
         //#region Save Or Update Entretien
         this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
         await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {

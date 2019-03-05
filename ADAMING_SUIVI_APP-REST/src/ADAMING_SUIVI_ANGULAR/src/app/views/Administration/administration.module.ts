@@ -1,4 +1,4 @@
-import { ProfilComponent } from './profil/profil.component';
+import { RoleComponent } from './role/role.component';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
@@ -53,7 +53,7 @@ import { StatusComponent } from './status/status.component';
     CommonCustomModule,
     TooltipModule.forRoot(),
   ],
-  declarations: [  competenceComponent,ProfilComponent, utilisateursComponent,lieuxComponent,
+  declarations: [  competenceComponent,RoleComponent, utilisateursComponent,lieuxComponent,
     origineCVComponent,technologiesComponent,typeFormationComponent,FiliereComponent,clientSessionComponent,
   motifHorsCibleComponent,regionComponent, StatusComponent]
 })

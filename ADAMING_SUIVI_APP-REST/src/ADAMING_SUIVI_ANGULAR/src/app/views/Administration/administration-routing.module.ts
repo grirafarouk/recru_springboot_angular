@@ -14,7 +14,7 @@ import { regionComponent } from './Region/region.component';
 import { FiliereComponent } from './Filiere/filiere.component';
 import { CanActivateService } from '../../helper/can-activate.service';
 import { NAVIGATION_RULES } from '../../helper/application.constant';
-import { ProfilComponent } from './profil/profil.component';
+import { RoleComponent } from './role/role.component';
 
 
 const routes: Routes = [
@@ -27,11 +27,11 @@ const routes: Routes = [
     }
   },
   {
-    path: NAVIGATION_RULES.administration.profile,
-    component: ProfilComponent,
+    path: NAVIGATION_RULES.administration.role,
+    component: RoleComponent,
     canActivate:[CanActivateService],
     data: {
-      title: 'profile'
+      title: 'role'
     }
   },
   {
@@ -39,7 +39,7 @@ const routes: Routes = [
     component: StatusComponent,
     canActivate:[CanActivateService],
     data: {
-      title: 'profile'
+      title: 'status'
     }
   },
   {

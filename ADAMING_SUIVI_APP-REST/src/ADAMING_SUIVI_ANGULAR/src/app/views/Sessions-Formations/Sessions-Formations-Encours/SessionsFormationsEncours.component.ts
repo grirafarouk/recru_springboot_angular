@@ -50,7 +50,6 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       this.formations = data;
       this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
         this.sessionFormations = data;
-        console.log(this.sessionFormations);
         this.sessionFormations.forEach(element => {
           this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
             element.nombreParticipants = data;
