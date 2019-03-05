@@ -1,8 +1,8 @@
-import { Profil } from "./enum/Profil";
+import { Role } from "./Role";
 
 export class Utilisateur{
       id:number;
-	  profil:Profil;
+	  profil:Role = new Role();
 	  nom:string;
 	  prenom:string;
 	  login:string;

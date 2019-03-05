@@ -3,7 +3,7 @@
   [sidebarToggler]="'lg'" [asideMenuToggler]="''">
   <ul class="nav navbar-nav d-md-down-none">
     <li class="nav-item px-3 h5" style="color:rgb(233, 38, 38)">
-      {{getProfiilDisplay(userService.getConnetedUserInfo().profil)}}
+      {{getRoleDisplay(userService.getConnetedUserInfo().profil.libelle)}}
     </li>
     <li class="nav-item px-3 h5">{{ userService.getConnetedUserInfo().login}}
     </li>
@@ -30,7 +30,7 @@
         <div class="col-9" style="padding-top: 10px;padding-left: 25px">
           {{ userService.getConnetedUserInfo().nom }} {{
             userService.getConnetedUserInfo().prenom}}<br>
-           {{getProfiilDisplay(userService.getConnetedUserInfo().profil)}}
+           {{getRoleDisplay(userService.getConnetedUserInfo().profil.libelle)}}
         </div>
       </div>
     </div>

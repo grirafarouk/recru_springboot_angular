@@ -18,7 +18,6 @@ import { NotifierService } from 'angular-notifier';
 import { RoutingState } from '../../../helper/routing-state.service';
 import { UtilisateurService } from '../../../services/utilisateur.service';
 import { HelperService } from '../../../helper/helper.service';
-import { Profil } from '../../../models/enum/Profil';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { SessionFormation } from '../../../models/SessionFormation';

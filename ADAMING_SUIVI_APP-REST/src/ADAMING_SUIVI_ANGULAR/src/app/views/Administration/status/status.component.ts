@@ -77,7 +77,7 @@ export class StatusComponent implements OnInit {
   }
 
   savelibelle() {
-    if (this.statut.id > 0)
+    if (this.statut.id > -1)
       this.updatestatut();
     else this.createstatut();
   }

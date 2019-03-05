@@ -3,7 +3,9 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
 import { HelperService } from "../../../helper/helper.service";
 import { UtilisateurService } from "../../../services/utilisateur.service";
+import { RoleService } from "../../../services/administrationService/role.service";
 import { Utilisateur } from "../../../models/Utilisateur";
+import { Role } from "../../../models/Role";
 
 
 
@@ -16,9 +18,9 @@ export class utilisateursComponent implements OnInit {
 
   @ViewChild("utilisateurModal")
   public utilisateurModal;
-  ListUtilistaeur = []
-  utilisateur: Utilisateur
-  refProfil = this.helperService.buildProfilArray();
+  ListUtilistaeur : any[];
+  utilisateur: Utilisateur;
+  refProfil : Array<Role> = [];
 
 
 
@@ -28,8 +30,8 @@ export class utilisateursComponent implements OnInit {
       title: 'Login'
     },
     {
-      data: 'profil',
-      title: 'Profil',
+      data: 'profil.libelle',
+      title: 'Profil'
     },
     {
       data: 'actif',
@@ -62,14 +64,18 @@ export class utilisateursComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private helperService: HelperService,
     private utilisateurService: UtilisateurService,
-    private notifierService: NotifierService
-
+    private notifierService: NotifierService,
+    private roleService: RoleService
   ) { }
 
   ngOnInit(): void {
     this.utilisateur = new Utilisateur();
     this.utilisateurService.getAllUser().subscribe(data => {
       this.ListUtilistaeur = data;
+      console.log(this.ListUtilistaeur);
+    })
+    this.roleService.findAllRole().subscribe(data =>{
+      this.refProfil = data;
     })
   }
 
@@ -112,7 +118,8 @@ export class utilisateursComponent implements OnInit {
       error  = true;
     }
     if (this.utilisateur.profil == undefined) {
-      this.notifierService.notify("error", " Écrivez un profil valide")
+      console.log(this.utilisateur.profil);
+      this.notifierService.notify("error", " Écrivez un role valide")
       error  = true;
     }
     if (this.utilisateur.nom == "" || this.utilisateur.nom == undefined) {

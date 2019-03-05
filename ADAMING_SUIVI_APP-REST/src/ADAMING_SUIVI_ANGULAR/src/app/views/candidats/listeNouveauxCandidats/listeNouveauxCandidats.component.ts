@@ -134,6 +134,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       this.technologies = data;
     }),
       this.utilisateurService.getAllSourceurs().subscribe(data => {
+        console.log("liste sourceur:"+data);
         this.listSourceur = data
       })
   }

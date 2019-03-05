@@ -6,15 +6,15 @@ import { BACK_END_URL } from '../../helper/application.constant';
 @Injectable({
   providedIn: 'root'
 })
-export class ProfileService {
+export class RoleService {
 
   constructor(private httpClient: HttpClient) { }
 
-  findAllTypeFormation(): Observable<any> {
-    return this.httpClient.get(BACK_END_URL + "/profil");
+  findAllRole(): Observable<any> {
+    return this.httpClient.get(BACK_END_URL + "/role");
   }
-  findTypeFormationByLibelle(libelle: String): Observable<any> {
-    return this.httpClient.get<any>(BACK_END_URL + "/profil/libelle/" + libelle)
+  findRoleByLibelle(libelle: String): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/role/libelle/" + libelle)
   }
   save(typeformation): Observable<any> {
 
@@ -23,7 +23,7 @@ export class ProfileService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/profil/add", typeformation, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/role/add", typeformation, httpOptions);
   }
   update(typeformation): Observable<any> {
     const httpOptions = {
@@ -31,11 +31,11 @@ export class ProfileService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/profil/update", typeformation, httpOptions);
+    return this.httpClient.post(BACK_END_URL + "/role/update", typeformation, httpOptions);
   }
 
   delete(item): Observable<any> {
-    return this.httpClient.delete(BACK_END_URL + "/profil/" + item.id);
+    return this.httpClient.delete(BACK_END_URL + "/role/" + item.id);
   }
 
 }

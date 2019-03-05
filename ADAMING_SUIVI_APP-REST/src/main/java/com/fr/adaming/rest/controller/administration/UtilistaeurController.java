@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fr.adaming.jsfapp.dto.UtilisateurDto;
 import com.fr.adaming.jsfapp.mapper.UtilisateurMapper;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.Region;
+import com.fr.adaming.jsfapp.model.Role;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.services.IUtilisateurService;
@@ -45,32 +47,29 @@ public class UtilistaeurController {
 
 	@PostMapping("/add")
 	public UtilisateurDto create(@RequestBody UtilisateurDto utilisateurDto) throws NoSuchAlgorithmException {
-		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+		Utilisateur utilisateur=utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
 		utilisateur.setActif(true);
 		utilisateur.setDateCreation(new Date());
 		utilisateur.setDateModificationMotPasse(new Date());
 		utilisateur.setExpire(false);
 		utilisateur.setPassword(Utilitaire.hashMD5Crypt(utilisateur.getPassword()));
-		utilisateur = utilisateurService.create(utilisateur);
-		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
+		UtilisateurDto userDto= utilisateurMapper.utilisateurToUtilisateurDto(utilisateurService.create(utilisateur));
+		return userDto;
 	}
 
 	@PostMapping("/update")
-	public UtilisateurDto update(@RequestBody UtilisateurDto utilisateurDto) {
-		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+	public Utilisateur update(@RequestBody Utilisateur utilisateur) {
 		utilisateur.setDateModificationMotPasse(new Date());
-		utilisateur = utilisateurService.update(utilisateur);
-		return utilisateurMapper.utilisateurToUtilisateurDto(utilisateur);
+		return utilisateurService.update(utilisateur);
 	}
- 
+
 	@GetMapping("/{id}")
 	public Utilisateur findById(@PathVariable Long id) {
 		return utilisateurService.findById(id);
 	}
 
 	@DeleteMapping("")
-	public void delete(@RequestBody UtilisateurDto utilisateurDto) {
-		Utilisateur utilisateur = utilisateurMapper.utilisateurDtoToUtilisateur(utilisateurDto);
+	public void delete(@RequestBody Utilisateur utilisateur) {
 		utilisateurService.delete(utilisateur);
 	}
 

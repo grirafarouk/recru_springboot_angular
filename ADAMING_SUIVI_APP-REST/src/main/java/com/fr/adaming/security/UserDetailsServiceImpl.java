@@ -21,14 +21,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private UtilisateurService accountService;
 
 	@Override
-	public UserDetails loadUserByUsername(String username){
+	public UserDetails loadUserByUsername(String username) {
 		Utilisateur user = accountService.findbyUsernameSpringS(username);
 		if (user == null)
 			throw new UsernameNotFoundException(username);
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		if (user.getProfil()!=null) {
+		if (user.getProfil() != null) {
 
-			authorities.add(new SimpleGrantedAuthority(user.getProfil().getLabel()));
+			authorities.add(new SimpleGrantedAuthority(user.getProfil().getLibelle()));
 
 		}
 		return new User(user.getLogin(), user.getPassword(), authorities);
