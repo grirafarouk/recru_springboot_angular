@@ -59,6 +59,7 @@ export const NAVIGATION_RULES = {
         competences:'competences',
         profile:'profile',
         status:'status',
+        disponible:'disponible',
         utilisateurs:'utilisateurs',
         lieux:'lieux',
         origineCV:'origineCV',

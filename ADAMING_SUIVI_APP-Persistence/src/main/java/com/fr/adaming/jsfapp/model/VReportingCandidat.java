@@ -10,9 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
-import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.enums.Statut;
 
 @Entity
 @Table(name="V_ReportingCandidat")
@@ -30,7 +28,7 @@ public class VReportingCandidat implements java.io.Serializable {
 	private String region;
 	private String origine;
 	private Date dateInscription;
-	private Statut statut;
+	private String statut;
 	private MobiliteSurLille mobiliteLille;
 	private CVSource cvSource;
 	private String nomSourceur;
@@ -38,7 +36,7 @@ public class VReportingCandidat implements java.io.Serializable {
 	private String nomCharge;
 	private String prenomCharge;
 	private Integer pertinence;
-	private Disponibilite disponible;
+	private String  disponible;
 	private String lieuEntretien;
 	private Date dateEntretien;
 	private Long noteTotale;
@@ -256,11 +254,11 @@ public class VReportingCandidat implements java.io.Serializable {
 		this.pertinence = pertinence;
 	}
 	@Column(name = "DISPONIBLE", nullable = true)
-	public Disponibilite getDisponible() {
+	public String getDisponible() {
 		return disponible;
 	}
 
-	public void setDisponible(Disponibilite disponible) {
+	public void setDisponible(String  disponible) {
 		this.disponible = disponible;
 	}
 	@Column(name = "DIPLOME", nullable = true)
@@ -280,11 +278,11 @@ public class VReportingCandidat implements java.io.Serializable {
 		this.dateObtentionDiplome = dateObtentionDiplome;
 	}
 	@Column(name = "STATUT", nullable = true)
-	public Statut getStatut() {
+	public String getStatut() {
 		return statut;
 	}
 
-	public void setStatut(Statut statut) {
+	public void setStatut(String statut) {
 		this.statut = statut;
 	}
 	@Column(name = "mobilite_Lille", nullable = true)

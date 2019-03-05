@@ -1,3 +1,6 @@
+import { Disponibilite } from './../../../models/Disponibilite';
+//import { Disponibilite } from './../../../models/enum/Disponibilite';
+import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { StatutService } from './../../../services/administrationService/StatutService';
 import { Statut } from './../../../models/Statut';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -58,13 +61,14 @@ export class FicheEntrtienComponent implements OnInit {
   origines: Array<Origine> = [];
   civilites: Array<Civilite> = [];
   competences: Array<Competence> = []
+  disponibleListe:Array<Disponibilite> = []
   lieux: Array<Lieu> = []
   statuts:Array<Statut> =[] 
 
   pertinenecesValeurs = [1, 2, 3, 4, 5]
   pdfSource;
   refStatus = this.helperService.buildStatutArray();
-  refDisponibilite = this.helperService.buildDisponibiliteArray();
+  //refDisponibilite = this.helperService.buildDisponibiliteArray();
   file;
   currentCandidat: Candidate;
   mask: any[] = PHONE_MASK;
@@ -72,6 +76,7 @@ export class FicheEntrtienComponent implements OnInit {
   currenttime:any;
   evaluationtime:any;
   disabledtime = false;
+  
 
   myForm = new FormGroup({}) // Instantiating our form
 
@@ -84,7 +89,7 @@ get f() { return this.myForm.controls; }
     private technologiesService: TechnologieService, private candidatsService: CandidatsService,
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService,
-    private routingState: RoutingState, private entretienService: EntretienService, private regionService: RegionService,
+    private routingState: RoutingState,private disponibiliteService:disponibiliteService, private entretienService: EntretienService, private regionService: RegionService,
     private userService: UtilisateurService, private statutservice:StatutService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
     private formBuilder: FormBuilder) { 
       this.myForm = formBuilder.group({     
@@ -113,7 +118,12 @@ get f() { return this.myForm.controls; }
           reader.readAsDataURL(res.data);
         })
       });
-
+      this.disponibiliteService.findAllDisponibilite().subscribe(data=>
+        {
+  
+          this.disponibleListe=data;
+        }
+        )
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
@@ -371,16 +381,19 @@ get f() { return this.myForm.controls; }
      
        this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
        await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
-         if (this.currentCandidat.entretien.id > 0)
+         if ((this.currentCandidat.entretien.id > 0) && (this.currentCandidat.entretien.disponible.id> -1))
            this.notifierService.notify("success", "Modifié!, Entretien modifié avec success !");
          data.date = new Date(data.date)
          this.currentCandidat.entretien = data;
        })
    
       this.currentCandidat.motif = null;
+console.log("okkkkkkkkkkkkkkkk")
+if ((this.currentCandidat.entretien.id > 0) && (this.currentCandidat.entretien.disponible.id> -1)){
        await this.candidatsService.updateficheEntretien(this.currentCandidat).toPromise().then(data => {
-      })
-    
+         console.log("ollllllllllll");
+      })}
+    console.log("offdkffdkgjkdjkdjdk")
       //#endregion
       this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.list]);
     }

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Disponibilite } from "../models/enum/Disponibilite";
+//import { Disponibilite } from "../models/enum/Disponibilite";
 import { Status } from "../models/enum/Status";
 import { Profil } from "../models/enum/Profil";
 import { Candidate } from "../models/Candidate";
@@ -7,6 +7,7 @@ import { Competence } from "../models/Competence";
 import { navItems } from "../_nav";
 import { Observable } from "rxjs";
 import { CandidateDto } from "../views/candidats/CandidateDto";
+import { Disponibilite } from "../models/enum/Disponibilite";
 
 
 @Injectable({

@@ -8,9 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
-import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.model.Statut;
 
 @Entity
 @Table(name = "V_ListeCandidats")
@@ -37,7 +35,7 @@ public class VListeCandidats implements java.io.Serializable {
 	private String region;
 	private String nomSourceur;
 	private String prenomSourceur;
-	private Disponibilite disponibilite;
+	private String disponibilite;
 	private Boolean relancer;
 	private Date dateRelance;
 	private Date dateEntretien;
@@ -138,7 +136,6 @@ public class VListeCandidats implements java.io.Serializable {
 	public void setDateInscription(Date dateInscription) {
 		this.dateInscription = dateInscription;
 	}
-
 	@Column(name = "REGION", nullable = true)
 	public String getRegion() {
 		return region;
@@ -247,8 +244,8 @@ public class VListeCandidats implements java.io.Serializable {
 		this.prenomCharge = prenomCharge;
 	}
 
-	@Column(name = "DISPONIBILITE", nullable = true)
-	public Disponibilite getDisponibilite() {
+	@Column(name = "DISPONIBILITE", nullable = false)
+	public String getDisponibilite() {
 		return disponibilite;
 	}
 
@@ -261,7 +258,7 @@ public class VListeCandidats implements java.io.Serializable {
 		this.confirmationRdv = confirmationRdv;
 	}
 
-	public void setDisponibilite(Disponibilite disponibilite) {
+	public void setDisponibilite(String disponibilite) {
 		this.disponibilite = disponibilite;
 	}
 

@@ -83,8 +83,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
    this.candidateFound=false
     this.candidate.creePar.id = this.utilisateurService.getConnetedUserInfo().id
     this.folders = this.candidatsService.folders;
-  
-    this.currentFile = {};
+  this.currentFile = {};
     this.pdfSrc = null;
   }
 
@@ -363,9 +362,11 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
     if (!error ) {
       this.candidate.dateInscription = new Date();
-      this.candidate.statut=null;
+      this.candidate.statut.libelle="Vide"
+      this.candidate.statut.id=2
       this.candidate.entretien=null
       this.candidate.motif=null
+      console.log(this.candidate.civilite)
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")
@@ -381,5 +382,5 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
     this.loading=false;
   }
-  
+
 }

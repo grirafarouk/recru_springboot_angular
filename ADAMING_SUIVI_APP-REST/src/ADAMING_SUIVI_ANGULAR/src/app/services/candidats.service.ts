@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpParams, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BACK_END_URL } from '../helper/application.constant';
@@ -33,7 +33,6 @@ export class CandidatsService {
     private utilisateurService: UtilisateurService, private http: Http) {
   }
   folders = []
-
   public create(candidate: Candidate, mime): Observable<any> {
     candidate.nom = this.helperService.getClearString(candidate.nom)
     candidate.prenom = this.helperService.getClearString(candidate.prenom)
@@ -77,12 +76,12 @@ export class CandidatsService {
     }))
 
   }
-  public deletewordfile(fileBase):Observable<any>{
+  public deletewordfile(fileBase): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':'application/json',
+        'Content-Type': 'application/json',
       })
-    }; 
+    };
 
     return this.httpClient.post(BACK_END_URL + "/deletefile", fileBase, httpOptions);
   }
@@ -91,9 +90,9 @@ export class CandidatsService {
   public uploadWordFile(fileBase): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type':'application/json',
+        'Content-Type': 'application/json',
       })
-    }; 
+    };
 
     return this.httpClient.post(BACK_END_URL + "/convertWordToPdf", fileBase, httpOptions);
   }
@@ -179,7 +178,7 @@ export class CandidatsService {
   public rechercheAjoutNouveauxcandidats(candidate, page, size): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/rechercheNouveauxcandidats" + "?page=" + page + "&size=" + size, candidate, httpOptions);
   }
-//#region  List Candidats
+  //#region  List Candidats
 
 
   public rechercheNouveauxcandidats(candidate, page, size): Observable<any> {
@@ -231,14 +230,14 @@ export class CandidatsService {
     return this.httpClient.get<any>(BACK_END_URL + "/getcandidatById/" + id).pipe(map(async (data: any) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
-        if(data.dateNaissance == null)
-        data.dateNaissance=null
+        if (data.dateNaissance == null)
+          data.dateNaissance = null
         else
-        data.dateNaissance = new Date(data.dateNaissance)
-        if(data.dateObtentionDiplome == null)
-        data.dateObtentionDiplome=null
+          data.dateNaissance = new Date(data.dateNaissance)
+        if (data.dateObtentionDiplome == null)
+          data.dateObtentionDiplome = null
         else
-        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
+          data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
 
         if (data.suivi == undefined || data.suivi == null)
           data.suivi = new Suivi();

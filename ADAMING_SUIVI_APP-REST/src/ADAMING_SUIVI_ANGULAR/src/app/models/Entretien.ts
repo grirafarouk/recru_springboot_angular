@@ -1,9 +1,10 @@
+import { Disponibilite } from './Disponibilite';
 import { Lieu } from "./Lieu";
 import { Utilisateur } from "./Utilisateur";
 
 export class Entretien{
     id:number;
-    disponible:string;
+    disponible:Disponibilite;
     relance:boolean;
     date:Date;
     dateRelance:Date;

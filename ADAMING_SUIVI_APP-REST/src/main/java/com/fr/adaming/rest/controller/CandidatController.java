@@ -40,7 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
-import com.fr.adaming.jsfapp.enums.Disponibilite;
 import com.fr.adaming.jsfapp.mapper.CandidatMapper;
 import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
@@ -79,7 +78,7 @@ public class CandidatController {
 
 	List<String> files = new ArrayList<>();
 
-	private Disponibilite[] refDisponibilite = Disponibilite.values();
+//	private Disponibilite[] refDisponibilite = Disponibilite.values();
 	@Autowired
 	private IvListeCandidatsService vListeCandidatsService;
 	private VListeCandidatsDto vListeCandidatsDto;
@@ -194,18 +193,18 @@ public class CandidatController {
 		return candidatService.findById(id);
 	}
 
-	@GetMapping(path = "/refDisponibilite")
-	public List<JSONObject> refDisponibilite() {
-		List<JSONObject> result = new ArrayList<>();
-		for (int i = 0; i < refDisponibilite.length; i++) {
-			Disponibilite dis = refDisponibilite[i];
-			JSONObject j = new JSONObject();
-			j.put("label", dis.getLabel());
-			j.put(VALUE, dis);
-			result.add(j);
-		}
-		return result;
-	}
+//	@GetMapping(path = "/refDisponibilite")
+//	public List<JSONObject> refDisponibilite() {
+//		List<JSONObject> result = new ArrayList<>();
+//		for (int i = 0; i < refDisponibilite.length; i++) {
+//			Disponibilite dis = refDisponibilite[i];
+//			JSONObject j = new JSONObject();
+//			j.put("label", dis.getLabel());
+//			j.put(VALUE, dis);
+//			result.add(j);
+//		}
+//		return result;
+//	}
 
 	@PostMapping(path = "CVPDF")
 	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto nouveauCandidat)
@@ -222,18 +221,11 @@ public class CandidatController {
 	@PostMapping(path = "/ajoutCandidat")
 	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login,
 			@RequestParam String mime) {
-		if (candidatDto.getStatut()==null)
-		{
-		Statut s=new Statut(2,"Vide");
-		candidatDto.setStatut(s);	
-		}
-		
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
 		if (creerCv(candidat, login, mime)) {
-			
-				candidat = candidatService.createOrUpdate(candidat);
-			}
-		
+
+			candidat = candidatService.createOrUpdate(candidat);
+		}
 
 		return candidat;
 	}
@@ -383,12 +375,22 @@ public class CandidatController {
 	public List<String> getListNomCvs() {
 		return candidatService.rechercherNomCv();
 	}
+private Candidat candidat1;
 
 	@PutMapping(path = "/updateficheCandidat")
 	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
-		candidatDTO.getStatut().setLibelle("En attente d'evaluation");
-		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
-		return candidatMapper.candidatToCandidatDto(candidat);
+
+		if (candidatDTO.getEntretien().getDisponible().getLibelle().equals("Disponible")) {
+			Statut s = new Statut(3, "En attente d’évaluation");
+			candidatDTO.setStatut(s);
+		} else {
+			Statut s = new Statut(2, "Vide");
+			candidatDTO.setStatut(s);
+			System.out.println(candidatDTO.getStatut());
+		}
+		if (candidatDTO.getEntretien().getDisponible().getId()>-1)
+		 candidat1 = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
+		return candidatMapper.candidatToCandidatDto(candidat1);
 	}
 
 	@PostMapping("/envoyerEmailHorsCibleCandidats")
@@ -409,9 +411,12 @@ public class CandidatController {
 
 	@PutMapping(path = "/updateficheEntretien")
 	public CandidatDto updateficheEntretien(@RequestBody CandidatDto candidatDTO) {
+		if (candidatDTO.getStatut().getLibelle().equals("En attente d’évaluation")) {
+			Statut s = new Statut(4, "En attente d’affectation");
+			candidatDTO.setStatut(s);
+		}
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
-		if (candidat.getStatut().getLibelle().equals("En attente d'evaluation"))
-			candidat.getStatut().setLibelle("En attente d'affectation");
+
 		candidat = candidatService.createOrUpdate(candidat);
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}

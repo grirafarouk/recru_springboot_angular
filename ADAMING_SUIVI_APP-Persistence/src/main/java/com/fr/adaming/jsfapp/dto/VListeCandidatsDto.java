@@ -7,7 +7,7 @@ import java.util.Date;
 import javax.persistence.Transient;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
-import com.fr.adaming.jsfapp.enums.Disponibilite;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.model.Statut;
 
@@ -40,7 +40,8 @@ public class VListeCandidatsDto implements Serializable {
 	private String region;
 	private String nomSourceur;
 	private String prenomSourceur;
-	private Disponibilite disponibilite;
+	@Transient
+	private String  disponibilite;
 	private Boolean relancer;
 	private Date dateRelance;
 	private Date dateDebut;
@@ -148,11 +149,10 @@ public class VListeCandidatsDto implements Serializable {
 		this.region = region;
 	}
 
-	public Disponibilite getDisponibilite() {
+	public String getDisponibilite() {
 		return disponibilite;
 	}
-
-	public void setDisponibilite(Disponibilite disponibilite) {
+	public void setDisponibilite(String  disponibilite) {
 		this.disponibilite = disponibilite;
 	}
 

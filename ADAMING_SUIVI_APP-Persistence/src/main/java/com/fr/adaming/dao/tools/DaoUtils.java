@@ -11,7 +11,7 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
-import com.fr.adaming.jsfapp.enums.Disponibilite;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 
 public class DaoUtils {
 	private DaoUtils() {}

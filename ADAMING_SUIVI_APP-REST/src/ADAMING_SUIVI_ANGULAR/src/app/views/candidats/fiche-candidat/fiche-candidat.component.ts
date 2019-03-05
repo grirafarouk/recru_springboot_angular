@@ -1,13 +1,12 @@
+import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { Candidate } from '../../../models/Candidate';
 import { CodePostal } from '../../../models/CodePostal';
 import { Technologie } from '../../../models/Technologie';
 import { Origine } from '../../../models/Origine';
-import { Civilite } from "../../../models/Civilite";
 import { TechnologieService } from '../../../services/administrationService/TechnologieService';
 import { OriginesService } from '../../../services/administrationService/origines.service';
-import { CivilitesService } from "../../../services/administrationService/civilites.service";
 import { CodePostalService } from '../../../services/administrationService/code-postal.service';
 import { CompetencesService } from '../../../services/administrationService/competences.service';
 import { Competence } from '../../../models/Competence';
@@ -21,13 +20,11 @@ import { Motif } from '../../../models/Motif';
 import { MotifService } from '../../../services/administrationService/motif.service';
 import { RoutingState } from '../../../helper/routing-state.service';
 import { UtilisateurService } from '../../../services/utilisateur.service';
-import { Disponibilite } from '../../../models/enum/Disponibilite';
 import { HelperService } from '../../../helper/helper.service';
 import { Profil } from '../../../models/enum/Profil';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { NAVIGATION_RULES, PHONE_MASK } from '../../../helper/application.constant';
-
 
 @Component({
   selector: 'app-fiche-candidat',
@@ -44,7 +41,7 @@ export class FicheCandidatComponent implements OnInit {
 
   @ViewChild("emailModalHorCible")
   public emailModalHorCible;
-  civilites: Array<Civilite> = [];
+  civilites = ["M", "Mme"];
 
   public showDetailsButton 
 
@@ -52,6 +49,7 @@ export class FicheCandidatComponent implements OnInit {
   minRelance = new Date((new Date().getMonth() + 1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear());
   timeEntretien: Date;
   codePostals: Array<CodePostal> = [];
+  disponibles: Array<CodePostal> = [];
   technologies: Array<Technologie> = []
   origines: Array<Origine> = []
   competences: Array<Competence> = []
@@ -76,9 +74,9 @@ export class FicheCandidatComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
-    private codePostalService: CodePostalService, private originesService: OriginesService,private civilitesService: CivilitesService,
+    private codePostalService: CodePostalService, private originesService: OriginesService,
     private technologiesService: TechnologieService, private candidatsService: CandidatsService,
-    private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
+    private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,private disponibilitesService:disponibiliteService,
     private notifierService: NotifierService, private motifService: MotifService,
     private routingState: RoutingState, private entretienService: EntretienService,
     private userService: UtilisateurService, private helperService: HelperService) { }
@@ -109,8 +107,8 @@ export class FicheCandidatComponent implements OnInit {
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
     })
-    this.civilitesService.findAllCivilites().subscribe(data => {
-      this.civilites = data;
+    this.disponibilitesService.findAllDisponibilite().subscribe(data => {
+      this.disponibles = data;
     })
 
     this.lieuxService.findAllLieux().subscribe(data => {
@@ -267,8 +265,8 @@ export class FicheCandidatComponent implements OnInit {
 
     if (!(this.currentCandidat.entretien.pertinence == undefined)) {
 
-      var table = ["PREAVIS", "message_vocal", "envoi_de_la_plaquette", "EN_ATTENTE_FORMATION", "mail_envoye"]
-      let dispoValue = this.currentCandidat.entretien.disponible;
+      var table = ["Préavis", "message vocal", "envoi de la plaquette", "en attente pour une prochaine formation", "mail envoyé"]
+      let dispoValue = this.currentCandidat.entretien.disponible.libelle;
       //#region Relance
       if (table.indexOf(dispoValue) >= 0 && this.currentCandidat.entretien.relance == undefined) {
         this.notifierService.notify("error", "Champs obligatoire, Relancer")
@@ -291,9 +289,9 @@ export class FicheCandidatComponent implements OnInit {
     if (!(this.currentCandidat.entretien.pertinence == undefined)) {
 
       //#region Entrtien
-      let dispoValue = this.currentCandidat.entretien.disponible;
+      let dispoValue = this.currentCandidat.entretien.disponible.libelle;
 
-      if (dispoValue == "DISPONIBLE") {
+      if (dispoValue == "Disponible") {
         if (this.currentCandidat.entretien.date == undefined) {
           this.notifierService.notify("error", "Champs obligatoire, date entretien!")
           error = true;
@@ -335,14 +333,14 @@ export class FicheCandidatComponent implements OnInit {
       if( this.currentCandidat.entretien.date!=undefined)this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
 
       //#region Hors Cible 
-      if (this.currentCandidat.entretien.disponible == "hors_cible" && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {
+      if (this.currentCandidat.entretien.disponible.libelle == "hors cible" && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {
         this.emailModalHorCible.show()
         return;
       }
       //#endregion
       //#region envoiMail
       if (this.envoiMail) {
-        if (this.currentCandidat.entretien.disponible == "DISPONIBLE" && (this.currentCandidat.emailCandidatEnvoyer == null || this.currentCandidat.emailCandidatEnvoyer == false)) {
+        if (this.currentCandidat.entretien.disponible.libelle == "Disponible" && (this.currentCandidat.emailCandidatEnvoyer == null || this.currentCandidat.emailCandidatEnvoyer == false)) {
           this.emailEntrtien.candidat = this.currentCandidat
           this.emailEntrtien.msg = this.buildEntretienMsg(this.currentCandidat)
           this.emailModalDispo.show()
@@ -365,10 +363,11 @@ export class FicheCandidatComponent implements OnInit {
         //#endregion
         //#region  Update Candidat
         if (this.currentCandidat.entretien.date == undefined || this.currentCandidat.entretien.date == null) {
-          this.currentCandidat.statut = Status[Status.EN_ATTENTE_EVALUATION]
-        }
-        if (Disponibilite[this.currentCandidat.entretien.disponible] != Disponibilite.DISPONIBLE) {
-          this.currentCandidat.statut = Status[Status.VIDE]
+          this.currentCandidat.statut.libelle = "En attente d’évaluation";
+          this.currentCandidat.statut.id=3;        }
+        if (this.currentCandidat.entretien.disponible.libelle != "Disponible") {
+          this.currentCandidat.statut.libelle = "Vide";
+          this.currentCandidat.statut.id=2;
         }
         this.currentCandidat.motif = null;
         await this.candidatsService.updateficheCandidat(this.currentCandidat).toPromise().then(data => {
@@ -380,7 +379,7 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private envoiMailHorCibleFunction() {
-    if (this.currentCandidat.motif != null && this.currentCandidat.motif != undefined) {
+    if (this.currentCandidat.motif != undefined && this.currentCandidat.motif != undefined) {
       this.candidatsService.envoyerEmailHorsCibleCandidats(this.currentCandidat, this.userService.getConnetedUserInfo().login, this.commentaireMotif).subscribe(data => {
         this.notifierService.notify("success", "Mail envoyé avec succès");
         this.currentCandidat.motif = new Motif();

@@ -110,6 +110,12 @@ export const navItems = [
         profils: [Profil.ADMINISTRATEUR], 
       },
       {
+        name: 'Disponiblité',
+        icon:'fa fa-info',
+        url: '/' + NAVIGATION_RULES.administration.url+"/"+NAVIGATION_RULES.administration.disponible,
+        profils: [Profil.ADMINISTRATEUR], 
+      },
+      {
         name: 'Utilisateurs',
         icon:'fa fa-group',
         url: '/' + NAVIGATION_RULES.administration.url+'/'+NAVIGATION_RULES.administration.utilisateurs,

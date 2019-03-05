@@ -1,3 +1,4 @@
+import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidateDto } from "../CandidateDto";
@@ -51,7 +52,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   }
 
   technologies = []
-  refDisponibilite = this.helperService.buildDisponibiliteArray();
+  //refDisponibilite = this.helperService.buildDisponibiliteArray();
   region: Array<Region> = [];
   columns = [
     {
@@ -130,6 +131,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   listCarge: any[];
   relance: boolean;
   mask: any[] = PHONE_MASK;
+  disponibleListe:any[];
 
   constructor(
     private router: Router,
@@ -138,7 +140,8 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     private notifierService: NotifierService,
     private technologiesService: TechnologieService,
     private routingState: RoutingState,
-    private regionService: RegionService,private utilisateurService: UtilisateurService) {
+    // tslint:disable-next-line:max-line-length
+    private regionService: RegionService,private disponibilitesService:disponibiliteService, private utilisateurService: UtilisateurService) {
 
   }
 
@@ -150,6 +153,9 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     })
     this.utilisateurService.getAllSourceurs().subscribe(data=>{
       this.listSourceur=data
+    })
+    this.disponibilitesService.findAllDisponibilite().subscribe(data => {
+      this.disponibleListe = data;
     })
     this.utilisateurService.getAllChages().subscribe(data=>{
       this.listCarge=data
