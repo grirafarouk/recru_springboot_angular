@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  "BACK_END_URL" : "http://localhost:9196/ADAMING_SUIVI_APP-REST"
+  "BACK_END_URL" : "http://localhost:9005/ADAMING_SUIVI_APP-REST"
 };

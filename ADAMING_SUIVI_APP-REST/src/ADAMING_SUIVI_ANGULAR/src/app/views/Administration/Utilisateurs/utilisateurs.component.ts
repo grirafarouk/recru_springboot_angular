@@ -20,44 +20,11 @@ export class utilisateursComponent implements OnInit {
   public utilisateurModal;
   ListUtilistaeur : any[];
   utilisateur: Utilisateur;
+  profil: any[];
   refProfil : Array<Role> = [];
 
 
 
-  columns = [
-    {
-      data: 'login',
-      title: 'Login'
-    },
-    {
-      data: 'profil',
-      title: 'Profil'
-    },
-    {
-      data: 'actif',
-      title: 'Actif',
-      boolean: true,
-      align: 'center',
-      width: '10%'
-    },
-    {
-      data: 'reporting',
-      title: 'Reporting',
-      boolean: true,
-      align: 'center',
-      width: '10%'
-    }
-  ]
-  actions = [
-    {
-      icon: 'fa fa-edit',
-      class: 'btn btn-outline-success btn-sm',
-      tooltip: 'Edit',
-      action: (e) => {
-        this.showEditModal(e);
-      }
-    }
-  ]
 
 
   constructor(
@@ -72,7 +39,6 @@ export class utilisateursComponent implements OnInit {
     this.utilisateur = new Utilisateur();
     this.utilisateurService.getAllUser().subscribe(data => {
       this.ListUtilistaeur = data;
-      console.log(this.ListUtilistaeur);
     })
     this.roleService.findAllRole().subscribe(data =>{
       this.refProfil = data;

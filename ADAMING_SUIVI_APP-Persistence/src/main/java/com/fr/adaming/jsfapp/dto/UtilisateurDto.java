@@ -3,7 +3,6 @@ package com.fr.adaming.jsfapp.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fr.adaming.jsfapp.model.Role;
 
 public class UtilisateurDto implements Serializable {
@@ -23,11 +22,6 @@ public class UtilisateurDto implements Serializable {
 	private Boolean reporting;
 	private String numeroTelF;
 	private String numeroTelP;
-//	@JsonProperty("profil")
-//	private void unpackNested(long profil_id) {
-//	    this.profil = new Role();
-//	    profil.setId(profil_id);
-//	}
 
 	public UtilisateurDto() {
 		super();

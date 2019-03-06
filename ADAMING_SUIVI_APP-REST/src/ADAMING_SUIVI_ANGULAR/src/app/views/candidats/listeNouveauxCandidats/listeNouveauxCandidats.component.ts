@@ -216,8 +216,9 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     if (value != "")
       this.regionService.completeRegion(value).subscribe(data => {
         data.forEach(element => {
-          this.region = [...  this.region, element]
-          console.log("region "+this.region)
+
+          this.region = [...this.region, element]
+
         });
       })
     else this.region = []
