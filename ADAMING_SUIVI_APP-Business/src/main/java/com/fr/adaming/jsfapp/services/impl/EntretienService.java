@@ -5,6 +5,7 @@ import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fr.adaming.jsfapp.dao.IEntretienDao;
 import com.fr.adaming.jsfapp.dao.IManagerDao;
@@ -28,5 +29,12 @@ public class EntretienService extends ManagerService<Entretien, Long> implements
 	public IManagerDao<Entretien, Long> getDao() {
 		return entretienDao;
 	}
+
+//	@Override
+//	@Transactional
+//	public void updateDisponiblite(String id) {
+//		entretienDao.updateDisponiblite(id);
+//		
+//	}
 
 }

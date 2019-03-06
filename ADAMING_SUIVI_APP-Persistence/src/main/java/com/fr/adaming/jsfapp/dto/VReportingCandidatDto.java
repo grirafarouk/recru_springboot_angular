@@ -7,9 +7,8 @@ import java.util.Date;
 import javax.persistence.Transient;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
-import com.fr.adaming.jsfapp.enums.Disponibilite;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
-import com.fr.adaming.jsfapp.enums.Statut;
 
 public class VReportingCandidatDto implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -25,8 +24,8 @@ public class VReportingCandidatDto implements Serializable {
 	private String nomCharge;
 	private String prenomCharge;
 	private Integer pertinence;
-	private Disponibilite disponible;
-	private Statut statut;
+	private String disponible;
+	private String statut;
 	private MobiliteSurLille mobiliteLille;
 	private CVSource cvSource;
 	private String lieuEntretien;
@@ -291,11 +290,11 @@ public class VReportingCandidatDto implements Serializable {
 		this.pertinence = pertinence;
 	}
 
-	public Disponibilite getDisponible() {
+	public String getDisponible() {
 		return disponible;
 	}
 
-	public void setDisponible(Disponibilite disponible) {
+	public void setDisponible(String disponible) {
 		this.disponible = disponible;
 	}
 
@@ -315,11 +314,11 @@ public class VReportingCandidatDto implements Serializable {
 		this.dateObtentionDiplome = dateObtentionDiplome;
 	}
 
-	public Statut getStatut() {
+	public String getStatut() {
 		return statut;
 	}
 
-	public void setStatut(Statut statut) {
+	public void setStatut(String statut) {
 		this.statut = statut;
 	}
 

@@ -121,7 +121,7 @@
                   <div class="form-group">
                     <label>Disponible</label>
                     <div class="col-12">
-                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.disponible}}</p>
+                      <p class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.entretien.disponible.libelle}}</p>
                     </div>
                   </div>
                 </div>
@@ -304,7 +304,7 @@
                   <div class="form-group">
                     <label for="noteResultat">Statut</label>
                     <div class="col-12">
-                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static" style="font-weight: bold;color: black;">{{getStatusLabel(currentCandidat.statut)}}</p>
+                      <p *ngIf="currentCandidat.suivi!=null && currentCandidat.suivi!=undefined" class="form-control-static" style="font-weight: bold;color: black;">{{currentCandidat.statut.libelle}}</p>
                     </div>
                   </div>
                 </div>

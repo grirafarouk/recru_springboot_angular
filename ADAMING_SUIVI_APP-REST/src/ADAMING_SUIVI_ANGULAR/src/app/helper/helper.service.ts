@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Disponibilite } from "../models/enum/Disponibilite";
+//import { Disponibilite } from "../models/enum/Disponibilite";
 import { Status } from "../models/enum/Status";
 import { Role } from "../models/Role";
 import { Candidate } from "../models/Candidate";
 import { Competence } from "../models/Competence";
 import { navItems } from "../_nav";
 import { CandidateDto } from "../views/candidats/CandidateDto";
+import { Disponibilite } from "../models/enum/Disponibilite";
 
 
 @Injectable({

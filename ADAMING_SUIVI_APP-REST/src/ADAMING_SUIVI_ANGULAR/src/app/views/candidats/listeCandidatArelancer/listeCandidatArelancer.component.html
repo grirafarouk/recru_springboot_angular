@@ -91,7 +91,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
                            
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"   bindLabel="libelle" [items]="disponibleListe"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
                                 </ng-select>
                            
                         </div>

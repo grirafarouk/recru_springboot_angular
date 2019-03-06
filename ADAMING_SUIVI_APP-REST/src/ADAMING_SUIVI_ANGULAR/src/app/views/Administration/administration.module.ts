@@ -29,6 +29,7 @@ import { FiliereComponent } from './Filiere/filiere.component';
 import { CommonCustomModule } from '../../common/common.module';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { StatusComponent } from './status/status.component';
+import { DisponibiliteComponent } from './disponibilite/disponibilite.component';
 
 
 
@@ -45,7 +46,7 @@ import { StatusComponent } from './status/status.component';
     NgxMaskModule.forRoot(),
     TextMaskModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule,
+    OwlNativeDateTimeModule,  
     NgSelectModule,
     ModalModule.forRoot(),
     ReactiveFormsModule,
@@ -55,6 +56,6 @@ import { StatusComponent } from './status/status.component';
   ],
   declarations: [  competenceComponent,RoleComponent, utilisateursComponent,lieuxComponent,
     origineCVComponent,technologiesComponent,typeFormationComponent,FiliereComponent,clientSessionComponent,
-  motifHorsCibleComponent,regionComponent, StatusComponent]
+  motifHorsCibleComponent,regionComponent, StatusComponent, DisponibiliteComponent]
 })
 export class administrationModule { }

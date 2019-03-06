@@ -247,7 +247,7 @@ public class Candidat implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "STATUT", nullable = false,columnDefinition="bigint(20) default '2'")
+	@JoinColumn(name = "STATUT", nullable = false)
 	public Statut getStatut() {
 		return statut;
 	}

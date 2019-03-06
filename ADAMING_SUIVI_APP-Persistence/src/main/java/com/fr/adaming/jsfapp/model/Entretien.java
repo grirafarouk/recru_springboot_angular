@@ -2,21 +2,25 @@ package com.fr.adaming.jsfapp.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Proxy;
-import com.fr.adaming.jsfapp.enums.Disponibilite;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 
 @Entity
 @Table(name = "entretien")
@@ -71,21 +75,22 @@ public class Entretien implements java.io.Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
+	} 
+	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CHARGE", nullable = true)
-	// @JsonIgnore
-	public Utilisateur getCharge() {
+		public Utilisateur getCharge() {
 		return charge;
 	}
 
 	public void setCharge(Utilisateur charge) {
 		this.charge = charge;
+		
 	}
-
-	@Enumerated(EnumType.ORDINAL)
-	@Column(name = "DISPONIBLE", nullable = true)
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "DISPONIBLE", nullable = false)
 	public Disponibilite getDisponible() {
 		return disponible;
 	}
@@ -103,7 +108,7 @@ public class Entretien implements java.io.Serializable {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "LIEU", nullable = true)
 	public Lieu getLieu() {

@@ -22,19 +22,19 @@ export const navItems = [
 
     children: [
       {
-        name: 'Nouveaux Condidats',
+        name: 'Nouveaux Candidats',
         url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat,
         profils: [USER_ROLE.CHARGE, USER_ROLE.ADMINISTRATEUR, USER_ROLE.COMMERCIAL, USER_ROLE.DIRECTION,USER_ROLE.SOURCEUR],
         icon: 'fa fa-user-plus',
       },
       {
-        name: 'Liste Nouveaux Condidats',
+        name: 'Liste Nouveaux Candidats',
         url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeNouveauxCandidats,
         profils: [USER_ROLE.CHARGE, USER_ROLE.ADMINISTRATEUR, USER_ROLE.COMMERCIAL, USER_ROLE.DIRECTION],
         icon: 'fa fa-list',
       },
       {
-        name: 'Liste Tous Condidats',
+        name: 'Liste Tous Candidats',
         url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeTousCandidats,
         icon: 'fa fa-suitcase',
         profils: [USER_ROLE.CHARGE, USER_ROLE.ADMINISTRATEUR, USER_ROLE.COMMERCIAL, USER_ROLE.DIRECTION],
@@ -106,6 +106,12 @@ export const navItems = [
         name: 'Status',
         icon:'fa fa-info',
         url: '/' + NAVIGATION_RULES.administration.url+"/"+NAVIGATION_RULES.administration.status,
+        profils: [USER_ROLE.ADMINISTRATEUR], 
+      },
+      {
+        name: 'Disponiblité',
+        icon:'fa fa-info',
+        url: '/' + NAVIGATION_RULES.administration.url+"/"+NAVIGATION_RULES.administration.disponible,
         profils: [USER_ROLE.ADMINISTRATEUR], 
       },
       {

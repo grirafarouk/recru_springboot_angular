@@ -30,7 +30,7 @@ export class utilisateursComponent implements OnInit {
       title: 'Login'
     },
     {
-      data: 'profil.libelle',
+      data: 'profil',
       title: 'Profil'
     },
     {

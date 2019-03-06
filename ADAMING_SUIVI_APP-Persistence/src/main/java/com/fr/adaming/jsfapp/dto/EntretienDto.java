@@ -6,7 +6,7 @@ import java.util.Date;
 
 import javax.persistence.Transient;
 
-import com.fr.adaming.jsfapp.enums.Disponibilite;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.model.Lieu;
 
 public class EntretienDto implements Serializable {

@@ -15,6 +15,8 @@ import { FiliereComponent } from './Filiere/filiere.component';
 import { CanActivateService } from '../../helper/can-activate.service';
 import { NAVIGATION_RULES } from '../../helper/application.constant';
 import { RoleComponent } from './role/role.component';
+import { DisponibiliteComponent } from './disponibilite/disponibilite.component';
+
 
 
 const routes: Routes = [
@@ -40,6 +42,14 @@ const routes: Routes = [
     canActivate:[CanActivateService],
     data: {
       title: 'status'
+    }
+  },
+  {
+    path: NAVIGATION_RULES.administration.disponible,
+    component: DisponibiliteComponent,
+    canActivate:[CanActivateService],
+    data: {
+      title: 'disponible'
     }
   },
   {

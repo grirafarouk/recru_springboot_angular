@@ -1,3 +1,4 @@
+import { StatutService } from './../../../services/administrationService/StatutService';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidatsService } from "../../../services/candidats.service";
@@ -61,6 +62,7 @@ export class ListeReportingComponent implements OnInit {
   lieux = []
   mask: any[] = PHONE_MASK;
   technologies = []
+  statuts=[]
   origines = []
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
@@ -199,13 +201,18 @@ export class ListeReportingComponent implements OnInit {
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
     private notifierService: NotifierService, private competencesService: CompetencesService,
-    private helperService: HelperService, private regionService: RegionService,
+    private helperService: HelperService, private regionService: RegionService,private statutservice:StatutService,
     private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
+    this.statutservice.findAllStatut().subscribe(data=>
+      {
+       this.statuts=data;
+      } 
+       )
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })

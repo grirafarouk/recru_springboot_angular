@@ -1,3 +1,4 @@
+import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { StatutService } from './../../../services/administrationService/StatutService';
 import { Component, OnInit, OnDestroy, ViewChild, forwardRef } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -16,7 +17,7 @@ import { RegionService } from "../../../services/administrationService/region.se
 import { Region } from "../../../models/region";
 import { NAVIGATION_RULES, PHONE_MASK_LABEL, DATE_FORMAT,PHONE_MASK, DATE_FORMAT_MOMENT } from "../../../helper/application.constant";
 import { Status } from "../../../models/enum/Status";
-import { Disponibilite } from "../../../models/enum/Disponibilite";
+//import { Disponibilite } from "../../../models/enum/Disponibilite";
 import { RoutingState } from "../../../helper/routing-state.service";
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
@@ -147,10 +148,7 @@ titleTable="Liste de tous les candidats "
       data: 'disponibilite',
       title: 'Disponible',
       visible: true,
-      html: false,
-      rendered: (e) => {
-        return Disponibilite[e.disponibilite]
-      }
+      
     },
     {
       data: 'nomCharge',
@@ -173,16 +171,16 @@ titleTable="Liste de tous les candidats "
 
   region: Array<Region> = [];
   refStatut = this.helperService.buildStatutArray();
-  refDisponibilite = this.helperService.buildDisponibiliteArray();
+ // refDisponibilite = this.helperService.buildDisponibiliteArray();
   condidat: CandidateDto = new CandidateDto();
   listSourceur: any[];
   listCarge: any[];
-
+disponibleListe:any[];
 
 
   constructor(private router: Router, private candidatsService: CandidatsService, private routingState: RoutingState,
     private notifierService: NotifierService, private technologiesService: TechnologieService,
-    private lieuxService: LieuxService, private helperService: HelperService, private statutservice: StatutService, private regionService: RegionService,
+    private lieuxService: LieuxService,private disponibiliteService:disponibiliteService, private helperService: HelperService, private statutservice: StatutService, private regionService: RegionService,
     private utilisateurService: UtilisateurService,
     private excelService:ExcelService) {
 
@@ -196,6 +194,12 @@ titleTable="Liste de tous les candidats "
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
+    this.disponibiliteService.findAllDisponibilite().subscribe(data=>
+      {
+
+        this.disponibleListe=data;
+      }
+      )
     this.statutservice.findAllStatut().subscribe(data=>
       {
        this.statuts=data;

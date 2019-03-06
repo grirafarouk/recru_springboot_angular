@@ -37,7 +37,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Type de profil:</label>
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="technologies" [(ngModel)]="condidat.technologie" name="technologie"  >
+                            <ng-select style="font-weight: bold;color: black;" saaceholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="technologies" [(ngModel)]="condidat.technologie" name="technologie"  >
                                 </ng-select>
 
                         </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label"  style="font-weight:bold">Disponibilité:</label>
 
-                          <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="value"  bindLabel="label" [items]="refDisponibilite"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
+                          <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="disponibleListe"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
                             </ng-select>
                         </div>
                     </div>
@@ -73,8 +73,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label"  style="font-weight:bold">Region:</label>
-                            <ng-select style="font-weight: bold;color: black;" bindValue="code"  bindLabel="code" [items]="region" (search)="codePostaleOnSearch($event)" 
-                                [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
+                            <ng-select style="font-weight: bold;color: black;" bindValue="code"  bindLabel="code" [items]="region" (search)="codePostaleOnSearch($event)"    [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
                            </ng-select>
 
                         </div>
@@ -99,7 +98,7 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindLabel="prenom" bindValue="prenom"  [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
                             </ng-select>
                         </div>
                     </div>

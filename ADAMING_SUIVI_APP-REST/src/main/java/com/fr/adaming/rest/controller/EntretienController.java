@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.EntretienDto;
 import com.fr.adaming.jsfapp.mapper.EntretienMapper;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.model.Entretien;
 import com.fr.adaming.jsfapp.services.IEntretienService;
 
@@ -28,11 +30,22 @@ public class EntretienController {
 
 	private EntretienMapper entretienMapper = Mappers.getMapper(EntretienMapper.class);
 
+	// @PostMapping(path = "/disponible")
+	// public void creerDisponiibiliteParDisponible(@RequestBody long e) {
+	// Strig
+	// entretienService.updateDisponiblite(e);
+	// }
+	private Entretien entretien1;
+
 	@PostMapping(path = "")
 	public EntretienDto createOrUpdate(@RequestBody EntretienDto entretienDto) {
-		Entretien entretien = entretienMapper.entretienDtoToEntretien(entretienDto);
-		entretien = entretienService.createOrUpdate(entretien);
-		return entretienMapper.entretienToEntretienDto(entretien);
+		if (entretienDto.getDisponible().getId() > -1) {
+			entretien1 = entretienMapper.entretienDtoToEntretien(entretienDto);
+		}
+		if (entretien1.getDisponible().getId() > -1) {
+			entretien1 = entretienService.createOrUpdate(entretien1);
+		}
+		return entretienMapper.entretienToEntretienDto(entretien1);
 	}
 
 	@GetMapping(path = "/{id}")

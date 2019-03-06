@@ -387,6 +387,9 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenomCharge())) {
 			query = query + LISTE_CANDIDAT_PRENOM_CHARGE + vListeCandidatsDto.getPrenomCharge() + "%'";
 		}
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getDisponibilite())) {
+			query = query + " AND V_ListeCandidats.DISPONIBILITE = '" + vListeCandidatsDto.getDisponibilite() + "'";
+		}
 		rechercheTemporelle(vListeCandidatsDto, query);
 		rechercheNonTemporelle(vListeCandidatsDto, query);
 		return query;
@@ -402,10 +405,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 			if (vListeCandidatsDto.getDateEntretien() != null) {
 				query = query + LISTE_CANDIDAT_DATE + sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
 			}
-			if (vListeCandidatsDto.getDisponibilite() != null) {
-				query = query + " AND V_ListeCandidats.DISPONIBILITE = "
-						+ vListeCandidatsDto.getDisponibilite().ordinal() + "";
-			}
+
 			if (vListeCandidatsDto.getDateRelance() != null) {
 				query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) ='"
 						+ sdf.format(vListeCandidatsDto.getDateRelance()) + "'";
@@ -469,6 +469,9 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenomCharge())) {
 			query = query + LISTE_CANDIDAT_PRENOM_CHARGE + vListeCandidatsDto.getPrenomCharge() + "%'";
 		}
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getDisponibilite())) {
+			query = query + " AND V_ListeCandidats.DISPONIBILITE = '" + vListeCandidatsDto.getDisponibilite() + "'";
+		}
 		rechercheCritereDate(vListeCandidatsDto, query);
 		rechercheAutreCritereForARelancer(vListeCandidatsDto, query);
 		return query;
@@ -519,10 +522,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 			if (vListeCandidatsDto.getConfirmationRdv() != null) {
 				query = query + LISTE_CANDIDAT_CONF + vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
 			}
-			if (vListeCandidatsDto.getDisponibilite() != null) {
-				query = query + " AND V_ListeCandidats.DISPONIBILITE = "
-						+ vListeCandidatsDto.getDisponibilite().ordinal() + "";
-			}
+
 			if (vListeCandidatsDto.getStatut() != null) {
 				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "'";
 			}

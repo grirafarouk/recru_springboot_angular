@@ -134,7 +134,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       this.technologies = data;
     }),
       this.utilisateurService.getAllSourceurs().subscribe(data => {
-        console.log("liste sourceur:"+data);
+        //console.log("liste sourceur:"+data);
         this.listSourceur = data
       })
   }
@@ -217,6 +217,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       this.regionService.completeRegion(value).subscribe(data => {
         data.forEach(element => {
           this.region = [...  this.region, element]
+          console.log("region "+this.region)
         });
       })
     else this.region = []

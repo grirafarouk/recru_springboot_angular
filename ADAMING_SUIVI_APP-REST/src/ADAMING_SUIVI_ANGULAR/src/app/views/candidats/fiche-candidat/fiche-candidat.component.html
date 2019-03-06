@@ -268,10 +268,10 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="entretienDispo">Disponible</label>
+                    <label for="disponiblite">Disponible</label>
                     <label style="color: firebrick">*</label>
-                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="value"  bindLabel="label" [items]="refDisponibilite"   [(ngModel)]="currentCandidat.entretien.disponible" name="entretienDispo"
-                      id="entretienDispo">
+                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindLabel="libelle"   [items]="disponibles"   [(ngModel)]="currentCandidat.entretien.disponible"  name="disponiblite"
+                      id="disponiblite">
                     </ng-select>
                   </div>
                 </div>
@@ -399,7 +399,7 @@
               <button type="button" (click)="evaluerCandidat()"  [disabled]="currentCandidat.entretien.date==null || currentCandidat.entretien.date > minRelance" class="btn btn-block btn-success">Evaluer Candidat</button>
             </div>
             <div style="padding-left: 5px" >
-              <button type="button" (click)="sauvgarderFicheRedirtect()" class="btn btn-block btn-success">Sauvegarder</button>
+              <button type="button"  (click)="sauvgarderFicheRedirtect()" class="btn btn-block btn-success">Sauvegarder</button>
             </div>
             <div style="padding-left: 5px" >
               <button (click)="annuler()" type="button" class="btn btn-block btn-danger">Annuler</button>

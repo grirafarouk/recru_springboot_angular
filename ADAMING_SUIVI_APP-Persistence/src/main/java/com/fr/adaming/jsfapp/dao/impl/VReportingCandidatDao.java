@@ -11,7 +11,6 @@ import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
 
 @Repository("v_ReportingCandidatDao")
-
 public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 		implements IvReportingCandidatDao, Serializable {
 
@@ -53,6 +52,9 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 			if (isNullOrEmptyString(vReportingcandidatDto.getTechnologie())) {
 				query = query + " AND V_RC.TECHNOLOGIE = '" + vReportingcandidatDto.getTechnologie() + "'";
 			}
+			if (isNullOrEmptyString(vReportingcandidatDto.getDisponible())) {
+				query = query + " AND V_RC.DISPONIBLE = '" + vReportingcandidatDto.getDisponible() +"'";
+			}
 			if (isNullOrEmptyString(vReportingcandidatDto.getOrigine())) {
 				query = query + " AND V_RC.ORIGINE = '" + vReportingcandidatDto.getOrigine() + "'";
 			}
@@ -91,9 +93,10 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 						vReportingcandidatDto.getDateObtentionDiplome().getTime());
 				query = query + " AND V_RC.DATE_OBTENTION_DIPLOME ='" + fromDate + "'";
 			}
-			if (vReportingcandidatDto.getStatut() != null) {
-				query = query + " AND V_RC.STATUT = " + vReportingcandidatDto.getStatut().ordinal() + "";
+			if (isNullOrEmptyString(vReportingcandidatDto.getStatut())) {
+				query = query + " AND V_RC.STATUT = '" + vReportingcandidatDto.getStatut() +"'";
 			}
+			
 			if (vReportingcandidatDto.getMobiliteLille() != null) {
 				query = query + " AND V_RC.mobilite_Lille = " + vReportingcandidatDto.getMobiliteLille().ordinal() + "";
 			}

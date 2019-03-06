@@ -52,4 +52,9 @@ public class Statut implements Serializable {
 		this.libelle = libelle;
 	}
 
+	@Override
+	public String toString() {
+		return "Statut [id=" + id + ", libelle=" + libelle + "]";
+	}
+
 }

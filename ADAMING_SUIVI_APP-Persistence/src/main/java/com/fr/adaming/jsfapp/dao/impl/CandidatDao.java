@@ -409,7 +409,7 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			query = query + " AND entretien4_.CHARGE= " + candidatDto.getEntretien().getCharge().getId() + "";
 		}
 		if (testerNullAndEmptyObject(candidatDto.getEntretien().getDisponible(), candidatDto)) {
-			query = query + " AND entretien4_.DISPONIBLE= " + candidatDto.getEntretien().getDisponible().ordinal() + "";
+			query = query + " AND entretien4_.DISPONIBLE= " + candidatDto.getEntretien().getDisponible().getId() + "";
 		}
 
 		if (testerNullAndEmptyObjectObject(candidatDto.getEntretien().getDate(), candidatDto.getEntretien(),
