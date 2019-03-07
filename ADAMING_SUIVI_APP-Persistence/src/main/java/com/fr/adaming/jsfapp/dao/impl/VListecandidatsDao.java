@@ -74,10 +74,10 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		}
 		if (all) {
 			query = query
-					+ " AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() ";
+					+ " AND (V_ListeCandidats.STATUT='En attente d’évaluation' OR V_ListeCandidats.STATUT='En attente d’affectation' OR V_ListeCandidats.STATUT='Vide' OR V_ListeCandidats.STATUT='Refuser') AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() ";
 		} else {
 			query = query
-					+ " AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL  AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() AND V_ListeCandidats.LIEU_ENTRETIEN IS NOT NULL ";
+					+ " AND (V_ListeCandidats.STATUT='En attente d’évaluation' OR V_ListeCandidats.STATUT='En attente d’affectation' OR V_ListeCandidats.STATUT='Vide') AND V_ListeCandidats.DATE_ENTRETIEN IS NOT NULL  AND  DATE(V_ListeCandidats.DATE_ENTRETIEN) <= CURRENT_DATE() AND V_ListeCandidats.LIEU_ENTRETIEN IS NOT NULL ";
 		}
 		return query;
 	}

@@ -123,7 +123,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     private notifierService: NotifierService,
     private utilisateurService: UtilisateurService,
     private regionService: RegionService,
-    private excelService:ExcelService) {
+    private excelService: ExcelService) {
 
   }
 
@@ -142,28 +142,23 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     this.helperService.listNouveauxCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
-    if(!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom))
-    {
-      this.notifierService.notify("error","Les champs de saisi «Nom» est «Prenom» sont invalides") 
+    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
-    else
-    {
-    if(!this.regex.test(this.condidat.nom))
-    {
-    this.notifierService.notify("error","Le champ de saisi « Nom » est invalide")
+    else {
+      if (!this.regex.test(this.condidat.nom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+      }
+      else if (!this.regex.test(this.condidat.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+        let callBack = (e) => {
+          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+        }
+        this.table.setPage(1, callBack);
+      }
     }
-    else if( !this.regex.test(this.condidat.prenom))
-    {
-      this.notifierService.notify("error","Le champ de saisi « Prenom » est invalide") 
-    }
-    else
-    {
-    let callBack = (e) => {
-      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-    }
-    this.table.setPage(1, callBack);
-  }
-}
   }
   initTableFunction() {
     this.rechercheCandidat()
@@ -178,7 +173,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
 
   reset() {
     this.condidat = new CandidateDto();
-    this.table.item= this.condidat;
+    this.table.item = this.condidat;
     this.rechercheCandidat();
   }
 
@@ -208,7 +203,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
 
   public exportAsXLSX(): void {
     this.candidatsService.rechercheNouveauxcandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
-      this.excelService.exportAsExcelFile(data,this.titleTable,this.columns);
+      this.excelService.exportAsExcelFile(data, this.titleTable, this.columns);
     })
   }
 
@@ -216,9 +211,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     if (value != "")
       this.regionService.completeRegion(value).subscribe(data => {
         data.forEach(element => {
-
           this.region = [...this.region, element]
-
         });
       })
     else this.region = []

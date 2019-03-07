@@ -45,7 +45,6 @@ import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Statut;
-
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
@@ -374,7 +373,6 @@ public class CandidatController {
 	public List<String> getListNomCvs() {
 		return candidatService.rechercherNomCv();
 	}
-private Candidat candidat1;
 
 	@PutMapping(path = "/updateficheCandidat")
 	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
@@ -387,9 +385,8 @@ private Candidat candidat1;
 			candidatDTO.setStatut(s);
 			System.out.println(candidatDTO.getStatut());
 		}
-		if (candidatDTO.getEntretien().getDisponible().getId()>-1)
-		 candidat1 = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
-		return candidatMapper.candidatToCandidatDto(candidat1);
+			Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
+		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 
 	@PostMapping("/envoyerEmailHorsCibleCandidats")

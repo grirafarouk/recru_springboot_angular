@@ -288,6 +288,7 @@ disponibleListe:any[];
       })
     else this.region = []
   }
+  
 
   private updateDateRelance(date: Date) {
     this.condidat.dateRelance = date

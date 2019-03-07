@@ -205,7 +205,7 @@ export class CandidatsService {
   public rechercheCandidatArelancer(candidat, page, size): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancer" + "?page=" + page + "&size=" + size, candidat, httpOptions);
   }
-
+ng 
   public rechercheCandidatAvecEntretien(candidat, page, size, allValue): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheCandidatavecentretien" + "?page=" + page + "&size=" + size + "&allValue=" + allValue, candidat, httpOptions);
   }

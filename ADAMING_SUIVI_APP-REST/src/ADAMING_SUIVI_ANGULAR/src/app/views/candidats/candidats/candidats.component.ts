@@ -251,6 +251,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     else this.codePostals = []
   }
 
+
+
   async  onSubmit() {
     
     let fn =(e)=>{
