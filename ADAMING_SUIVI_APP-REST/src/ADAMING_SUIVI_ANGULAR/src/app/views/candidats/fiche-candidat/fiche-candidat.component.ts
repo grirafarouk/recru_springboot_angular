@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
@@ -24,6 +25,7 @@ import { HelperService } from '../../../helper/helper.service';
 import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE } from '../../../helper/application.constant';
+import { async } from 'q';
 
 @Component({
   selector: 'app-fiche-candidat',
@@ -42,7 +44,7 @@ export class FicheCandidatComponent implements OnInit {
   public emailModalHorCible;
   civilites = ["M", "Mme"];
 
-  public showDetailsButton 
+  public showDetailsButton
 
   commentaireMotif = "";
   minRelance = new Date((new Date().getMonth() + 1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear());
@@ -54,13 +56,15 @@ export class FicheCandidatComponent implements OnInit {
   competences: Array<Competence> = []
   lieux: Array<Lieu> = []
   motifs: Array<Motif> = []
-
+  cndida: Candidate = new Candidate()
+  ent: Entretien = new Entretien()
   pertinenecesValeurs = [1, 2, 3, 4, 5]
   pdfSource;
   refDisponibilite = this.helperService.buildDisponibiliteArray();
   file;
   currentCandidat: Candidate;
   envoiMail: boolean = false;
+  verifdis: boolean = false;
   pieceJoitesTemp = []
   emailEntrtien = {
     candidat: {},
@@ -75,19 +79,19 @@ export class FicheCandidatComponent implements OnInit {
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
     private codePostalService: CodePostalService, private originesService: OriginesService,
     private technologiesService: TechnologieService, private candidatsService: CandidatsService,
-    private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,private disponibilitesService:disponibiliteService,
+    private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService, private disponibilitesService: disponibiliteService,
     private notifierService: NotifierService, private motifService: MotifService,
     private routingState: RoutingState, private entretienService: EntretienService,
     private userService: UtilisateurService, private helperService: HelperService) { }
 
   ngOnInit() {
 
-    this.showDetailsButton = this.routingState.getPreviousUrl().indexOf(NAVIGATION_RULES.candidats.listeTousCandidats)>-1
+    this.showDetailsButton = this.routingState.getPreviousUrl().indexOf(NAVIGATION_RULES.candidats.listeTousCandidats) > -1
     this.route.data
       .subscribe((data: { candidat: Candidate, title: string }) => {
         data.title = data.title + data.candidat.id;
         this.currentCandidat = data.candidat;
-        if (this.currentCandidat.entretien != undefined && this.currentCandidat.entretien != null && this.currentCandidat.entretien.date!=null)
+        if (this.currentCandidat.entretien != undefined && this.currentCandidat.entretien != null && this.currentCandidat.entretien.date != null)
           this.timeEntretien = this.currentCandidat.entretien.date;
         this.codePostaleOnSearch(this.currentCandidat.codePostal.code)
         this.candidatsService.getCvCandidats(this.currentCandidat).subscribe(res => {
@@ -160,7 +164,7 @@ export class FicheCandidatComponent implements OnInit {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
 
     }
-   // else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
+    // else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
   }
 
   private entretienHeureFilter = (d: Date): boolean => {
@@ -189,19 +193,19 @@ export class FicheCandidatComponent implements OnInit {
     }
     if (this.currentCandidat.prenom == "" || this.currentCandidat.prenom == undefined) {
       this.notifierService.notify("error", " Écrivez un prenom valide")
-      error  = true;
+      error = true;
     }
     if (this.currentCandidat.email == "" || this.currentCandidat.email == undefined || !validEmailRegEx.test(this.currentCandidat.email)) {
       this.notifierService.notify("error", " Écrivez un email valide")
-      error  = true;
+      error = true;
     }
     if (this.currentCandidat.numeroTel == "" || this.currentCandidat.numeroTel == undefined) {
       this.notifierService.notify("error", " Écrivez un numero Tel valide")
-      error  = true;
+      error = true;
     }
     if (this.currentCandidat.origine.id == undefined) {
       this.notifierService.notify("error", " Écrivez Choisir un Origine CV valide")
-      error  = true;
+      error = true;
     }
     if (!error) {
       //#region get Competences
@@ -214,7 +218,7 @@ export class FicheCandidatComponent implements OnInit {
       if (candidateTemp.suivi != null && (candidateTemp.suivi.id == 0 || candidateTemp.suivi.id == null || candidateTemp.suivi.id == undefined)) candidateTemp.suivi = null
       this.candidatsService.updateCandidat(candidateTemp).subscribe(data => {
         this.notifierService.notify("success", "Candidat modifié avec success !")
-        this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.listeNouveauxCandidats]);
+        this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeNouveauxCandidats]);
 
       })
     }
@@ -327,9 +331,9 @@ export class FicheCandidatComponent implements OnInit {
     if (!this.verfierDispo() && !this.verfierRelance() && !this.verfierEntrtien()) {
       if (this.currentCandidat.motif != null && (this.currentCandidat.motif.id == 0 || this.currentCandidat.motif.id == null || this.currentCandidat.motif.id == undefined)) this.currentCandidat.motif = null
       if (this.currentCandidat.suivi != null && (this.currentCandidat.suivi.id == 0 || this.currentCandidat.suivi.id == null || this.currentCandidat.suivi.id == undefined)) this.currentCandidat.suivi = null
-     
 
-      if( this.currentCandidat.entretien.date!=undefined)this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
+
+      if (this.currentCandidat.entretien.date != undefined) this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
 
       //#region Hors Cible 
       if (this.currentCandidat.entretien.disponible.libelle == "hors cible" && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {
@@ -351,27 +355,50 @@ export class FicheCandidatComponent implements OnInit {
       if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION) {
         //#region Save Or Update Entretien
         this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
+        if (this.currentCandidat.entretien.disponible.libelle == "Disponible") {
+          this.verifdis = true;
+          this.currentCandidat.entretien.disponible.id = 1;
+        }
+
+        // console.log(this.currentCandidat)
+        //console.log(this.currentCandidat.entretien.disponible)
         await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
           if (this.currentCandidat.entretien.id > 0)
             this.notifierService.notify("success", "Modifié!, Candidat modifié avec success !");
+
+
           else
             this.notifierService.notify("success", "Ajout!, Candidat ajouté avec success !");
           data.date = new Date(data.date)
           this.currentCandidat.entretien = data;
         })
+
         //#endregion
         //#region  Update Candidat
         if (this.currentCandidat.entretien.date == undefined || this.currentCandidat.entretien.date == null) {
           this.currentCandidat.statut.libelle = "En attente d’évaluation";
-          this.currentCandidat.statut.id=3;        }
+          this.currentCandidat.statut.id = 3;
+        }
         if (this.currentCandidat.entretien.disponible.libelle != "Disponible") {
           this.currentCandidat.statut.libelle = "Vide";
-          this.currentCandidat.statut.id=2;
+          this.currentCandidat.statut.id = 2;
         }
         this.currentCandidat.motif = null;
         await this.candidatsService.updateficheCandidat(this.currentCandidat).toPromise().then(data => {
-         if(this.callback!=null) this.callback(data.id)
+          if (this.callback != null) this.callback(data.id)
         })
+        //await  this.candidatsService.getCandidatById(this.currentCandidat.id).subscribe((data: Candidate) => {
+        //this.cndida = data
+        //this.cndida.entretien.disponible.id = 0
+        //this.candidatsService.updateCandidat(this.cndida).subscribe((data:Candidate)=>
+        //{
+        //this.currentCandidat=data;
+        //}
+        //);
+        //})
+        //console.log(this.currentCandidat)
+        //console.log(this.currentCandidat.entretien.disponible)
+
         //#endregion
       }
     }
@@ -493,28 +520,56 @@ export class FicheCandidatComponent implements OnInit {
 
     return msg
   }
+  public callback = null;
 
-  
-public callback=null;
+  private async candidatentretien(c) {
+    await this.entretienService.searchDisponibleById(c.entretien.id).toPromise
+      ().then((data: Entretien) => {
+        console.log(data.id)
+        this.ent = data;
+      })
 
+    this.ent.disponible.id = 0;
+    this.ent.disponible.libelle = "Disponible"
+    console.log("retourner un entretien")
+    if (this.ent.disponible.id > -1) {
+      await this.entretienService.createOrUpdate(this.ent).toPromise
+        ().then((candida: Entretien) => {
+          this.currentCandidat.entretien = candida
+          console.log("0")
+          console.log(candida.id)
+          console.log(this.currentCandidat.entretien.id)
+          console.log("1")
+          console.log(candida)
+          console.log("2")
+          console.log(this.currentCandidat.entretien)
+          console.log("fonctionnner corretement 3")
+          console.log(this.currentCandidat.entretien.disponible.libelle)
+          console.log("4")
+          console.log(candida.disponible.libelle)
+        })
+    }
+  }
   private async sauvgarderFicheRedirtect() {
     this.callback = (id) => {
-      if (this.routingState.getPreviousUrl()=="/candidats")
-        this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.listeTousCandidats]);
+      if (this.routingState.getPreviousUrl() == "/candidats")
+        this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeTousCandidats]);
       else this.annuler();
     }
     await this.sauvgarderFiche();
+    if (this.verifdis == true)
+      await this.candidatentretien(this.currentCandidat)
   }
 
   private async evaluerCandidat() {
     this.callback = (id) => {
-      this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',id)]);
+      this.router.navigate([NAVIGATION_RULES.entretien.url + '/' + NAVIGATION_RULES.entretien.details.replace(':id', id)]);
     }
     await this.sauvgarderFiche();
   }
 
-  private dateNaissanceChangedHandler(){
-    this.currentCandidat.age= this.helperService.getAge(this.currentCandidat.dateNaissance)
+  private dateNaissanceChangedHandler() {
+    this.currentCandidat.age = this.helperService.getAge(this.currentCandidat.dateNaissance)
   }
 
   showDetails() {

@@ -112,7 +112,7 @@
                                         [items]="codePostals" (search)="codePostaleOnSearch($event)" [ngModel]="candidate.codePostal"
                                         (ngModelChange)="candidate.codePostal = $event" name="codePostal">
                                         <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
-                                            {{codeP.ville}}</ng-option>
+                                        {{codeP.ville}}</ng-option>
 
                                     </ng-select>
                                 </div>
