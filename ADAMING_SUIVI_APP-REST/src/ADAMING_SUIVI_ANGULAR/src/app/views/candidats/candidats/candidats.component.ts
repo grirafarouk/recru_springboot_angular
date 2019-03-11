@@ -1,3 +1,4 @@
+import { DxTreeViewModule } from 'devextreme-angular';
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Candidate } from "../../../models/Candidate";

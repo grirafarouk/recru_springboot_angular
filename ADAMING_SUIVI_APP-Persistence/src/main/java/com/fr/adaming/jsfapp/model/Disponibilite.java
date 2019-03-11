@@ -12,7 +12,9 @@ import org.hibernate.annotations.Proxy;
 @Table(name = "disponibilite")
 @Proxy(lazy = false)
 public class Disponibilite implements Serializable {
-
+	
+	//@GeneratedValue(strategy=GenerationType.AUTO)
+ 
 	/**
 	 * 
 	 */

@@ -17,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Proxy;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -91,6 +93,7 @@ public class Entretien implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "DISPONIBLE", nullable = false)
+	@NotFound(action = NotFoundAction.IGNORE)
 	public Disponibilite getDisponible() {
 		return disponible;
 	}

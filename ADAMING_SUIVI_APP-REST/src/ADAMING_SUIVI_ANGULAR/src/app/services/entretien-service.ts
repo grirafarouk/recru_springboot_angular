@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BACK_END_URL } from '../helper/application.constant';
@@ -7,34 +8,36 @@ import { BACK_END_URL } from '../helper/application.constant';
 })
 export class EntretienService {
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
   protected prepareHeader(): object {
     const headers = new HttpHeaders(
-      {'Content-Type': 'application/x-www-form-urlencoded',
-        'Access-Control-Allow-Origin' : '*'
+      {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Access-Control-Allow-Origin': '*'
       });
 
     return {
-        headers: headers
+      headers: headers
     };
   }
-  
- public searchDisponibleById(id): any {
+
+  public searchDisponibleById(id): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/entretien/" + id);
   }
 
-	public createOrUpdate(entity) {
+
+  public createOrUpdate(entity) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-		return this.httpClient.post(BACK_END_URL+"/entretien",entity,httpOptions)
+    return this.httpClient.post(BACK_END_URL + "/entretien", entity, httpOptions)
   }
-  
-	public createDisponible(entity) {
+
+  public createDisponible(entity) {
     const httpOptions = this.prepareHeader();
-		return this.httpClient.post(BACK_END_URL+"/entretien/disponible/",entity,httpOptions)
+    return this.httpClient.post(BACK_END_URL + "/entretien/disponible/", entity, httpOptions)
   }
-  
+
 }
