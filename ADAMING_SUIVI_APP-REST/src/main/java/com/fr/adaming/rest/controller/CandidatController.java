@@ -44,7 +44,6 @@ import com.fr.adaming.jsfapp.mapper.CandidatMapper;
 import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
-import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
@@ -77,7 +76,6 @@ public class CandidatController {
 
 	List<String> files = new ArrayList<>();
 
-	// private Disponibilite[] refDisponibilite = Disponibilite.values();
 	@Autowired
 	private IvListeCandidatsService vListeCandidatsService;
 	private VListeCandidatsDto vListeCandidatsDto;
@@ -191,19 +189,6 @@ public class CandidatController {
 	public Candidat findById(@PathVariable Long id) {
 		return candidatService.findById(id);
 	}
-
-	// @GetMapping(path = "/refDisponibilite")
-	// public List<JSONObject> refDisponibilite() {
-	// List<JSONObject> result = new ArrayList<>();
-	// for (int i = 0; i < refDisponibilite.length; i++) {
-	// Disponibilite dis = refDisponibilite[i];
-	// JSONObject j = new JSONObject();
-	// j.put("label", dis.getLabel());
-	// j.put(VALUE, dis);
-	// result.add(j);
-	// }
-	// return result;
-	// }
 
 	@PostMapping(path = "CVPDF")
 	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto nouveauCandidat)
