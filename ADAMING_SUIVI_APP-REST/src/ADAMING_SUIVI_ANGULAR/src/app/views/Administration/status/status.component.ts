@@ -47,14 +47,13 @@ export class StatusComponent implements OnInit {
 
 
   constructor(
-    private typeFormationService: StatutService,
+    private statutService: StatutService,
     private notifierService: NotifierService
   ) { }
 
   ngOnInit(): void {
     this.statut = new Statut();
-
-    this.typeFormationService.findAllStatut().subscribe(data => {
+    this.statutService.findAllStatut().subscribe(data => {
       this.Liststatut = data;
     })
   }
@@ -90,7 +89,7 @@ export class StatusComponent implements OnInit {
     }
     else {
       let typeF
-      await this.typeFormationService.findStatutByLibelle(this.statut.libelle).toPromise().then(data => { typeF = data });
+      await this.statutService.findStatutByLibelle(this.statut.libelle).toPromise().then(data => { typeF = data });
       if (typeF != null) {
         this.notifierService.notify("error", "statut existe déjà  !")
         error  = true;
@@ -98,7 +97,7 @@ export class StatusComponent implements OnInit {
     }
     if(!error)
     {
-    this.typeFormationService.save(this.statut).toPromise().then((data: Statut) => {
+    this.statutService.save(this.statut).toPromise().then((data: Statut) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "statut ajouté avec succés !")
@@ -116,7 +115,7 @@ export class StatusComponent implements OnInit {
     }
     else {
       let typeF
-      await this.typeFormationService.findStatutByLibelle(this.statut.libelle).toPromise().then(data => { typeF = data });
+      await this.statutService.findStatutByLibelle(this.statut.libelle).toPromise().then(data => { typeF = data });
       if (typeF != null) {
         this.notifierService.notify("error", "statut existe déjà  !")
         error  = true;
@@ -124,7 +123,7 @@ export class StatusComponent implements OnInit {
     }
     if(!error)
     {
-    this.typeFormationService.update(this.statut).toPromise().then((data: Statut) => {
+    this.statutService.update(this.statut).toPromise().then((data: Statut) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "statut  modifié avec succés !")
@@ -135,9 +134,9 @@ export class StatusComponent implements OnInit {
   }
 
   delete() {
-    this.typeFormationService.delete(this.statut).toPromise().then((data) => {
+    this.statutService.delete(this.statut).toPromise().then((data) => {
       this.ngOnInit();
-      this.notifierService.notify("success", "profil Supprimer avec succés !")
+      this.notifierService.notify("success", "statut Supprimer avec succés !")
 
     })
     this.deleteModal.hide();

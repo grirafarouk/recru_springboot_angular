@@ -12,36 +12,25 @@ import org.hibernate.annotations.Proxy;
 @Table(name = "disponibilite")
 @Proxy(lazy = false)
 public class Disponibilite implements Serializable {
-	
-	//@GeneratedValue(strategy=GenerationType.AUTO)
- 
-	/**
-	 * 
-	 */
 
 	private static final long serialVersionUID = -2342709719141203480L;
+	
+	private Long id;
+	private String libelle;
 
 	public Disponibilite() {
 
 		super();
 	}
 
-	
-
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE)
-//	@Id
-//	@Basic(optional = false)
-//	@Column(name = "ID", nullable = false)
-//	@GenericGenerator(name = "seq_id", strategy = "com.fr.adaming.jsfapp.model.CustomGenerator", parameters =@Parameter (name = "sequence", value = "II_FIRM_DOC_PRM_SEQ") )
-//	@GeneratedValue(generator = "seq_id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-    public long getId() {
+    public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -54,8 +43,4 @@ public class Disponibilite implements Serializable {
 		this.libelle = libelle;
 	}
 	
-	
-
-	private long id=0;
-	private String libelle;
 }

@@ -15,6 +15,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CustomLocalTableComponent } from './local-table/local-table.component';
 import { BooleanPipe } from '../views/pipe/boolean.pipe';
+import { MonthDatePickerComponent } from './month-date-picker/month-date-picker.component';
 
 
 @NgModule({

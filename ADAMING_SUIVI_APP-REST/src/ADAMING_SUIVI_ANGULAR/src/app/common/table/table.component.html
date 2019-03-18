@@ -59,10 +59,8 @@
                     <td [hidden]="!col.visible" *ngFor="let col of columns">
 
                         <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered" [ngStyle]="{'text-align': (col.align!=undefined) ? col.align :'' }">
-                            <div *ngIf="col.boolean!=undefined && col.boolean==true; else noBoolean"> 
-                                {{c[col.data] | boolean  }}
-                            </div>
-
+                            
+                        <div *ngIf="col.boolean==null; else noBoolean"> 
                             <div *ngIf="col.mask==undefined; else maskDiv">
                                 <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
                                     {{c[col.data] | date : col.dateFormat }}
@@ -70,6 +68,8 @@
                                 <ng-template #noDateDiv> {{c[col.data] }}</ng-template>
                             </div>
                             <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
+                        </div>
+                        <ng-template #noBoolean> {{c[col.data] | boolean}} </ng-template>
                         </div>
                         <ng-template #rendered>
                             <div *ngIf="col.html==true; else noHtml" [innerHTML]="col.rendered(c)"></div>

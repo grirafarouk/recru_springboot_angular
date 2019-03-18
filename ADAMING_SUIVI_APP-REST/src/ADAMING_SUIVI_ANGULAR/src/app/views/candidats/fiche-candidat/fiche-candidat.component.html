@@ -104,6 +104,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -228,7 +229,7 @@
                   <div class="form-check form-check-inline mr-1">
                       <div class="form-check form-check-inline mr-1">
                           <div class="label--checkbox">
-                              <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
+                              <input  [checked]="compt.selected" value="compt.libelle" class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
                                   id="inline-checkbox1" [value]="compt.id">
                           </div>
                         <label style="margin-bottom: 0px">{{compt.libelle}}</label>
@@ -270,17 +271,16 @@
                   <div class="form-group">
                     <label for="disponiblite">Disponible</label>
                     <label style="color: firebrick">*</label>
-                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindLabel="libelle"   [items]="disponibles"   [(ngModel)]="currentCandidat.entretien.disponible"  name="disponiblite"
-                      id="disponiblite">
+                    <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindLabel="libelle"   [items]="disponibles"   [(ngModel)]="currentCandidat.entretien.disponible"  name="disponiblite" id="disponiblite">
                     </ng-select>
                   </div>
                 </div>
                 <div class="col-6">
                   <div class="form-group row">
                     <label class="col-5 col-form-label">Relancer
-                        <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='PREAVIS'||currentCandidat.entretien.disponible=='message_vocal'
-                    ||currentCandidat.entretien.disponible=='envoi_de_la_plaquette'||currentCandidat.entretien.disponible=='EN_ATTENTE_FORMATION'
-                    ||currentCandidat.entretien.disponible=='mail_envoye'">*</label>
+                        <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible.id=='2'||currentCandidat.entretien.disponible.id=='3'
+                    ||currentCandidat.entretien.disponible.id=='5'||currentCandidat.entretien.disponible.id=='6'
+                    ||currentCandidat.entretien.disponible.id=='7'">*</label>
                     </label>
                   
                     <div class="col-7 col-form-label">
@@ -302,7 +302,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="entretienDate">Date entretien</label>
-                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='DISPONIBLE'">*</label>
+                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible.id=='0'">*</label>
                     <input style="font-weight: bold;color: black;" [disabled]="currentCandidat.entretien.relance==true" [owlDateTimeFilter]="entretienDateFilter"
                       [min]="minRelance" [owlDateTimeTrigger]="dtentretienDate" [owlDateTime]="dtentretienDate" class="form-control"
                       name="entretienDate" [(ngModel)]="currentCandidat.entretien.date" id="entretienDate">
@@ -314,9 +314,9 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="entretienDateRelance">Date Relance</label>
-                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='PREAVIS'||currentCandidat.entretien.disponible=='message_vocal'
-                    ||currentCandidat.entretien.disponible=='envoi_de_la_plaquette' ||currentCandidat.entretien.disponible=='EN_ATTENTE_FORMATION'
-                    ||currentCandidat.entretien.disponible=='mail_envoye'">*</label>
+                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible.id=='2'||currentCandidat.entretien.disponible.id=='3'
+                    ||currentCandidat.entretien.disponible.id=='5' ||currentCandidat.entretien.disponible.id=='6'
+                    ||currentCandidat.entretien.disponible.id=='7'">*</label>
                     <input [disabled]="currentCandidat.entretien.relance==false" [min]="minRelance" style="font-weight: bold;color: black;"
                       [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="entretienDateRelance"
                       [(ngModel)]="currentCandidat.entretien.dateRelance" id="entretienDateRelance">
@@ -328,7 +328,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="timeEntretien">Heure entretien</label>
-                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='DISPONIBLE'">*</label>
+                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible.id=='0'">*</label>
                     <input style="font-weight: bold;color: black;" [disabled]="currentCandidat.entretien.relance==true" [owlDateTimeFilter]="entretienHeureFilter"
                       class="form-control" placeholder="Heure entretien" [(ngModel)]="timeEntretien" [owlDateTimeTrigger]="dt2"
                       [owlDateTime]="dt2">
@@ -360,7 +360,7 @@
                 <div class="col-6">
                   <div class="form-group">
                     <label for="entretienLieu">Lieu entretien</label>
-                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible=='DISPONIBLE'">*</label>
+                    <label style="color: firebrick" *ngIf="currentCandidat.entretien.disponible.id=='0'">*</label>
                     <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" [disabled]="currentCandidat.entretien.relance==true"  bindLabel="libelle" [items]="lieux"  [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
                     </ng-select>
                   </div>

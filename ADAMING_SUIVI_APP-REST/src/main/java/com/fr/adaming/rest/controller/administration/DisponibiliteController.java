@@ -41,7 +41,7 @@ public class DisponibiliteController {
 	@PostMapping("/add")
 	public DisponibiliteDto create(@RequestBody DisponibiliteDto disponibiliteDto) {
 		Disponibilite disponibilite = disponibiliteMapper.DisponibiliteDtoToDisponibilite(disponibiliteDto);
-		disponibilite = disponibiliteService.merge(disponibilite);
+		disponibilite = disponibiliteService.create(disponibilite);
 		return disponibiliteMapper.DisponibiliteToDisponibiliteDto(disponibilite);
 	}
 
@@ -57,7 +57,7 @@ public class DisponibiliteController {
 		return disponibiliteService.findById(id);
 	}
 
-	@GetMapping("")
+	@GetMapping("/all")
 	public Collection<Disponibilite> findAll() {
 		return disponibiliteService.findAll();
 	}

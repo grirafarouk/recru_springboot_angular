@@ -93,7 +93,6 @@ public class Entretien implements java.io.Serializable {
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "DISPONIBLE", nullable = false)
-	@NotFound(action = NotFoundAction.IGNORE)
 	public Disponibilite getDisponible() {
 		return disponible;
 	}

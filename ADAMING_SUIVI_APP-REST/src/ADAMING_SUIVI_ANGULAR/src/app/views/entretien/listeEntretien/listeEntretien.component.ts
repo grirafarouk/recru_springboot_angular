@@ -127,7 +127,6 @@ export class listeEntretienComponent implements OnInit {
       title:'Mobilité',
       visible:false,
       boolean: true
-
     },
     {
       data:'statut',

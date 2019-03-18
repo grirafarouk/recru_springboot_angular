@@ -39,15 +39,15 @@ public class StatutController {
 	}
 
 	@PostMapping("/add")
-	public StatutDto create(@RequestBody StatutDto StatutDto) {
-		Statut statut = statutMapper.StatusDtoToStatus(StatutDto);
-		statut = statutService.merge(statut);
+	public StatutDto create(@RequestBody StatutDto statutDto) {
+		Statut statut = statutMapper.StatusDtoToStatus(statutDto);
+		statut = statutService.create(statut);
 		return statutMapper.StatusToStatusDto(statut);
 	}
 
 	@PostMapping("/update")
-	public StatutDto update(@RequestBody StatutDto StatutDto) {
-		Statut statut = statutMapper.StatusDtoToStatus(StatutDto);
+	public StatutDto update(@RequestBody StatutDto statutDto) {
+		Statut statut = statutMapper.StatusDtoToStatus(statutDto);
 		statut = statutService.update(statut);
 		return statutMapper.StatusToStatusDto(statut);
 	}

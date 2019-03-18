@@ -26,6 +26,7 @@ import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE } from '../../../helper/application.constant';
 import { async } from 'q';
+import { Disponibilite } from '../../../models/Disponibilite';
 
 @Component({
   selector: 'app-fiche-candidat',
@@ -50,7 +51,7 @@ export class FicheCandidatComponent implements OnInit {
   minRelance = new Date((new Date().getMonth() + 1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear());
   timeEntretien: Date;
   codePostals: Array<CodePostal> = [];
-  disponibles: Array<CodePostal> = [];
+  disponibles: Array<Disponibilite> = [];
   technologies: Array<Technologie> = []
   origines: Array<Origine> = []
   competences: Array<Competence> = []
@@ -355,10 +356,10 @@ export class FicheCandidatComponent implements OnInit {
       if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION) {
         //#region Save Or Update Entretien
         this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
-        if (this.currentCandidat.entretien.disponible.libelle == "Disponible") {
+        /*if (this.currentCandidat.entretien.disponible.libelle == "Disponible") {
           this.verifdis = true;
           this.currentCandidat.entretien.disponible.id = 1;
-        }
+        }*/
 
         // console.log(this.currentCandidat)
         //console.log(this.currentCandidat.entretien.disponible)

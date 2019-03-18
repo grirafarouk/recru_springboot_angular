@@ -24,10 +24,6 @@ export class clientSessionComponent implements OnInit {
     {
       data: 'libelle',
       title: 'Libellés'
-    },
-    {
-      data: 'adresseAdaming',
-      title: 'Adresses'
     }
   ]
   actions = [

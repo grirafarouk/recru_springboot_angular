@@ -199,7 +199,7 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 
 	@Override
 	public List<Utilisateur> findAllUserCharge() {
-		String query = "select * from utilisateur where profil in(0,1,2)";
+		String query = "select * from utilisateur where profil in(0,1,4)";
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
 		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
