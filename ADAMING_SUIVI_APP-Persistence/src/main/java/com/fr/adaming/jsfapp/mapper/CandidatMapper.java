@@ -53,7 +53,7 @@ public interface CandidatMapper {
 			@Mapping(source = "emailSourceurEnvoyer", target = "emailSourceurEnvoyer"),
 			@Mapping(source = "emailCandidatEnvoyer", target = "emailCandidatEnvoyer") })
 	CandidatDto candidatToCandidatDto(Candidat candidat);
-
+	
 	@Mappings({
 			@Mapping(source = "id", target = "id"),
 			@Mapping(source = "nom", target = "nom"),

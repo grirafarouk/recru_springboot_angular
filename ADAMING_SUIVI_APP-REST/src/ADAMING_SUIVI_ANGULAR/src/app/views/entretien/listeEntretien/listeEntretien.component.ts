@@ -104,7 +104,7 @@ export class listeEntretienComponent implements OnInit {
     {
       data:'dateEntretien',
       title:'Date entretien',
-      visible:true,
+      visible:false,
       dateFormat : DATE_FORMAT
     },
     {

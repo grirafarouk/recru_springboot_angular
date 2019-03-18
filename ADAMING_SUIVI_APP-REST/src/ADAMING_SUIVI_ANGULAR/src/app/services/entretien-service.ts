@@ -1,7 +1,13 @@
+import { Entretien } from './../models/Entretien';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BACK_END_URL } from '../helper/application.constant';
+import { RequestOptions,Response, Headers } from '@angular/http';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
+import { Disponibilite } from '../models/Disponibilite';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +30,6 @@ export class EntretienService {
   public searchDisponibleById(id): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/entretien/" + id);
   }
-
-
   public createOrUpdate(entity) {
     const httpOptions = {
       headers: new HttpHeaders({

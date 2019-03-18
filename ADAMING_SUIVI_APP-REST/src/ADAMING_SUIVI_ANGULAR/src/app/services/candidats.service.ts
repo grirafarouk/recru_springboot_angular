@@ -33,6 +33,9 @@ export class CandidatsService {
     private utilisateurService: UtilisateurService, private http: Http) {
   }
   folders = []
+  
+
+
   public create(candidate: Candidate, mime): Observable<any> {
     candidate.nom = this.helperService.getClearString(candidate.nom)
     candidate.prenom = this.helperService.getClearString(candidate.prenom)

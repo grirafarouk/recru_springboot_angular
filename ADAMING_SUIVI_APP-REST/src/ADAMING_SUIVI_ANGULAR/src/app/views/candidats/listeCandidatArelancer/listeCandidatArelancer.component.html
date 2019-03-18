@@ -37,8 +37,9 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date
                                 Inscription:</label>
-                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="dateInscription" [(ngModel)]="condidat.dateInscription"
+                            <input style="font-weight: bold;color: black;" [disabled]="relance==false" [owlDateTimeTrigger]="dtinscri" [owlDateTime]="dtinscri" class="form-control" name="dateInscription" [(ngModel)]="condidat.dateInscription"
                                 id="dateInscription">
+                                <owl-date-time [pickerType]="'calendar'" #dtinscri></owl-date-time>
 
                         </div>
                     </div>
@@ -91,7 +92,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
                            
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"   bindLabel="libelle" [items]="disponibleListe"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"   bindLabel="libelle" [items]="disponibleListe"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
                                 </ng-select>
                            
                         </div>

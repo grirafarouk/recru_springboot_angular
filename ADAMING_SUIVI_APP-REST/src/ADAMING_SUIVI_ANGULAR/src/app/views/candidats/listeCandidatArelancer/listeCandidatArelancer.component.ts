@@ -105,7 +105,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     {
       data: 'disponibilite',
       title: 'Disponible',
-      visible: true
+      visible: true,
     },
     {
       data: 'dateRelance',

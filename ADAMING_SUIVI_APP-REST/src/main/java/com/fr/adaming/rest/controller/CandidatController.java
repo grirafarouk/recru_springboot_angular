@@ -77,7 +77,7 @@ public class CandidatController {
 
 	List<String> files = new ArrayList<>();
 
-//	private Disponibilite[] refDisponibilite = Disponibilite.values();
+	// private Disponibilite[] refDisponibilite = Disponibilite.values();
 	@Autowired
 	private IvListeCandidatsService vListeCandidatsService;
 	private VListeCandidatsDto vListeCandidatsDto;
@@ -192,18 +192,18 @@ public class CandidatController {
 		return candidatService.findById(id);
 	}
 
-//	@GetMapping(path = "/refDisponibilite")
-//	public List<JSONObject> refDisponibilite() {
-//		List<JSONObject> result = new ArrayList<>();
-//		for (int i = 0; i < refDisponibilite.length; i++) {
-//			Disponibilite dis = refDisponibilite[i];
-//			JSONObject j = new JSONObject();
-//			j.put("label", dis.getLabel());
-//			j.put(VALUE, dis);
-//			result.add(j);
-//		}
-//		return result;
-//	}
+	// @GetMapping(path = "/refDisponibilite")
+	// public List<JSONObject> refDisponibilite() {
+	// List<JSONObject> result = new ArrayList<>();
+	// for (int i = 0; i < refDisponibilite.length; i++) {
+	// Disponibilite dis = refDisponibilite[i];
+	// JSONObject j = new JSONObject();
+	// j.put("label", dis.getLabel());
+	// j.put(VALUE, dis);
+	// result.add(j);
+	// }
+	// return result;
+	// }
 
 	@PostMapping(path = "CVPDF")
 	public void getDownload(HttpServletResponse response, @RequestBody VListeCandidatsDto nouveauCandidat)
@@ -376,16 +376,18 @@ public class CandidatController {
 
 	@PutMapping(path = "/updateficheCandidat")
 	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
-
-		if (candidatDTO.getEntretien().getDisponible().getLibelle().equals("Disponible")) {
-			Statut s = new Statut(3, "En attente d’évaluation");
-			candidatDTO.setStatut(s);
-		} else {
-			Statut s = new Statut(2, "Vide");
-			candidatDTO.setStatut(s);
-			System.out.println(candidatDTO.getStatut());
-		}
-			Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
+		//
+		// if
+		// (candidatDTO.getEntretien().getDisponible().getLibelle().equals("Disponible"))
+		// {
+		// Statut s = new Statut(3, "En attente d’évaluation");
+		// candidatDTO.setStatut(s);
+		// } else {
+		// Statut s = new Statut(2, "Vide");
+		// candidatDTO.setStatut(s);
+		// System.out.println(candidatDTO.getStatut());
+		// }
+		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 
@@ -407,10 +409,10 @@ public class CandidatController {
 
 	@PutMapping(path = "/updateficheEntretien")
 	public CandidatDto updateficheEntretien(@RequestBody CandidatDto candidatDTO) {
-		if (candidatDTO.getStatut().getLibelle().equals("En attente d’évaluation")) {
-			Statut s = new Statut(4, "En attente d’affectation");
-			candidatDTO.setStatut(s);
-		}
+		// if (candidatDTO.getStatut().getLibelle().equals("En attente d’évaluation")) {
+		// Statut s = new Statut(4, "En attente d’affectation");
+		// candidatDTO.setStatut(s);
+		// }
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
 
 		candidat = candidatService.createOrUpdate(candidat);

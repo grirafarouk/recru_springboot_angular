@@ -18,13 +18,13 @@ public class Role implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4574342240531736454L;
-	private long id;
+	private Long id;
 	private String libelle;
 	public Role() {
 		super();
 	}
 
-	public Role(int id, String libelle) {
+	public Role(Long id, String libelle) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
@@ -33,11 +33,11 @@ public class Role implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

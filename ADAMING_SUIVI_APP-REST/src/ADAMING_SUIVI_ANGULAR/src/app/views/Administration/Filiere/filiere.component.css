@@ -37,7 +37,6 @@
 .card-header-accordion::after
 {
     position: absolute;
-    content: "\f107";
     font-size: 24px;
     right: 10px;
     top: 20%;

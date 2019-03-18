@@ -125,9 +125,8 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.RELANCER=1 ";
 		query = generetaeARelancerConditionQuery(vListeCandidatsDto, query);
-		query += LIMIT_PAGINATION;
-		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size",
-				size);
+		query += " LIMIT " + page + "," + size;
+		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
 		List<VListeCandidats> liste = (List<VListeCandidats>) st.addEntity(VListeCandidats.class).list();
 		return liste;
@@ -368,6 +367,24 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (isNullOrEmptyString(vListeCandidatsDto.getStatut())) {
 			query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "'";
 		}
+		if ((vListeCandidatsDto.getDateInscription() != null) && (vListeCandidatsDto != null)) {
+			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+					+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+		}
+		if ((vListeCandidatsDto.getDateRelance() != null ) && (vListeCandidatsDto != null)) {
+			query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) ='"
+					+ sdf.format(vListeCandidatsDto.getDateRelance()) + "'";
+		}
+		if ((vListeCandidatsDto.getRelancer() != null)  && (vListeCandidatsDto != null)) {
+			query = query + " AND V_ListeCandidats.RELANCER = " + vListeCandidatsDto.getRelancer() + "";
+		}
+
+		if ((vListeCandidatsDto.getDateEntretien() != null ) && (vListeCandidatsDto != null)) {
+			query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='"
+					+ sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
+		}
+
+
 
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getRegion())) {
 			query = query + LISTE_CANDIDAT_REGION + vListeCandidatsDto.getRegion() + "%'";
@@ -390,17 +407,13 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getDisponibilite())) {
 			query = query + " AND V_ListeCandidats.DISPONIBILITE = '" + vListeCandidatsDto.getDisponibilite() + "'";
 		}
-		rechercheTemporelle(vListeCandidatsDto, query);
 		rechercheNonTemporelle(vListeCandidatsDto, query);
 		return query;
 	}
 
 	public String rechercheTemporelle(VListeCandidatsDto vListeCandidatsDto, String query) {
 		if (vListeCandidatsDto != null) {
-			if (vListeCandidatsDto.getDateInscription() != null) {
-				query = query + LISTE_CANDIDAT_DATE_EQUAL + sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
-
-			}
+			
 
 			if (vListeCandidatsDto.getDateEntretien() != null) {
 				query = query + LISTE_CANDIDAT_DATE + sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
@@ -417,9 +430,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	public String rechercheNonTemporelle(VListeCandidatsDto vListeCandidatsDto, String query) {
 		if (vListeCandidatsDto != null) {
 
-			if (vListeCandidatsDto.getRelancer() != null) {
-				query = query + " AND V_ListeCandidats.RELANCER = " + vListeCandidatsDto.getRelancer() + "";
-			}
+			
 			if (vListeCandidatsDto.getConfirmationRdv() != null) {
 				query = query + LISTE_CANDIDAT_CONF + vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
 			}
@@ -450,6 +461,11 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getEmail())) {
 			query = query + LISTE_CANDIDAT_EMAIL + vListeCandidatsDto.getEmail() + "%'";
 		}
+		if (vListeCandidatsDto.getDateInscription() != null && vListeCandidatsDto!=null) {
+			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+					+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+		}
+
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getTechnologie())) {
 			query = query + LISTE_CANDIDAT_TECH + vListeCandidatsDto.getTechnologie() + "'";
 		}
@@ -458,30 +474,100 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 			query = query + LISTE_CANDIDAT_REGION + vListeCandidatsDto.getRegion() + "%'";
 		}
 
-		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getLieuEntretien())) {
-			query = query + LISTE_CANDIDAT_LIEU + vListeCandidatsDto.getLieuEntretien() + "%'";
+//		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getLieuEntretien())) {
+//			query = query + LISTE_CANDIDAT_LIEU + vListeCandidatsDto.getLieuEntretien() + "%'";
+//		}
+//
+//		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNomCharge())) {
+//			query = query + LISTE_CANDIDAT_NOM_CHARGE + vListeCandidatsDto.getNomCharge() + "%'";
+//		}
+//
+//		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenomCharge())) {
+//			query = query + LISTE_CANDIDAT_PRENOM_CHARGE + vListeCandidatsDto.getPrenomCharge() + "%'";
+//		}
+		if (vListeCandidatsDto.getNomSourceur() != null && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.NOM_SOURCEUR LIKE '%" + vListeCandidatsDto.getNomSourceur()
+					+ "%'";
 		}
 
-		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNomCharge())) {
-			query = query + LISTE_CANDIDAT_NOM_CHARGE + vListeCandidatsDto.getNomCharge() + "%'";
+		if (vListeCandidatsDto.getPrenomSourceur() != null && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.PRENOM_SOURCEUR LIKE '%"
+					+ vListeCandidatsDto.getPrenomSourceur() + "%'";
 		}
 
-		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenomCharge())) {
-			query = query + LISTE_CANDIDAT_PRENOM_CHARGE + vListeCandidatsDto.getPrenomCharge() + "%'";
-		}
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getDisponibilite())) {
-			query = query + " AND V_ListeCandidats.DISPONIBILITE = '" + vListeCandidatsDto.getDisponibilite() + "'";
+			query = query + " AND V_ListeCandidats.DISPONIBILITE like '%" + vListeCandidatsDto.getDisponibilite() + "%'";
 		}
-		rechercheCritereDate(vListeCandidatsDto, query);
-		rechercheAutreCritereForARelancer(vListeCandidatsDto, query);
+		if (vListeCandidatsDto.getStatut() != null && !vListeCandidatsDto.getTechnologie().isEmpty() && vListeCandidatsDto!=null) {
+			query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "'";
+		}
+		if (vListeCandidatsDto.getRelancer() != null && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.RELANCER = " + vListeCandidatsDto.getRelancer() + "";
+		}
+
+		if (vListeCandidatsDto.getDateRelance() != null && vListeCandidatsDto!=null) {
+
+			java.sql.Timestamp fromDate = new java.sql.Timestamp(vListeCandidatsDto.getDateRelance().getTime());
+			fromDate.setHours(0);
+			fromDate.setMinutes(0);
+			fromDate.setSeconds(0);
+
+			query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '" + fromDate
+					+ "' AND DATE(V_ListeCandidats.DATE_RELANCE) <= LAST_DAY('" + fromDate + "') ";
+		}
+
+		if (vListeCandidatsDto.getDateEntretien() != null && vListeCandidatsDto!=null) {
+			query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='"
+					+ sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
+		}
+
+		if (vListeCandidatsDto.getLieuEntretien() != null && !vListeCandidatsDto.getLieuEntretien().isEmpty() && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.LIEU_ENTRETIEN LIKE '%" + vListeCandidatsDto.getLieuEntretien()
+					+ "%'";
+		}
+
+		if (vListeCandidatsDto.getConfirmationRdv() != null && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.CONFIRMATION_RDV = "
+					+ vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
+		}
+
+		if (vListeCandidatsDto.getNomCharge() != null && !vListeCandidatsDto.getNomCharge().isEmpty() && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.NOM_CHARGE LIKE '%" + vListeCandidatsDto.getNomCharge() + "%'";
+		}
+
+		if (vListeCandidatsDto.getPrenomCharge() != null && !vListeCandidatsDto.getPrenomCharge().isEmpty() && vListeCandidatsDto!=null) {
+			query = query + " AND V_ListeCandidats.PRENOM_CHARGE LIKE '%" + vListeCandidatsDto.getPrenomCharge()
+					+ "%'";
+		}
+		if (vListeCandidatsDto.getDateDebut() != null && vListeCandidatsDto.getDateFin() != null && vListeCandidatsDto!=null) {
+			java.sql.Timestamp fromDate = new java.sql.Timestamp(vListeCandidatsDto.getDateDebut().getTime());
+			java.sql.Timestamp toDate = new java.sql.Timestamp(vListeCandidatsDto.getDateFin().getTime());
+			fromDate.setHours(0);
+			fromDate.setMinutes(0);
+			fromDate.setSeconds(0);
+			toDate.setHours(23);
+			toDate.setMinutes(59);
+			query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '" + fromDate
+					+ "' AND DATE(V_ListeCandidats.DATE_RELANCE) <= '" + toDate + "'";
+		} else {
+
+			if (vListeCandidatsDto.getDateDebut() != null && vListeCandidatsDto!=null) {
+				java.sql.Timestamp fromDate = new java.sql.Timestamp(vListeCandidatsDto.getDateDebut().getTime());
+
+				query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) >= '" + fromDate + "'";
+			}
+			if (vListeCandidatsDto.getDateFin() != null && vListeCandidatsDto!=null) {
+				java.sql.Timestamp toDate = new java.sql.Timestamp(vListeCandidatsDto.getDateFin().getTime());
+				query = query + "' AND DATE(V_ListeCandidats.DATE_RELANCE) < '" + toDate + "'";
+			}
+		}
+
 		return query;
 	}
 
 	public String rechercheCritereDate(VListeCandidatsDto vListeCandidatsDto, String query) {
 		if (vListeCandidatsDto != null) {
-			if (vListeCandidatsDto.getDateInscription() != null) {
-				query = query + LISTE_CANDIDAT_DATE_EQUAL + sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
-			}
+			
 			if (vListeCandidatsDto.getDateEntretien() != null) {
 				query = query + LISTE_CANDIDAT_DATE + sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
 			}
@@ -521,10 +607,6 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		if (vListeCandidatsDto != null) {
 			if (vListeCandidatsDto.getConfirmationRdv() != null) {
 				query = query + LISTE_CANDIDAT_CONF + vListeCandidatsDto.getConfirmationRdv().booleanValue() + "";
-			}
-
-			if (vListeCandidatsDto.getStatut() != null) {
-				query = query + LISTE_CANDIDAT_STATUS + vListeCandidatsDto.getStatut() + "'";
 			}
 			if (vListeCandidatsDto.getNomSourceur() != null) {
 				query = query + LISTE_CANDIDAT_NOM_SOUR + vListeCandidatsDto.getNomSourceur() + "%'";

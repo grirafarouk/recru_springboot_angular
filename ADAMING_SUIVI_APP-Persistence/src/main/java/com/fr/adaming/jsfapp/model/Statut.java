@@ -16,7 +16,7 @@ public class Statut implements Serializable {
 	 */
 	private static final long serialVersionUID = -7407593350997590736L;
 
-	private long id;
+	private Long id;
 	private String libelle;
 
 
@@ -26,7 +26,7 @@ public class Statut implements Serializable {
 		super();
 	}
 
-	public Statut (long id, String libelle) {
+	public Statut (Long id, String libelle) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
@@ -35,11 +35,11 @@ public class Statut implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

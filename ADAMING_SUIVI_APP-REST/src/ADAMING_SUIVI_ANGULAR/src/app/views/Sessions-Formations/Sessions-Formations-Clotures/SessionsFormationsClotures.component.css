@@ -19,6 +19,9 @@
     -ms-user-select: none; /* IE 10+ */
     user-select: none;
 }
+table tr td, table tr th{
+    background-color: rgba(255, 255, 255, 0.979) !important;
+}
 
 .card-accordion {
     background: transparent;
@@ -42,7 +45,6 @@
 .card-header-accordion::after
 {
     position: absolute;
-    content: "\f107";
     font-size: 24px;
     right: 10px;
     top: 20%;

@@ -24,3 +24,4 @@ public class CompetenceDto implements Serializable{
 	}
 	
 }
+	
