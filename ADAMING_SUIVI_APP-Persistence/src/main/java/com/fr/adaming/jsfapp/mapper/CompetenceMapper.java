@@ -16,11 +16,11 @@ public interface CompetenceMapper {
 	
 	List<Competence> competencesDtosToCompetences(List<CompetenceDto> competence);
 	
-	@Mappings({ @Mapping(source = "id", target = "id"), @Mapping(source = "libelle", target = "libelle")})
+	@Mappings({ @Mapping(source = "id", target = "id"), @Mapping(source = "libelle", target = "libelle"),@Mapping(source = "selected", target = "selected")})
 
 CompetenceDto competenceToCompetenceDto(Competence competence);
 	
-	@Mappings({ @Mapping(source = "id", target = "id"), @Mapping(source = "libelle", target = "libelle")})
+	@Mappings({ @Mapping(source = "id", target = "id"), @Mapping(source = "libelle", target = "libelle"),@Mapping(source = "selected", target = "selected")})
 	
 	Competence competenceDtoToCandidat(CompetenceDto competenceDto);
 }

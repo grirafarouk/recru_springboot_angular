@@ -1,3 +1,4 @@
+import { ResponseContentType } from '@angular/http';
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { CandidateDto } from "../CandidateDto";
 import { CandidatsService } from "../../../services/candidats.service";
@@ -106,6 +107,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   technologies = []
   candidats: any[];
   listSourceur: any[];
+  valeur: string;
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
     { value: '1', text: 'Moins 1 mois' },
@@ -113,7 +115,9 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     { value: '3', text: 'Plus de 6 mois' }
   ];
   region: Array<Region> = [];
-
+  verif_existance_code_region: boolean;
+  tester_perfermance: boolean;
+  valeur_des_region_en_retour: Array<string> = [];
 
   constructor(private router: Router,
     private technologiesService: TechnologieService,
@@ -207,13 +211,36 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     })
   }
 
-  public codePostaleOnSearch(value) {
-    if (value != "")
-      this.regionService.completeRegion(value).subscribe(data => {
-        data.forEach(element => {
-          this.region = [...this.region, element]
-        });
+  public codePostaleOnSearch(value: string) {
+    this.verif_existance_code_region = true;
+    this.tester_perfermance = true;
+    if ((value != "")) {
+      this.valeur_des_region_en_retour.forEach((data, i) => {
+        if (data.includes(value)) {
+          this.tester_perfermance = false;
+          this.valeur_des_region_en_retour.splice(i)
+        }
       })
-    else this.region = []
+
+      if (this.tester_perfermance == true) {
+        this.valeur_des_region_en_retour.push(value);
+        this.regionService.completeRegion(value).subscribe((data) => {
+          data.forEach(element => {
+            this.region.forEach(reg => {
+              if (element.code === reg.code) {
+                this.verif_existance_code_region = false;
+              }
+            })
+
+            if (this.verif_existance_code_region == true)
+              this.region = [... this.region, element]
+
+          });
+        })
+      }
+    }
+
+    else
+    this.region = []
   }
 }

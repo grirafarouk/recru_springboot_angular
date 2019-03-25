@@ -36,8 +36,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   }
   regex = new RegExp('^([a-zA-Z]|[\\u00C0\\u00C1\\u00C2\\u00C3\\u00C4\\u00C5\\u00C6\\u00C7\\u00C8\\u00C9\\u00CA\\u00CB\\u00CC\\u00CD\\u00CE\\u00CF\\u00D0\\u00D1\\u00D2\\u00D3\\u00D4\\u00D5\\u00D6\\u00D8\\u00D9\\u00DA\\u00DB\\u00DC\\u00DD\\u00DF\\u00E0\\u00E1\\u00E2\\u00E3\\u00E4\\u00E5\\u00E6\\u00E7\\u00E8\\u00E9\\u00EA\\u00EB\\u00EC\\u00ED\\u00EE\\u00EF\\u00F0\\u00F1\\u00F2\\u00F3\\u00F4\\u00F5\\u00F6\\u00F9\\u00FA\\u00FB\\u00FC\\u00FD\\u00FF\\u0153])+$');
   regex2 = new RegExp('^[a-zA-Z]+$');
-  loading=false;
-  civilites= ["M","Mme"];
+  loading = false;
+  civilites = ["M", "Mme"];
   candidate: Candidate;
   codePostals: Array<CodePostal> = [];
   technologies: Array<Technologie> = [];
@@ -53,8 +53,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   mask: any[] = PHONE_MASK;
 
 
-  constructor(private router:Router,private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
-    private sanitizer: DomSanitizer, private candidatsService: CandidatsService,private helperService:HelperService,
+  constructor(private router: Router, private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
+    private sanitizer: DomSanitizer, private candidatsService: CandidatsService, private helperService: HelperService,
     private notifierService: NotifierService, private competencesService: CompetencesService, private formBuilder: FormBuilder) {
   }
 
@@ -75,11 +75,11 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       });
     })
 
-   this.candidate= new Candidate();
-   this.candidateFound=false
+    this.candidate = new Candidate();
+    this.candidateFound = false
     this.candidate.creePar.id = this.utilisateurService.getConnetedUserInfo().id
     this.folders = this.candidatsService.folders;
-  this.currentFile = {};
+    this.currentFile = {};
     this.pdfSrc = null;
   }
 
@@ -169,7 +169,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     e.node.itemData.icon = "assets/img/tree/iconfinder_folder.png"
   }
   //#endregion
-  deletefile(){
+  deletefile() {
     this.candidate.nomCV = this.currentFile.name
     var reader = new FileReader();
     reader.onload = (e) => {
@@ -186,7 +186,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
     reader.readAsDataURL(this.currentFile.file);
   }
-  
+
   afficherPdf() {
     this.candidate.nomCV = this.currentFile.name
     var reader = new FileReader();
@@ -206,47 +206,43 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   }
   recherchecandidate() {
     this.candidateFound = true;
-    if( !this.regex.test(this.candidate.nom) && !this.regex.test(this.candidate.prenom))
-    {
-      this.notifierService.notify("error","Les champs de saisi «Nom» est «Prenom» sont invalides") 
+    if (!this.regex.test(this.candidate.nom) && !this.regex.test(this.candidate.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
-    else
-    {
-    if (this.candidate.nom == "" || this.candidate.prenom == "" || this.candidate.nom == undefined || this.candidate.prenom == undefined) {
-      this.notifierService.notify("info", "Il faut remplir au moins Nom et Prénom")
-    }
-    else if(!this.regex.test(this.candidate.nom)){
-      
-    {
-    this.notifierService.notify("error","Le champ de saisi « Nom » est invalide")
-    }
-    } 
-    else if( !this.regex.test(this.candidate.prenom))
-    {
-      this.notifierService.notify("error","Le champ de saisi « Prenom » est invalide") 
-    }
-    else
-    {
-    var candidateTemp = {
-      nom: this.candidate.nom,
-      prenom: this.candidate.prenom,
-      email: this.candidate.email,
-      numeroTel: this.candidate.numeroTel
-    }
-    this.candidatsService.rechercheAjoutNouveauxcandidats(candidateTemp,0,0).subscribe((data) => {
-      this.candidatsFound = data.results        
-      this.notifierService.notify("info", "Nombre Candidat : " + data.total)
+    else {
+      if (this.candidate.nom == "" || this.candidate.prenom == "" || this.candidate.nom == undefined || this.candidate.prenom == undefined) {
+        this.notifierService.notify("info", "Il faut remplir au moins Nom et Prénom")
+      }
+      else if (!this.regex.test(this.candidate.nom)) {
 
-    })
-  }
-}
+        {
+          this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+        }
+      }
+      else if (!this.regex.test(this.candidate.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+        var candidateTemp = {
+          nom: this.candidate.nom,
+          prenom: this.candidate.prenom,
+          email: this.candidate.email,
+          numeroTel: this.candidate.numeroTel
+        }
+        this.candidatsService.rechercheAjoutNouveauxcandidats(candidateTemp, 0, 0).subscribe((data) => {
+          this.candidatsFound = data.results
+          this.notifierService.notify("info", "Nombre Candidat : " + data.total)
+
+        })
+      }
+    }
   }
 
   codePostaleOnSearch(value) {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
-          this.codePostals = [element,...  this.codePostals]
+          this.codePostals = [element, ...  this.codePostals]
         });
       })
     else this.codePostals = []
@@ -255,33 +251,33 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
 
   async  onSubmit() {
-    
-    let fn =(e)=>{
-    this.annuler()
+
+    let fn = (e) => {
+      this.annuler()
     }
-    await  this.saveCandidat(fn)
-  
+    await this.saveCandidat(fn)
+
   }
 
-  annuler(){
-    this.router.navigateByUrl(NAVIGATION_RULES.dashboard.url, {skipLocationChange: true}).then(()=>
-    this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]));
+  annuler() {
+    this.router.navigateByUrl(NAVIGATION_RULES.dashboard.url, { skipLocationChange: true }).then(() =>
+      this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat]));
   }
 
-  async  submitAndRedirect(){
-    let fn =(id)=>{
-      this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.details.replace(':id',id)]);
+  async  submitAndRedirect() {
+    let fn = (id) => {
+      this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', id)]);
     }
     this.regex = this.regex2;
     await this.saveCandidat(fn)
   }
 
-  async saveCandidat(callback){
+  async saveCandidat(callback) {
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    this.loading=true;
+    this.loading = true;
     var error = false;
     //#region get Competences
-    this.helperService.generateComp(this.candidate,this.competences);
+    this.helperService.generateComp(this.candidate, this.competences);
 
     //#endregion
 
@@ -292,46 +288,47 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
     if (this.candidate.prenom == "" || this.candidate.prenom == undefined || !this.regex.test(this.candidate.prenom)) {
       this.notifierService.notify("error", " Écrivez un prenom valide")
-      error  = true;
+      error = true;
     }
     if (!this.candidate.cvAnonyme) {
-      if (this.candidate.email == "" || this.candidate.email == undefined|| !validEmailRegEx.test(this.candidate.email)) {
+      if (this.candidate.email == "" || this.candidate.email == undefined || !validEmailRegEx.test(this.candidate.email)) {
         this.notifierService.notify("error", " Écrivez un email valide")
-        error  = true;
+        error = true;
       }
       else {
         let cand
         await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => {
-           cand = data });
+          cand = data
+        });
         if (cand != null) {
           this.notifierService.notify("error", "Email existe déjà  !")
-          error  = true;
+          error = true;
         }
       }
       if (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined) {
         this.notifierService.notify("error", " Écrivez un numero Tel valide")
-        error  = true;
+        error = true;
       }
       else {
         let cand
         await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });
         if (cand != null) {
           this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
-          error  = true;
+          error = true;
         }
       }
     }
     else {
       if ((this.candidate.email == "" || this.candidate.email == undefined) && (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined)) {
         this.notifierService.notify("error", " Écrivez un email  ou numero Tel  valide")
-        error  = true;
+        error = true;
       } else {
         if (this.candidate.email != "" && this.candidate.email != undefined) {
           let cand
           await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
           if (cand != null) {
             this.notifierService.notify("error", "Email existe déjà  !")
-            error  = true;
+            error = true;
           }
         }
         if (this.candidate.numeroTel != "" && this.candidate.numeroTel != undefined) {
@@ -339,43 +336,38 @@ export class CandidatsComponent implements OnInit, OnDestroy {
           await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });;
           if (cand != null) {
             this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
-            error  = true;
+            error = true;
           }
         }
       }
     }
     if (this.candidate.technologie.id == undefined) {
       this.notifierService.notify("error", " Choisir un Profil")
-      error  = true;
+      error = true;
     }
     if (this.candidate.origine.id == undefined) {
       this.notifierService.notify("error", " Choisir un Origine CV")
-      error  = true;
+      error = true;
     }
     if (this.candidate.codePostal == null || this.candidate.codePostal == undefined) {
       this.notifierService.notify("error", " Écrivez un Code Postal valide")
-      error  = true;
+      error = true;
     }
     //#endregion
 
-    if (!error ) {
+    if (!error) {
       this.candidate.dateInscription = new Date();
-      this.candidate.statut.libelle="Vide"
-      this.candidate.statut.id=2
-      this.candidate.entretien=null
-      this.candidate.motif=null
+      this.candidate.statut.libelle = "Vide"
+      this.candidate.statut.id = 2
+      this.candidate.entretien = null
+      this.candidate.motif = null
       console.log(this.candidate.candidatCompetence)
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
-          console.log(this.candidate.candidatCompetence)
-          console.log("candidate competence data is")
-          console.log(data.candidatCompetence)
-          console.log("changement de valeur")
-          console.log(data)
-         this.notifierService.notify("success", "Candidat ajouté avec succés !")
+          this.notifierService.notify("success", "Candidat ajouté avec succés !")
           this.deletefile()
-          this.loading=false;
-          callback(data.id) 
+          this.loading = false;
+          callback(data.id)
         } else {
           this.notifierService.notify("error", "Erreur l'ors l'ajour")
         }
@@ -383,7 +375,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         this.notifierService.notify("error", "Erreur l'ors l'ajour")
       })
     }
-    this.loading=false;
+    this.loading = false;
   }
 
 }

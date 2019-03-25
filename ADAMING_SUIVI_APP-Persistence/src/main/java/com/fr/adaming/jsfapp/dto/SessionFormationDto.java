@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Transient;
+
+import com.fr.adaming.jsfapp.model.ClientSession;
 import com.fr.adaming.jsfapp.model.Formation;
 
 public class SessionFormationDto implements Serializable {
@@ -15,6 +17,24 @@ public class SessionFormationDto implements Serializable {
 	private String itemLabel;
 	private String dateDem;
 	private Boolean fActif;
+	private Integer  nombrePlace;
+	private ClientSession client;
+
+	public Integer getNombrePlace() {
+		return nombrePlace;
+	}
+
+	public void setNombrePlace(Integer nombrePlace) {
+		this.nombrePlace = nombrePlace;
+	}
+
+	public ClientSession getClient() {
+		return client;
+	}
+
+	public void setClient(ClientSession client) {
+		this.client = client;
+	}
 
 	public SessionFormationDto() {
 		super();

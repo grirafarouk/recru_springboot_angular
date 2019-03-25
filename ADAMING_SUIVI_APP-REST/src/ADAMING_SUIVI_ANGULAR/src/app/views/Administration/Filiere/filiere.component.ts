@@ -103,12 +103,12 @@ export class FiliereComponent implements OnInit {
   }
 
   activerDesactiverSession(sessionF) {
-    if (sessionF.factif != null && sessionF.factif) {
+    if (sessionF.fActif != null && sessionF.fActif == true) {
       this.notifierService.notify("success", "Succès !! " + "Session Désactivée !");
-      sessionF.factif = false;
+      sessionF.fActif = false;
     }
     else {
-      sessionF.factif = true;
+      sessionF.fActif = true;
       this.notifierService.notify("success", "Succès !! " + "Session Activée !");
     }
     this.sessionFormationService.updateSession(sessionF).subscribe(data => {
@@ -154,10 +154,11 @@ export class FiliereComponent implements OnInit {
   }
 
   createSessionFormtaion() {
-    this.sessionFormationService.updateSession(this.session).toPromise().then((data) => {
+    this.sessionFormationService.updateSession(this.session).toPromise().then((data:SessionFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Session ajouté ajouté avec succés !");
+        console.log(data)
       }
       this.SessionFormationModal.hide();
     },(error)=>{
@@ -166,10 +167,15 @@ export class FiliereComponent implements OnInit {
   }
 
   updateSessionFormtation() {
-    this.sessionFormationService.updateSession(this.session).toPromise().then((data) => {
+    console.log(this.session.client)
+    console.log(this.session.nombrePlace)
+    this.sessionFormationService.updateSession(this.session).toPromise().then((data:SessionFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Session modifié ajouté avec succés !")
+        console.log(data.client)
+        console.log (data.fActif)
+        console.log(data)
       }
       this.SessionFormationModal.hide();
     },(error)=>{

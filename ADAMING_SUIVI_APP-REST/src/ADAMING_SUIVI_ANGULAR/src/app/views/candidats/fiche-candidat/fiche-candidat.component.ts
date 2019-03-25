@@ -122,6 +122,7 @@ export class FicheCandidatComponent implements OnInit {
     console.log(this.currentCandidat.candidatCompetence)
     this.competencesService.findAllCompetences().subscribe(data => {
       this.competences = data;
+      console.log(this.currentCandidat.candidatCompetence)
       this.currentCandidat.candidatCompetence.forEach((obj, i) => {
         this.competences.forEach((obj2, i) => {
           if (obj2.id == obj.id) {

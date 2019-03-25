@@ -131,8 +131,10 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   listCarge: any[];
   relance: boolean;
   mask: any[] = PHONE_MASK;
-  disponibleListe:any[];
-
+  disponibleListe: any[];
+  verif_existance_code_region: boolean;
+  tester_perfermance: boolean;
+  valeur_des_region_en_retour: Array<string> = [];
   constructor(
     private router: Router,
     private candidatsService: CandidatsService,
@@ -141,7 +143,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     private technologiesService: TechnologieService,
     private routingState: RoutingState,
     // tslint:disable-next-line:max-line-length
-    private regionService: RegionService,private disponibilitesService:disponibiliteService, private utilisateurService: UtilisateurService) {
+    private regionService: RegionService, private disponibilitesService: disponibiliteService, private utilisateurService: UtilisateurService) {
 
   }
 
@@ -151,57 +153,52 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
-    this.utilisateurService.getAllSourceurs().subscribe(data=>{
-      this.listSourceur=data
+    this.utilisateurService.getAllSourceurs().subscribe(data => {
+      this.listSourceur = data
     })
     this.disponibilitesService.findAllDisponibilite().subscribe(data => {
       this.disponibleListe = data;
     })
-    this.utilisateurService.getAllChages().subscribe(data=>{
-      this.listCarge=data
+    this.utilisateurService.getAllChages().subscribe(data => {
+      this.listCarge = data
     })
   }
   ngOnDestroy(): void {
     this.helperService.listRelanceCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
-    if(!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom))
-    {
-      this.notifierService.notify("error","Les champs de saisi «Nom» est «Prenom» sont invalides") 
+    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
-    else
-    {
-    if(!this.regex.test(this.condidat.nom))
-    {
-    this.notifierService.notify("error","Le champ de saisi « Nom » est invalide")
+    else {
+      if (!this.regex.test(this.condidat.nom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+      }
+      else if (!this.regex.test(this.condidat.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+        let callBack = (e) => {
+          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+        }
+        this.table.setPage(1, callBack);
+      }
     }
-    else if( !this.regex.test(this.condidat.prenom))
-    {
-      this.notifierService.notify("error","Le champ de saisi « Prenom » est invalide") 
-    }
-    else
-    {
-    let callBack = (e) => {
-      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-    }
-    this.table.setPage(1, callBack);
-  }
-}
   }
   initTableFunction() {
     this.rechercheCandidat()
   }
-  recherche(item, page, size,allValue) {
+  recherche(item, page, size, allValue) {
     return this.candidatsService.rechercheCandidatArelancer(item, page, size)
   }
 
-  rechercheNbr(item,allValue) {
+  rechercheNbr(item, allValue) {
     return this.candidatsService.rechercheCandidatArelancerNbr(item)
   }
-  
+
   reset() {
     this.condidat = new CandidateDto();
-    this.table.item= this.condidat;
+    this.table.item = this.condidat;
     this.rechercheCandidat();
   }
 
@@ -225,13 +222,34 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.details.replace(':id', candidat.id)]);
   }
 
-  codePostaleOnSearch(value) {
-    if (value != "")
-      this.regionService.completeRegion(value).subscribe(data => {
-        data.forEach(element => {
-          this.region = [...  this.region, element]
-        });
+  public codePostaleOnSearch(value: string) {
+    this.verif_existance_code_region = true;
+    this.tester_perfermance = true;
+    if ((value != "")) {
+      this.valeur_des_region_en_retour.forEach((data, i) => {
+        if (data.includes(value)) {
+          this.tester_perfermance = false;
+          this.valeur_des_region_en_retour.splice(i)
+        }
       })
+
+      if (this.tester_perfermance == true) {
+        this.valeur_des_region_en_retour.push(value);
+        this.regionService.completeRegion(value).subscribe((data) => {
+          data.forEach(element => {
+            this.region.forEach(reg => {
+              if (element.code === reg.code) {
+                this.verif_existance_code_region = false;
+              }
+            })
+
+            if (this.verif_existance_code_region == true)
+              this.region = [... this.region, element]
+
+          });
+        })
+      }
+    }
     else this.region = []
   }
   private updateDateRelance(date: Date) {

@@ -28,33 +28,33 @@ import * as _moment from 'moment';
 })
 export class ListeReportingComponent implements OnInit {
 
-  titleTable="Liste Reporting"
+  titleTable = "Liste Reporting"
 
   @ViewChild("table")
   table;
 
   actions = {
-    visible:true,
-    title:'Actions',
-    items:[
-    {
-      icon: 'fa fa-edit',
-      class: 'btn-outline-success btn btn-sm',
-      tooltip:'Détails',
-      action: (e) => {
-        this.openDetails(e);    
-      }
-    },
-    {
-      icon: 'fa fa-download',
-      class: 'btn-outline-warning btn btn-sm',
-      tooltip:'Telecharger CV',
-      action:
-        (e) => {
-          this.downloadCV(e);
+    visible: true,
+    title: 'Actions',
+    items: [
+      {
+        icon: 'fa fa-edit',
+        class: 'btn-outline-success btn btn-sm',
+        tooltip: 'Détails',
+        action: (e) => {
+          this.openDetails(e);
         }
-    }
-  ]
+      },
+      {
+        icon: 'fa fa-download',
+        class: 'btn-outline-warning btn btn-sm',
+        tooltip: 'Telecharger CV',
+        action:
+          (e) => {
+            this.downloadCV(e);
+          }
+      }
+    ]
   }
 
 
@@ -62,7 +62,7 @@ export class ListeReportingComponent implements OnInit {
   lieux = []
   mask: any[] = PHONE_MASK;
   technologies = []
-  statuts=[]
+  statuts = []
   origines = []
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
@@ -197,38 +197,39 @@ export class ListeReportingComponent implements OnInit {
   ];
   listSourceur: any[];
   listCarge: any[];
-
+  verif_existance_code_region: boolean;
+  tester_perfermance: boolean;
+  valeur_des_region_en_retour: Array<string> = [];
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
     private notifierService: NotifierService, private competencesService: CompetencesService,
-    private helperService: HelperService, private regionService: RegionService,private statutservice:StatutService,
+    private helperService: HelperService, private regionService: RegionService, private statutservice: StatutService,
     private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
-    this.statutservice.findAllStatut().subscribe(data=>
-      {
-       this.statuts=data;
-      } 
-       )
+    this.statutservice.findAllStatut().subscribe(data => {
+      this.statuts = data;
+    }
+    )
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
     })
-    this.utilisateurService.getAllSourceurs().subscribe(data=>{
-      this.listSourceur=data
+    this.utilisateurService.getAllSourceurs().subscribe(data => {
+      this.listSourceur = data
     })
-    this.utilisateurService.getAllChages().subscribe(data=>{
-      this.listCarge=data
+    this.utilisateurService.getAllChages().subscribe(data => {
+      this.listCarge = data
     })
   }
 
 
-  initTableFunction(){
+  initTableFunction() {
     this.rechercheCandidat()
   }
   rechercheCandidat() {
@@ -239,17 +240,17 @@ export class ListeReportingComponent implements OnInit {
   }
 
 
-  recherche(item, page, size,allValue) {
+  recherche(item, page, size, allValue) {
     return this.candidatsService.rechercheReporting(item, page, size)
   }
 
-  rechercheNbr(item,allValue) {
+  rechercheNbr(item, allValue) {
     return this.candidatsService.rechercheReportingNbr(item)
   }
 
   reset() {
     this.condidat = new CandidateDto();
-    this.table.item= this.condidat;
+    this.table.item = this.condidat;
     this.rechercheCandidat();
   }
 
@@ -270,13 +271,34 @@ export class ListeReportingComponent implements OnInit {
     })
   }
 
-  codePostaleOnSearch(value) {
-    if (value != "")
-      this.regionService.completeRegion(value).subscribe(data => {
-        data.forEach(element => {
-          this.region = [...  this.region, element]
-        });
+  public codePostaleOnSearch(value: string) {
+    this.verif_existance_code_region = true;
+    this.tester_perfermance = true;
+    if ((value != "")) {
+      this.valeur_des_region_en_retour.forEach((data, i) => {
+        if (data.includes(value)) {
+          this.tester_perfermance = false;
+          this.valeur_des_region_en_retour.splice(i)
+        }
       })
+
+      if (this.tester_perfermance == true) {
+        this.valeur_des_region_en_retour.push(value);
+        this.regionService.completeRegion(value).subscribe((data) => {
+          data.forEach(element => {
+            this.region.forEach(reg => {
+              if (element.code === reg.code) {
+                this.verif_existance_code_region = false;
+              }
+            })
+
+            if (this.verif_existance_code_region == true)
+              this.region = [... this.region, element]
+
+          });
+        })
+      }
+    }
     else this.region = []
   }
 
@@ -288,7 +310,7 @@ export class ListeReportingComponent implements OnInit {
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
     var cell = worksheet["A1"]
-    cell.s =   { alignment: {textRotation: 90 }, font: {sz: 14, bold: true, color: "#FF00FF" }} ;
+    cell.s = { alignment: { textRotation: 90 }, font: { sz: 14, bold: true, color: "#FF00FF" } };
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.RegionDto;
 import com.fr.adaming.jsfapp.mapper.RegionMapper;
@@ -33,7 +34,7 @@ public class RegionController {
 		return regionService.rechercherRegionPourReporting();
 	}
 
-	@GetMapping(path = "recherche/{text}")
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
 	public List<Region> rechercherRegion(@PathVariable String text) {
 		return regionService.rechercherRegion(text);
 	}
