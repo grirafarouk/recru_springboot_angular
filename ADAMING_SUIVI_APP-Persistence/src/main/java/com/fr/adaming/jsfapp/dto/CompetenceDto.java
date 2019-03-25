@@ -9,7 +9,6 @@ public class CompetenceDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String libelle;
-	private Boolean selected;
 
 	public CompetenceDto() {
 
@@ -17,13 +16,6 @@ public class CompetenceDto implements Serializable {
 
 	}
 
-	public Boolean getSelected() {
-		return selected;
-	}
-
-	public void setSelected(Boolean selected) {
-		this.selected = selected;
-	}
 
 	public Long getId() {
 		return id;

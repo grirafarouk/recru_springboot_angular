@@ -73,8 +73,9 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label"  style="font-weight:bold">Region:</label>
-                            <ng-select style="font-weight: bold;color: black;" bindValue="code"  bindLabel="code" [items]="region" (search)="codePostaleOnSearch($event)"    [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
-                           </ng-select>
+                            <ng-select bindValue="code"  style="font-weight: bold;color: black;" bindLabel="code" [items]="region" (search)="codePostaleOnSearch($event)" 
+                            [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
+                       </ng-select>
 
                         </div>
                     </div>

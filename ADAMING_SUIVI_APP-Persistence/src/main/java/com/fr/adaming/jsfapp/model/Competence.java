@@ -22,18 +22,16 @@ public class Competence implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long id;
 	private String libelle;
-	private Boolean selected;
 
 	public Competence() {
 
 		super();
 	}
 
-	public Competence(Long id, String libelle, Boolean selected) {
+	public Competence(Long id, String libelle) {
 		super();
 		this.id = id;
 		this.libelle = libelle;
-		this.selected = selected;
 	}
 
 	@Id
@@ -52,14 +50,7 @@ public class Competence implements java.io.Serializable {
 		return libelle;
 	}
 
-	@Column(name = "SELECTED", nullable = false)
-	public Boolean getSelected() {
-		return selected;
-	}
-
-	public void setSelected(Boolean selected) {
-		this.selected = selected;
-	}
+	
 
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;

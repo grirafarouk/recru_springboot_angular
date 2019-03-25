@@ -93,6 +93,17 @@ export class FiliereComponent implements OnInit {
 
   reset() {
     this.session = new SessionFormation();
+    this.sessionFormationEnCourService.rechercherFormations(this.session).subscribe(data => {
+      this.isCollapsed = [];
+      data.forEach(element => {
+        this.isCollapsed.push(true)
+      });
+      this.formations = data;
+      this.sessionFormationEnCourService.getSessionFormation(this.session).subscribe(data => {
+        this.sessionFormations = data;
+      });
+    }
+    );
     this.getListe();
   }
 

@@ -299,6 +299,7 @@ export class ListeReportingComponent implements OnInit {
         })
       }
     }
+
     else this.region = []
   }
 

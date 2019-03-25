@@ -377,7 +377,7 @@ export class FicheEntrtienComponent implements OnInit {
         })
 
         this.currentCandidat.motif = null;
-        if (this.currentCandidat.entretien.disponible.libelle == "Disponible" && this.currentCandidat.suivi.noteFiabilite != undefined) {
+        if ((this.currentCandidat.entretien.disponible.libelle == "Disponible") && (this.currentCandidat.statut.libelle !="Valide") && (this.currentCandidat.suivi.noteFiabilite != undefined)) {
           this.currentCandidat.statut.libelle = "En attente d’affectation"
           this.currentCandidat.statut.id = 4
         }
