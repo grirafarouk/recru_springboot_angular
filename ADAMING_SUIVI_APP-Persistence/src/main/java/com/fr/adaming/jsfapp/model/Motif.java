@@ -24,6 +24,7 @@ public class Motif implements Serializable {
 	private Long id;
 	private String libelle;
 
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)

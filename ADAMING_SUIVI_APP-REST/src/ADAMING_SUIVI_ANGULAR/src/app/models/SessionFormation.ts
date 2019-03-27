@@ -8,5 +8,5 @@ export class SessionFormation{
     formation:Formation = new Formation();
     dateFin:Date;
     nombrePlace:number=15;
-    client:ClientSession=new ClientSession();
+    client:ClientSession;
 }

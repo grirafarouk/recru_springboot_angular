@@ -100,7 +100,6 @@
                             <th scope="col">Type Formation</th>
                             <th scope="col">Date Démarage</th>
                             <th scope="col">Date Fin</th>
-                            <th scope="col">Nbre Participant</th>
                             <th scope="col">ACTION</th>
                         </tr>
                     </thead>
@@ -114,7 +113,6 @@
                                 <td>{{f.formation.typeFormation.libelle}}</td>
                                 <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
                                 <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
-                                <td>{{ f.nombreParticipants }} </td>
                                 <td style="width: 10%">
                                     <label style="margin-left: 20px;"
                                         class="switch switch-label switch-outline-primary-alt">

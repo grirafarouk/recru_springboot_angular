@@ -14,6 +14,7 @@ import { SessionFormation } from "../../../models/SessionFormation";
 import { SessionsFormationsService } from "../../../services/sessionService/sessions-formations.service";
 import { ClientSessionService } from "../../../services/administrationService/clientSessionService";
 import { HelperService } from "../../../helper/helper.service";
+import { ClientSession } from "../../../models/ClientSession";
 
 
 @Component({
@@ -165,6 +166,7 @@ export class FiliereComponent implements OnInit {
   }
 
   createSessionFormtaion() {
+   
     this.sessionFormationService.updateSession(this.session).toPromise().then((data:SessionFormation) => {
       this.ngOnInit();
       if (data != null) {
