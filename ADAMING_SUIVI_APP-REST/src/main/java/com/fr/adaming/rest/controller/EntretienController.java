@@ -11,14 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fr.adaming.jsfapp.dto.CompetenceDto;
 import com.fr.adaming.jsfapp.dto.EntretienDto;
 import com.fr.adaming.jsfapp.mapper.EntretienMapper;
-import com.fr.adaming.jsfapp.model.Competence;
-import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.model.Entretien;
 import com.fr.adaming.jsfapp.services.IEntretienService;
 
@@ -32,8 +27,6 @@ public class EntretienController {
 
 	private EntretienMapper entretienMapper = Mappers.getMapper(EntretienMapper.class);
 
-
-	
 	@PostMapping(value = "")
 	public EntretienDto createOrUpdate(@RequestBody EntretienDto entretienDto) {
 		Entretien entretien = entretienMapper.entretienDtoToEntretien(entretienDto);

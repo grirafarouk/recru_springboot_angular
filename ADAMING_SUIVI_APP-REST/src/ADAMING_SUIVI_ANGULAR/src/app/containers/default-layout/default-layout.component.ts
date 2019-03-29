@@ -19,8 +19,7 @@ export class DefaultLayoutComponent implements OnInit {
 
   constructor(private authenticationService: AuthenticationService,
     private router: Router, private userService: UtilisateurService,
-    private helperService: HelperService
-  ) {
+    private helperService: HelperService) {
 
     this.changes = new MutationObserver((mutations) => {
       this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
@@ -48,15 +47,14 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit() {
     this.navItems = this.cleatItem(navItems);
   }
+
   getRoleDisplay(text) {
     var role = text;
     return role
   }
 
   logout() {
-
     this.router.navigate(["/"+NAVIGATION_RULES.login.url])
-    //location.reload();
-
+    window.location.reload();
   }
 }

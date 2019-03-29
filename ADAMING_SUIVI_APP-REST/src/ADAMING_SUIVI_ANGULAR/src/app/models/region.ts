@@ -1,6 +1,6 @@
 export class Region {
     id:number;
-    code: String;
+    code: string;
     actif:boolean;
     reporting:boolean;
 }

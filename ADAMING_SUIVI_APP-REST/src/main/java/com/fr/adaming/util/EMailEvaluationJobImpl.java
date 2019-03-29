@@ -52,7 +52,7 @@ public class EMailEvaluationJobImpl {
 			destinataires.add(utilisateur.getEmail());
 		}
 
-		destinataires.add("mounir.oueslati@sesame.com.tn");
+		destinataires.add("farouka82@gmail.com");
 
 		// generer la flux de sortie de la piece jointe
 		if (candidatsEnAttentEvaluation != null && !candidatsEnAttentEvaluation.isEmpty()) {

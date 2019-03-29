@@ -2,7 +2,11 @@ package com.fr.adaming.jsfapp.dto;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Transient;
 
@@ -11,6 +15,7 @@ import com.fr.adaming.jsfapp.enums.Civilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.CodePostal;
+import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Motif;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.Technologie;
@@ -55,11 +60,13 @@ public class CandidatDto implements Serializable {
 	private String dateisncription;
 	@Transient
 	private String dateDiplome;
+
 	private Motif motif;
 	private String critereRecheche;
 	private Boolean emailSessionEnvoyer;
 	private Boolean emailSourceurEnvoyer;
 	private Boolean emailCandidatEnvoyer;
+	private List<Competence> candidatCompetence = new ArrayList<>();
 
 	@Transient
 	public String getDateisncription() {
@@ -372,5 +379,15 @@ public class CandidatDto implements Serializable {
 	public void setCvSource(CVSource cvSource) {
 		this.cvSource = cvSource;
 	}
+
+	public List<Competence> getCandidatCompetence() {
+		return candidatCompetence;
+	}
+
+	public void setCandidatCompetence(List<Competence> candidatCompetence) {
+		this.candidatCompetence = candidatCompetence;
+	}
+
+
 
 }

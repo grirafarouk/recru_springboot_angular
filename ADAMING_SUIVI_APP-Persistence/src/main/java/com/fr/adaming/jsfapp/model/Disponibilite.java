@@ -13,6 +13,7 @@ import org.hibernate.annotations.Proxy;
 @Proxy(lazy = false)
 public class Disponibilite implements Serializable {
 
+
 	private static final long serialVersionUID = -2342709719141203480L;
 	
 	private Long id;
@@ -23,10 +24,17 @@ public class Disponibilite implements Serializable {
 		super();
 	}
 
+
+	public Disponibilite(Long id, String libelle) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID", unique = true, nullable = false)
-    public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -42,5 +50,5 @@ public class Disponibilite implements Serializable {
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
-	
+
 }

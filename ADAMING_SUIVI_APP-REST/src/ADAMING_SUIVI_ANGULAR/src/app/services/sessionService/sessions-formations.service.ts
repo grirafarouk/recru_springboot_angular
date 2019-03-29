@@ -1,3 +1,4 @@
+import { Session } from './../../views/Sessions-Formations/session';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,6 +15,14 @@ export class SessionsFormationsService {
       })
     };
     return this.http.post(BACK_END_URL+'/sessionsformations', session , httpOptions);
+  }
+  updatecheckbox(session): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':'application/json'
+      })
+    };
+    return this.http.post(BACK_END_URL+'/sessionsformations/box', session , httpOptions);
   }
 
   constructor(private http: HttpClient) { }

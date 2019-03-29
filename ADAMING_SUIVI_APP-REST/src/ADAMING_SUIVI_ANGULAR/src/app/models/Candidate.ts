@@ -1,3 +1,4 @@
+import { Competence } from './Competence';
 import { Statut } from './Statut';
 import { CodePostal } from "./CodePostal";
 import { Utilisateur } from "./Utilisateur";
@@ -47,6 +48,6 @@ export class Candidate {
 	emailSessionEnvoyer: boolean=false;
 	emailSourceurEnvoyer: boolean=false;
 	emailCandidatEnvoyer: boolean=false;
-	candidatCompetence: Array<any> = new Array();
+	candidatCompetence: Array<Competence> = new Array();
 }
 

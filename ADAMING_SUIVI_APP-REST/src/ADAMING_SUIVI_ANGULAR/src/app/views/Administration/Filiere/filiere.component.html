@@ -1,124 +1,141 @@
 <div class="card">
     <div class="card-header">
-            <label style="font-weight:bold;color:#546E7A;">Recherche</label>
+        <label style="font-weight:bold;color:#546E7A;">Recherche</label>
     </div>
     <div class="card-body">
-            <div class="row">      
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label for="nom">Nom formation:</label>
-                            <input type="text" class="form-control" style="font-weight: bold;color: black;"  name="nom" [(ngModel)]="session.formation.nom" id="nom"> 
-                        </div>
-                    </div>
-                     <div class="col-sm-2">
-                        <div class="form-group">
-                            <label class="form-col-form-label" for="technologie">Technologie:</label>
-                           
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle" bindLabel="libelle" [items]="technologies" [(ngModel)]="session.formation.technologie.libelle" name="technologie"  >
-                            </ng-select>
-                        </div>
-                    </div>
-                   <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="lieu">Lieu:</label>
-                                
-                                  <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle" bindLabel="libelle" [items]="lieux" [(ngModel)]="session.formation.lieu.libelle" name="lieu"  >
-                            </ng-select>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
-                                   
-                                      <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle"  bindLabel="libelle" [items]="typeFormation" [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation"  >
-                                    </ng-select>
-                                </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="date" style="font-weight:bold">Date démarrage:</label>
-                                       <input [owlDateTimeTrigger]="date" [owlDateTime]="date" class="form-control"
-                                name="date" style="font-weight: bold;color: black;" [(ngModel)]="session.dateDemarrage">
-                            <owl-date-time [pickerType]="'calendar'" #date></owl-date-time>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="dateF" style="font-weight:bold">Date Fin:</label>
-                                       <input [owlDateTimeTrigger]="dateF" [owlDateTime]="dateF" class="form-control"
-                                name="dateF" style="font-weight: bold;color: black;" [(ngModel)]="session.dateFin">
-                            <owl-date-time [pickerType]="'calendar'" #dateF></owl-date-time>
-                            </div>
-                        </div>
-                                 
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label for="nom">Nom formation:</label>
+                    <input type="text" class="form-control" style="font-weight: bold;color: black;" name="nom"
+                        [(ngModel)]="session.formation.nom" id="nom">
                 </div>
-              
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="technologie">Technologie:</label>
+
+                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                        bindValue="libelle" bindLabel="libelle" [items]="technologies"
+                        [(ngModel)]="session.formation.technologie.libelle" name="technologie">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="lieu">Lieu:</label>
+
+                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                        bindValue="libelle" bindLabel="libelle" [items]="lieux"
+                        [(ngModel)]="session.formation.lieu.libelle" name="lieu">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="typeFormation">Type de formation:</label>
+
+                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                        bindValue="libelle" bindLabel="libelle" [items]="typeFormation"
+                        [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation">
+                    </ng-select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="date" style="font-weight:bold">Date démarrage:</label>
+                    <input [max]="session.dateFin" [owlDateTimeTrigger]="date" [owlDateTime]="date" class="form-control"
+                        name="date" style="font-weight: bold;color: black;" [(ngModel)]="session.dateDemarrage">
+                    <owl-date-time [pickerType]="'calendar'" #date></owl-date-time>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label class="form-col-form-label" for="dateF" style="font-weight:bold">Date Fin:</label>
+                    <input [min]="session.dateDemarrage" [owlDateTimeTrigger]="dateF" [owlDateTime]="dateF"
+                        class="form-control" name="dateF" style="font-weight: bold;color: black;"
+                        [(ngModel)]="session.dateFin">
+                    <owl-date-time [pickerType]="'calendar'" #dateF></owl-date-time>
+                </div>
+            </div>
+
+        </div>
+
     </div>
     <div class="card-footer">
 
-            <div class="row align-items-center">
-                <div class="col-2">
-                    <button type="button" class="btn btn-block btn-primary" (click)="rechercherSession()">Rechercher</button>
-                </div>
+        <div class="row align-items-center">
+            <div class="col-2">
+                <button type="button" class="btn btn-block btn-primary"
+                    (click)="rechercherSession()">Rechercher</button>
+            </div>
 
-                <div class="col-2">
-                    <button  type="button" class="btn btn-block btn-primary" (click)="reset()" style="float: right;">Réinitialiser</button>
-                </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-block btn-primary" (click)="reset()"
+                    style="float: right;">Réinitialiser</button>
             </div>
         </div>
-  </div>
-<div class="card card-accordion">
-        <div  *ngFor="let formation of formations; let i = index">
-        <div class="card-header card-header-accordion"  [ngClass]="{'card-header-accordion-active':this.isCollapsed[i] === false}"
-        (click)="collapseExpand(i)" >
-                <h5>{{formation.code}}</h5>
-       
+    </div>
+</div>
+<div class="accordion md-accordion accordion-4" id="accordionEx23" role="tablist">
+    <div *ngFor="let formation of formations; let i = index">
+        <div class="card-header card-header-accordion" role="tab"
+            [ngClass]="{'card-header-accordion-active':this.isCollapsed[i] === false}" (click)="collapseExpand(i)">
+            <h5 class="text-uppercase mb-0 py-1">
+                <a class="white-text font-weight-bold" data-toggle="collapse" href="#collapse96" aria-expanded="true"
+                    aria-controls="collapse96">
+                    <h5>{{formation.code}}</h5>
+                </a>
+            </h5>
         </div>
-        <div  [collapse]="isCollapsed[i]">
-             <div class="card-body"  >
-                    <table class="table  table-striped">
-                        <thead>
-                            <tr>
-                                <th>Code</th>
-                                <th>Nom Formation</th>
-                                <th>Technologie</th>
-                                <th>Lieu</th>
-                                <th>Type Formation</th>
-                                <th>Date Démarage</th>
-                                <th>Date Fin</th>
-                                <th>ACTION</th>
+        <div [collapse]="isCollapsed[i]">
+            <div class="card-body">
+                <table class=" table table-striped table-condensed table-bordered">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Code</th>
+                            <th scope="col">Nom Formation</th>
+                            <th scope="col">Technologie</th>
+                            <th scope="col">Lieu</th>
+                            <th scope="col">Type Formation</th>
+                            <th scope="col">Date Démarage</th>
+                            <th scope="col">Date Fin</th>
+                            <th scope="col">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let f of sessionFormations; let i = index">
+                            <tr *ngIf="formation.id == f.formation.id">
+                                <td>{{f.formation.code}}
+                                <td>{{f.formation.nom}}</td>
+                                <td>{{f.formation.technologie.libelle}}</td>
+                                <td>{{f.formation.lieu.libelle}}</td>
+                                <td>{{f.formation.typeFormation.libelle}}</td>
+                                <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
+                                <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
+                                <td style="width: 10%">
+                                    <label style="margin-left: 20px;"
+                                        class="switch switch-label switch-outline-primary-alt">
+                                        <input type="checkbox" class="switch-input" [(ngModel)]="f.fActif"
+                                            (click)="activerDesactiverSession(f)">
+                                        <span class="switch-slider" data-checked="on" data-unchecked="off"></span>
+                                    </label>
+                                    <button style="margin-top: -35px; margin-left: 10px;"
+                                        (click)="showEditSessionModal(f)" placement="top" [tooltip]="Edit"
+                                        class="btn btn-outline-success btn-sm">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let f of sessionFormations; let i = index">
-                                <tr *ngIf="formation.id == f.formation.id">
-                                    <td>{{f.formation.code}}
-                                    <td>{{f.formation.nom}}</td>
-                                    <td>{{f.formation.technologie.libelle}}</td>
-                                    <td>{{f.formation.lieu.libelle}}</td>
-                                    <td>{{f.formation.typeFormation.libelle}}</td>
-                                    <td>{{f.dateDemarrage | date :'dd/MM/yyyy'}}</td>
-                                    <td>{{f.dateFin | date :'dd/MM/yyyy' }}</td>
-                                    <td style="width: 10%">
-                                        <label style="margin-left: 20px;" class="switch switch-label switch-outline-primary-alt">
-                                            <input type="checkbox" class="switch-input" [(ngModel)]="f.factif"
-                                                (click)="activerDesactiverSession(f)">
-                                            <span class="switch-slider" data-checked="on" data-unchecked="off"></span>
-                                        </label>
-                                        <button style="margin-top: -35px; margin-left: 10px;" (click)="showEditSessionModal(f)"
-                                            placement="top" [tooltip]="Edit" class="btn btn-outline-success btn-sm">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </ng-container>
-                        </tbody>
-                    </table>
-                    <div class="col-2">
-                        <button type="button" (click)="showSessionFormationModal(formation)" class="btn btn-block btn-primary">Ajouter
-                            Session</button>
-                    </div>
+                        </ng-container>
+                    </tbody>
+                </table>
+                <div class="col-2">
+                    <button type="button" (click)="showSessionFormationModal(formation)"
+                        class="btn btn-block btn-primary">Ajouter
+                        Session</button>
                 </div>
+            </div>
         </div>
     </div>
     <div class="card-footer">
@@ -127,7 +144,7 @@
                 formation</button>
         </div>
     </div>
-      </div>
+</div>
 
 
 <div bsModal #FormationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -145,31 +162,36 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nom Formation :</label>
                         <div class="col-md-8">
-                            <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="selectedFormation.nom" name="nomf" />
+                            <input class="form-control" style="font-weight: bold;color: black;"
+                                [(ngModel)]="selectedFormation.nom" name="nomf" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label" for="typeFormation">Type de formation :</label>
                         <div class="col-md-8">
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" id="typeFormation" name="typeFormation" [(ngModel)]="selectedFormation.typeFormation"
-                                [items]="typeFormation" bindLabel="libelle">
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                                [compareWith]="helperService.compareFn" id="typeFormation" name="typeFormation"
+                                [(ngModel)]="selectedFormation.typeFormation" [items]="typeFormation"
+                                bindLabel="libelle">
                             </ng-select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label" for="technologie">Technologie :</label>
                         <div class="col-md-8">
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" id="technologie" name="technologie" [(ngModel)]="selectedFormation.technologie"
-                                [items]="technologies" bindLabel="libelle">
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                                [compareWith]="helperService.compareFn" id="technologie" name="technologie"
+                                [(ngModel)]="selectedFormation.technologie" [items]="technologies" bindLabel="libelle">
                             </ng-select>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label" for="lieu">Lieu : </label>
                         <div class="col-md-8 ">
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" id="lieu" name="lieu" [(ngModel)]="selectedFormation.lieu"
-                            [items]="lieux" bindLabel="libelle">
-                        </ng-select>
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                                [compareWith]="helperService.compareFn" id="lieu" name="lieu"
+                                [(ngModel)]="selectedFormation.lieu" [items]="lieux" bindLabel="libelle">
+                            </ng-select>
                         </div>
                     </div>
                 </form>
@@ -182,8 +204,8 @@
     </div>
 </div>
 
-<div bsModal #SessionFormationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+<div bsModal #SessionFormationModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-primary  modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -197,40 +219,44 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nom Formation :</label>
                         <div class="col-md-8">
-                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.nom" name="nomf" />
+                            <input disabled class="form-control" style="font-weight: bold;color: black;"
+                                [(ngModel)]="session.formation.nom" name="nomf" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Type de formation :</label>
                         <div class="col-md-8">
-                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.typeFormation.libelle"
-                                name="typeFormation" />
+                            <input disabled class="form-control" style="font-weight: bold;color: black;"
+                                [(ngModel)]="session.formation.typeFormation.libelle" name="typeFormation" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Technologie :</label>
                         <div class="col-md-8">
-                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.technologie.libelle"
-                                name="technologie" />
+                            <input disabled class="form-control" style="font-weight: bold;color: black;"
+                                [(ngModel)]="session.formation.technologie.libelle" name="technologie" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Lieu : </label>
                         <div class="col-md-8 ">
-                            <input disabled class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="session.formation.lieu.libelle" name="lieu" />
+                            <input disabled class="form-control" style="font-weight: bold;color: black;"
+                                [(ngModel)]="session.formation.lieu.libelle" name="lieu" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Date Debut :</label>
                         <div class="col-md-8 ">
-                            <input [owlDateTimeTrigger]="dateDemarrage" style="font-weight: bold;color: black;" [owlDateTime]="dateDemarrage" class="form-control"
-                                name="dateDemarrage" [(ngModel)]="session.dateDemarrage">
+                            <input [max]="session.dateFin" [owlDateTimeTrigger]="dateDemarrage"
+                                style="font-weight: bold;color: black;" [owlDateTime]="dateDemarrage"
+                                class="form-control" name="dateDemarrage" [(ngModel)]="session.dateDemarrage">
                             <owl-date-time [pickerType]="'calendar'" #dateDemarrage></owl-date-time>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Date Fin :</label>
-                        <div class="col-md-8 "> <input [owlDateTimeTrigger]="dateFin" style="font-weight: bold;color: black;" [owlDateTime]="dateFin" class="form-control"
+                        <div class="col-md-8 "> <input [min]="session.dateDemarrage" [owlDateTimeTrigger]="dateFin"
+                                style="font-weight: bold;color: black;" [owlDateTime]="dateFin" class="form-control"
                                 name="dateFin" [(ngModel)]="session.dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dateFin></owl-date-time>
                         </div>
@@ -238,14 +264,16 @@
                     <div class="form-group row">
                         <label class="col-md-3 col-form-label">Nombre de place :</label>
                         <div class="col-md-8 ">
-                            <input type="number" style="font-weight: bold;color: black;" class="form-control" [(ngModel)]="session.nombrePlace" name="nombrePlace" />
+                            <input type="number" style="font-weight: bold;color: black;" class="form-control"
+                                [(ngModel)]="session.nombrePlace" name="nombrePlace" />
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-3 col-form-label">Client :</label>
+                        <label for="client" class="col-md-3 col-form-label">Client :</label>
                         <div class="col-md-8 ">
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [compareWith]="helperService.compareFn" name="clien" [(ngModel)]="session.client"
-                                [items]="listclientSession" bindLabel="libelle">
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                                [compareWith]="helperService.compareFn" name="client" id="client"
+                                [(ngModel)]="session.client" [items]="listclientSession" bindLabel="libelle">
                             </ng-select>
                         </div>
                     </div>

@@ -33,8 +33,8 @@ import { SuiviService } from '../../../services/suivi-service';
 import { Suivi } from '../../../models/Suivi';
 import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE } from '../../../helper/application.constant';
 declare var jQuery: any;
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from 
-'@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from
+  '@angular/forms';
 @Component({
   selector: 'app-fiche-entrtien',
   templateUrl: './fiche-entrtien.component.html',
@@ -57,9 +57,9 @@ export class FicheEntrtienComponent implements OnInit {
   technologies: Array<Technologie> = []
   origines: Array<Origine> = [];
   competences: Array<Competence> = []
-  disponibleListe:Array<Disponibilite> = []
+  disponibleListe: Array<Disponibilite> = []
   lieux: Array<Lieu> = []
-  statuts:Array<Statut> =[] 
+  statuts: Array<Statut> = []
 
   pertinenecesValeurs = [1, 2, 3, 4, 5]
   pdfSource;
@@ -68,35 +68,35 @@ export class FicheEntrtienComponent implements OnInit {
   file;
   currentCandidat: Candidate;
   mask: any[] = PHONE_MASK;
-  currentDate=new Date();
-  currenttime:any;
-  evaluationtime:any;
+  currentDate = new Date();
+  currenttime: any;
+  evaluationtime: any;
   disabledtime = false;
-  
+
 
   myForm = new FormGroup({}) // Instantiating our form
 
-get f() { return this.myForm.controls; }
+  get f() { return this.myForm.controls; }
 
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
-    private suiviService:SuiviService,
+    private suiviService: SuiviService,
     private codePostalService: CodePostalService, private originesService: OriginesService,
     private technologiesService: TechnologieService, private candidatsService: CandidatsService,
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService,
-    private routingState: RoutingState,private disponibiliteService:disponibiliteService, private entretienService: EntretienService, private regionService: RegionService,
-    private userService: UtilisateurService, private statutservice:StatutService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
-    private formBuilder: FormBuilder) { 
-      this.myForm = formBuilder.group({     
-        publishedYear: ['', [Validators.min(0), Validators.max(45)]]
+    private routingState: RoutingState, private disponibiliteService: disponibiliteService, private entretienService: EntretienService, private regionService: RegionService,
+    private userService: UtilisateurService, private statutservice: StatutService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
+    private formBuilder: FormBuilder) {
+    this.myForm = formBuilder.group({
+      publishedYear: ['', [Validators.min(0), Validators.max(45)]]
     });
-    }
+  }
 
   ngOnInit() {
     let role = this.userService.getConnetedUserInfo().profil.libelle;
     this.enableSave = role == USER_ROLE.ADMINISTRATEUR || role == USER_ROLE.CHARGE || role == USER_ROLE.DIRECTION
-    
+
     this.route.data
       .subscribe((data: { candidat: Candidate, title: string }) => {
         data.title = data.title + data.candidat.id;
@@ -114,20 +114,18 @@ get f() { return this.myForm.controls; }
           reader.readAsDataURL(res.data);
         })
       });
-      this.disponibiliteService.findAllDisponibilite().subscribe(data=>
-        {
-  
-          this.disponibleListe=data;
-        }
-        )
+    this.disponibiliteService.findAllDisponibilite().subscribe(data => {
+
+      this.disponibleListe = data;
+    }
+    )
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
-    this.statutservice.findAllStatut().subscribe(data=>
-      {
-       this.statuts=data;
-      } 
-       )
+    this.statutservice.findAllStatut().subscribe(data => {
+      this.statuts = data;
+    }
+    )
     this.originesService.findAllOrigines().subscribe(data => {
       this.origines = data;
     })
@@ -159,18 +157,16 @@ get f() { return this.myForm.controls; }
         });
       });
     })
-    this.testDisabled() ;
+    this.testDisabled();
   }
 
   private testDisabled() {
-    this.evaluationtime=this.currentCandidat.entretien.date.getHours()+":"+this.currentCandidat.entretien.date.getMinutes();
-    this.currenttime = this.currentDate.getHours()+":"+this.currentDate.getMinutes();
+    this.evaluationtime = this.currentCandidat.entretien.date.getHours() + ":" + this.currentCandidat.entretien.date.getMinutes();
+    this.currenttime = this.currentDate.getHours() + ":" + this.currentDate.getMinutes();
 
-    if(this.timeEntretien.toLocaleDateString("fr-FR")==this.currentDate.toLocaleDateString("fr-FR")
-      && (this.evaluationtime > this.currenttime) )
-    {this.disabledtime=true;}
-    else
-    {this.disabledtime=false;}
+    if (this.timeEntretien.toLocaleDateString("fr-FR") == this.currentDate.toLocaleDateString("fr-FR")
+      && (this.evaluationtime > this.currenttime)) { this.disabledtime = true; }
+    else { this.disabledtime = false; }
   }
 
   private codePostaleOnSearch(value) {
@@ -306,94 +302,94 @@ get f() { return this.myForm.controls; }
   numberOnly(): boolean {
     if (this.currentCandidat.suivi.noteResultat <= 45 && this.currentCandidat.suivi.noteResultat >= 0) {
       return true;
-    }else{
+    } else {
       this.notifierService.notify("error", "Résultat du test n’est pas compris entre les valeurs attendues 0 et 45.")
-    return false;
-  }
+      return false;
+    }
 
   }
 
- async sauvgarderFicheEntrtien() {
-  var error = false;
-  if (this.currentCandidat.suivi.notePresentation == undefined) {
-    this.notifierService.notify("error", " Présentation champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.noteSavoir == undefined) {
-    this.notifierService.notify("error", " Savoir etre champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.noteFiabilite == undefined) {
-    this.notifierService.notify("error", " Fiabilité champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.noteAttrait == undefined) {
-    this.notifierService.notify("error", " Attrait pour l'informatique champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.notePret == undefined) {
-    this.notifierService.notify("error", " Prêt à la reconversion champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.noteMobilite == undefined) {
-    this.notifierService.notify("error", " Mobilité champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.noteCoherence == undefined) {
-    this.notifierService.notify("error", " Cohérence du parcours champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.notePistes == undefined) {
-    this.notifierService.notify("error", " Potentiel d’évolution champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.anglais == undefined) {
-    this.notifierService.notify("error", " Anglais champs obligatoire")
-    error = true;
-  }
-  if (this.currentCandidat.suivi.mobilite == undefined) {
-    this.notifierService.notify("error", " mobiliteSuivi : erreur de validation. Vous devez indiquer une valeur.")
-    error = true;
-  }
-  
+  async sauvgarderFicheEntrtien() {
+    var error = false;
+    if (this.currentCandidat.suivi.notePresentation == undefined) {
+      this.notifierService.notify("error", " Présentation champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.noteSavoir == undefined) {
+      this.notifierService.notify("error", " Savoir etre champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.noteFiabilite == undefined) {
+      this.notifierService.notify("error", " Fiabilité champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.noteAttrait == undefined) {
+      this.notifierService.notify("error", " Attrait pour l'informatique champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.notePret == undefined) {
+      this.notifierService.notify("error", " Prêt à la reconversion champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.noteMobilite == undefined) {
+      this.notifierService.notify("error", " Mobilité champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.noteCoherence == undefined) {
+      this.notifierService.notify("error", " Cohérence du parcours champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.notePistes == undefined) {
+      this.notifierService.notify("error", " Potentiel d’évolution champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.anglais == undefined) {
+      this.notifierService.notify("error", " Anglais champs obligatoire")
+      error = true;
+    }
+    if (this.currentCandidat.suivi.mobilite == undefined) {
+      this.notifierService.notify("error", " mobiliteSuivi : erreur de validation. Vous devez indiquer une valeur.")
+      error = true;
+    }
+
     if (!this.verfierSuiviRelance() && !this.verfierStatus() && !this.verfierSuivinoteResultat()) {
-     
 
 
-      this.helperService.generateComp(this.currentCandidat,this.competences);
+
+      this.helperService.generateComp(this.currentCandidat, this.competences);
 
       //#region  Save Or Update Suivi
       this.currentCandidat.suivi.charge = this.userService.getConnetedUserInfo();
       if (!error) {
 
-      await this.suiviService.createOrUpdate(this.currentCandidat.suivi).toPromise().then((data: Suivi) => {
-      
-        data.dateRelance = new Date(data.dateRelance)
-        this.currentCandidat.suivi = data;
-      });
-     
-       this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
-       await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
-         if ((this.currentCandidat.entretien.id > 0) && (this.currentCandidat.entretien.disponible.id> -1))
-           this.notifierService.notify("success", "Modifié!, Entretien modifié avec success !");
-         data.date = new Date(data.date)
-         this.currentCandidat.entretien = data;
-       })
-   
-      this.currentCandidat.motif = null;
-console.log("okkkkkkkkkkkkkkkk")
-if ((this.currentCandidat.entretien.id > 0) && (this.currentCandidat.entretien.disponible.id> -1)){
-       await this.candidatsService.updateficheEntretien(this.currentCandidat).toPromise().then(data => {
-         console.log("ollllllllllll");
-      })}
-    console.log("offdkffdkgjkdjkdjdk")
-      //#endregion
-      this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.list]);
+        await this.suiviService.createOrUpdate(this.currentCandidat.suivi).toPromise().then((data: Suivi) => {
+
+          data.dateRelance = new Date(data.dateRelance)
+          this.currentCandidat.suivi = data;
+        });
+
+        this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
+        await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
+          if ((this.currentCandidat.entretien.id > 0) && (this.currentCandidat.entretien.disponible.id > -1))
+            this.notifierService.notify("success", "Modifié!, Entretien modifié avec success !");
+          data.date = new Date(data.date)
+          this.currentCandidat.entretien = data;
+        })
+
+        this.currentCandidat.motif = null;
+        if ((this.currentCandidat.entretien.disponible.libelle == "Disponible") && (this.currentCandidat.statut.libelle !="Valide") && (this.currentCandidat.suivi.noteFiabilite != undefined)) {
+          this.currentCandidat.statut.libelle = "En attente d’affectation"
+          this.currentCandidat.statut.id = 4
+        }
+        await this.candidatsService.updateficheEntretien(this.currentCandidat).toPromise().then(data => {
+        })
+        //#endregion
+        this.router.navigate([NAVIGATION_RULES.entretien.url + '/' + NAVIGATION_RULES.entretien.list]);
+      }
     }
   }
-  }
 
-  private dateNaissanceChangedHandler(){
-    this.currentCandidat.age= this.helperService.getAge(this.currentCandidat.dateNaissance)
+  private dateNaissanceChangedHandler() {
+    this.currentCandidat.age = this.helperService.getAge(this.currentCandidat.dateNaissance)
   }
 }

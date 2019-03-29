@@ -120,9 +120,10 @@ export class FicheCandidatComponent implements OnInit {
     })
 
     this.motifService.findAllMotifs().subscribe(data => this.motifs = data)
-
+    console.log(this.currentCandidat.candidatCompetence)
     this.competencesService.findAllCompetences().subscribe(data => {
       this.competences = data;
+      console.log(this.currentCandidat.candidatCompetence)
       this.currentCandidat.candidatCompetence.forEach((obj, i) => {
         this.competences.forEach((obj2, i) => {
           if (obj2.id == obj.id) {
@@ -165,7 +166,6 @@ export class FicheCandidatComponent implements OnInit {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
 
     }
-    // else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
   }
 
   private entretienHeureFilter = (d: Date): boolean => {
@@ -356,13 +356,6 @@ export class FicheCandidatComponent implements OnInit {
       if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION) {
         //#region Save Or Update Entretien
         this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
-        /*if (this.currentCandidat.entretien.disponible.libelle == "Disponible") {
-          this.verifdis = true;
-          this.currentCandidat.entretien.disponible.id = 1;
-        }*/
-
-        // console.log(this.currentCandidat)
-        //console.log(this.currentCandidat.entretien.disponible)
         await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
           if (this.currentCandidat.entretien.id > 0)
             this.notifierService.notify("success", "Modifié!, Candidat modifié avec success !");
@@ -377,28 +370,17 @@ export class FicheCandidatComponent implements OnInit {
         //#endregion
         //#region  Update Candidat
         if (this.currentCandidat.entretien.date == undefined || this.currentCandidat.entretien.date == null) {
-          this.currentCandidat.statut.libelle = "En attente d’évaluation";
-          this.currentCandidat.statut.id = 3;
-        }
-        if (this.currentCandidat.entretien.disponible.libelle != "Disponible") {
           this.currentCandidat.statut.libelle = "Vide";
           this.currentCandidat.statut.id = 2;
+        }
+        if (this.currentCandidat.entretien.disponible.libelle == "Disponible") {
+          this.currentCandidat.statut.libelle = "En attente d’évaluation";
+          this.currentCandidat.statut.id = 3;
         }
         this.currentCandidat.motif = null;
         await this.candidatsService.updateficheCandidat(this.currentCandidat).toPromise().then(data => {
           if (this.callback != null) this.callback(data.id)
         })
-        //await  this.candidatsService.getCandidatById(this.currentCandidat.id).subscribe((data: Candidate) => {
-        //this.cndida = data
-        //this.cndida.entretien.disponible.id = 0
-        //this.candidatsService.updateCandidat(this.cndida).subscribe((data:Candidate)=>
-        //{
-        //this.currentCandidat=data;
-        //}
-        //);
-        //})
-        //console.log(this.currentCandidat)
-        //console.log(this.currentCandidat.entretien.disponible)
 
         //#endregion
       }
@@ -522,35 +504,6 @@ export class FicheCandidatComponent implements OnInit {
     return msg
   }
   public callback = null;
-
-  private async candidatentretien(c) {
-    await this.entretienService.searchDisponibleById(c.entretien.id).toPromise
-      ().then((data: Entretien) => {
-        console.log(data.id)
-        this.ent = data;
-      })
-
-    this.ent.disponible.id = 0;
-    this.ent.disponible.libelle = "Disponible"
-    console.log("retourner un entretien")
-    if (this.ent.disponible.id > -1) {
-      await this.entretienService.createOrUpdate(this.ent).toPromise
-        ().then((candida: Entretien) => {
-          this.currentCandidat.entretien = candida
-          console.log("0")
-          console.log(candida.id)
-          console.log(this.currentCandidat.entretien.id)
-          console.log("1")
-          console.log(candida)
-          console.log("2")
-          console.log(this.currentCandidat.entretien)
-          console.log("fonctionnner corretement 3")
-          console.log(this.currentCandidat.entretien.disponible.libelle)
-          console.log("4")
-          console.log(candida.disponible.libelle)
-        })
-    }
-  }
   private async sauvgarderFicheRedirtect() {
     this.callback = (id) => {
       if (this.routingState.getPreviousUrl() == "/candidats")
@@ -558,8 +511,7 @@ export class FicheCandidatComponent implements OnInit {
       else this.annuler();
     }
     await this.sauvgarderFiche();
-    if (this.verifdis == true)
-      await this.candidatentretien(this.currentCandidat)
+
   }
 
   private async evaluerCandidat() {

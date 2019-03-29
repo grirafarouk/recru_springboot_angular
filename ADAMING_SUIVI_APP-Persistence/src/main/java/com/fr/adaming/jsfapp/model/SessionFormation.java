@@ -3,6 +3,7 @@ package com.fr.adaming.jsfapp.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Proxy;
 
 @Entity
@@ -59,6 +62,18 @@ public class SessionFormation implements Serializable {
 		this.dateDemarrage = dateDemarrage;
 	}
 
+	public SessionFormation(Long id, Date dateDemarrage, Date dateFin, Formation formation, Boolean fActif,
+			Integer nombrePlace, ClientSession client) {
+		super();
+		this.id = id;
+		this.dateDemarrage = dateDemarrage;
+		this.dateFin = dateFin;
+		this.formation = formation;
+		this.fActif = fActif;
+		this.nombrePlace = nombrePlace;
+		this.client = client;
+	}
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FORMATION", nullable = true)
 	public Formation getFormation() {
@@ -94,7 +109,7 @@ public class SessionFormation implements Serializable {
 	public void setNombrePlace(Integer nombrePlace) {
 		this.nombrePlace = nombrePlace;
 	}
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.DETACH)
 	@JoinColumn(name = "Client", nullable = true)
 	public ClientSession getClient() {
 		return client;

@@ -4,6 +4,6 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
-  "BACK_END_URL" : "http://localhost:9192/ADAMING_SUIVI_APP-REST"
+  production: true,
+  "BACK_END_URL" : "http://127.0.0.1:9192/ADAMING_SUIVI_APP-REST"
 };

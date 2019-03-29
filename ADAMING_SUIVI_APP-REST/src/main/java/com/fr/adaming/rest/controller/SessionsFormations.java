@@ -22,7 +22,7 @@ import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.SessionFormation;
 import com.fr.adaming.jsfapp.services.impl.CandidatService;
 import com.fr.adaming.jsfapp.services.impl.SessionFormationService;
-
+	
 @RestController
 @RequestMapping("/api/sessionsformations")
 @CrossOrigin("*")
@@ -35,9 +35,11 @@ public class SessionsFormations {
 	private CandidatService candidatService;
 	
 	private SessionFormationMapper sessionFormationMapper=Mappers.getMapper(SessionFormationMapper.class);
-
+	
 	@PostMapping("")
 	public SessionFormationDto createOrUpdate(@RequestBody SessionFormationDto sessionFormationDto) {
+		if(sessionFormationDto.getId()==null)
+		sessionFormationDto.setfActif(true);
 		SessionFormation sessionFormation=sessionFormationMapper.sessionFormationDtoToSessionFormation(sessionFormationDto);
 		sessionFormation=sessionFormationService.createOrUpdate(sessionFormation);
 		return sessionFormationMapper.sessionFormationToSessionFormationDto(sessionFormation);

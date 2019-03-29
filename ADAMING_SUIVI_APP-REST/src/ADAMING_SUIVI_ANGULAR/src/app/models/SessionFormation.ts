@@ -3,10 +3,10 @@ import { ClientSession } from "./ClientSession";
 
 export class SessionFormation{
     id:number;
-    factif:boolean=false;
+    fActif:boolean;
     dateDemarrage:Date;
     formation:Formation = new Formation();
     dateFin:Date;
     nombrePlace:number=15;
-    client:ClientSession;
+    client:ClientSession=new ClientSession();
 }

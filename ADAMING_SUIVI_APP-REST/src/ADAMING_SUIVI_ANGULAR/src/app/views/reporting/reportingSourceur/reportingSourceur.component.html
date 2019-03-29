@@ -26,7 +26,7 @@
                                   <div class="col-sm-2">
                                         <div class="form-group">
                                           <label for="dateFin" style="font-weight:bold">Date fin</label>
-                                          <input  [min]="dateDebut" [max]="currentDate" [(ngModel)]="dateFin" style="font-weight: bold;color: black;"
+                                          <input  [min]="dateDebut"  [(ngModel)]="dateFin" style="font-weight: bold;color: black;"
                                             [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
                                              id="dateFin">
                                           <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>

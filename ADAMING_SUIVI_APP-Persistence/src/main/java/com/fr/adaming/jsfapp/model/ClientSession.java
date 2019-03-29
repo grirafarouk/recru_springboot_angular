@@ -20,27 +20,38 @@ public class ClientSession implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -2101658304951715475L;
-	
+
 	private Long id;
 	private String libelle;
-	
+
+	public ClientSession() {
+		super();
+	}
+
+	public ClientSession(Long id, String libelle) {
+		super();
+		this.id = id;
+		this.libelle = libelle;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ID", unique = true, nullable = false)
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	@Column(name = "libelle", nullable = false)
 	public String getLibelle() {
 		return libelle;
 	}
+
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
-	
-	
 
 }

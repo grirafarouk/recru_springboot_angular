@@ -15,11 +15,5 @@ public class AdamingSuiviAppRestApplication extends SpringBootServletInitializer
     }
 	public static void main(String[] args) {
 		SpringApplication.run(AdamingSuiviAppRestApplication.class, args);
-//		BeanFactory context = null;
-//		EntretienDao studentJDBCTemplate = 
-//		         (EntretienDao)context.getBean("EntretienDao");
-//		      
-//		      System.out.println("----Updating Record with ID = 2 -----" );
-//		      studentJDBCTemplate.update(10, 0);
 	}
 }

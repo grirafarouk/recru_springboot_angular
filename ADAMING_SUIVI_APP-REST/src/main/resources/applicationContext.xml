@@ -51,10 +51,6 @@
 	
 	<bean id="multipartResolver"
       class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
-	
-	
-	
- 
 
     <bean id="eMailReportingJob" class="com.fr.adaming.util.EMailReportingJobImpl" />
 	<bean id="simpleJobDetail"
@@ -80,7 +76,7 @@
 	<bean id="evaluationTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="eMailEvaluationJobDetail" />
-		<property name="cronExpression" value="0 0 3 * * ?" />
+		<property name="cronExpression" value="0 52 17 * * ?" />
 	</bean>
 
 
@@ -122,7 +118,7 @@
 	<bean id="eMailCandidatARelancerTrigger"
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="CandidatARelancerJobImpl" />
-		<property name="cronExpression" value="0 0 8 * * ?" />
+			<property name="cronExpression" value="0 0 8 * * ?" />
 	</bean>
 
 

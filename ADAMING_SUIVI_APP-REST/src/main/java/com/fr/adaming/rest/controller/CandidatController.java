@@ -44,8 +44,8 @@ import com.fr.adaming.jsfapp.mapper.CandidatMapper;
 import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
-import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
@@ -77,7 +77,6 @@ public class CandidatController {
 
 	List<String> files = new ArrayList<>();
 
-//	private Disponibilite[] refDisponibilite = Disponibilite.values();
 	@Autowired
 	private IvListeCandidatsService vListeCandidatsService;
 	private VListeCandidatsDto vListeCandidatsDto;
@@ -372,7 +371,7 @@ public class CandidatController {
 			Statut s = new Statut(new Long(3), "En attente d’évaluation");
 			candidatDTO.setStatut(s);
 		}
-			Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
+		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}
 

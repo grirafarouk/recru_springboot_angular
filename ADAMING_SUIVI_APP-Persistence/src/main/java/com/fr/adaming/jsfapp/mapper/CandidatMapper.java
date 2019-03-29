@@ -34,6 +34,7 @@ public interface CandidatMapper {
 			@Mapping(source = "codePostal", target = "codePostal"),
 			@Mapping(source = "origine", target = "origine"),
 			@Mapping(source = "motif", target = "motif"),
+			@Mapping(source = "candidatCompetence", target = "candidatCompetence"),
 			@Mapping(source = "entretien", target = "entretien"),
 			@Mapping(source = "suivi", target = "suivi"),
 			@Mapping(source = "sessionFormation", target = "sessionFormation"),
@@ -53,7 +54,7 @@ public interface CandidatMapper {
 			@Mapping(source = "emailSourceurEnvoyer", target = "emailSourceurEnvoyer"),
 			@Mapping(source = "emailCandidatEnvoyer", target = "emailCandidatEnvoyer") })
 	CandidatDto candidatToCandidatDto(Candidat candidat);
-
+	
 	@Mappings({
 			@Mapping(source = "id", target = "id"),
 			@Mapping(source = "nom", target = "nom"),
@@ -71,6 +72,7 @@ public interface CandidatMapper {
 			@Mapping(source = "codePostal", target = "codePostal"),
 			@Mapping(source = "origine", target = "origine"),
 			@Mapping(source = "motif", target = "motif"),
+			@Mapping(source = "candidatCompetence", target = "candidatCompetence"),
 			@Mapping(source = "entretien", target = "entretien"),
 			@Mapping(source = "suivi", target = "suivi"),
 			@Mapping(source = "sessionFormation", target = "sessionFormation"),

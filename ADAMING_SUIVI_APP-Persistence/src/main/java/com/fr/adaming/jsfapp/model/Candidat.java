@@ -1,7 +1,9 @@
 package com.fr.adaming.jsfapp.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -72,7 +74,7 @@ public class Candidat implements java.io.Serializable {
 	private Boolean emailSessionEnvoyer;
 	private Boolean emailSourceurEnvoyer;
 	private Boolean emailCandidatEnvoyer;
-	private Set<Competence> candidatCompetence = new HashSet<>();
+	private List<Competence> candidatCompetence = new ArrayList<>();
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -292,13 +294,14 @@ public class Candidat implements java.io.Serializable {
 		this.docRefus = docRefus;
 	}
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	
+	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.DETACH)
 	@JoinTable(name = "candidat_competence", joinColumns = @JoinColumn(name = "candidat_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "competence_id", referencedColumnName = "id"))
-	public Set<Competence> getCandidatCompetence() {
+	public List<Competence> getCandidatCompetence() {
 		return candidatCompetence;
 	}
 
-	public void setCandidatCompetence(Set<Competence> candidatCompetence) {
+	public void setCandidatCompetence(List<Competence> candidatCompetence) {
 		this.candidatCompetence = candidatCompetence;
 	}
 

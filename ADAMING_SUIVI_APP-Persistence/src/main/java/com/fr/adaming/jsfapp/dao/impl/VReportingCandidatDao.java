@@ -52,9 +52,6 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 			if (isNullOrEmptyString(vReportingcandidatDto.getTechnologie())) {
 				query = query + " AND V_RC.TECHNOLOGIE = '" + vReportingcandidatDto.getTechnologie() + "'";
 			}
-			if (isNullOrEmptyString(vReportingcandidatDto.getDisponible())) {
-				query = query + " AND V_RC.DISPONIBLE = '" + vReportingcandidatDto.getDisponible() +"'";
-			}
 			if (isNullOrEmptyString(vReportingcandidatDto.getOrigine())) {
 				query = query + " AND V_RC.ORIGINE = '" + vReportingcandidatDto.getOrigine() + "'";
 			}
