@@ -2,7 +2,9 @@ package com.fr.adaming.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +41,7 @@ public class EMailEvaluationJobImpl {
 	/**
 	 * class logger
 	 */
-	private Logger logger = LoggerFactory.getLogger(EMailEvaluationJobImpl.class);
+	Logger logger = LoggerFactory.getLogger(EMailEvaluationJobImpl.class);
 
 	public void doBusiness() {
 		logger.info("Email reporting started...");
@@ -47,16 +49,16 @@ public class EMailEvaluationJobImpl {
 		// creation de la liste des destinataires
 		List<String> destinataires = new ArrayList<>();
 		List<Candidat> candidatsEnAttentEvaluation = candidatService.rechercherCandidatEnAttenteEvaluation();
+		Set <Candidat> setcandidat=new HashSet<Candidat>(candidatsEnAttentEvaluation);
 		List<Utilisateur> utilisateurs = utilisateurService.findAllUserCharge();
 		for (Utilisateur utilisateur : utilisateurs) {
 			destinataires.add(utilisateur.getEmail());
 		}
-
+		
 		destinataires.add("farouka82@gmail.com");
-
 		// generer la flux de sortie de la piece jointe
 		if (candidatsEnAttentEvaluation != null && !candidatsEnAttentEvaluation.isEmpty()) {
-			String content = parse(candidatService.rechercherCandidatEnAttenteEvaluation());
+			String content = parse(setcandidat);
 			List<PieceJointe> pjList = new ArrayList<>();
 
 			// creation de la piece jointe
@@ -68,7 +70,7 @@ public class EMailEvaluationJobImpl {
 		}
 	}
 
-	private String parse(List<Candidat> candidats) {
+	private String parse(Set<Candidat> candidats) {
 		StringBuilder builder = new StringBuilder();
 		builder.append(HTML_SNNIPET_1);
 		builder.append(HTML_SNNIPET_2);

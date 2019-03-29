@@ -109,7 +109,7 @@ public class SessionFormation implements Serializable {
 	public void setNombrePlace(Integer nombrePlace) {
 		this.nombrePlace = nombrePlace;
 	}
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.DETACH)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "Client", nullable = true)
 	public ClientSession getClient() {
 		return client;

@@ -31,7 +31,6 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label class="form-col-form-label" for="lieu">Lieu:</label>
-
                     <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
                         bindValue="libelle" bindLabel="libelle" [items]="lieux"
                         [(ngModel)]="session.formation.lieu.libelle" name="lieu">

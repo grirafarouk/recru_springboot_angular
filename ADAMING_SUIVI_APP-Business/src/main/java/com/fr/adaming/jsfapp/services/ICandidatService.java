@@ -3,6 +3,7 @@ package com.fr.adaming.jsfapp.services;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.ReportingFicheCVRelance;
