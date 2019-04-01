@@ -59,21 +59,18 @@
                     <div class="row">
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
+                                <label class="form-col-form-label" for="source" style="font-weight:bold"> Sourceur :</label>
                                 
-                                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
-                                    </ng-select>
+                                
+                                <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [items]="listSourceur" [compareWith]="helperService.compareFn" [(ngModel)]="condidat.sourceur" name="source"  >
+                                    <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
+                                        {{codeP.prenom}}</ng-option>
+
+                                </ng-select>
 
                             </div>
                         </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
-                                
-                                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
-                                    </ng-select>
-                            </div>
-                        </div>
+                        
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>

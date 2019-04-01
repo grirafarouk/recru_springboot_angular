@@ -93,13 +93,8 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       visible: false
     },
     {
-      data: 'nomSourceur',
-      title: 'Nom sourceur',
-      visible: true
-    },
-    {
-      data: 'prenomSourceur',
-      title: 'Prénom sourceur',
+      data: 'source',
+      title: 'sourceur',
       visible: true
     },
     {
@@ -115,15 +110,10 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
 
     },
     {
-      data: 'nomCharge',
-      title: 'Nom charge',
+      data: 'charge',
+      title: 'charge',
       visible: true
     },
-    {
-      data: 'prenomCharge',
-      title: 'Prénom charge',
-      visible: true
-    }
   ]
 
   condidat: CandidateDto = new CandidateDto();
@@ -167,6 +157,12 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.helperService.listRelanceCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
+    this.condidat.nomSourceur = this.condidat.sourceur.nom;
+    this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
+    this.condidat.nomCharge = this.condidat.chargeur.nom;
+    this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+    
+    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }

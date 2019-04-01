@@ -1,3 +1,4 @@
+import { Utilisateur } from "../../models/Utilisateur";
 
 export class CandidateDto {
     id: number;
@@ -29,6 +30,10 @@ export class CandidateDto {
     commentaire: string;
     critereRecheche: string;
     origine: string;
+    sourceur:Utilisateur=new Utilisateur();
+    chargeur:Utilisateur=new Utilisateur();
+    source:String;
+    charge:String;
   }
   
   

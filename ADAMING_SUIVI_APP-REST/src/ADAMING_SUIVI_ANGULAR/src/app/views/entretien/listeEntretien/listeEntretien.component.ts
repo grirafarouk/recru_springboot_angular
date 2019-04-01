@@ -22,74 +22,74 @@ import { StatutService } from "../../../services/administrationService/StatutSer
   styleUrls: ["listeEntretien.component.css"]
 })
 export class listeEntretienComponent implements OnInit {
-  
+
   regex = new RegExp('^[a-zA-Z]+(([,. -][a-zA-Z ])?[a-zA-Z]*)*$');
-  titleTable="Liste Entretien"
+  titleTable = "Liste Entretien"
 
   @ViewChild("table")
   table;
-  
+
   actions = {
-    visible:true,
-    title:'Actions',
-    items:[
-    {
-      icon: 'fa fa-edit',
-      class: 'btn-outline-success btn btn-sm',
-      tooltip:'Détails',
-      action: (e) => {
-        this.openDetails(e);    
-      }
-    },
-    {
-      icon: 'fa fa-download',
-      class: 'btn-outline-warning btn btn-sm',
-      tooltip:'Telecharger CV',
-      action:
-        (e) => {
-          this.downloadCV(e);
+    visible: true,
+    title: 'Actions',
+    items: [
+      {
+        icon: 'fa fa-edit',
+        class: 'btn-outline-success btn btn-sm',
+        tooltip: 'Détails',
+        action: (e) => {
+          this.openDetails(e);
         }
-    }
-  ]
+      },
+      {
+        icon: 'fa fa-download',
+        class: 'btn-outline-warning btn btn-sm',
+        tooltip: 'Telecharger CV',
+        action:
+          (e) => {
+            this.downloadCV(e);
+          }
+      }
+    ]
   }
 
-  mask: any[] = [/\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/,'-', /\d/, /\d/];
-  technologies=[]
-  origines=[]
-  
+  mask: any[] = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
+  technologies = []
+  origines = []
+
   condidat: CandidateDto = new CandidateDto();
-  CritereRecheche : [
+  CritereRecheche: [
     { value: '1', text: 'Moins 1 mois' },
     { value: '2', text: 'Entre 1 et 6 mois' },
     { value: '3', text: 'Plus de 6 mois' }
   ];
-   columns =[
+  columns = [
     {
-      data:'nom',
-      title:'Nom',
-      visible:true
+      data: 'nom',
+      title: 'Nom',
+      visible: true
     },
     {
-      data:'prenom',
-      title:'Prenom',
-      visible:true
+      data: 'prenom',
+      title: 'Prenom',
+      visible: true
     },
     {
-      data:'email',
-      title:'Email',
-      visible:true
+      data: 'email',
+      title: 'Email',
+      visible: true
     },
     {
-      data:'dateInscription',
-      title:'Date inscription',
-      visible:false,
-      dateFormat : DATE_FORMAT
+      data: 'dateInscription',
+      title: 'Date inscription',
+      visible: false,
+      dateFormat: DATE_FORMAT
     },
     {
-      data:'numeroTel',
-      title:'N° Téléphone',
-      visible:true,
-      mask:PHONE_MASK_LABEL
+      data: 'numeroTel',
+      title: 'N° Téléphone',
+      visible: true,
+      mask: PHONE_MASK_LABEL
     },
     {
       data: 'statut',
@@ -97,42 +97,38 @@ export class listeEntretienComponent implements OnInit {
       visible: false,
       html: false,
       rendered: (e) => {
-        return e.dateEntretien != null && e.dateInscription!=null 
-        ?Math.ceil((new Date(   _moment(e.dateEntretien).format("MM/DD/YYYY")   ).getTime() -    new Date(   _moment(e.dateInscription).format("MM/DD/YYYY")   ).getTime()) / (1000 * 3600 * 24))+" (J)" : " - "
+        return e.dateEntretien != null && e.dateInscription != null
+          ? Math.ceil((new Date(_moment(e.dateEntretien).format("MM/DD/YYYY")).getTime() - new Date(_moment(e.dateInscription).format("MM/DD/YYYY")).getTime()) / (1000 * 3600 * 24)) + " (J)" : " - "
       }
     },
     {
-      data:'dateEntretien',
-      title:'Date entretien',
-      visible:true,
-      dateFormat : DATE_FORMAT
+      data: 'dateEntretien',
+      title: 'Date entretien',
+      visible: true,
+      dateFormat: DATE_FORMAT
     },
     {
-      data:'lieuEntretien',
-      title:'Lieu entretien',
-      visible:true
+      data: 'lieuEntretien',
+      title: 'Lieu entretien',
+      visible: true
+    },
+
+    {
+      data: 'charge',
+      title: 'charge',
+      visible: true
     },
     {
-      data:'nomCharge',
-      title:'Nom charge',
-      visible:true
-    },
-    {
-      data:'prenomCharge',
-      title:'Prénom charge',
-      visible:true
-    },
-    {
-      data:'mobilite',
-      title:'Mobilité',
-      visible:false,
+      data: 'mobilite',
+      title: 'Mobilité',
+      visible: false,
       boolean: true
 
     },
     {
-      data:'statut',
-      title:'Statut',
-      visible:true,
+      data: 'statut',
+      title: 'Statut',
+      visible: true,
     },
     {
       title: 'Appréciation',
@@ -150,12 +146,12 @@ export class listeEntretienComponent implements OnInit {
       }
     },
     {
-      rendered :function (candidat) : number {
-        if (candidat.noteTotale!=null){
+      rendered: function (candidat): number {
+        if (candidat.noteTotale != null) {
           return candidat.noteTotale * 2;
         }
       },
-      data: 'noteTotale' ,
+      data: 'noteTotale',
       title: 'Note Totale',
       visible: true
     }
@@ -165,94 +161,91 @@ export class listeEntretienComponent implements OnInit {
   maxlenght = 0;
   lastPage = 1;
   pages = [];
-  lieux=[]
-  statuts=[]
+  lieux = []
+  statuts = []
   listCarge: any[];
   refStatut = this.helperService.buildStatutArray();
 
 
-  constructor(private originesService:OriginesService,private technologiesService:TechnologieService,
-    private sanitizer: DomSanitizer,private candidatsService:CandidatsService,  private router:Router,
-    private notifierService:NotifierService,private competencesService:CompetencesService,private helperService:HelperService,
-    private lieuxService:LieuxService,private statutservice:StatutService,   private utilisateurService: UtilisateurService) {}
+  constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
+    private sanitizer: DomSanitizer, private candidatsService: CandidatsService, private router: Router,
+    private notifierService: NotifierService, private competencesService: CompetencesService, private helperService: HelperService,
+    private lieuxService: LieuxService, private statutservice: StatutService, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
-    this.technologiesService.findAllTechnologies().subscribe(data=>{
-    this.technologies = data;
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
     })
-    this.statutservice.findAllStatut().subscribe(data=>
-     {
-      this.statuts=data;
-     } 
-      )
-    this.lieuxService.findAllLieux().subscribe(data=>{
+    this.statutservice.findAllStatut().subscribe(data => {
+      this.statuts = data;
+    }
+    )
+    this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
-    this.utilisateurService.getAllChages().subscribe(data=>{
-      this.listCarge=data
+    this.utilisateurService.getAllChages().subscribe(data => {
+      this.listCarge = data
     })
   }
 
   reset() {
     this.condidat = new CandidateDto();
-    this.table.item= this.condidat;
+    this.table.item = this.condidat;
     this.rechercheCandidat();
   }
 
 
-  downloadCV(candidat){
+  downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
-        var url = window.URL.createObjectURL(file.data);
-        var a = document.createElement('a');
-        document.body.appendChild(a);
-        a.setAttribute('style', 'display: none');
-        a.href = url;
-        a.download =file.filename;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        a.remove(); // remove the element     
-       
+      var url = window.URL.createObjectURL(file.data);
+      var a = document.createElement('a');
+      document.body.appendChild(a);
+      a.setAttribute('style', 'display: none');
+      a.href = url;
+      a.download = file.filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+      a.remove(); // remove the element     
+
     })
   }
-  initTableFunction(){
+  initTableFunction() {
     this.rechercheCandidat()
   }
   rechercheCandidat() {
-    if(!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom))
-    {
-      this.notifierService.notify("error","Les champs de saisi «Nom» est «Prenom» sont invalides") 
+    this.condidat.nomCharge = this.condidat.chargeur.nom;
+    this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+    
+    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
-    else
-    {
-    if(!this.regex.test(this.condidat.nom))
-    {
-    this.notifierService.notify("error","Le champ de saisi « Nom » est invalide")
+    else {
+      if (!this.regex.test(this.condidat.nom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+      }
+      else if (!this.regex.test(this.condidat.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+        let callBack = (e) => {
+          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+        }
+        this.table.setPage(1, callBack);
+      }
     }
-    else if( !this.regex.test(this.condidat.prenom))
-    {
-      this.notifierService.notify("error","Le champ de saisi « Prenom » est invalide") 
-    }
-    else
-    {
-    let callBack = (e) => {
-      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-    }
-    this.table.setPage(1, callBack);
-  }
-}
   }
 
 
-  recherche(item, page, size,allValue) {
-    return this.candidatsService.rechercheCandidatAvecEntretien(item, page, size,allValue)
+  recherche(item, page, size, allValue) {
+    return this.candidatsService.rechercheCandidatAvecEntretien(item, page, size, allValue)
   }
 
-  rechercheNbr(item,allValue) {
-    return this.candidatsService.rechercheCandidatAvecEntretienNbr(item,allValue)
+  rechercheNbr(item, allValue) {
+    return this.candidatsService.rechercheCandidatAvecEntretienNbr(item, allValue)
   }
 
-  openDetails(candidat){
-    this.router.navigate([NAVIGATION_RULES.entretien.url+'/'+NAVIGATION_RULES.entretien.details.replace(':id',candidat.id)]);
+  openDetails(candidat) {
+    this.router.navigate([NAVIGATION_RULES.entretien.url + '/' + NAVIGATION_RULES.entretien.details.replace(':id', candidat.id)]);
   }
 }

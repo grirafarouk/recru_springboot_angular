@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.disable();
 
 	}
-  
+
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
@@ -95,4 +95,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return bean;
 	}
 
+
+
+
+   
 }

@@ -124,14 +124,9 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
       visible: false
     },
     {
-      data: 'nomSourceur',
-      title: 'Nom sourceur',
-      visible: false
-    },
-    {
-      data: 'prenomSourceur',
-      title: 'Prénom sourceur',
-      visible: false
+      data: 'source',
+      title: 'sourceur',
+      visible: true
     },
     {
       data: 'dateEntretien',
@@ -151,15 +146,10 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
 
     },
     {
-      data: 'nomCharge',
-      title: 'Nom charge',
+      data: 'charge',
+      title: 'charge',
       visible: true
     },
-    {
-      data: 'prenomCharge',
-      title: 'Prénom charge',
-      visible: true
-    }
   ]
 
   public loading = false;
@@ -222,6 +212,12 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     this.helperService.listTousCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
+    this.condidat.nomSourceur = this.condidat.sourceur.nom;
+    this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
+    this.condidat.nomCharge = this.condidat.chargeur.nom;
+    this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+    
+    
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }

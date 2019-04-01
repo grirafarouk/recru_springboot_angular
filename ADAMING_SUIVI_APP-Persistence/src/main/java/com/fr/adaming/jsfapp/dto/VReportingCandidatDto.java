@@ -41,6 +41,23 @@ public class VReportingCandidatDto implements Serializable {
 	private String origine;
 	private String diplome;
 	private Date dateObtentionDiplome;
+    private String source;
+    private String charge;
+	public String getCharge() {
+		return charge;
+	}
+
+	public void setCharge(String charge) {
+		this.charge = charge;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 
 	@Transient
 	private String dateisncription;

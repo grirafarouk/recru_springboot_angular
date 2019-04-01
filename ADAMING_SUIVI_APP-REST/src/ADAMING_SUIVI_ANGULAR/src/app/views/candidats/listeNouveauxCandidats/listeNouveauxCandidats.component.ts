@@ -1,3 +1,4 @@
+import { Utilisateur } from './../../../models/Utilisateur';
 import { ResponseContentType } from '@angular/http';
 import { Component, OnInit, ViewChild, OnDestroy } from "@angular/core";
 import { CandidateDto } from "../CandidateDto";
@@ -93,20 +94,17 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       visible: true
     },
     {
-      data: 'nomSourceur',
-      title: 'Nom sourceur',
+      data: 'source',
+      title: 'sourceur',
       visible: true
     },
-    {
-      data: 'prenomSourceur',
-      title: 'Prénom sourceur',
-      visible: true
-    }
+
   ]
+  nomprenom: any;
   mask: any[] = PHONE_MASK;
   technologies = []
   candidats: any[];
-  listSourceur: any[];
+  listSourceur: Array<Utilisateur> = [];
   valeur: string;
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
@@ -141,11 +139,14 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
         //console.log("liste sourceur:"+data);
         this.listSourceur = data
       })
+
   }
   ngOnDestroy(): void {
     this.helperService.listNouveauxCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
+    this.condidat.nomSourceur = this.condidat.sourceur.nom;
+    this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
@@ -241,6 +242,6 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     }
 
     else
-    this.region = []
+      this.region = []
   }
 }

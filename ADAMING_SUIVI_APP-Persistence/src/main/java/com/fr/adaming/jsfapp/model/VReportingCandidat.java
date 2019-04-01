@@ -48,8 +48,27 @@ public class VReportingCandidat implements java.io.Serializable {
 	private String diplome;
 	private SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	private Date dateObtentionDiplome;
+	private String source;
+	private String charge;
+	public String getCharge() {
+		return charge;
+	}
+
+	public void setCharge(String charge) {
+		this.charge = charge;
+	}
+
 	@Transient
 	private String dateisncription;
+	
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+
 	@Id
 	@Column(name = "ID_CANDIDAT", nullable = false)
 	public Long getId() {

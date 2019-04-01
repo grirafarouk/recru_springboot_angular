@@ -20,9 +20,12 @@ import com.fr.adaming.jsfapp.mapper.CompetenceMapper;
 import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.services.ICompetenceService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping(value = "/api/competence")
 @CrossOrigin("*")
+@Api(tags = "API - TEST")
 public class CompetenceController {
 
 	@Autowired

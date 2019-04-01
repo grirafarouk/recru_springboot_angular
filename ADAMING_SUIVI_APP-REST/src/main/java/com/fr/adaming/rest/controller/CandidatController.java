@@ -112,7 +112,8 @@ public class CandidatController {
 			@RequestParam int page, @RequestParam int size) {
 		List<VListeCandidats> list = new ArrayList<>(
 				vListeCandidatsService.rechercherVlisteNouveauxCandidats(nouveauCandidat, page, size));
-		return vListeCandidatsMapper.vListeCandidatsToVListeCandidatsDtos(list);
+	 List<VListeCandidatsDto> listes=vListeCandidatsMapper.vListeCandidatsToVListeCandidatsDtos(list);
+		return listes;
 
 	}
 

@@ -9,27 +9,32 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Nom:</label>
-                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="nom" [(ngModel)]="condidat.nom" id="nom">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="nom"
+                                [(ngModel)]="condidat.nom" id="nom">
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Prénom :</label>
-                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control"
+                                name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N° téléphone:</label>
-                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel" [textMask]="{mask: mask}">
+                            <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N°
+                                téléphone:</label>
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control"
+                                name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel" [textMask]="{mask: mask}">
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
-                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="email" [(ngModel)]="condidat.email" id="email">
+                            <input type="text" style="font-weight: bold;color: black;" class="form-control" name="email"
+                                [(ngModel)]="condidat.email" id="email">
 
                         </div>
                     </div>
@@ -37,18 +42,22 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date
                                 Inscription:</label>
-                            <input style="font-weight: bold;color: black;" [disabled]="relance==false" [owlDateTimeTrigger]="dtinscri" [owlDateTime]="dtinscri" class="form-control" name="dateInscription" [(ngModel)]="condidat.dateInscription"
-                                id="dateInscription">
-                                <owl-date-time [pickerType]="'calendar'" #dtinscri></owl-date-time>
+                            <input style="font-weight: bold;color: black;" [disabled]="relance==false"
+                                [owlDateTimeTrigger]="dtinscri" [owlDateTime]="dtinscri" class="form-control"
+                                name="dateInscription" [(ngModel)]="condidat.dateInscription" id="dateInscription">
+                            <owl-date-time [pickerType]="'calendar'" #dtinscri></owl-date-time>
 
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Type de profil:</label>
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"  bindLabel="libelle" [items]="technologies"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie" name="technologie"  >
-                                </ng-select>
-                            
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
+                                bindValue="libelle" bindLabel="libelle" [items]="technologies"
+                                [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie"
+                                name="technologie">
+                            </ng-select>
+
 
                         </div>
                     </div>
@@ -56,52 +65,53 @@
                 <div class="row">
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="nomSourceur" style="font-weight:bold">Nom Sourceur :</label>
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomSourceur" name="nomSourceur"  >
+                            <label class="form-col-form-label" for="source" style="font-weight:bold"> Sourceur :</label>
+
+
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+                                [items]="listSourceur" [compareWith]="helperService.compareFn"
+                                [(ngModel)]="condidat.sourceur" name="source">
+                                <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
+                                    {{codeP.prenom}}</ng-option>
+
                             </ng-select>
-                                
 
                         </div>
                     </div>
+                    
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenomSourceur" style="font-weight:bold">Prenom Sourceur :</label>
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listSourceur"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomSourceur" name="prenomSourceur"  >
+                            <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
+                            
+                            
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [items]="listCarge" [compareWith]="helperService.compareFn" [(ngModel)]="condidat.chargeur" name="charge"  >
+                                <ng-option *ngFor="let codeP of listCarge " [value]="codeP">{{codeP.nom}}
+                                    {{codeP.prenom}}</ng-option>
+
                             </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label class="form-col-form-label" for="nomCharge" style="font-weight:bold">Nom charge :</label>
-                       
-                                <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="nom"  bindLabel="nom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.nomCharge" name="nomCharge"  >
-                                </ng-select>
 
-                        </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label class="form-col-form-label" for="prenomCharge" style="font-weight:bold">Prenom charge :</label>
-                           
-                                <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="prenom"  bindLabel="prenom" [items]="listCarge"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.prenomCharge" name="prenomCharge"  >
-                                </ng-select>
                         </div>
                     </div>
 
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="region" style="font-weight:bold">Disponibilité:</label>
-                           
-                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindValue="libelle"   bindLabel="libelle" [items]="disponibleListe"    [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite" name="disponibilite"  >
-                                </ng-select>
-                           
+                            <label class="form-col-form-label" for="region"
+                                style="font-weight:bold">Disponibilité:</label>
+
+                            <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
+                                bindValue="libelle" bindLabel="libelle" [items]="disponibleListe"
+                                [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite"
+                                name="disponibilite">
+                            </ng-select>
+
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
-                            <ng-select style="font-weight: bold;color: black;" aria-required="" id="region" [items]="region" (search)="codePostaleOnSearch($event)"
-                                [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
+                            <ng-select style="font-weight: bold;color: black;" aria-required="" id="region"
+                                [items]="region" (search)="codePostaleOnSearch($event)" [ngModel]="condidat.region"
+                                (ngModelChange)="condidat.region = $event" name="region">
                                 <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
 
                             </ng-select>
@@ -118,22 +128,23 @@
                             <div class="col-12 col-form-label">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="relance" [(ngModel)]="relance" type="radio"
-                                    (change)="relanceHandleChange($event)" id="inline-checkbox5" [value]="true">
+                                        (change)="relanceHandleChange($event)" id="inline-checkbox5" [value]="true">
                                     <label class="form-check-label" for="inline-checkbox5">PERIODE</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="relance" [(ngModel)]="relance" type="radio"
-                                    (change)="relanceHandleChange($event)" id="inline-checkbox6" [value]="false">
+                                        (change)="relanceHandleChange($event)" id="inline-checkbox6" [value]="false">
                                     <label class="form-check-label" for="inline-checkbox6">MOIS</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateDebut" style="font-weight:bold">Date debut</label>
-                            <input style="font-weight: bold;color: black;" [disabled]="relance==false" [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
+                            <input style="font-weight: bold;color: black;" [disabled]="relance==false"
+                                [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
                                 [(ngModel)]="condidat.dateDebut" id="dateDebut">
                             <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
                         </div>
@@ -141,15 +152,18 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="dateFin" style="font-weight:bold">Date fin</label>
-                            <input style="font-weight: bold;color: black;" [disabled]="relance==false" [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control" name="dateFin"
-                                [(ngModel)]="condidat.dateFin" id="dateFin">
+                            <input style="font-weight: bold;color: black;" [disabled]="relance==false"
+                                [owlDateTimeTrigger]="dtdateFin" [owlDateTime]="dtdateFin" class="form-control"
+                                name="dateFin" [(ngModel)]="condidat.dateFin" id="dateFin">
                             <owl-date-time [pickerType]="'calendar'" #dtdateFin></owl-date-time>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Mois de relance:</label>
-                            <month-year-picker [disabled]="relance==true" (changed)="updateDateRelance($event)" [innerValue]="condidat.dateRelance"></month-year-picker>
+                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Mois de
+                                relance:</label>
+                            <month-year-picker [disabled]="relance==true" (changed)="updateDateRelance($event)"
+                                [innerValue]="condidat.dateRelance"></month-year-picker>
 
                         </div>
                     </div>
@@ -158,19 +172,22 @@
             <div class="card-footer">
 
                 <div class="row align-items-center">
-                        <div class="col-10"></div>
-                        <div >
-                            <button type="button" class="btn btn-block btn-primary" (click)="rechercheCandidat()">Rechercher</button>
-                        </div>
+                    <div class="col-10"></div>
+                    <div>
+                        <button type="button" class="btn btn-block btn-primary"
+                            (click)="rechercheCandidat()">Rechercher</button>
+                    </div>
 
-                        <div style="padding-left: 5px" >
-                            <button type="button" class="btn btn-block btn-danger" (click)="reset()" style="float: right;">Réinitialiser</button>
-                        </div>
+                    <div style="padding-left: 5px">
+                        <button type="button" class="btn btn-block btn-danger" (click)="reset()"
+                            style="float: right;">Réinitialiser</button>
+                    </div>
                 </div>
             </div>
         </div>
 
-        
-            <custom-table [item]="condidat" [actions]="actions" [title]="titleTable"  [parent]="this" #table [columns]="columns" ></custom-table>
-   
-</div>
+
+        <custom-table [item]="condidat" [actions]="actions" [title]="titleTable" [parent]="this" #table
+            [columns]="columns"></custom-table>
+
+    </div>
