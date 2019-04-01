@@ -45,7 +45,13 @@ public interface VReportingCandidatMapper {
 			@Mapping(source = "pertinence", target = "pertinence"),
 			@Mapping(source = "disponible", target = "disponible"),
 			@Mapping(source = "diplome", target = "diplome"),
-			@Mapping(source = "dateObtentionDiplome", target = "dateObtentionDiplome")})
+			@Mapping(source = "dateObtentionDiplome", target = "dateObtentionDiplome"),
+			@Mapping(source = "source", target = "source")	,
+			@Mapping(source = "charge", target = "charge")		
+
+		
+	
+	})
 	VReportingCandidatDto reportingCandidatToReportingCandidatDto(
 			VReportingCandidat reportingCandidat);
 
@@ -77,7 +83,12 @@ public interface VReportingCandidatMapper {
 			@Mapping(source = "pertinence", target = "pertinence"),
 			@Mapping(source = "disponible", target = "disponible"),
 			@Mapping(source = "diplome", target = "diplome"),
-			@Mapping(source = "dateObtentionDiplome", target = "dateObtentionDiplome")})
+			@Mapping(source = "dateObtentionDiplome", target = "dateObtentionDiplome"),
+			@Mapping(source = "source", target = "source")	,
+			@Mapping(source = "charge", target = "charge")		
+
+
+	})
 	VReportingCandidat reportingCandidatrDtoToUtilisateur(
 			VReportingCandidatDto reportingCandidatDto);
 }

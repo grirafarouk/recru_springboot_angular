@@ -4,7 +4,7 @@ import { Utilisateur } from "./Utilisateur";
 
 export class Entretien{
     id:number;
-    disponible: Disponibilite = new Disponibilite();
+    disponible:Disponibilite;
     relance:boolean;
     date:Date;
     dateRelance:Date;

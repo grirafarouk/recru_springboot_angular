@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
@@ -44,6 +45,24 @@ public class VListeCandidats implements java.io.Serializable {
 	private String nomCharge;
 	private String prenomCharge;
 	private String commentaire;
+    private String source;
+    private String charge;
+   
+	public String getCharge() {
+		return charge;
+	}
+
+	public void setCharge(String charge) {
+		this.charge = charge;
+	}
+
+	public String getSource() {
+	return source;
+}
+
+public void setSource(String source) {
+	this.source = source;
+}
 
 	@Id
 	@Column(name = "ID_CANDIDAT", nullable = false)

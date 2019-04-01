@@ -7,7 +7,6 @@ import java.util.Date;
 import javax.persistence.Transient;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
-import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
 
 public class VListeCandidatsDto implements Serializable {
@@ -52,6 +51,24 @@ public class VListeCandidatsDto implements Serializable {
 	private String prenomCharge;
 	private String commentaire;
 	private String critereRecheche;
+	private String source;
+	private String charge;
+
+	public String getCharge() {
+		return charge;
+	}
+
+	public void setCharge(String charge) {
+		this.charge = charge;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 
 	@Transient
 	private String dateEntretienCandidat;

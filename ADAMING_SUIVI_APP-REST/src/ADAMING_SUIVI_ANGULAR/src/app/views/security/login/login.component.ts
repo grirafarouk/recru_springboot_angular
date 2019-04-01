@@ -33,12 +33,18 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.login).toPromise().then(
       data => {
         if (this.userService.getConnetedUserInfo().profil.libelle == USER_ROLE.PROFILSPECIAL)
-          this.router.navigate([NAVIGATION_RULES.sessionsFormationsAcceuil.url+'/'+NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil]);
+          this.router.navigate([NAVIGATION_RULES.sessionsFormationsAcceuil.url + '/' + NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil], {
+            queryParams: { refresh: new Date().getTime() }
+          });
         else if (this.userService.getConnetedUserInfo().profil.libelle == USER_ROLE.SOURCEUR)
-          this.router.navigate([NAVIGATION_RULES.candidats.url+'/'+NAVIGATION_RULES.candidats.newCancidat]);
+          this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat], {
+            queryParams: { refresh: new Date().getTime() }
+          });
         else
-          this.router.navigate([NAVIGATION_RULES.dashboard.url])
-        }, resp => {
+          this.router.navigate([NAVIGATION_RULES.dashboard.url], {
+            queryParams: { refresh: new Date().getTime() }
+          });
+      }, resp => {
         this.diableButton = false;
         if (resp.status == 400)
           this.notifierService.notify('error', this.helperService.decodeEntities(resp.error.error_description));
@@ -51,7 +57,10 @@ export class LoginComponent implements OnInit {
   }
 
 
- private redirectForgetPwd(){
-  this.router.navigate([NAVIGATION_RULES.forgetpwd.url])
+  private redirectForgetPwd() {
+    this.router.navigate([NAVIGATION_RULES.forgetpwd.url], {
+      queryParams: { refresh: new Date().getTime() }
+
+    });
   }
 }

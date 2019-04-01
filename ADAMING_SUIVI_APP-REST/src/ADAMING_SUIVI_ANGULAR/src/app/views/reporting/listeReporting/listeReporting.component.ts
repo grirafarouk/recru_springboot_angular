@@ -120,30 +120,16 @@ export class ListeReportingComponent implements OnInit {
       title: 'Statut',
       visible: false
     },
-    {
-      data: 'nomSourceur',
-      title: 'Nom sourceur',
-      visible: false
-    },
-    {
-      data: 'prenomSourceur',
-      title: 'Prénom sourceur',
-      visible: false
-    },
+    
     {
       data: 'dateEntretien',
       title: 'Date entretien',
       visible: false
     },
     {
-      data: 'nomCharge',
-      title: 'Nom charge',
+      data: 'charge',
+      title: 'charge',
       visible: true
-    },
-    {
-      data: 'prenomCharge',
-      title: 'Prénom charge',
-      visible: false
     },
     {
       data: 'pertinence',
@@ -190,6 +176,11 @@ export class ListeReportingComponent implements OnInit {
       visible: false
     },
     {
+      data: 'source',
+      title: 'sourceur',
+      visible: true
+    },
+    {
       data: 'technologie',
       title: 'Type de profil',
       visible: false
@@ -233,6 +224,11 @@ export class ListeReportingComponent implements OnInit {
     this.rechercheCandidat()
   }
   rechercheCandidat() {
+    this.condidat.nomSourceur = this.condidat.sourceur.nom;
+    this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
+    this.condidat.nomCharge = this.condidat.chargeur.nom;
+    this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
     let callBack = (e) => {
       this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
     }

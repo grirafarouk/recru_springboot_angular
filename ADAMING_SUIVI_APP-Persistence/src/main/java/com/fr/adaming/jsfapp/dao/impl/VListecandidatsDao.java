@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import com.fr.adaming.jsfapp.dao.IvListeCandidatsDao;
 import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
+import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
 
 @Repository("v_ListeCandidatsDao")
@@ -143,6 +144,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	@Override
 	public List<VListeCandidats> rechercherVlisteNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size) {
+		
 		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		query = generateConditionQuery(vListeCandidatsDto, query);
 
@@ -180,9 +182,9 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 				size);
 		@SuppressWarnings("unchecked")
 		List<VListeCandidats> liste = (List<VListeCandidats>) st.addEntity(VListeCandidats.class).list();
-
-		return liste;
-	}
+			return liste;
+		}
+	
 
 	@Override
 	public Integer rechercherVlisteNouveauxCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
