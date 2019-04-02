@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+import { Utilisateur } from './../../../models/Utilisateur';
 import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -117,8 +119,9 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   ]
 
   condidat: CandidateDto = new CandidateDto();
-  listSourceur: any[];
-  listCarge: any[];
+  listSourceur= [];
+  listCarge= [];
+  sourceur:Array<Utilisateur>=[];
   relance: boolean;
   mask: any[] = PHONE_MASK;
   disponibleListe: any[];
@@ -144,14 +147,16 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       this.technologies = data;
     })
     this.utilisateurService.getAllSourceurs().subscribe(data => {
-      this.listSourceur = data
+      this.listSourceur=data;
     })
+        
     this.disponibilitesService.findAllDisponibilite().subscribe(data => {
       this.disponibleListe = data;
     })
     this.utilisateurService.getAllChages().subscribe(data => {
       this.listCarge = data
     })
+    
   }
   ngOnDestroy(): void {
     this.helperService.listRelanceCandidatRecherche = this.condidat;
@@ -161,7 +166,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
-    
+
     this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")

@@ -104,7 +104,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   mask: any[] = PHONE_MASK;
   technologies = []
   candidats: any[];
-  listSourceur: Array<Utilisateur> = [];
+  listSourceur :any=[];
   valeur: string;
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
@@ -116,6 +116,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   verif_existance_code_region: boolean;
   tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];
+  
 
   constructor(private router: Router,
     private technologiesService: TechnologieService,
@@ -125,7 +126,9 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     private notifierService: NotifierService,
     private utilisateurService: UtilisateurService,
     private regionService: RegionService,
-    private excelService: ExcelService) {
+    private excelService: ExcelService)
+    
+    {
 
   }
 
@@ -139,7 +142,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
         //console.log("liste sourceur:"+data);
         this.listSourceur = data
       })
-
+     
   }
   ngOnDestroy(): void {
     this.helperService.listNouveauxCandidatRecherche = this.condidat;
@@ -147,6 +150,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   rechercheCandidat() {
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
+    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }

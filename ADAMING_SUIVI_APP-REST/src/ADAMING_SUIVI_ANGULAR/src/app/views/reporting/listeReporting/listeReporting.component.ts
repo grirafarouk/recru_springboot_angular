@@ -186,8 +186,8 @@ export class ListeReportingComponent implements OnInit {
       visible: false
     }
   ];
-  listSourceur: any[];
-  listCarge: any[];
+  listSourceur=[];
+  listCarge=[];
   verif_existance_code_region: boolean;
   tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];

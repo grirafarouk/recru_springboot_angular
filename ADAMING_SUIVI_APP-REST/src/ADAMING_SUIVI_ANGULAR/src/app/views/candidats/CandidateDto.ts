@@ -34,6 +34,7 @@ export class CandidateDto {
     chargeur:Utilisateur=new Utilisateur();
     source:String;
     charge:String;
+    
   }
   
   

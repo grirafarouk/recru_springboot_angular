@@ -163,7 +163,7 @@ export class listeEntretienComponent implements OnInit {
   pages = [];
   lieux = []
   statuts = []
-  listCarge: any[];
+  listCarge=[];
   refStatut = this.helperService.buildStatutArray();
 
 
