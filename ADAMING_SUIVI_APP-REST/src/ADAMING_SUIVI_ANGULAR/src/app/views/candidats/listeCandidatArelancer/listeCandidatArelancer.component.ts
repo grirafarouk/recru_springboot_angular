@@ -117,8 +117,8 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   ]
 
   condidat: CandidateDto = new CandidateDto();
-  listSourceur: any[];
-  listCarge: any[];
+  listSourceur=[];
+  listCarge=[];
   relance: boolean;
   mask: any[] = PHONE_MASK;
   disponibleListe: any[];

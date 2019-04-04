@@ -32,7 +32,6 @@
             <div class="card">
                 <form (ngSubmit)="onSubmit()">
                     <div class="card-body">
-
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
@@ -40,7 +39,6 @@
                                     <label style="color: firebrick">*</label>
                                     <ng-select [items]="civilites"  required style="font-weight: bold;"
                                          name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
-
                                     </ng-select>
                                 </div>
                             </div>
@@ -70,7 +68,6 @@
                                     <label style="color: firebrick">*</label>
                                     <input type="email" class="form-control" style="font-weight: bold;color: black;" name="email" [(ngModel)]="candidate.email"
                                         id="email">
-
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -79,7 +76,6 @@
                                     <label style="color: firebrick">*</label>
                                     <input type="text" class="form-control" style="font-weight: bold;color: black;" [textMask]="{mask: mask}" name="telephone"
                                         [(ngModel)]="candidate.numeroTel" id="telephone">
-
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -89,7 +85,6 @@
                                     <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="origines" [(ngModel)]="candidate.origine.id"
                                         name="origineCV" [disabled]="candidateFound===false" id="origineCV">
                                     </ng-select>
-
                                 </div>
                             </div>
                         </div>
@@ -101,7 +96,6 @@
                                     <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id" bindLabel="libelle" [items]="technologies" [(ngModel)]="candidate.technologie.id"
                                         name="technologie" [disabled]="candidateFound===false" id="profil">
                                     </ng-select>
-
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -113,7 +107,6 @@
                                         (ngModelChange)="candidate.codePostal = $event" name="codePostal">
                                         <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
                                         {{codeP.ville}}</ng-option>
-
                                     </ng-select>
                                 </div>
                             </div>
@@ -135,7 +128,6 @@
                             </div>
                         </div>
                         <div class="form-group row competences">
-
                             <div class="col-md-2 col-form-label" *ngFor="let compt of competences; let i = index">
                                     <div class="form-check form-check-inline mr-1">
                                             <label class="label--checkbox">
@@ -145,7 +137,6 @@
                                             <label >{{compt.libelle}}</label>
                                         </div>
                                     </div>
-
                         </div>
                         <div class="row">
                             <div class="col-10"></div>
@@ -155,7 +146,6 @@
                         <div *ngIf="pdfSrc!=undefined">
                             <object style="margin-top: 20px" [data]="pdfSrc" height="450px" width="100%">
                                 <param name="view" value="fitH" />
-
                             </object>
                         </div>
                     </div>
@@ -190,9 +180,7 @@
                 </form>
             </div>
         </div>
-        <!--/.co2-->
     </div>
-    <!--/.row-->
     <div class="row" *ngIf="candidatsFound.length>0">
         <div class="col-12">
             <div class="card">
@@ -230,6 +218,5 @@
             </div>
         </div>
     </div>
-    <!--/.row-->
 </div>
 <!--<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>-->

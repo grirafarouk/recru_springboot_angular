@@ -18,7 +18,6 @@
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Prénom :</label>
                             <input type="text" style="font-weight: bold;color: black;" class="form-control"
                                 name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
-
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -27,7 +26,6 @@
                                 téléphone:</label>
                             <input type="text" style="font-weight: bold;color: black;" class="form-control"
                                 name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel" [textMask]="{mask: mask}">
-
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -35,7 +33,6 @@
                             <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
                             <input type="text" style="font-weight: bold;color: black;" class="form-control" name="email"
                                 [(ngModel)]="condidat.email" id="email">
-
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -46,7 +43,6 @@
                                 [owlDateTimeTrigger]="dtinscri" [owlDateTime]="dtinscri" class="form-control"
                                 name="dateInscription" [(ngModel)]="condidat.dateInscription" id="dateInscription">
                             <owl-date-time [pickerType]="'calendar'" #dtinscri></owl-date-time>
-
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -57,8 +53,6 @@
                                 [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie"
                                 name="technologie">
                             </ng-select>
-
-
                         </div>
                     </div>
                 </div>
@@ -66,30 +60,22 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> Sourceur :</label>
-
-
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
                                 [items]="listSourceur" [compareWith]="helperService.compareFn"
                                 [(ngModel)]="condidat.sourceur" name="source">
                                 <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
-
                             </ng-select>
-
                         </div>
                     </div>
                     
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
-                            
-                            
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [items]="listCarge" [compareWith]="helperService.compareFn" [(ngModel)]="condidat.chargeur" name="charge"  >
                                 <ng-option *ngFor="let codeP of listCarge " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
-
                             </ng-select>
-
                         </div>
                     </div>
 
@@ -97,13 +83,11 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="region"
                                 style="font-weight:bold">Disponibilité:</label>
-
                             <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
                                 bindValue="libelle" bindLabel="libelle" [items]="disponibleListe"
                                 [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite"
                                 name="disponibilite">
                             </ng-select>
-
                         </div>
                     </div>
                     <div class="col-sm-2">
@@ -113,16 +97,13 @@
                                 [items]="region" (search)="codePostaleOnSearch($event)" [ngModel]="condidat.region"
                                 (ngModelChange)="condidat.region = $event" name="region">
                                 <ng-option *ngFor="let reg of region" [value]="reg.code">{{reg.code}}</ng-option>
-
                             </ng-select>
-
                         </div>
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-
                         <div class="form-group row">
                             <label class="col-12 col-form-label" style="font-weight:bold">Relancer</label>
                             <div class="col-12 col-form-label">
@@ -164,20 +145,17 @@
                                 relance:</label>
                             <month-year-picker [disabled]="relance==true" (changed)="updateDateRelance($event)"
                                 [innerValue]="condidat.dateRelance"></month-year-picker>
-
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card-footer">
-
                 <div class="row align-items-center">
                     <div class="col-10"></div>
                     <div>
                         <button type="button" class="btn btn-block btn-primary"
                             (click)="rechercheCandidat()">Rechercher</button>
                     </div>
-
                     <div style="padding-left: 5px">
                         <button type="button" class="btn btn-block btn-danger" (click)="reset()"
                             style="float: right;">Réinitialiser</button>

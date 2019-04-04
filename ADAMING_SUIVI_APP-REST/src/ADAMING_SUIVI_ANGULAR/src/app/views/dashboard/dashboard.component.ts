@@ -76,14 +76,10 @@ export class DashboardComponent implements OnInit {
   perferma
 
   openDetailsSession(session){
-    this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCandidatSession.replace(":id",session.idSession)], {
-      queryParams: {refresh: new Date().getTime()}
-   });
+    this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCandidatSession.replace(":id",session.idSession)]);
   }
 
   openDetailsCVRelance(charge){
-    this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCvRelance.replace(":id",charge.idUser)], {
-      queryParams: {refresh: new Date().getTime()}
-   });
+    this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCvRelance.replace(":id",charge.idUser)]);
   }
 }

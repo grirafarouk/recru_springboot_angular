@@ -47,29 +47,5 @@ public class AdamingSuiviAppRestApplication extends SpringBootServletInitializer
     }
 	public static void main(String[] args) {
 		SpringApplication.run(AdamingSuiviAppRestApplication.class, args);
-	}
-//	@Bean
-//    public Docket commonApi() {
-//        return new Docket(DocumentationType.SWAGGER_2).select()
-//        		.apis(RequestHandlerSelectors.any())
-//                .paths(PathSelectors.any()).build().apiInfo(apiInfo()).securitySchemes(Lists.newArrayList(apiKey()));
-//    }
-//    
-//      private ApiInfo apiInfo() {
-//        ApiInfo apiInfo = new ApiInfo("Your REST API", "Your REST API for web app", "1.0", "Terms of service",
-//                new Contact("Tharsan", "http://techie-mixture.blogspot.com/", ""));
-//        return apiInfo;
-//    }
-//
-//    @SuppressWarnings("deprecation")
-//	@Bean
-//    public SecurityConfiguration securityInfo() {
-//        return new SecurityConfiguration(null, null, null, null, "", ApiKeyVehicle.HEADER, "Authorization", "");
-//    }
-//
-//    private ApiKey apiKey() {
-//        return new ApiKey("Authorization", "Authorization", "header");
-//    }
-//	 
-//	  
+	} 
 }

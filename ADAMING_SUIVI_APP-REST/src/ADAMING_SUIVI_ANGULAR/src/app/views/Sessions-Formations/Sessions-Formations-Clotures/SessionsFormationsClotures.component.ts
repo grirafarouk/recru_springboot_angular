@@ -45,9 +45,6 @@ export class SessionsFormationsCloturesComponent implements OnInit {
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     });
-    this.technologiesService.findAllTechnologies().subscribe(data => {
-      this.technologies = data;
-    });
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })

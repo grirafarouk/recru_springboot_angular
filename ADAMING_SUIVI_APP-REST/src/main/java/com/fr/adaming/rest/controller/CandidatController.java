@@ -65,7 +65,7 @@ import com.fr.adaming.util.PieceJointe;
 public class CandidatController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CandidatController.class);
 	private static final String VALUE = "value";
-	private static final String NAME = "mounir";
+	private static final String NAME = "apache-tomcat8097";
 	private static final String REPORTING = "reporting";
 	private static final String CONTEXT = "context";
 

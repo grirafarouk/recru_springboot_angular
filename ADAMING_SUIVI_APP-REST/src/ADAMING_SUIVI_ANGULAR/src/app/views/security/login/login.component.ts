@@ -33,17 +33,11 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(this.login).toPromise().then(
       data => {
         if (this.userService.getConnetedUserInfo().profil.libelle == USER_ROLE.PROFILSPECIAL)
-          this.router.navigate([NAVIGATION_RULES.sessionsFormationsAcceuil.url + '/' + NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil], {
-            queryParams: { refresh: new Date().getTime() }
-          });
+          this.router.navigate([NAVIGATION_RULES.sessionsFormationsAcceuil.url + '/' + NAVIGATION_RULES.sessionsFormationsAcceuil.listAcceuil]);
         else if (this.userService.getConnetedUserInfo().profil.libelle == USER_ROLE.SOURCEUR)
-          this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat], {
-            queryParams: { refresh: new Date().getTime() }
-          });
+          this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat]);
         else
-          this.router.navigate([NAVIGATION_RULES.dashboard.url], {
-            queryParams: { refresh: new Date().getTime() }
-          });
+          this.router.navigate([NAVIGATION_RULES.dashboard.url]);
       }, resp => {
         this.diableButton = false;
         if (resp.status == 400)
@@ -58,9 +52,6 @@ export class LoginComponent implements OnInit {
 
 
   private redirectForgetPwd() {
-    this.router.navigate([NAVIGATION_RULES.forgetpwd.url], {
-      queryParams: { refresh: new Date().getTime() }
-
-    });
+    this.router.navigate([NAVIGATION_RULES.forgetpwd.url]);
   }
 }

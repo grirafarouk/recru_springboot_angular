@@ -357,6 +357,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
     if (!error) {
       this.candidate.dateInscription = new Date();
+      this.candidate.statut.libelle = "Vide"
       this.candidate.statut.id=2
       this.candidate.entretien=null
       this.candidate.motif=null

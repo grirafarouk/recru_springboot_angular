@@ -41,7 +41,8 @@ export class CandidatsService {
     candidate.prenom = this.helperService.getClearString(candidate.prenom)
     candidate.diplome = this.helperService.getClearString(candidate.diplome)
 
-    return this.httpClient.post(BACK_END_URL + "/ajoutCandidat?mime=" + mime + "&login=" + this.utilisateurService.getConnetedUserInfo().login, candidate, httpOptions).pipe(map(async (data: any) => {
+    return this.httpClient.post(BACK_END_URL + "/ajoutCandidat?mime=" + mime + "&login=" + this.utilisateurService.getConnetedUserInfo().login, candidate, httpOptions).pipe(
+      map(async (data: any) => {
       if (data != null) {
         data.dateInscription = new Date(data.dateInscription)
         data.dateNaissance = new Date(data.dateNaissance)
