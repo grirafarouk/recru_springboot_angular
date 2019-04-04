@@ -243,17 +243,11 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   }
 
   codePostaleOnSearch(value) {
-    this.verif_code = true;
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
-          this.codePostals.forEach(reg => {
-            if (element.code === reg.code) {
-              this.verif_code = false;
-            }
-          })
+          
     
-          if (this.verif_code == true)
           this.codePostals = [element, ...  this.codePostals]
         });
       })

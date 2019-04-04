@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  perferma
+
 
   openDetailsSession(session){
     this.router.navigate(["/"+NAVIGATION_RULES.dashboard.url+"/"+NAVIGATION_RULES.dashboard.ficheCandidatSession.replace(":id",session.idSession)], {

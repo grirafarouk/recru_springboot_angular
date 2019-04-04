@@ -91,7 +91,9 @@ export class ListeReportingComponent implements OnInit {
     {
       data: 'dateObtentionDiplome',
       title: 'Obtention De Diplôme',
-      visible: false
+      visible: false,
+      dateFormat: DATE_FORMAT
+
     },
     {
       data: 'numeroTel',
@@ -124,7 +126,9 @@ export class ListeReportingComponent implements OnInit {
     {
       data: 'dateEntretien',
       title: 'Date entretien',
-      visible: false
+      visible: false,
+      dateFormat: DATE_FORMAT
+
     },
     {
       data: 'charge',
@@ -173,7 +177,9 @@ export class ListeReportingComponent implements OnInit {
     {
       data: 'dateDemarrageFormation',
       title: 'Date démarrage formation',
-      visible: false
+      visible: false,
+      dateFormat: DATE_FORMAT
+
     },
     {
       data: 'source',
@@ -326,6 +332,9 @@ export class ListeReportingComponent implements OnInit {
       data.forEach(element => {
         var cleanItem = {}
         this.columns.forEach(col => {
+          if (element[col.data] == null) {
+            cleanItem[col.title] =' - ';
+          }
           if (element[col.data] != null) {
             if (col.dateFormat != undefined)
               cleanItem[col.title] = _moment(element[col.data]).format(DATE_FORMAT_MOMENT);

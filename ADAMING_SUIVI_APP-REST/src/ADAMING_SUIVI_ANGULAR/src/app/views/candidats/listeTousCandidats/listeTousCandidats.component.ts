@@ -1,3 +1,6 @@
+import { Validators } from '@angular/forms';
+import { map } from 'rxjs/operators';
+import { Profil } from './../../../models/enum/Profil';
 import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { StatutService } from './../../../services/administrationService/StatutService';
 import { Component, OnInit, OnDestroy, ViewChild, forwardRef } from "@angular/core";
@@ -148,7 +151,8 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     {
       data: 'charge',
       title: 'charge',
-      visible: true
+      visible: true,
+      
     },
   ]
 
@@ -158,7 +162,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   statuts = []
 
   mask: any[] = PHONE_MASK;
-
+  liste_tous_canndidat:Array<CandidateDto>=[]
   region: Array<Region> = [];
   refStatut = this.helperService.buildStatutArray();
   // refDisponibilite = this.helperService.buildDisponibiliteArray();
@@ -312,6 +316,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
 
   public exportAsXLSX(): void {
     this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
+     
       this.excelService.exportAsExcelFile(data, this.titleTable, this.columns);
     })
   }

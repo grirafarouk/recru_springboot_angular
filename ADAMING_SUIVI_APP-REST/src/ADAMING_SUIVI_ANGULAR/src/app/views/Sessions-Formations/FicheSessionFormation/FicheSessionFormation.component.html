@@ -159,7 +159,9 @@
                         <button (click)="activerDesactiverSession()" type="button" class="btn btn-block btn-primary">{{session.factif
                             != null && session.factif == true ? 'Désactivée Session' :'Activée Session' }}</button>
                     </div>
-                    <div class="col-8"></div>
+                    <div class="col-md-8 text-center"><button class="btn btn-sm" (click)="exportAsXLSX()" style="width: 3%;background:#FFFFFF;"  >
+                        <img src="assets/excel-icon.png">
+                      </button></div>
                     <div class="col-2">
                         <button (click)="annuler()" type="button" class="btn btn-block btn-primary">Annuler</button>
                     </div>
