@@ -149,7 +149,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.utilisateurService.getAllSourceurs().subscribe(data => {
       this.listSourceur=data;
     })
-        
+   
     this.disponibilitesService.findAllDisponibilite().subscribe(data => {
       this.disponibleListe = data;
     })

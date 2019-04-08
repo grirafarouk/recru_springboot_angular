@@ -122,7 +122,7 @@ export class ListeReportingComponent implements OnInit {
       title: 'Statut',
       visible: false
     },
-    
+
     {
       data: 'dateEntretien',
       title: 'Date entretien',
@@ -192,10 +192,10 @@ export class ListeReportingComponent implements OnInit {
       visible: false
     }
   ];
-  listSourceur=[];
-  listCarge=[];
+  listSourceur = [];
+  listCarge = [];
   verif_existance_code_region: boolean;
-  tester_perfermance: boolean;
+  tester_perfermance: boolean;  
   valeur_des_region_en_retour: Array<string> = [];
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
@@ -318,7 +318,6 @@ export class ListeReportingComponent implements OnInit {
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
   }
-
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
@@ -333,7 +332,7 @@ export class ListeReportingComponent implements OnInit {
         var cleanItem = {}
         this.columns.forEach(col => {
           if (element[col.data] == null) {
-            cleanItem[col.title] =' - ';
+            cleanItem[col.title] = ' - ';
           }
           if (element[col.data] != null) {
             if (col.dateFormat != undefined)

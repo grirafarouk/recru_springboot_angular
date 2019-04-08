@@ -52,6 +52,7 @@
     "core-js": "^2.5.7",
     "devextreme": "^18.1.6",
     "devextreme-angular": "^18.1.6",
+    "docx-pdf": "0.0.1",
     "file-saver": "^2.0.0",
     "flag-icon-css": "^3.0.0",
     "font-awesome": "^4.7.0",

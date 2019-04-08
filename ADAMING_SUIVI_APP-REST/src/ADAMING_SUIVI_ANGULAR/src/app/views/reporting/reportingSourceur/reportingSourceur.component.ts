@@ -6,6 +6,11 @@ import { SourceurReporting } from "../../../models/SourceurReporting";
 import { ChartColors } from '../../../helper/application.constant';
 //import 'chartjs-plugin-labels';
 import 'chart.piecelabel.js';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import { reportingSourceurExel } from "../../../models/reportingSourceurExel";
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 
 @Component({
@@ -20,7 +25,7 @@ export class ReportingSourceurComponent implements OnInit {
   dateDebut =  Date();
   currentDate = new Date();
   ListReporting=[]
-  ListSourceur=[]
+  ListSourceur:Array<SourceurReporting>= [];
   pieChartData: number[] = [];
   pieChartLabels: string[]=[];
   pieChartType = 'pie';
@@ -28,6 +33,8 @@ export class ReportingSourceurComponent implements OnInit {
   chartOptions2 = {};
   ChartColors : any[]=ChartColors
    autresCv = null;
+   reporting_exel_file :Array<reportingSourceurExel>= [];
+
    totalCVDisponible = null;
    totalCVhorsCible = null;
    pieChart2Data= [];
@@ -45,11 +52,13 @@ export class ReportingSourceurComponent implements OnInit {
     this.dateDebut=null;
     this.dateFin=null;
     this.reportingSourceur.findAllSourceur().subscribe(data=>{
+    
       this.ListSourceur = data;
     })
 
     this.reportingSourceur.findReportingSourceur().subscribe(data=>{
       this.ListReporting = data;
+      console.log(this.ListReporting)
       for( let i=0; i<this.ListReporting.length; i++)
       {      
           this.autresCv = this.autresCv + this.ListReporting[i].autre,
@@ -69,8 +78,6 @@ export class ReportingSourceurComponent implements OnInit {
     this.totalCVDisponible = 0;
     this.totalCVhorsCible = 0;
     this.reportingSourceur.getNbrTechnologieSourceur(sourceur,this.dateDebut,this.dateFin).subscribe(result => {
-      console.log(sourceur);
-      console.log(this.dateDebut);
       this.chartOptions = {
         pieceLabel: {
           render: function (args) {
@@ -82,8 +89,6 @@ export class ReportingSourceurComponent implements OnInit {
       }
     });
     this.reportingSourceur.getNbrTotalCvParCandidat(sourceur,this.dateDebut,this.dateFin).subscribe(result => {
-      console.log(sourceur);
-      console.log(this.dateDebut);
       this.chartOptions2 = {
         pieceLabel: {
           render: function (args) {
@@ -96,6 +101,7 @@ export class ReportingSourceurComponent implements OnInit {
     });
     this.reportingSourceur.rechercheReportingSourceur(this.sourceur,this.dateDebut,this.dateFin).subscribe(data =>{
       this.ListReporting = data;
+      console.log(this.ListReporting)
       for( let i=0; i<this.ListReporting.length; i++)
       {      
           this.autresCv = this.autresCv + this.ListReporting[i].autre,
@@ -152,6 +158,38 @@ export class ReportingSourceurComponent implements OnInit {
     });
   }
 
+public exportAsExcelFile(json: any[], excelFileName: string): void {
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
+    console.log('worksheet', worksheet);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    this.saveAsExcelFile(excelBuffer, excelFileName);
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], {
+      type: EXCEL_TYPE
+    });
+    FileSaver.saveAs(data, 'Liste reporting' + EXCEL_EXTENSION);
+  }
+  exportAsXLSX(): void {
+    
+    this.ListReporting.forEach(element=>{
+      let liste=new reportingSourceurExel();
+    liste.Sourceur=element.nomSourceur;
+    liste.Taux_de_satisfaction=element.taux+' %';
+    liste.CV_disponibles=element.nbrDsipo;
+    liste.Hors_cible=element.nbrHors;
+    liste.Total=element.nbrTotal;
+    if(this.reporting_exel_file.indexOf(liste) === -1)
+    this.reporting_exel_file.push(liste);
+
+
+    })
+    this.exportAsExcelFile(this.reporting_exel_file, 'sample');
+    this.reporting_exel_file=[];
+  }
   reset(){
     this.ngOnInit();
   }
