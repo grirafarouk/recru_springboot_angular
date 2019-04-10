@@ -40,9 +40,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.aspose.cells.SaveFormat;
-import com.aspose.words.PdfSaveOptions;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
@@ -225,8 +222,13 @@ public class CandidatController {
 				+ login + File.separator;
 		FileInputStream fileInputStream = null;
 		try {
-			fileInputStream = new FileInputStream(realPath
-					+ candidat.getNomCV().replace(".docx", ".pdf").replace(".doc", ".pdf").replace(".PDF", ".pdf"));
+			if (mime.equals("application/msword")) {
+				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".doc", ".pdf"));
+			} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".docx", ".pdf"));
+			} else {
+				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".PDF", ".pdf"));
+			}
 			Document cvAlfresco = AlfrescoOpenCmis.createCv(fileInputStream, genererNomPDF(candidat),
 					fileInputStream.getChannel().size(), mime);
 			candidat.setIdCv(cvAlfresco.getId());
@@ -272,8 +274,12 @@ public class CandidatController {
 		String name = "";
 		if (mime.equals("application/msword")) {
 			name = nameFile.replace(".doc", ".pdf");
+		} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+			name = nameFile.replace(".docx", ".pdf");
+		} else {
+
+			name = nameFile;
 		}
-		name = nameFile;
 		File file = new File(realPath + File.separator + name);
 		file.delete();
 	}
@@ -297,23 +303,11 @@ public class CandidatController {
 				LOGGER.info(CONTEXT, e);
 			}
 		}
-
 		String name;
 		if (mime.equals("application/msword")) {
 			name = nameFile.replace(".doc", ".pdf");
 		} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-
 			name = nameFile.replace(".docx", ".pdf");
-			try (OutputStream out = new FileOutputStream(new File(realPath + File.separator + name));) {
-				byte[] data1 = DatatypeConverter.parseBase64Binary(value64);
-				InputStream inStream1 = new ByteArrayInputStream(data1);
-				XWPFDocument document = new XWPFDocument(inStream1);
-				PdfOptions options = PdfOptions.create();
-				PdfConverter.getInstance().convert(document, out, options);
-			} catch (Throwable e) {
-				e.printStackTrace();
-			}
-
 		} else if (mime.equals("application/octet-stream")) {
 			name = nameFile.replace(".PDF", ".pdf");
 		} else {
@@ -326,8 +320,16 @@ public class CandidatController {
 				license.setLicense("Aspose.Words.Java.lic");
 				com.aspose.words.Document doc = new com.aspose.words.Document(inStream);
 				doc.save(realPath + File.separator + name);
-
 			} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+				try (OutputStream out = new FileOutputStream(new File(realPath + File.separator + name));) {
+					byte[] data1 = DatatypeConverter.parseBase64Binary(value64);
+					InputStream inStream1 = new ByteArrayInputStream(data1);
+					XWPFDocument document = new XWPFDocument(inStream1);
+					PdfOptions options = PdfOptions.create();
+					PdfConverter.getInstance().convert(document, out, options);
+				} catch (Throwable e) {
+					e.printStackTrace();
+				}
 			} else {
 				byte[] buffer = new byte[inStream.available()];
 				while (inStream.read(buffer) > 0) {

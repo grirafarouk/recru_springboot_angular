@@ -207,7 +207,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       })
     }
     reader.readAsDataURL(this.currentFile.file);
-    this.candidate=new Candidate();
   }
   recherchecandidate() {
     this.candidateFound = true;
