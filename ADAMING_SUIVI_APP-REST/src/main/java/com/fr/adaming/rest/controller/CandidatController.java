@@ -25,6 +25,9 @@ import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.commons.impl.IOUtils;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.poi.xwpf.converter.pdf.PdfConverter;
+import org.apache.poi.xwpf.converter.pdf.PdfOptions;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +40,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.aspose.cells.SaveFormat;
+import com.aspose.words.PdfSaveOptions;
 import com.fr.adaming.jsfapp.dto.CandidatDto;
 import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.dto.VReportingCandidatDto;
@@ -113,7 +119,7 @@ public class CandidatController {
 			@RequestParam int page, @RequestParam int size) {
 		List<VListeCandidats> list = new ArrayList<>(
 				vListeCandidatsService.rechercherVlisteNouveauxCandidats(nouveauCandidat, page, size));
-	 List<VListeCandidatsDto> listes=vListeCandidatsMapper.vListeCandidatsToVListeCandidatsDtos(list);
+		List<VListeCandidatsDto> listes = vListeCandidatsMapper.vListeCandidatsToVListeCandidatsDtos(list);
 		return listes;
 
 	}
@@ -301,7 +307,18 @@ public class CandidatController {
 		if (mime.equals("application/msword")) {
 			name = nameFile.replace(".doc", ".pdf");
 		} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+
 			name = nameFile.replace(".docx", ".pdf");
+			try (OutputStream out = new FileOutputStream(new File(realPath + File.separator + name));) {
+				byte[] data1 = DatatypeConverter.parseBase64Binary(value64);
+				InputStream inStream1 = new ByteArrayInputStream(data1);
+				XWPFDocument document = new XWPFDocument(inStream1);
+				PdfOptions options = PdfOptions.create();
+				PdfConverter.getInstance().convert(document, out, options);
+			} catch (Throwable e) {
+				e.printStackTrace();
+			}
+
 		} else if (mime.equals("application/octet-stream")) {
 			name = nameFile.replace(".PDF", ".pdf");
 		} else {
@@ -309,13 +326,13 @@ public class CandidatController {
 		}
 		try {
 
-			if (mime.equals("application/msword")
-					|| mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-
+			if (mime.equals("application/msword")) {
 				com.aspose.words.License license = new com.aspose.words.License();
 				license.setLicense("Aspose.Words.Java.lic");
 				com.aspose.words.Document doc = new com.aspose.words.Document(inStream);
 				doc.save(realPath + File.separator + name);
+
+			} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
 			} else {
 				byte[] buffer = new byte[inStream.available()];
 				while (inStream.read(buffer) > 0) {

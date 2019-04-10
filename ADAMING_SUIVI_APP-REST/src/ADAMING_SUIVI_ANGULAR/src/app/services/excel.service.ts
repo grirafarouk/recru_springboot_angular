@@ -20,16 +20,14 @@ export class ExcelService {
 
   public exportAsExcelFile(json: any[], excelFileName: string, columns: any[]): void {
 
-
-
     var cleanData = [];
     var cleanCol = {}
     var col = []
     json.forEach(element => {
       var cleanItem = {}
       columns.forEach(col => {
-         if (element[col.data] == null) {
-          cleanItem[col.title] =' - ';
+        if (element[col.data] == null) {
+          cleanItem[col.title] = ' - ';
         }
 
         if (element[col.data] != null) {
@@ -38,7 +36,7 @@ export class ExcelService {
           else if (col.mask != undefined && element[col.data].indexOf("-") == -1) {
             cleanItem[col.title] = element[col.data].replace(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).*/, "$1-$2-$3-$4-$5");
           }
-          
+
           else if (col.rendered) {
             if (col.html == false)
               cleanItem[col.title] = col.rendered(element)

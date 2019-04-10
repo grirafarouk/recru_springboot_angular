@@ -158,6 +158,7 @@ export class FicheEntrtienComponent implements OnInit {
       });
     })
     this.testDisabled();
+    console.log(this.disabledtime)
   }
 
   private testDisabled() {
@@ -288,14 +289,26 @@ export class FicheEntrtienComponent implements OnInit {
     this.currentCandidat.suivi.regions = selectedRegions;
     this.regionFranceModal.hide();
   }
+  openRegionsDialog(){
+    let  disabled:boolean;
+    disabled=this.disabledtime;
+    if(this.disabledtime)
+    disabled=false;
+    else disabled=true;
+   if (disabled)
+  this.openRegionsDialogefrance();
+    
 
-  openRegionsDialog() {
+  }
+   openRegionsDialogefrance() {
+     
     var selectedRegions = []
     if (this.currentCandidat.suivi.regions != undefined) this.currentCandidat.suivi.regions.forEach(element => {
       selectedRegions.push(element.id + "");
     });
     this.map.setSelectedRegions(selectedRegions);
     this.regionFranceModal.show();
+  
   }
 
 
