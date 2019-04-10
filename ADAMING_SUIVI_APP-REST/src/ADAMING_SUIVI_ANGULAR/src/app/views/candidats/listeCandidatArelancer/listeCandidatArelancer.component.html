@@ -48,11 +48,14 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label for="nom" style="font-weight:bold">Type de profil:</label>
+                            <div *ngIf="technologies.length > 0">
+
                             <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
                                 bindValue="libelle" bindLabel="libelle" [items]="technologies"
                                 [compareWith]="helperService.compareFn" [(ngModel)]="condidat.technologie"
                                 name="technologie">
                             </ng-select>
+</div>
                         </div>
                     </div>
                 </div>
@@ -66,9 +69,8 @@
                                 <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
                             </ng-select>
-                        </div>
                     </div>
-                    
+                </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
@@ -169,3 +171,5 @@
             [columns]="columns"></custom-table>
 
     </div>
+    </div>
+    

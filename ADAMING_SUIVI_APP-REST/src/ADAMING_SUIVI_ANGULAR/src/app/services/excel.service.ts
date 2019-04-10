@@ -8,55 +8,58 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 export class ExcelService {
 
-  constructor() { 
+  constructor() {
 
 
-    
+
   }
 
-  public exportAsExcelFile(json: any[], excelFileName: string,columns:any[]): void {
+  public exportAsExcelFile(json: any[], excelFileName: string, columns: any[]): void {
 
 
 
     var cleanData = [];
-    var cleanCol =  {}
-    var col=[]
+    var cleanCol = {}
+    var col = []
     json.forEach(element => {
       var cleanItem = {}
       columns.forEach(col => {
-       
-        
+         if (element[col.data] == null) {
+          cleanItem[col.title] =' - ';
+        }
+
         if (element[col.data] != null) {
           if (col.dateFormat != undefined)
             cleanItem[col.title] = _moment(element[col.data]).format(DATE_FORMAT_MOMENT);
           else if (col.mask != undefined && element[col.data].indexOf("-") == -1) {
             cleanItem[col.title] = element[col.data].replace(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2}).*/, "$1-$2-$3-$4-$5");
           }
-          else if(col.rendered) {
-            if(col.html==false)
-            cleanItem[col.title]=col.rendered(element)
+          
+          else if (col.rendered) {
+            if (col.html == false)
+              cleanItem[col.title] = col.rendered(element)
           }
           else cleanItem[col.title] = element[col.data];
 
-          if(cleanCol[col.data]==null) cleanCol[col.data]=col.title.length;
-          if(cleanItem[col.title].length>cleanCol[col.data])
-           cleanCol[col.data]=cleanItem[col.title].length
+          if (cleanCol[col.data] == null) cleanCol[col.data] = col.title.length;
+          if (cleanItem[col.title].length > cleanCol[col.data])
+            cleanCol[col.data] = cleanItem[col.title].length
         }
       })
       cleanData.push(cleanItem);
     });
     Object.keys(cleanCol).forEach(element => {
-      col.push({wch:cleanCol[element]+1})
+      col.push({ wch: cleanCol[element] + 1 })
     });
 
 
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(cleanData);
-    worksheet["!cols"] =col
+    worksheet["!cols"] = col
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array', cellDates: true, cellStyles: true });
     this.saveAsExcelFile(excelBuffer, excelFileName);

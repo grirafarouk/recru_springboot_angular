@@ -51,7 +51,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   listNomCvs = []
   allFiles = []
   mask: any[] = PHONE_MASK;
-
+  verif:boolean;
+  verif_code:boolean
 
   constructor(private router: Router, private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService, private helperService: HelperService,
@@ -81,6 +82,9 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     this.folders = this.candidatsService.folders;
     this.currentFile = {};
     this.pdfSrc = null;
+    if ((this.utilisateurService.getConnetedUserInfo().profil.libelle == "Sourceur") || (this.utilisateurService.getConnetedUserInfo().profil.libelle =="Profil spécial"))
+  this.verif=false;
+  else this.verif=true;
   }
 
   //#region Tree Setting
@@ -242,10 +246,14 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
+          
+    
           this.codePostals = [element, ...  this.codePostals]
         });
       })
     else this.codePostals = []
+  
+  
   }
 
 

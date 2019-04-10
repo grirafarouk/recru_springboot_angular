@@ -458,8 +458,13 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	@Override
 	public Integer nbrCVParTechnologie(Technologie technologie) {
 		int nbr = 0;
-		String query = "SELECT Count('disticnt(c.ID)')  from candidat where  candidat.STATUT=2 AND candidat.ENTRETIEN is null and candidat.TECHNOLOGIE= "
-				+ technologie.getId() + " ";
+		String query = "SELECT Count('disticnt(c.ID)') FROM V_ListeCandidats WHERE "
+				+ "V_ListeCandidats.STATUT='Vide'  AND V_ListeCandidats.DISPONIBILITE "
+				+ "IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE"
+				+ " IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL "
+				+ "AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE "
+				+ "IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL and V_ListeCandidats.TECHNOLOGIE like'"
+				+ technologie.getLibelle() + "' ";
 		SQLQuery st = getSession().createSQLQuery(query);
 		nbr = ((BigInteger) st.uniqueResult()).intValue();
 		return nbr;
@@ -502,9 +507,13 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	public Map<String, Integer> nbrCVParTechnologie() {
 		Map<String, Integer> map = new HashMap<>();
 		String query = "select "
-				+ "t.libelle AS nom_techno,SUM(case when (c.TECHNOLOGIE = t.ID) then 1 else 0 end ) as nombre "
-				+ "FROM candidat c " + "join technologie t on t.ID=c.TECHNOLOGIE "
-				+ "WHERE c.ENTRETIEN is NULL and c.STATUT=2 " + "GROUP BY t.ID " + "ORDER BY t.ID";
+				+" TECHNOLOGIE AS nom_techno,SUM(case when (TECHNOLOGIE = t.libelle) then 1 else 0 end ) as nombre "
+				+" FROM v_listecandidats c  join technologie t on t.libelle=c.TECHNOLOGIE "
+				+" WHERE c.DATE_ENTRETIEN is NULL and c.STATUT='Vide' AND c.DISPONIBILITE IS NULL  "
+				+" AND c.RELANCER IS NULL AND c.DATE_RELANCE IS NULL "
+				+" AND c.DATE_ENTRETIEN IS NULL  "
+				+" AND c.LIEU_ENTRETIEN IS NULL AND c.COMMENTAIRE IS NULL "
+				+" AND c.CONFIRMATION_RDV IS NULL  GROUP BY TECHNOLOGIE ORDER BY TECHNOLOGIE ";
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
