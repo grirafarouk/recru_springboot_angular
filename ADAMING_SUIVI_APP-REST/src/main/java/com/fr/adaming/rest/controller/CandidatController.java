@@ -224,10 +224,14 @@ public class CandidatController {
 		try {
 			if (mime.equals("application/msword")) {
 				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".doc", ".pdf"));
+			candidat.setNomCV(candidat.getNomCV().replace(".doc", ".pdf"));	
 			} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
 				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".docx", ".pdf"));
+				candidat.setNomCV(candidat.getNomCV().replace(".docx", ".pdf"));	
 			} else {
 				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".PDF", ".pdf"));
+				candidat.setNomCV(candidat.getNomCV().replace(".PDF", ".pdf"));	
+
 			}
 			Document cvAlfresco = AlfrescoOpenCmis.createCv(fileInputStream, genererNomPDF(candidat),
 					fileInputStream.getChannel().size(), mime);

@@ -19,6 +19,7 @@ import { UtilisateurService } from "../../../services/utilisateur.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 import * as _moment from 'moment';
+import { RoutingState } from '../../../helper/routing-state.service';
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -198,12 +199,15 @@ export class ListeReportingComponent implements OnInit {
   tester_perfermance: boolean;  
   valeur_des_region_en_retour: Array<string> = [];
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
-    private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
+    private routingState: RoutingState,private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
     private notifierService: NotifierService, private competencesService: CompetencesService,
     private helperService: HelperService, private regionService: RegionService, private statutservice: StatutService,
     private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
+    if (this.routingState.getPreviousUrl().indexOf('details') > -1)
+      this.condidat = this.helperService.listeReportingCandidatrecherche;
+
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })
@@ -225,7 +229,9 @@ export class ListeReportingComponent implements OnInit {
     })
   }
 
-
+  ngOnDestroy(): void {
+    this.helperService.listeReportingCandidatrecherche = this.condidat;
+  }
   initTableFunction() {
     this.rechercheCandidat()
   }

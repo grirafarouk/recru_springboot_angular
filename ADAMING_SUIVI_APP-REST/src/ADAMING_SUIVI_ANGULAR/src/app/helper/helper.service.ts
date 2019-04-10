@@ -7,6 +7,7 @@ import { Competence } from "../models/Competence";
 import { navItems } from "../_nav";
 import { CandidateDto } from "../views/candidats/CandidateDto";
 import { Disponibilite } from "../models/enum/Disponibilite";
+import { Formation } from "../views/Sessions-Formations/formation";
 
 
 @Injectable({
@@ -17,6 +18,9 @@ export class HelperService {
   listNouveauxCandidatRecherche:CandidateDto=new CandidateDto();
   listTousCandidatRecherche:CandidateDto=new CandidateDto();
   listRelanceCandidatRecherche:CandidateDto=new CandidateDto();
+  listeReportingCandidatrecherche:CandidateDto=new CandidateDto();
+  sessionFormations: any;
+  formations: any;
   
   errorMsg:string=""
 

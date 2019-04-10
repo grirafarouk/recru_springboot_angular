@@ -122,7 +122,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   listSourceur= [];
   listCarge= [];
   sourceur:Array<Utilisateur>=[];
-  relance: boolean;
+  relance: boolean=true;
   mask: any[] = PHONE_MASK;
   disponibleListe: any[];
   verif_existance_code_region: boolean;

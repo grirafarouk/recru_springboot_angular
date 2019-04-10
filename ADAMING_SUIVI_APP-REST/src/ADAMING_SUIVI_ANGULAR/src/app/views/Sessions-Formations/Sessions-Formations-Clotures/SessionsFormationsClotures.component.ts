@@ -12,6 +12,8 @@ import { Formation } from "../formation";
 import { NAVIGATION_RULES } from "../../../helper/application.constant";
 import { SessionsFormationsService } from "../../../services/sessionService/sessions-formations.service";
 import { SessionFormation } from "../../../models/SessionFormation";
+import { HelperService } from "../../../helper/helper.service";
+import { RoutingState } from "../../../helper/routing-state.service";
 
 
 @Component({
@@ -23,7 +25,7 @@ export class SessionsFormationsCloturesComponent implements OnInit {
   constructor(
     private sessionFormationService: SessionsFormationsService,
     private router: Router, private sessionFormationEnCoursService: SessionFormationEnCoursService, private formationService: FormationService,
-    private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
+    private technologiesService: TechnologieService, private lieuxService: LieuxService, private helperService: HelperService, private routingState: RoutingState, private typeFormationService: TypeFormationService) { }
   //session: any = {};
   sessionFormations: any;
   formations: any;
@@ -36,7 +38,16 @@ export class SessionsFormationsCloturesComponent implements OnInit {
   typeFormation = []
 
   ngOnInit() {
-    this.getListe();
+    if (this.routingState.getPreviousUrl().indexOf('details') > -1) {
+      this.formations = this.helperService.formations;
+      this.sessionFormations = this.helperService.sessionFormations;
+      this.isCollapsed = []
+      this.formations.forEach(element => {
+        this.isCollapsed.push(true);
+      });
+    }
+    else
+      this.getListe();
   }
 
   async  getListe() {
@@ -78,7 +89,11 @@ export class SessionsFormationsCloturesComponent implements OnInit {
     this.session = new SessionFormation();
     this.getListe();
   }
+  ngOnDestroy(): void {
+    this.helperService.formations = this.formations;
+    this.helperService.sessionFormations = this.sessionFormations;
 
+  }
   openDetails(sessionFormation) {
     this.router.navigate([NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.details.replace(':id', sessionFormation.id)]);
   }

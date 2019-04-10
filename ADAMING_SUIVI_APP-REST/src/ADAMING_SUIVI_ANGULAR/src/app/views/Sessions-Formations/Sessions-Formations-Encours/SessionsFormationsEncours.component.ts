@@ -1,3 +1,4 @@
+import { HelperService } from './../../../helper/helper.service';
 import { Component, OnInit } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
@@ -14,6 +15,7 @@ import { Router } from "@angular/router";
 import { NAVIGATION_RULES } from "../../../helper/application.constant";
 import { SessionsFormationsService } from "../../../services/sessionService/sessions-formations.service";
 import { SessionFormation } from "../../../models/SessionFormation";
+import { RoutingState } from '../../../helper/routing-state.service';
 
 
 @Component({
@@ -23,13 +25,13 @@ import { SessionFormation } from "../../../models/SessionFormation";
 export class SessionsFormationsEncoursComponent implements OnInit {
 
   constructor(
-    private sessionFormationService: SessionsFormationsService,
+    private sessionFormationService: SessionsFormationsService, private helperService: HelperService, private routingState: RoutingState,
     private router: Router, private sessionFormationEnCourService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
   //sessionn: any = {}; 
   sessionFormations: any;
 
-  formations: any;
+  formations: any ;
   t = [];
   isCollapsed = [];
   formation: Formation = new Formation();
@@ -38,9 +40,17 @@ export class SessionsFormationsEncoursComponent implements OnInit {
   lieux = [];
   typeFormation = []
   ngOnInit() {
-
-    this.getListe();
+    if (this.routingState.getPreviousUrl().indexOf('details') > -1) {
+      this.formations = this.helperService.formations;
+      this.sessionFormations = this.helperService.sessionFormations;
+      this.isCollapsed = []
+      this.formations.forEach(element => {
+        this.isCollapsed.push(true);
+      });
+    }
+    else this.getListe();
   }
+
   rechercherSession() {
     this.sessionFormationEnCourService.rechercherSessionFormationencours(this.session).subscribe(data => {
       this.isCollapsed = [];
@@ -48,8 +58,11 @@ export class SessionsFormationsEncoursComponent implements OnInit {
         this.isCollapsed.push(true)
       });
       this.formations = data;
+      console.log(this.formations)
+
       this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
         this.sessionFormations = data;
+        console.log(this.sessionFormations)
         this.sessionFormations.forEach(element => {
           this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
             element.nombreParticipants = data;
@@ -58,9 +71,10 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       });
     }
     );
-  }
+}
 
   getListe() {
+
     this.typeFormationService.findAllTypeFormation().subscribe(data =>
       this.typeFormation = data);
     this.technologiesService.findAllTechnologies().subscribe(data => {
@@ -72,7 +86,9 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
-   this.rechercherSession();
+
+
+    this.rechercherSession();
   }
 
   reset() {
@@ -80,7 +96,11 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     this.getListe();
   }
 
+  ngOnDestroy(): void {
+    this.helperService.formations = this.formations;
+    this.helperService.sessionFormations = this.sessionFormations;
 
+  }
   openDetails(sessionFormation) {
     this.router.navigate([NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.details.replace(':id', sessionFormation.id)]);
   }
