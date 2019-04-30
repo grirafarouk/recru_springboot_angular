@@ -84,7 +84,6 @@ export class utilisateursComponent implements OnInit {
       error  = true;
     }
     if (this.utilisateur.profil == undefined) {
-      console.log(this.utilisateur.profil);
       this.notifierService.notify("error", " Écrivez un role valide")
       error  = true;
     }

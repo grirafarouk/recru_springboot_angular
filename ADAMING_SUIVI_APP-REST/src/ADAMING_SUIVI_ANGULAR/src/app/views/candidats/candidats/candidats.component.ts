@@ -369,7 +369,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       this.candidate.statut.id = 2
       this.candidate.entretien = null
       this.candidate.motif = null
-      console.log(this.candidate.candidatCompetence)
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")

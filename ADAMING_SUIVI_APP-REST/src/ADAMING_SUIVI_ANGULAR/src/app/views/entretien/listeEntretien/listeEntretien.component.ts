@@ -121,10 +121,21 @@ export class listeEntretienComponent implements OnInit {
     {
       data: 'mobilite',
       title: 'Mobilité',
-      visible: false,
-      boolean: true
+      visible: true,
+       rendered: function (candidat): any {
 
+          if (candidat.mobilite ==true){
+
+            return 'oui';
+    
+          }
+          else if (candidat.mobilite ==false)
+          return 'non'
+         }
+ 
     },
+
+    
     {
       data: 'statut',
       title: 'Statut',

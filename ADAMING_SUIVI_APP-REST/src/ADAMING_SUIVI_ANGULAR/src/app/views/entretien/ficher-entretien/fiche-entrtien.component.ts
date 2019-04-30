@@ -158,7 +158,6 @@ export class FicheEntrtienComponent implements OnInit {
       });
     })
     this.testDisabled();
-    console.log(this.disabledtime)
   }
 
   private testDisabled() {

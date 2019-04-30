@@ -58,7 +58,6 @@ export class ReportingSourceurComponent implements OnInit {
 
     this.reportingSourceur.findReportingSourceur().subscribe(data=>{
       this.ListReporting = data;
-      console.log(this.ListReporting)
       for( let i=0; i<this.ListReporting.length; i++)
       {      
           this.autresCv = this.autresCv + this.ListReporting[i].autre,
@@ -101,7 +100,6 @@ export class ReportingSourceurComponent implements OnInit {
     });
     this.reportingSourceur.rechercheReportingSourceur(this.sourceur,this.dateDebut,this.dateFin).subscribe(data =>{
       this.ListReporting = data;
-      console.log(this.ListReporting)
       for( let i=0; i<this.ListReporting.length; i++)
       {      
           this.autresCv = this.autresCv + this.ListReporting[i].autre,
@@ -161,7 +159,6 @@ export class ReportingSourceurComponent implements OnInit {
 public exportAsExcelFile(json: any[], excelFileName: string): void {
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-    console.log('worksheet', worksheet);
     const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
     this.saveAsExcelFile(excelBuffer, excelFileName);
@@ -171,12 +168,12 @@ public exportAsExcelFile(json: any[], excelFileName: string): void {
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
     });
-    FileSaver.saveAs(data, 'Liste reporting' + EXCEL_EXTENSION);
+    FileSaver.saveAs(data, 'Liste sourceur' + EXCEL_EXTENSION);
   }
   exportAsXLSX(): void {
     
     this.ListReporting.forEach(element=>{
-      let liste=new reportingSourceurExel();
+    let liste=new reportingSourceurExel();
     liste.Sourceur=element.nomSourceur;
     liste.Taux_de_satisfaction=element.taux+' %';
     liste.CV_disponibles=element.nbrDsipo;

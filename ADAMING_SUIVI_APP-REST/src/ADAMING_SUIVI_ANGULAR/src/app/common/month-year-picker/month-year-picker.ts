@@ -61,7 +61,7 @@ export class MonthYeatPickerComponent implements OnInit {
     return this._innerValue
   }
 
-  private _disabled: boolean;
+  private _disabled: boolean; 
 
   get disabled(): boolean {
     // transform value for display

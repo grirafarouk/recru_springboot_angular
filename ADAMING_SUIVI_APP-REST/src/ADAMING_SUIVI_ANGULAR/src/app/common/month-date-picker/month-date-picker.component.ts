@@ -1,6 +1,6 @@
-import { Component, forwardRef, HostBinding, Input,ViewChild } from '@angular/core';
+import { Component, forwardRef, HostBinding, Input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-//import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
+//import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 
 interface Idata {
   month: number;
@@ -18,6 +18,7 @@ interface Idata {
     }
   ]
 })
+
 export class MonthDatePickerComponent implements ControlValueAccessor {
 
   data: Idata;
@@ -26,9 +27,8 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
   monthFirst: boolean;
   place: number;
 
-  isyear:boolean=false;
-  incr:number=0;
-  
+  isyear: boolean = false;
+  incr: number = 0;
 
   months: string[] = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
   // Allow the input to be disabled, and when it is make it somewhat transparent.
@@ -44,10 +44,10 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
   }
 
   change(value: string) {
-    value=this.separator==" "?value.replace(/\.|-|\//," "):
-          this.separator=="/"?value.replace(/\.|-| /,"/"):
-          this.separator=="-"?value.replace(/\.| |\//,"-"):
-          value.replace(/.| |\/ /,"-");
+    value = this.separator == " " ? value.replace(/\.|-|\//, " ") :
+      this.separator == "/" ? value.replace(/\.|-| /, "/") :
+        this.separator == "-" ? value.replace(/\.| |\//, "-") :
+          value.replace(/.| |\/ /, "-");
 
     let lastchar = value.substr(value.length - 1);
     if (lastchar == this.separator && value.length <= this.place) {
@@ -58,6 +58,7 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
     if (value.length > this.place && value.indexOf(this.separator) < 0) {
       value = value.substr(0, value.length - 1) + this.separator + lastchar;
     }
+
     this.dataTxt = value;
     let items = value.split(this.separator);
     if (items.length == 2) {
@@ -68,7 +69,6 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
         imonth = parseInt(month);
       else
         imonth = imonth + 1;
-
       let iyear = parseInt(year);
       if (iyear < 100)
         iyear = iyear + 2000;
@@ -76,55 +76,49 @@ export class MonthDatePickerComponent implements ControlValueAccessor {
         year: iyear,
         month: imonth
       }
-      this.incr=this.getIncr(this.data.year);
+      this.incr = this.getIncr(this.data.year);
     }
     this.writeValue(this.data);
 
   }
-  selectYearMonth($event,index:number)
-  {
-    if (this.isyear)
-    {
+  selectYearMonth($event, index: number) {
+    if (this.isyear) {
       $event.stopPropagation();
-      this.data.year=index+this.incr;
-      this.dataTxt=this.formatData(this.data);
-      this.isyear=false;
-      this.incr=this.getIncr(this.data.year);
+      this.data.year = index + this.incr;
+      this.dataTxt = this.formatData(this.data);
+      this.isyear = false;
+      this.incr = this.getIncr(this.data.year);
     }
-    else{
-    this.data.month=index+1;
-    this.dataTxt=this.formatData(this.data);
+    else {
+      this.data.month = index + 1;
+      this.dataTxt = this.formatData(this.data);
     }
   }
-  showYear($event:any,show:boolean)
-  {
+  showYear($event: any, show: boolean) {
     $event.stopPropagation();
-    this.isyear=!this.isyear;
+    this.isyear = !this.isyear;
   }
-  addYear($event:any,incr:number)
-  {
-    $event.stopPropagation(); 
-    let year=this.isyear?this.data.year+10*incr:this.data.year+incr;
-    this.data.year=year;
-    this.incr=this.getIncr(year);
-    this.dataTxt=this.formatData(this.data);
+  addYear($event: any, incr: number) {
+    $event.stopPropagation();
+    let year = this.isyear ? this.data.year + 10 * incr : this.data.year + incr;
+    this.data.year = year;
+    this.incr = this.getIncr(year);
+    this.dataTxt = this.formatData(this.data);
   }
   onChange = (data: Idata) => {
     this.data = data;
     this.dataTxt = this.monthFirst ? "" + data.month + this.separator + data.year :
       "" + data.year + this.separator + data.month;
-      this.incr=this.getIncr(this.data.year);
+    this.incr = this.getIncr(this.data.year);
   };
 
-  getIncr(year:number):number
-  {
-    return (year-year%10)-1;
+  getIncr(year: number): number {
+    return (year - year % 10) - 1;
   }
-  formatData(data:Idata):string
-  {
-    let monthTxt=data.month<10? "0"+data.month:"" + data.month;
-    return  this.monthFirst ?  monthTxt+ this.separator + data.year :
-    "" + data.year + this.separator + monthTxt
+  formatData(data: Idata): string {
+    let monthTxt = data.month < 10 ? "0" + data.month : "" + data.month;
+    return this.monthFirst ? monthTxt + this.separator + data.year :
+      "" + data.year + this.separator + monthTxt
 
   }
   // Function to call when the input is touched (when a star is clicked).

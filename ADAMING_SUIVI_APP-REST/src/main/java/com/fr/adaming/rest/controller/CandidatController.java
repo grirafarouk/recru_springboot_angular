@@ -121,7 +121,7 @@ public class CandidatController {
 	}
 
 	@PostMapping(path = "/RechercheNouveauxcandidatsNbr")
-	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
+	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {	
 		return vListeCandidatsService.rechercherVlisteNouveauxCandidatsNbr(nouveauCandidat);
 	}
 

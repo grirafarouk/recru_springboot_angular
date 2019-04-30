@@ -1,3 +1,4 @@
+import { MonthDatePickerComponent } from './common/month-date-picker/month-date-picker.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
@@ -127,6 +128,7 @@ const notifierDefaultOptions: NotifierOptions = {
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
+    MonthDatePickerComponent,
     LoginComponent,
     RegisterComponent,
     ForgetPwdComponent,

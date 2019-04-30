@@ -60,14 +60,12 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="source" style="font-weight:bold"> Sourceur :</label>
-                                
-                                
                                 <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [items]="listSourceur" [compareWith]="helperService.compareFn" [(ngModel)]="condidat.sourceur" name="source"  >
                                     <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
                                         {{codeP.prenom}}</ng-option>
 
                                 </ng-select>
-
+     
                             </div>
                         </div>
                         
@@ -78,7 +76,6 @@
                                 <ng-select bindValue="code"  style="font-weight: bold;color: black;" bindLabel="code" [items]="region" (search)="codePostaleOnSearch($event)" 
                                 [ngModel]="condidat.region" (ngModelChange)="condidat.region = $event" name="region">
                            </ng-select>
-
                             </div>
                         </div>
                         <div class="col-sm-2">

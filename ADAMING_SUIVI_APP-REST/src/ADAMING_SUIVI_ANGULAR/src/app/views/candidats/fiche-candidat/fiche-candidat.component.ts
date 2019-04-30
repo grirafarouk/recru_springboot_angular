@@ -119,10 +119,8 @@ export class FicheCandidatComponent implements OnInit {
     })
 
     this.motifService.findAllMotifs().subscribe(data => this.motifs = data)
-    console.log(this.currentCandidat.candidatCompetence)
     this.competencesService.findAllCompetences().subscribe(data => {
       this.competences = data;
-      console.log(this.currentCandidat.candidatCompetence)
       this.currentCandidat.candidatCompetence.forEach((obj, i) => {
         this.competences.forEach((obj2, i) => {
           if (obj2.id == obj.id) {

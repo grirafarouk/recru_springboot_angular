@@ -31,7 +31,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
   //sessionn: any = {}; 
   sessionFormations: any;
 
-  formations: any ;
+  formations: any;
   t = [];
   isCollapsed = [];
   formation: Formation = new Formation();
@@ -47,6 +47,7 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       this.formations.forEach(element => {
         this.isCollapsed.push(true);
       });
+      this.chargeListe();
     }
     else this.getListe();
   }
@@ -58,11 +59,8 @@ export class SessionsFormationsEncoursComponent implements OnInit {
         this.isCollapsed.push(true)
       });
       this.formations = data;
-      console.log(this.formations)
-
       this.sessionFormationEnCourService.getSessionFormationEnCours(this.session).subscribe(data => {
         this.sessionFormations = data;
-        console.log(this.sessionFormations)
         this.sessionFormations.forEach(element => {
           this.sessionFormationService.nombreParticipants(element).toPromise().then(data => {
             element.nombreParticipants = data;
@@ -71,10 +69,9 @@ export class SessionsFormationsEncoursComponent implements OnInit {
       });
     }
     );
-}
+  }
 
-  getListe() {
-
+  chargeListe() {
     this.typeFormationService.findAllTypeFormation().subscribe(data =>
       this.typeFormation = data);
     this.technologiesService.findAllTechnologies().subscribe(data => {
@@ -88,6 +85,10 @@ export class SessionsFormationsEncoursComponent implements OnInit {
     })
 
 
+  }
+  getListe() {
+
+    this.chargeListe();
     this.rechercherSession();
   }
 

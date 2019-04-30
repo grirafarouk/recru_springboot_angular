@@ -205,7 +205,7 @@
 			<artifactId>aspose.pdf</artifactId>
 			<version>1.0.0</version>
 			<type>jar</type>
-
+	
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->

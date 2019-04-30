@@ -45,12 +45,12 @@ export class SessionsFormationsCloturesComponent implements OnInit {
       this.formations.forEach(element => {
         this.isCollapsed.push(true);
       });
+      this.chargeListe();
     }
     else
       this.getListe();
-  }
-
-  async  getListe() {
+  } 
+  chargeListe() {
     this.typeFormationService.findAllTypeFormation().subscribe(data =>
       this.typeFormation = data);
     this.technologiesService.findAllTechnologies().subscribe(data => {
@@ -62,6 +62,11 @@ export class SessionsFormationsCloturesComponent implements OnInit {
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
+
+
+  }
+  async  getListe() {
+    this.chargeListe();
     this.rechercherSession();
   }
 

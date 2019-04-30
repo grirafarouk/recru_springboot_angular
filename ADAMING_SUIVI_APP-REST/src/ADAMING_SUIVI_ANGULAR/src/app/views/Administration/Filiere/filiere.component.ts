@@ -23,7 +23,7 @@ import { ClientSession } from "../../../models/ClientSession";
 })
 export class FiliereComponent implements OnInit {
 
-  constructor(private clientSessionService: ClientSessionService, private helperService: HelperService,private sessionFormationEnCourService: SessionFormationEnCoursService,
+  constructor(private clientSessionService: ClientSessionService, private helperService: HelperService, private sessionFormationEnCourService: SessionFormationEnCoursService,
     private sessionFormationService: SessionsFormationsService, private notifierService: NotifierService, private sessionFormationEnCoursService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
 
@@ -129,18 +129,18 @@ export class FiliereComponent implements OnInit {
 
   }
 
-  showFormationModal(){
-    this.selectedFormation= new Formation();
+  showFormationModal() {
+    this.selectedFormation = new Formation();
     this.FormationModal.show();
   }
 
-  saveFormation(){
-    this.selectedFormation.code=this.selectedFormation.typeFormation.libelle+"-"+this.selectedFormation.technologie.libelle+"-"+this.selectedFormation.lieu.libelle;  
-    this.formationService.ajoutFormation(this.selectedFormation).subscribe(data=>{
+  saveFormation() {
+    this.selectedFormation.code = this.selectedFormation.typeFormation.libelle + "-" + this.selectedFormation.technologie.libelle + "-" + this.selectedFormation.lieu.libelle;
+    this.formationService.ajoutFormation(this.selectedFormation).subscribe(data => {
       this.notifierService.notify("success", "Formation ajouté ajouté avec succés !")
       this.FormationModal.hide();
       this.ngOnInit();
-    },error =>{
+    }, error => {
       this.notifierService.notify("error", "Error!")
     })
   }
@@ -151,10 +151,10 @@ export class FiliereComponent implements OnInit {
     this.SessionFormationModal.show();
   }
 
-  showEditSessionModal(sessionF){
-    this.session =Object.assign({}, sessionF);
-    this.session.dateDemarrage= new Date(this.session.dateDemarrage);
-    this.session.dateFin= new Date(this.session.dateFin);
+  showEditSessionModal(sessionF) {
+    this.session = Object.assign({}, sessionF);
+    this.session.dateDemarrage = new Date(this.session.dateDemarrage);
+    this.session.dateFin = new Date(this.session.dateFin);
     this.SessionFormationModal.show();
   }
 
@@ -166,32 +166,27 @@ export class FiliereComponent implements OnInit {
   }
 
   createSessionFormtaion() {
-   
-    this.sessionFormationService.updateSession(this.session).toPromise().then((data:SessionFormation) => {
+
+    this.sessionFormationService.updateSession(this.session).toPromise().then((data: SessionFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Session ajouté ajouté avec succés !");
-        console.log(data)
       }
       this.SessionFormationModal.hide();
-    },(error)=>{
+    }, (error) => {
       this.notifierService.notify("error", "Error")
     })
   }
 
   updateSessionFormtation() {
-    console.log(this.session.client)
-    console.log(this.session.nombrePlace)
-    this.sessionFormationService.updateSession(this.session).toPromise().then((data:SessionFormation) => {
+    this.sessionFormationService.updateSession(this.session).toPromise().then((data: SessionFormation) => {
       this.ngOnInit();
       if (data != null) {
         this.notifierService.notify("success", "Session modifié ajouté avec succés !")
-        console.log(data.client)
-        console.log (data.fActif)
-        console.log(data)
+
       }
       this.SessionFormationModal.hide();
-    },(error)=>{
+    }, (error) => {
       this.notifierService.notify("error", "Error")
     })
   }
