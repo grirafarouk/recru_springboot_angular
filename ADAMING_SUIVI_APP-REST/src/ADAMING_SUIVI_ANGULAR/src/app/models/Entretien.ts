@@ -4,7 +4,7 @@ import { Utilisateur } from "./Utilisateur";
 
 export class Entretien{
     id:number;
-    disponible:Disponibilite;
+    disponible:Disponibilite= new Disponibilite();
     relance:boolean;
     date:Date;
     dateRelance:Date;
@@ -13,4 +13,6 @@ export class Entretien{
     lieu:Lieu;
     charge:Utilisateur;
     commentaire:string;
+    mobilteTouFrance:boolean;
+    mobilteCharge:boolean;
 }

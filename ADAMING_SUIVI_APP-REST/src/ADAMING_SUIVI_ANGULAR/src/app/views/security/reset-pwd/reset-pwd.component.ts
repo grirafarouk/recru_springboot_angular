@@ -60,7 +60,7 @@ export class RestPwdComponent implements OnInit {
     }
   }
 
-  private retour() {
+   retour() {
     this.router.navigate([NAVIGATION_RULES.login.url])
   }
 }

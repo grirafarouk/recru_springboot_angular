@@ -177,7 +177,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private candidatsService: CandidatsService, private routingState: RoutingState,
     private notifierService: NotifierService, private technologiesService: TechnologieService,
-    private lieuxService: LieuxService, private disponibiliteService: disponibiliteService, private helperService: HelperService, private statutservice: StatutService, private regionService: RegionService,
+    private lieuxService: LieuxService, private disponibiliteService: disponibiliteService, public helperService: HelperService, private statutservice: StatutService, private regionService: RegionService,
     private utilisateurService: UtilisateurService,
     private excelService: ExcelService) {
 
@@ -306,7 +306,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     else this.region = []
   }
 
-  private updateDateRelance(date: Date) {
+   updateDateRelance(date: Date) {
     this.condidat.dateRelance = date
   }
 

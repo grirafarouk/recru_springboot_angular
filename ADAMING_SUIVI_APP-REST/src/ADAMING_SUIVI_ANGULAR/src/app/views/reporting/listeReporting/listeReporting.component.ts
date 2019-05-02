@@ -201,7 +201,7 @@ export class ListeReportingComponent implements OnInit {
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private routingState: RoutingState,private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
     private notifierService: NotifierService, private competencesService: CompetencesService,
-    private helperService: HelperService, private regionService: RegionService, private statutservice: StatutService,
+    public helperService: HelperService, private regionService: RegionService, private statutservice: StatutService,
     private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {

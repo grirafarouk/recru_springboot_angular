@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
 
-  private redirectForgetPwd() {
+   redirectForgetPwd() {
     this.router.navigate([NAVIGATION_RULES.forgetpwd.url], {
       queryParams: { refresh: new Date().getTime() }
 

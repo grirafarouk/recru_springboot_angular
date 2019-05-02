@@ -86,7 +86,7 @@ export class FicheEntrtienComponent implements OnInit {
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService,
     private notifierService: NotifierService,
     private routingState: RoutingState, private disponibiliteService: disponibiliteService, private entretienService: EntretienService, private regionService: RegionService,
-    private userService: UtilisateurService, private statutservice: StatutService, private helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
+    private userService: UtilisateurService, private statutservice: StatutService, public helperService: HelperService, private sessionsFormationsService: SessionsFormationsService,
     private formBuilder: FormBuilder) {
     this.myForm = formBuilder.group({
       publishedYear: ['', [Validators.min(0), Validators.max(45)]]
@@ -169,7 +169,7 @@ export class FicheEntrtienComponent implements OnInit {
     else { this.disabledtime = false; }
   }
 
-  private codePostaleOnSearch(value) {
+   codePostaleOnSearch(value) {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
@@ -183,7 +183,7 @@ export class FicheEntrtienComponent implements OnInit {
     else this.codePostals = []
   }
 
-  private downloadPDF() {
+   downloadPDF() {
 
     var url = window.URL.createObjectURL(this.file.data);
     var a = document.createElement('a');
@@ -196,7 +196,7 @@ export class FicheEntrtienComponent implements OnInit {
     a.remove(); // remove the element
   }
 
-  private afterHeurePickerClosed() {
+   afterHeurePickerClosed() {
     if (this.timeEntretien == undefined) {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
     }
@@ -212,15 +212,15 @@ export class FicheEntrtienComponent implements OnInit {
     }
   }
 
-  private annuler() {
+   annuler() {
     this.router.navigate([this.routingState.getPreviousUrl()]);
   }
 
-  private updateDateObtentionDiplome(date: Date) {
+   updateDateObtentionDiplome(date: Date) {
     this.currentCandidat.dateObtentionDiplome = date
   }
 
-  private ratingComponentClick(clickObj: any) {
+   ratingComponentClick(clickObj: any) {
     this.currentCandidat.suivi[clickObj.name] = clickObj.rating;
   }
 
@@ -401,7 +401,7 @@ export class FicheEntrtienComponent implements OnInit {
     }
   }
 
-  private dateNaissanceChangedHandler() {
+   dateNaissanceChangedHandler() {
     this.currentCandidat.age = this.helperService.getAge(this.currentCandidat.dateNaissance)
   }
 }

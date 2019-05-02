@@ -7,6 +7,7 @@ import { NAVIGATION_RULES } from '../../../helper/application.constant';
   templateUrl: 'listSessionsFormationsAcceuil.component.html'
 })
 export class listSessionsFormationsAcceuilComponent implements OnInit {
+  p:number;
 
   Sessionreporting= [];
   constructor(

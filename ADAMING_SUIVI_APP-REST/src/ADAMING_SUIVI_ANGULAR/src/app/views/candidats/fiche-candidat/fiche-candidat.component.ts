@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Observable } from 'rxjs';
 import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { Component, OnInit, ViewChild } from '@angular/core';
@@ -65,9 +66,14 @@ export class FicheCandidatComponent implements OnInit {
   currentCandidat: Candidate;
   envoiMail: boolean = false;
   verifdis: boolean = false;
+  disponible_value;
+  autre_value;
   pieceJoitesTemp = []
   emailEntrtien = {
-    candidat: {},
+    candidat: {
+      email: ""
+
+    },
     distCopie: ["", ""],
     pieceJoites: [],
     msg: ""
@@ -82,7 +88,7 @@ export class FicheCandidatComponent implements OnInit {
     private sanitizer: DomSanitizer, private router: Router, private lieuxService: LieuxService, private disponibilitesService: disponibiliteService,
     private notifierService: NotifierService, private motifService: MotifService,
     private routingState: RoutingState, private entretienService: EntretienService,
-    private userService: UtilisateurService, private helperService: HelperService) { }
+    private userService: UtilisateurService, public helperService: HelperService) { }
 
   ngOnInit() {
 
@@ -129,9 +135,10 @@ export class FicheCandidatComponent implements OnInit {
         });
       });
     })
+
   }
 
-  private codePostaleOnSearch(value) {
+  codePostaleOnSearch(value) {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
@@ -145,7 +152,7 @@ export class FicheCandidatComponent implements OnInit {
     else this.codePostals = []
   }
 
-  private downloadPDF() {
+  downloadPDF() {
 
     var url = window.URL.createObjectURL(this.file.data);
     var a = document.createElement('a');
@@ -158,7 +165,7 @@ export class FicheCandidatComponent implements OnInit {
     a.remove(); // remove the element
   }
 
-  private afterHeurePickerClosed() {
+  afterHeurePickerClosed() {
     if (this.timeEntretien == undefined) {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
 
@@ -166,7 +173,7 @@ export class FicheCandidatComponent implements OnInit {
     // else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
   }
 
-  private entretienHeureFilter = (d: Date): boolean => {
+  entretienHeureFilter = (d: Date): boolean => {
     if (d.getHours() < 18 && d.getHours() >= 9) {
       return true
     }
@@ -175,15 +182,16 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private annuler() {
+  annuler() {
     this.router.navigate([this.routingState.getPreviousUrl()]);
   }
 
-  private updateDateObtentionDiplome(date: Date) {
+  updateDateObtentionDiplome(date: Date) {
     this.currentCandidat.dateObtentionDiplome = date
   }
 
-  private updateCandidats() {
+  updateCandidats() {
+
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var error = false;
     if (this.currentCandidat.nom == "" || this.currentCandidat.nom == undefined) {
@@ -386,7 +394,38 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private envoiMailHorCibleFunction() {
+  verifie() {
+    let disponible_value = false;
+    let autre_value = false;
+    let valueof = this.currentCandidat.entretien.disponible.libelle;
+    if (valueof == "Disponible") {
+
+      disponible_value = true;
+    }
+    else {
+      disponible_value = false;
+    }
+    return disponible_value;
+  }
+  verifie2() {
+    let autre_value = false;
+    let valueof = this.currentCandidat.entretien.disponible.libelle;
+
+    if (valueof === "Préavis"
+      || valueof === "message vocal"
+      || valueof === "envoi de la plaquette" ||
+      valueof === "en attente pour une prochaine formation"
+      || valueof === "mail envoyé") {
+      autre_value = true;
+    }
+    else {
+      autre_value = false;
+    }
+    return autre_value
+
+  }
+
+  envoiMailHorCibleFunction() {
     if (this.currentCandidat.motif != undefined && this.currentCandidat.motif != undefined) {
       this.candidatsService.envoyerEmailHorsCibleCandidats(this.currentCandidat, this.userService.getConnetedUserInfo().login, this.commentaireMotif).subscribe(data => {
         this.notifierService.notify("success", "Mail envoyé avec succès");
@@ -403,13 +442,13 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private envoiMailDispoFunction() {
+  envoiMailDispoFunction() {
     this.candidatsService.envoyerEmailDisboCandidats(this.emailEntrtien, this.userService.getConnetedUserInfo().login).subscribe(data => {
       this.notifierService.notify("success", "Mail envoyé avec succès");
       this.currentCandidat.emailCandidatEnvoyer = true;
       this.emailModalDispo.hide();
       this.emailEntrtien = {
-        candidat: {},
+        candidat: { email: "" },
         distCopie: ["", ""],
         pieceJoites: [],
         msg: ""
@@ -420,7 +459,7 @@ export class FicheCandidatComponent implements OnInit {
     })
   }
 
-  private uploadFiles(event) {
+  uploadFiles(event) {
     for (let index = 0; index < event.target.files.length && index < 3; index++) {
       if (this.pieceJoitesTemp.length < 3) {
         const element = event.target.files[index];
@@ -440,7 +479,7 @@ export class FicheCandidatComponent implements OnInit {
     }
   }
 
-  private uploadpieceJoitesTemp() {
+  uploadpieceJoitesTemp() {
     let tab = this.pieceJoitesTemp.filter(item => item.status == 'notLoaded')
     for (let index = 0; index < tab.length && index < 3; index++) {
       let element = tab[index];
@@ -469,7 +508,7 @@ export class FicheCandidatComponent implements OnInit {
 
   }
 
-  private disableUploadButton() {
+  disableUploadButton() {
     return this.pieceJoitesTemp.filter(item => item.status == 'notLoaded').length == 0 || this.pieceJoitesTemp.filter(item => item.status == 'uploading').length > 0
   }
 
@@ -503,7 +542,7 @@ export class FicheCandidatComponent implements OnInit {
     return msg
   }
   public callback = null;
-  private async sauvgarderFicheRedirtect() {
+  async sauvgarderFicheRedirtect() {
     this.callback = (id) => {
       if (this.routingState.getPreviousUrl() == "/candidats")
         this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeTousCandidats]);
@@ -513,14 +552,14 @@ export class FicheCandidatComponent implements OnInit {
 
   }
 
-  private async evaluerCandidat() {
+  async evaluerCandidat() {
     this.callback = (id) => {
       this.router.navigate([NAVIGATION_RULES.entretien.url + '/' + NAVIGATION_RULES.entretien.details.replace(':id', id)]);
     }
     await this.sauvgarderFiche();
   }
 
-  private dateNaissanceChangedHandler() {
+  dateNaissanceChangedHandler() {
     this.currentCandidat.age = this.helperService.getAge(this.currentCandidat.dateNaissance)
   }
 

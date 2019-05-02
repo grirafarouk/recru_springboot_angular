@@ -19,6 +19,7 @@ export class ficheSessionFormationAcceuilComponent implements OnInit {
   id: number;
   sub: any;
   CandidatSession=[];
+  p:number;
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {

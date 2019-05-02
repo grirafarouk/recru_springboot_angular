@@ -131,7 +131,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private candidatsService: CandidatsService,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private notifierService: NotifierService,
     private technologiesService: TechnologieService,
     private routingState: RoutingState,
@@ -253,7 +253,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     }
     else this.region = []
   }
-  private updateDateRelance(date: Date) {
+   updateDateRelance(date: Date) {
     this.condidat.dateRelance = date
   }
 

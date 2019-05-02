@@ -16,6 +16,7 @@ import { Component, OnInit, Input } from "@angular/core";
     @Input()
     actions
 
+    p:number=1;
 
   ngOnInit(): void {
   }

@@ -70,7 +70,7 @@ export class FicheReportingComponent implements OnInit {
 
 
 
-  private downloadPDF() {
+   downloadPDF() {
 
     var url = window.URL.createObjectURL(this.file.data);
     var a = document.createElement('a');
@@ -84,7 +84,7 @@ export class FicheReportingComponent implements OnInit {
   }
 
 
-  private annuler() {
+   annuler() {
     this.router.navigate([NAVIGATION_RULES.reporting.url+'/'+NAVIGATION_RULES.reporting.listeReporting]);
   }
 

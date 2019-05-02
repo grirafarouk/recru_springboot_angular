@@ -18,7 +18,7 @@ export class DefaultLayoutComponent implements OnInit {
   role = this.userService.getConnetedUserInfo().profil.libelle;
 
   constructor(private authenticationService: AuthenticationService,
-    private router: Router, private userService: UtilisateurService,
+    private router: Router, public userService: UtilisateurService,
     private helperService: HelperService
   ) {
 

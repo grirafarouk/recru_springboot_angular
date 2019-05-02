@@ -22,8 +22,8 @@ export class utilisateursComponent implements OnInit {
   utilisateur: Utilisateur;
   profil: any[];
   refProfil : Array<Role> = [];
-
-
+  pt:number;
+  verif:boolean;
 
 
 
@@ -46,7 +46,16 @@ export class utilisateursComponent implements OnInit {
   }
 
   showAddModal() {
-    this.reset();
+    if(this.utilisateur.id>0){
+      this.verif=false;
+    
+        }
+        else {
+    
+          this.verif=true;
+        }
+        this.reset();
+
     this.utilisateurModal.show();
   }
 
@@ -62,6 +71,14 @@ export class utilisateursComponent implements OnInit {
 
   showEditModal(utilisateur: any) {
     this.utilisateur = Object.assign({}, utilisateur);
+    if(this.utilisateur.id>0){
+  this.verif=false;
+
+    }
+    else {
+
+      this.verif=true;
+    }
     this.utilisateurModal.show();
 
   }

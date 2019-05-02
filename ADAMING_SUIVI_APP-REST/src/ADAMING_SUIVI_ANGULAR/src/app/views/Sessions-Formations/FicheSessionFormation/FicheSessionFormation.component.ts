@@ -99,7 +99,7 @@ export class FicheSessionFormationComponent implements OnInit {
     this.doRechercheCandidat();
   }
 
-  private annuler() {
+   annuler() {
     this.router.navigate([this.routingState.getPreviousUrl()]);
   }
   modelChanged(currentCandidat, opps) {

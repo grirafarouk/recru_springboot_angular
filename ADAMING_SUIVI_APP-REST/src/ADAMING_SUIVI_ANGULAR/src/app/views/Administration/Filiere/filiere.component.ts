@@ -23,7 +23,7 @@ import { ClientSession } from "../../../models/ClientSession";
 })
 export class FiliereComponent implements OnInit {
 
-  constructor(private clientSessionService: ClientSessionService, private helperService: HelperService, private sessionFormationEnCourService: SessionFormationEnCoursService,
+  constructor(private clientSessionService: ClientSessionService, public  helperService: HelperService, private sessionFormationEnCourService: SessionFormationEnCoursService,
     private sessionFormationService: SessionsFormationsService, private notifierService: NotifierService, private sessionFormationEnCoursService: SessionFormationEnCoursService, private formationService: FormationService,
     private technologiesService: TechnologieService, private lieuxService: LieuxService, private typeFormationService: TypeFormationService) { }
 

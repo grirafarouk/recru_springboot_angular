@@ -121,7 +121,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
     private technologiesService: TechnologieService,
     private candidatsService: CandidatsService,
-    private helperService: HelperService,
+    public helperService: HelperService,
     private routingState: RoutingState,
     private notifierService: NotifierService,
     private utilisateurService: UtilisateurService,

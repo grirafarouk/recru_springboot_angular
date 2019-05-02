@@ -49,7 +49,7 @@ export class ForgetPwdComponent implements OnInit {
     )
   }
 
- private retour(){
+ retour(){
   this.router.navigate([NAVIGATION_RULES.login.url])
   }
 }

@@ -26,6 +26,9 @@ export class DashboardComponent implements OnInit {
   ChartColors : any[]=ChartColors
   chartOptionss = {}
    nbreTotal= 0;
+   ps:number;
+   pt:number;
+   pr:number;
   constructor(
     private accueilService: AccueilService,
     private router:Router, private notifierService: NotifierService,

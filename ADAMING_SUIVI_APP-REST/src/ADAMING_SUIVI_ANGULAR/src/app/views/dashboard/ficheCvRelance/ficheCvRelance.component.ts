@@ -17,6 +17,7 @@ export class ficheCvRelanceComponent implements OnInit {
   sub: any;
   CVRelance=[];
   
+  p:number;
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {

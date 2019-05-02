@@ -31,7 +31,7 @@ export class CustomTableComponent implements OnInit {
   enableAll;
 
   allValue=false;
-
+  p:number;
   items
   pages = [];
   size = 10;

@@ -180,7 +180,7 @@ export class listeEntretienComponent implements OnInit {
 
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService, private router: Router,
-    private notifierService: NotifierService, private competencesService: CompetencesService, private helperService: HelperService,
+    private notifierService: NotifierService, private competencesService: CompetencesService, public helperService: HelperService,
     private lieuxService: LieuxService, private statutservice: StatutService, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {

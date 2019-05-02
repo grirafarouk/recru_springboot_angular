@@ -98,7 +98,7 @@ aria-hidden="true">
               <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="utilisateur.email" name="email"   />
           </div>
         </div>
-        <div *ngIf="!utilisateur.id>0" class="form-group row">
+        <div *ngIf="verif" class="form-group row">
             <label class="col-md-3 col-form-label" >Mot de passe:</label>
             <div class="col-md-8">
                 <input class="form-control" style="font-weight: bold;color: black;" type="password" [(ngModel)]="utilisateur.password" name="password" />

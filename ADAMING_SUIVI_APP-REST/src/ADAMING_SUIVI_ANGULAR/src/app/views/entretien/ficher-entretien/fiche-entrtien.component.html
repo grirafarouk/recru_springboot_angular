@@ -229,7 +229,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="entretienDate">Date entretien</label>
-                    <input [owlDateTimeFilter]="entretienDateFilter" [min]="minRelance" [owlDateTimeTrigger]="dtentretienDate"
+                    <input  [min]="minRelance" [owlDateTimeTrigger]="dtentretienDate"
                       [owlDateTime]="dtentretienDate" class="form-control" name="entretienDate" [(ngModel)]="currentCandidat.entretien.date"
                       id="entretienDate" style="font-weight: bold;color: black;">
                     <owl-date-time [pickerType]="'calendar'" #dtentretienDate></owl-date-time>
@@ -239,7 +239,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="timeEntretien">Heure entretien</label>
-                    <input [owlDateTimeFilter]="entretienHeureFilter" class="form-control" placeholder="Time:"
+                    <input  class="form-control" placeholder="Time:"
                       [(ngModel)]="timeEntretien" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" style="font-weight: bold;color: black;">
                     <owl-date-time (afterPickerClosed)="afterHeurePickerClosed()" [pickerType]="'timer'" #dt2></owl-date-time>
                   </div>
