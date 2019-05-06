@@ -140,7 +140,6 @@ const notifierDefaultOptions: NotifierOptions = {
     multi: true
   } ,
   {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr'},
-  AccueilService
 ],
   bootstrap: [ AppComponent ]
 })

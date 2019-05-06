@@ -207,7 +207,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       })
     }
     reader.readAsDataURL(this.currentFile.file);
-    this.candidate=new Candidate();
   }
   recherchecandidate() {
     this.candidateFound = true;
@@ -304,34 +303,33 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         this.notifierService.notify("error", " Écrivez un email valide")
         error = true;
       }
-      else {
+      /*else {
         let cand
-        await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => {
-          cand = data
-        });
+        await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data });
         if (cand != null) {
           this.notifierService.notify("error", "Email existe déjà  !")
           error = true;
         }
-      }
+      }*/
       if (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined) {
         this.notifierService.notify("error", " Écrivez un numero Tel valide")
         error = true;
       }
-      else {
+      /*else {
         let cand
         await this.candidatsService.getCandidatByNumTel(this.candidate.numeroTel).toPromise().then(data => { cand = data });
         if (cand != null) {
           this.notifierService.notify("error", "Numéro de téléphone existe déjà  !")
           error = true;
         }
-      }
+      }*/
     }
     else {
       if ((this.candidate.email == "" || this.candidate.email == undefined) && (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined)) {
         this.notifierService.notify("error", " Écrivez un email  ou numero Tel  valide")
         error = true;
-      } else {
+      } 
+      /*else {
         if (this.candidate.email != "" && this.candidate.email != undefined) {
           let cand
           await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
@@ -348,7 +346,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
             error = true;
           }
         }
-      }
+      }*/
     }
     if (this.candidate.technologie.id == undefined) {
       this.notifierService.notify("error", " Choisir un Profil")
@@ -366,7 +364,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
     if (!error) {
       this.candidate.dateInscription = new Date();
-      this.candidate.statut.libelle = "Vide"
       this.candidate.statut.id=2
       this.candidate.entretien=null
       this.candidate.motif=null

@@ -58,7 +58,6 @@ export class ReportingSourceurComponent implements OnInit {
 
     this.reportingSourceur.findReportingSourceur().subscribe(data=>{
       this.ListReporting = data;
-      console.log(this.ListReporting)
       for( let i=0; i<this.ListReporting.length; i++)
       {      
           this.autresCv = this.autresCv + this.ListReporting[i].autre,

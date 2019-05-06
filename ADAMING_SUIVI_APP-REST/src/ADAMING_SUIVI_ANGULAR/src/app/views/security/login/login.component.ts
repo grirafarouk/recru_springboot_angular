@@ -9,7 +9,8 @@ import { USER_ROLE } from "../../../helper/application.constant";
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: 'login.component.html'
+  templateUrl: 'login.component.html',
+  styleUrls: ["login.css"]
 })
 export class LoginComponent implements OnInit {
 

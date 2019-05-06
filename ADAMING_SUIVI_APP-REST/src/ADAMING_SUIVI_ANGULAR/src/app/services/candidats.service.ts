@@ -124,21 +124,8 @@ export class CandidatsService {
 
   }
 
-  public getCandidatByEmail(email: String): Observable<Promise<Candidate>> {
-    return this.httpClient.get<Candidate>(BACK_END_URL + "/getCandidatByEmail/" + email + "/").pipe(map(async (data: Candidate) => {
-      if (data != null) {
-        data.dateInscription = new Date(data.dateInscription)
-        data.dateNaissance = new Date(data.dateNaissance)
-        data.dateObtentionDiplome = new Date(data.dateObtentionDiplome)
-        if (data.entretien == undefined || data.entretien == null)
-          data.entretien = new Entretien();
-        else
-          data.entretien.date = new Date(data.entretien.date);
-        if (data.motif == undefined || data.motif == null)
-          data.motif = new Motif();
-      }
-      return data;
-    }))
+  public getCandidatByEmail(email): Observable<any> {
+    return this.httpClient.get(BACK_END_URL + "/getCandidatByEmail/" + email + "/")
 
   }
 
