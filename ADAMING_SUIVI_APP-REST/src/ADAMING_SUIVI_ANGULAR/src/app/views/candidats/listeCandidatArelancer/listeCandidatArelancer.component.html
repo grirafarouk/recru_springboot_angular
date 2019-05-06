@@ -69,7 +69,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> Sourceur :</label>
 
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" [items]="listSourceur" [compareWith]="helperService.compareFn"
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [compareWith]="helperService.compareFn"
                                 [(ngModel)]="condidat.sourceur" name="source">
                                 <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
@@ -81,7 +81,7 @@
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
                             
                             
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"  [items]="listCarge" [compareWith]="helperService.compareFn" [(ngModel)]="condidat.chargeur" name="charge"  >
+                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"   [compareWith]="helperService.compareFn" [(ngModel)]="condidat.chargeur" name="charge"  >
                                 <ng-option *ngFor="let codeP of listCarge " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
 

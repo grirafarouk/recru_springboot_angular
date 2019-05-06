@@ -54,10 +54,8 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
-
-
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
-                                [items]="listCarge" [compareWith]="helperService.compareFn"
+                                 [compareWith]="helperService.compareFn"
                                 [(ngModel)]="condidat.chargeur" name="charge">
                                 <ng-option *ngFor="let codeP of listCarge " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
