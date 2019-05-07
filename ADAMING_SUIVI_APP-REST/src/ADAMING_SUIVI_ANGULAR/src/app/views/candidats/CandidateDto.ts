@@ -30,8 +30,8 @@ export class CandidateDto {
     commentaire: string;
     critereRecheche: string;
     origine: string;
-    sourceur:Utilisateur=new Utilisateur();
-    chargeur:Utilisateur=new Utilisateur();
+    sourceur:Utilisateur;
+    chargeur:Utilisateur;
     source:String;
     charge:String;
     

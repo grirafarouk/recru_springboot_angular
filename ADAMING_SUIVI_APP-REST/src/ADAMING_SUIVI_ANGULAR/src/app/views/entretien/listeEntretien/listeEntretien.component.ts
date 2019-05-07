@@ -1,3 +1,4 @@
+import { ChargeRelance } from './../../../models/ChargeRelance';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { CandidatsService } from "../../../services/candidats.service";
@@ -14,6 +15,7 @@ import { Status } from "../../../models/enum/Status";
 import { UtilisateurService } from "../../../services/utilisateur.service";
 import * as _moment from 'moment';
 import { StatutService } from "../../../services/administrationService/StatutService";
+import { Utilisateur } from '../../../models/Utilisateur';
 
 
 @Component({
@@ -122,20 +124,20 @@ export class listeEntretienComponent implements OnInit {
       data: 'mobilite',
       title: 'Mobilité',
       visible: true,
-       rendered: function (candidat): any {
+      rendered: function (candidat): any {
 
-          if (candidat.mobilite ==true){
+        if (candidat.mobilite == true) {
 
-            return 'oui';
-    
-          }
-          else if (candidat.mobilite ==false)
+          return 'oui';
+
+        }
+        else if (candidat.mobilite == false)
           return 'non'
-         }
- 
+      }
+
     },
 
-    
+
     {
       data: 'statut',
       title: 'Statut',
@@ -174,7 +176,7 @@ export class listeEntretienComponent implements OnInit {
   pages = [];
   lieux = []
   statuts = []
-  listCarge=[];
+  listCarge = [];
   refStatut = this.helperService.buildStatutArray();
 
 
@@ -199,13 +201,6 @@ export class listeEntretienComponent implements OnInit {
     })
   }
 
-  reset() {
-    this.condidat = new CandidateDto();
-    this.table.item = this.condidat;
-    this.rechercheCandidat();
-  }
-
-
   downloadCV(candidat) {
     this.candidatsService.getCvCandidats(candidat).subscribe(res => {
       let file = res;
@@ -224,10 +219,42 @@ export class listeEntretienComponent implements OnInit {
   initTableFunction() {
     this.rechercheCandidat()
   }
+
+  reset() {
+    this.condidat = new CandidateDto();
+    this.table.item = this.condidat;
+    this.rechercheCandidat2();
+
+  }
+
+
   rechercheCandidat() {
+    
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
-    
+
+    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
+    }
+    else {
+      if (!this.regex.test(this.condidat.nom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+      }
+      else if (!this.regex.test(this.condidat.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+        let callBack = (e) => {
+          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+        }
+        this.table.setPage(1, callBack);
+      }
+
+    }
+  }
+  rechercheCandidat2() {
+
+
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
@@ -245,6 +272,7 @@ export class listeEntretienComponent implements OnInit {
         this.table.setPage(1, callBack);
       }
     }
+
   }
 
 

@@ -20,6 +20,7 @@ const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.
 const EXCEL_EXTENSION = '.xlsx';
 import * as _moment from 'moment';
 import { RoutingState } from '../../../helper/routing-state.service';
+import { Utilisateur } from '../../../models/Utilisateur';
 
 @Component({
   selector: 'ngbd-dropdown-basic',
@@ -236,10 +237,20 @@ export class ListeReportingComponent implements OnInit {
     this.rechercheCandidat()
   }
   rechercheCandidat() {
+   
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
+   
+    let callBack = (e) => {
+      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+    }
+    this.table.setPage(1, callBack);
+  }
+  rechercheCandidat2() {
+    
     this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
     let callBack = (e) => {
       this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
@@ -259,7 +270,9 @@ export class ListeReportingComponent implements OnInit {
   reset() {
     this.condidat = new CandidateDto();
     this.table.item = this.condidat;
-    this.rechercheCandidat();
+    this.rechercheCandidat2();
+    this.condidat.chargeur=null;
+    this.condidat.sourceur=null;
   }
 
 

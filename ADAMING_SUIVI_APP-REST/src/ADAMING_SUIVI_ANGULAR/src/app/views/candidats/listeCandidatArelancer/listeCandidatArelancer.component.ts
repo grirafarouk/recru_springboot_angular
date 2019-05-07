@@ -162,10 +162,40 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.helperService.listRelanceCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
+  //  if (this.condidat.chargeur==null){
+
+     // this.condidat.chargeur=new Utilisateur();
+      //this.condidat.sourceur=new Utilisateur();
+
+    //}
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+
+    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
+    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
+    }
+    else {
+      if (!this.regex.test(this.condidat.nom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+      }
+      else if (!this.regex.test(this.condidat.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+      //  this.condidat.chargeur=null;
+       // this.condidat.sourceur=null;
+        let callBack = (e) => {
+          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+        }
+        this.table.setPage(1, callBack);
+      }
+    }
+  }
+  rechercheCandidat2() {
+    
 
     this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
@@ -200,7 +230,10 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   reset() {
     this.condidat = new CandidateDto();
     this.table.item = this.condidat;
-    this.rechercheCandidat();
+    this.rechercheCandidat2();
+    this.condidat.chargeur=null;
+    this.condidat.sourceur=null;
+
   }
 
   downloadCV(candidat) {

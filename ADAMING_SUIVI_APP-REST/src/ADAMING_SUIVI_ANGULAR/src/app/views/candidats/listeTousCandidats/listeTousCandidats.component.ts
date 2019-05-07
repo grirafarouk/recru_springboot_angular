@@ -29,6 +29,7 @@ import { ExcelService } from "../../../services/excel.service";
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
 import * as _moment from 'moment';
+import { Utilisateur } from '../../../models/Utilisateur';
 
 
 @Component({
@@ -216,10 +217,35 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     this.helperService.listTousCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
+
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
+    
+    
+    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
+      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
+    }
+    else {
+      if (!this.regex.test(this.condidat.nom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
+      }
+      else if (!this.regex.test(this.condidat.prenom)) {
+        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
+      }
+      else {
+     
+
+        let callBack = (e) => {
+          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+        }
+        this.table.setPage(1, callBack);
+      }
+    }
+  }
+  rechercheCandidat2() {
+
     
     
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
@@ -255,7 +281,9 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   reset() {
     this.condidat = new CandidateDto();
     this.table.item = this.condidat;
-    this.rechercheCandidat();
+    this.rechercheCandidat2();
+    this.condidat.chargeur=null;
+    this.condidat.sourceur=null;
   }
 
 

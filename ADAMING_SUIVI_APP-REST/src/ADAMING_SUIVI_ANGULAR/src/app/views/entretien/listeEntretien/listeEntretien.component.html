@@ -34,9 +34,9 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="dateEntretien" style="font-weight:bold">Date
                                 entretien:</label>
-                            <input  style="font-weight: bold;color: black;"
-                                [owlDateTimeTrigger]="dateEntretien" [owlDateTime]="dateEntretien" class="form-control"
-                                name="dateEntretien" [(ngModel)]="condidat.dateEntretien" id="dateEntretien">
+                            <input style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dateEntretien"
+                                [owlDateTime]="dateEntretien" class="form-control" name="dateEntretien"
+                                [(ngModel)]="condidat.dateEntretien" id="dateEntretien">
                             <owl-date-time [pickerType]="'calendar'" #dateEntretien></owl-date-time>
                         </div>
                     </div>
@@ -53,10 +53,9 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
+                            <label class="form-col-form-label" for="charge" style="font-weight:bold"> charge :</label>
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
-                                 [compareWith]="helperService.compareFn"
-                                [(ngModel)]="condidat.chargeur" name="charge">
+                                [compareWith]="helperService.compareFn" [(ngModel)]="condidat.chargeur" name="charge">
                                 <ng-option *ngFor="let codeP of listCarge " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
 
