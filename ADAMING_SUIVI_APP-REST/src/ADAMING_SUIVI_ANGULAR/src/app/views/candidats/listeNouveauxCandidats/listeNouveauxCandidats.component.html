@@ -21,18 +21,10 @@
                                 <input type="text" class="form-control" style="font-weight: bold;color: black;"
                                     name="prenom" [(ngModel)]="condidat.prenom" id="prenom">
 
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N°
-                                    téléphone:</label>
-                                <input type="text" class="form-control" style="font-weight: bold;color: black;"
-                                    name="prenom" [(ngModel)]="condidat.numeroTel" id="numeroTel"
-                                    [textMask]="{mask: mask}">
 
                             </div>
                         </div>
+                        
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
@@ -43,17 +35,24 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date
-                                    Inscription:</label>
-
-
-                                <input style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dateInscription"
-                                    [owlDateTime]="dateInscription" class="form-control" name="dateInscription"
-                                    [(ngModel)]="condidat.dateInscription" id="dateInscription">
-                                <owl-date-time [pickerType]="'calendar'" #dateInscription></owl-date-time>
+                                <label class="form-col-form-label" for="numeroTel" style="font-weight:bold">N°
+                                    téléphone:</label>
+                                <input type="text" class="form-control" style="font-weight: bold;color: black;"
+                                    name="numeroTel" [(ngModel)]="condidat.numeroTel" id="numeroTel"
+                                    [textMask]="{mask: mask}">
 
                             </div>
                         </div>
+                        <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date Inscription:</label>
+                                        <input style="font-weight: bold;color: black;"
+                                        [owlDateTimeTrigger]="dateInscription" [owlDateTime]="dateInscription" class="form-control"
+                                        name="dateInscription" [(ngModel)]="condidat.dateInscription" id="dateInscription">
+                                        <owl-date-time [pickerType]="'calendar'" #dateInscription></owl-date-time>
+                                </div>
+                            </div>
+    
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <label for="profil" style="font-weight:bold">Type de profil:</label>
@@ -76,9 +75,7 @@
                                     name="source">
                                     <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
                                         {{codeP.prenom}}</ng-option>
-
                                 </ng-select>
-
                             </div>
 
                         </div>
@@ -132,7 +129,7 @@
                 </div>
             </form>
         </div>
-        <custom-table [item]="condidat" [actions]="actions" [title]="titleTable" [parent]="this" #table
-            [columns]="columns"></custom-table>
+        <app-ncandidattable [reset]="verif" [item]="condidat" [item2]="condidat2" [actions]="actions" [title]="titleTable" [parent]="this"
+            #table [columns]="columns"></app-ncandidattable>
     </div>
 </div>

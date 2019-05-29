@@ -169,7 +169,7 @@ export class FicheEntrtienComponent implements OnInit {
     else { this.disabledtime = false; }
   }
 
-   codePostaleOnSearch(value) {
+  codePostaleOnSearch(value) {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
@@ -183,7 +183,7 @@ export class FicheEntrtienComponent implements OnInit {
     else this.codePostals = []
   }
 
-   downloadPDF() {
+  downloadPDF() {
 
     var url = window.URL.createObjectURL(this.file.data);
     var a = document.createElement('a');
@@ -196,7 +196,7 @@ export class FicheEntrtienComponent implements OnInit {
     a.remove(); // remove the element
   }
 
-   afterHeurePickerClosed() {
+  afterHeurePickerClosed() {
     if (this.timeEntretien == undefined) {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
     }
@@ -212,15 +212,15 @@ export class FicheEntrtienComponent implements OnInit {
     }
   }
 
-   annuler() {
+  annuler() {
     this.router.navigate([this.routingState.getPreviousUrl()]);
   }
 
-   updateDateObtentionDiplome(date: Date) {
+  updateDateObtentionDiplome(date: Date) {
     this.currentCandidat.dateObtentionDiplome = date
   }
 
-   ratingComponentClick(clickObj: any) {
+  ratingComponentClick(clickObj: any) {
     this.currentCandidat.suivi[clickObj.name] = clickObj.rating;
   }
 
@@ -234,13 +234,13 @@ export class FicheEntrtienComponent implements OnInit {
   }
 
   private verfierSuivinoteResultat() {
+
     let error = false;
 
-    if (this.currentCandidat.suivi.noteResultat < 0 || this.currentCandidat.suivi.noteResultat > 45) {
+    if (this.currentCandidat.suivi.noteResultat < 0 || this.currentCandidat.suivi.noteResultat > 45 || this.currentCandidat.suivi.noteResultat == null) {
       this.notifierService.notify("error", "Résultat du test n’est pas compris entre les valeurs attendues 0 et 45.")
       error = true;
     }
-
     return error;
     //#endregion
   }
@@ -288,26 +288,26 @@ export class FicheEntrtienComponent implements OnInit {
     this.currentCandidat.suivi.regions = selectedRegions;
     this.regionFranceModal.hide();
   }
-  openRegionsDialog(){
-    let  disabled:boolean;
-    disabled=this.disabledtime;
-    if(this.disabledtime)
-    disabled=false;
-    else disabled=true;
-   if (disabled)
-  this.openRegionsDialogefrance();
-    
+  openRegionsDialog() {
+    let disabled: boolean;
+    disabled = this.disabledtime;
+    if (this.disabledtime)
+      disabled = false;
+    else disabled = true;
+    if (disabled)
+      this.openRegionsDialogefrance();
+
 
   }
-   openRegionsDialogefrance() {
-     
+  openRegionsDialogefrance() {
+
     var selectedRegions = []
     if (this.currentCandidat.suivi.regions != undefined) this.currentCandidat.suivi.regions.forEach(element => {
       selectedRegions.push(element.id + "");
     });
     this.map.setSelectedRegions(selectedRegions);
     this.regionFranceModal.show();
-  
+
   }
 
 
@@ -389,7 +389,7 @@ export class FicheEntrtienComponent implements OnInit {
         })
 
         this.currentCandidat.motif = null;
-        if ((this.currentCandidat.entretien.disponible.libelle == "Disponible") && (this.currentCandidat.statut.libelle !="Valide") && (this.currentCandidat.suivi.noteFiabilite != undefined)) {
+        if ((this.currentCandidat.entretien.disponible.libelle == "Disponible") && (this.currentCandidat.statut.libelle != "Valide") && (this.currentCandidat.suivi.noteFiabilite != undefined)) {
           this.currentCandidat.statut.libelle = "En attente d’affectation"
           this.currentCandidat.statut.id = 4
         }
@@ -401,7 +401,7 @@ export class FicheEntrtienComponent implements OnInit {
     }
   }
 
-   dateNaissanceChangedHandler() {
+  dateNaissanceChangedHandler() {
     this.currentCandidat.age = this.helperService.getAge(this.currentCandidat.dateNaissance)
   }
 }

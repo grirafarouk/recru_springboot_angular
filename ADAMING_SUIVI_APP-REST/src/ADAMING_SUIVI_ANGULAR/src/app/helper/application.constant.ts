@@ -33,7 +33,7 @@ export const NAVIGATION_RULES = {
         url: 'dashboard'
     },
     candidats: {
-        url: "candidats",
+        url: 'candidats',
         newCancidat: 'nouveauxCandidat',
         listeNouveauxCandidats: 'listeNouveauxCandidats',
         listeTousCandidats: 'listeTousCandidats',

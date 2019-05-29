@@ -31,10 +31,11 @@
             <div class="col-sm-2">
                 <div class="form-group">
                     <label class="form-col-form-label" for="lieu">Lieu:</label>
-
                     <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
                         bindValue="libelle" bindLabel="libelle" [items]="lieux"
-                        [(ngModel)]="session.formation.lieu.libelle" name="lieu"></ng-select>
+                        [(ngModel)]="session.formation.lieu.libelle" name="lieu">
+                    </ng-select>
+
                 </div>
             </div>
             <div class="col-sm-2">
@@ -93,7 +94,7 @@
             </div>
             <div [collapse]="isCollapsed[i]">
                 <div class="card-body">
-                    <table class=" table table-striped table-condensed table-bordered">
+                    <table class=" table table-striped">
                         <thead class="thead-light">
                             <tr>
                                 <th scope="col">Code</th>

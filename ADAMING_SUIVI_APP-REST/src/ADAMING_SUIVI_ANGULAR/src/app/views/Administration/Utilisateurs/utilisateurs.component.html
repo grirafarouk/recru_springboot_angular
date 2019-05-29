@@ -6,7 +6,10 @@
                         <label style="font-weight:bold;color:#546E7A;">Utilisateur</label>
                 </div>
     <div class="card-body">
-        <table class="table table-bordered table-striped">
+        <div class="search-hero">
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
+          </div>
+        <table class="table table-striped">
           <thead>
             <tr>
               <th>Login</th>
@@ -17,7 +20,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let user of ListUtilistaeur | paginate: { itemsPerPage:10, currentPage: pt, id: 'pt' }">
+            <tr *ngFor="let user of ListUtilistaeur  | paginate: { itemsPerPage:10, currentPage: pt, id: 'pt' }">
               <td>{{user.login}}</td>
               <td>{{user.profil.libelle}}</td>
               <td>{{user.actif | boolean}}</td>

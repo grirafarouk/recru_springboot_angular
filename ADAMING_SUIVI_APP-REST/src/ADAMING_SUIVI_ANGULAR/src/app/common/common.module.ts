@@ -15,7 +15,12 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { CustomLocalTableComponent } from './local-table/local-table.component';
 import { BooleanPipe } from '../views/pipe/boolean.pipe';
-
+import { MonthDatePickerComponent } from './month-date-picker/month-date-picker.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NcandidattableComponent } from './table/ncandidattable/ncandidattable.component';
+import { TouscandidattableComponent } from './table/touscandidattable/touscandidattable.component';
+import { RelancertableComponent } from './table/relancertable/relancertable.component';
+import { ReportingtableComponent } from './table/reportingtable/reportingtable.component';
 
 @NgModule({
   imports: [
@@ -23,6 +28,7 @@ import { BooleanPipe } from '../views/pipe/boolean.pipe';
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
     ReactiveFormsModule,
+    NgSelectModule,
     ModalModule.forRoot(),
     NgxMaskModule.forRoot(),
     CommonModule,
@@ -31,10 +37,10 @@ import { BooleanPipe } from '../views/pipe/boolean.pipe';
     BsDropdownModule,
     TooltipModule.forRoot()
   ],
-  declarations: [ BooleanPipe,CustomLocalTableComponent,RatingComponent,MonthYeatPickerComponent ,RatingDisabledComponent ,CandidatsDetailsModalComponent,CustomTableComponent],
+  declarations: [ BooleanPipe,CustomLocalTableComponent,RatingComponent,MonthYeatPickerComponent ,RatingDisabledComponent,NcandidattableComponent ,CandidatsDetailsModalComponent,CustomTableComponent, NcandidattableComponent, TouscandidattableComponent, RelancertableComponent, ReportingtableComponent],
   exports: [
     BooleanPipe,
-    CustomLocalTableComponent, RatingComponent,MonthYeatPickerComponent,RatingDisabledComponent,CandidatsDetailsModalComponent,CustomTableComponent 
+  ReportingtableComponent,RelancertableComponent, TouscandidattableComponent, NcandidattableComponent,CustomLocalTableComponent, RatingComponent,MonthYeatPickerComponent,RatingDisabledComponent,CandidatsDetailsModalComponent,CustomTableComponent 
   ]
 })
 export class CommonCustomModule { }

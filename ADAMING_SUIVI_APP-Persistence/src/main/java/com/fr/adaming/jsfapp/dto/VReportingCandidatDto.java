@@ -24,13 +24,13 @@ public class VReportingCandidatDto implements Serializable {
 	private String nomCharge;
 	private String prenomCharge;
 	private Integer pertinence;
-	private String disponible;
+	private String disponibilite;
 	private String statut;
 	private MobiliteSurLille mobiliteLille;
 	private CVSource cvSource;
 	private String lieuEntretien;
 	private Date dateEntretien;
-	private Long noteTotale;
+	private String noteTotale;
 	private String formation;
 	private Date dateDemarrageFormation;
 	private Date dateDebut;
@@ -206,11 +206,11 @@ public class VReportingCandidatDto implements Serializable {
 		this.dateEntretien = dateEntretien;
 	}
 
-	public Long getNoteTotale() {
+	public String getNoteTotale() {
 		return noteTotale;
 	}
 
-	public void setNoteTotale(Long noteTotale) {
+	public void setNoteTotale(String noteTotale) {
 		this.noteTotale = noteTotale;
 	}
 
@@ -307,12 +307,12 @@ public class VReportingCandidatDto implements Serializable {
 		this.pertinence = pertinence;
 	}
 
-	public String getDisponible() {
-		return disponible;
+	public String getDisponibilite() {
+		return disponibilite;
 	}
 
-	public void setDisponible(String disponible) {
-		this.disponible = disponible;
+	public void setDisponibilite(String disponibilite) {
+		this.disponibilite = disponibilite;
 	}
 
 	public String getDiplome() {

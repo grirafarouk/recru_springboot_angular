@@ -48,6 +48,7 @@ import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
 import com.fr.adaming.jsfapp.model.VReportingCandidat;
@@ -67,7 +68,7 @@ import com.fr.adaming.util.PieceJointe;
 public class CandidatController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CandidatController.class);
 	private static final String VALUE = "value";
-	private static final String NAME = "mounir";
+	private static final String NAME = "apache-tomcat8097";
 	private static final String REPORTING = "reporting";
 	private static final String CONTEXT = "context";
 
@@ -161,7 +162,6 @@ public class CandidatController {
 	}
 
 	@PostMapping(path = "/RechercheCandidatavecentretien")
-
 	public List<VListeCandidatsDto> findCandidatavecentretien(@RequestBody VListeCandidatsDto nouveauCandidat,
 			@RequestParam int page, @RequestParam int size, @RequestParam boolean allValue) {
 		List<VListeCandidats> list = new ArrayList<>(
@@ -213,6 +213,10 @@ public class CandidatController {
 		if (creerCv(candidat, login, mime)) {
 			candidat = candidatService.createOrUpdate(candidat);
 		}
+//		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
+//				+ login;
+//		File file = new File(realPath + File.separator + candidat.getNomCV());
+//		file.delete();
 
 		return candidat;
 	}
@@ -385,17 +389,11 @@ public class CandidatController {
 
 	@PutMapping(path = "/updateficheCandidat")
 	public CandidatDto updateficheCandidat(@RequestBody CandidatDto candidatDTO) {
-		//
-		// if
-		// (candidatDTO.getEntretien().getDisponible().getLibelle().equals("Disponible"))
-		// {
-		// Statut s = new Statut(3, "En attente d’évaluation");
-		// candidatDTO.setStatut(s);
-		// } else {
-		// Statut s = new Statut(2, "Vide");
-		// candidatDTO.setStatut(s);
-		// System.out.println(candidatDTO.getStatut());
-		// }
+
+		if (candidatDTO.getEntretien().getDisponible().getLibelle().equals("Disponible")) {
+			Statut s = new Statut(new Long(3), "En attente d’évaluation");
+			candidatDTO.setStatut(s);
+		}
 		Candidat candidat = candidatService.createOrUpdate(candidatMapper.candidatDtoToCandidat(candidatDTO));
 		return candidatMapper.candidatToCandidatDto(candidat);
 	}
@@ -418,10 +416,10 @@ public class CandidatController {
 
 	@PutMapping(path = "/updateficheEntretien")
 	public CandidatDto updateficheEntretien(@RequestBody CandidatDto candidatDTO) {
-		// if (candidatDTO.getStatut().getLibelle().equals("En attente d’évaluation")) {
-		// Statut s = new Statut(4, "En attente d’affectation");
-		// candidatDTO.setStatut(s);
-		// }
+		if (candidatDTO.getStatut().getLibelle().equals("En attente d’évaluation")) {
+			Statut s = new Statut(new Long(4), "En attente d’affectation");
+			candidatDTO.setStatut(s);
+		}
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDTO);
 
 		candidat = candidatService.createOrUpdate(candidat);

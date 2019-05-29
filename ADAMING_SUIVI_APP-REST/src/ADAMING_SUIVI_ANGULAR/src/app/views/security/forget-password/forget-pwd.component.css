@@ -1,3 +1,8 @@
 .text-muted {
   color: #fbfbfc !important;
 }
+.backBody {
+  font-family: calibri;
+  background-image: url("assets/img/avatars/bg.jpg");
+  background-repeat:round;
+}

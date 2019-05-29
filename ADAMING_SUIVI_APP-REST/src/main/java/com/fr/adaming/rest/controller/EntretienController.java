@@ -27,14 +27,13 @@ public class EntretienController {
 
 	private EntretienMapper entretienMapper = Mappers.getMapper(EntretienMapper.class);
 
-	private Entretien entretien1;
-
-	@PostMapping(path = "")
+	@PostMapping(value = "")
 	public EntretienDto createOrUpdate(@RequestBody EntretienDto entretienDto) {
-		entretien1 = entretienMapper.entretienDtoToEntretien(entretienDto);
-		entretien1 = entretienService.createOrUpdate(entretien1);
-		return entretienMapper.entretienToEntretienDto(entretien1);
+		Entretien entretien = entretienMapper.entretienDtoToEntretien(entretienDto);
+		entretien = entretienService.createOrUpdate(entretien);
+		return entretienMapper.entretienToEntretienDto(entretien);
 	}
+
 
 	@GetMapping(path = "/{id}")
 	public Entretien findById(@PathVariable Long id) {

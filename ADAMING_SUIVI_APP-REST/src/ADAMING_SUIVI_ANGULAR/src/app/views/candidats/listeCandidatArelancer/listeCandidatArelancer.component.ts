@@ -1,3 +1,4 @@
+import { CandidatDetailResolve } from './../fiche-candidat/CandidatDetailResolve';
 import { Observable } from 'rxjs';
 import { Utilisateur } from './../../../models/Utilisateur';
 import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
@@ -117,12 +118,19 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       visible: true
     },
   ]
+  searchdate() {
+    if (this.condidat.dateInscription)
+      console.log(this.condidat.dateInscription)
 
+
+  }
   condidat: CandidateDto = new CandidateDto();
-  listSourceur= [];
-  listCarge= [];
-  sourceur:Array<Utilisateur>=[];
-  relance: boolean=true;
+  listSourceur = [];
+  verif: number;
+  condidat2: CandidateDto = new CandidateDto()
+  listCarge = [];
+  sourceur: Array<Utilisateur> = [];
+  relance: boolean = true;
   mask: any[] = PHONE_MASK;
   disponibleListe: any[];
   verif_existance_code_region: boolean;
@@ -147,33 +155,38 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       this.technologies = data;
     })
     this.utilisateurService.getAllSourceurs().subscribe(data => {
-      this.listSourceur=data;
+      this.listSourceur = data;
     })
-   
+
     this.disponibilitesService.findAllDisponibilite().subscribe(data => {
       this.disponibleListe = data;
     })
     this.utilisateurService.getAllChages().subscribe(data => {
       this.listCarge = data
     })
-    
+
   }
   ngOnDestroy(): void {
     this.helperService.listRelanceCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
-  //  if (this.condidat.chargeur==null){
 
-     // this.condidat.chargeur=new Utilisateur();
-      //this.condidat.sourceur=new Utilisateur();
+    if (this.condidat.sourceur == null) {
 
-    //}
+      this.condidat.sourceur = new Utilisateur();
+    }
+    if (this.condidat.chargeur == null) {
+      this.condidat.chargeur = new Utilisateur();
+
+    }
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
-
-    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
+    if (this.condidat.nomCharge == null)
+      this.condidat.chargeur = null
+    if (this.condidat.nomSourceur == null)
+      this.condidat.sourceur = null
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
@@ -185,30 +198,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
         this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
       }
       else {
-      //  this.condidat.chargeur=null;
-       // this.condidat.sourceur=null;
-        let callBack = (e) => {
-          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-        }
-        this.table.setPage(1, callBack);
-      }
-    }
-  }
-  rechercheCandidat2() {
-    
 
-    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
-    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
-      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
-    }
-    else {
-      if (!this.regex.test(this.condidat.nom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
-      }
-      else if (!this.regex.test(this.condidat.prenom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
-      }
-      else {
         let callBack = (e) => {
           this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
         }
@@ -216,6 +206,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   initTableFunction() {
     this.rechercheCandidat()
   }
@@ -228,11 +219,13 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   }
 
   reset() {
+    this.verif = 1;
+    this.condidat2 = new CandidateDto();
     this.condidat = new CandidateDto();
     this.table.item = this.condidat;
-    this.rechercheCandidat2();
-    this.condidat.chargeur=null;
-    this.condidat.sourceur=null;
+    this.table.item2 = this.condidat2;
+    this.rechercheCandidat();
+
 
   }
 
@@ -286,7 +279,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     }
     else this.region = []
   }
-   updateDateRelance(date: Date) {
+  updateDateRelance(date: Date) {
     this.condidat.dateRelance = date
   }
 

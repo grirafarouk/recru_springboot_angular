@@ -122,6 +122,7 @@
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="CandidatARelancerJobImpl" />
 		<property name="cronExpression" value="0 0 8 * * ?" />
+		
 	</bean>
 
 

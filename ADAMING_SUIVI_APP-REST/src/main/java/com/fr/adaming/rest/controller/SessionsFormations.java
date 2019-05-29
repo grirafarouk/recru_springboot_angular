@@ -36,14 +36,6 @@ public class SessionsFormations {
 	
 	private SessionFormationMapper sessionFormationMapper=Mappers.getMapper(SessionFormationMapper.class);
 	
-//	@PostMapping("/box")
-//	public SessionFormationDto updatecheckbox (@RequestBody SessionFormationDto sessionFormationDto) {
-//		
-//		SessionFormation sessionFormation=sessionFormationMapper.sessionFormationDtoToSessionFormation(sessionFormationDto);
-//		sessionFormation=sessionFormationService.createOrUpdate(sessionFormation);
-//		return sessionFormationMapper.sessionFormationToSessionFormationDto(sessionFormation);
-//
-//	}
 	@PostMapping("")
 	public SessionFormationDto createOrUpdate(@RequestBody SessionFormationDto sessionFormationDto) {
 		if(sessionFormationDto.getId()==null)

@@ -75,7 +75,7 @@ export class RoleComponent implements OnInit {
   }
 
   saveRole() {
-    if (this.role.id > 0)
+    if (this.role.id > -1)
       this.updateRole();
     else this.createRole();
   }
@@ -83,14 +83,14 @@ export class RoleComponent implements OnInit {
   async createRole() {
     var error = false;
     if (this.role.libelle == "" || this.role.libelle == undefined) {
-      this.notifierService.notify("error", " Écrivez un role valide")
+      this.notifierService.notify("error", " Écrivez un Profil valide")
       error  = true;
     }
     else {
       let role
       await this.roleService.findRoleByLibelle(this.role.libelle).toPromise().then(data => { role = data });
       if (role != null) {
-        this.notifierService.notify("error", "role existe déjà  !")
+        this.notifierService.notify("error", "Profil existe déjà  !")
         error  = true;
       }
     }
@@ -99,7 +99,7 @@ export class RoleComponent implements OnInit {
     this.roleService.save(this.role).toPromise().then((data: Role) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "role ajouté avec succés !")
+        this.notifierService.notify("success", "Profil ajouté avec succés !")
       }
     })
   }
@@ -109,14 +109,14 @@ export class RoleComponent implements OnInit {
   async updateRole() {
     var error = false;
     if (this.role.libelle == "" || this.role.libelle == undefined) {
-      this.notifierService.notify("error", " Écrivez un role valide")
+      this.notifierService.notify("error", " Écrivez un Profil valide")
       error  = true;
     }
     else {
       let role
       await this.roleService.findRoleByLibelle(this.role.libelle).toPromise().then(data => { role = data });
       if (role != null) {
-        this.notifierService.notify("error", "role existe déjà  !")
+        this.notifierService.notify("error", "Profil existe déjà  !")
         error  = true;
       }
     }
@@ -125,7 +125,7 @@ export class RoleComponent implements OnInit {
     this.roleService.update(this.role).toPromise().then((data: Role) => {
       this.ngOnInit();
       if (data != null) {
-        this.notifierService.notify("success", "role  modifié avec succés !")
+        this.notifierService.notify("success", "Profil  modifié avec succés !")
       }
     })
   }
@@ -135,7 +135,7 @@ export class RoleComponent implements OnInit {
   delete() {
     this.roleService.delete(this.role).toPromise().then((data) => {
       this.ngOnInit();
-      this.notifierService.notify("success", "role Supprimer avec succés !")
+      this.notifierService.notify("success", "Profil Supprimer avec succés !")
 
     })
     this.deleteModal.hide();

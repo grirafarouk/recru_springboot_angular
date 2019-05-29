@@ -27,6 +27,7 @@ import { EntretienService } from '../../../services/entretien-service';
 import { Status } from '../../../models/enum/Status';
 import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE } from '../../../helper/application.constant';
 import { async } from 'q';
+import { Disponibilite } from '../../../models/Disponibilite';
 
 @Component({
   selector: 'app-fiche-candidat',
@@ -51,7 +52,7 @@ export class FicheCandidatComponent implements OnInit {
   minRelance = new Date((new Date().getMonth() + 1) + "/" + (new Date().getDate()) + "/" + new Date().getFullYear());
   timeEntretien: Date;
   codePostals: Array<CodePostal> = [];
-  disponibles: Array<CodePostal> = [];
+  disponibles: Array<Disponibilite> = [];
   technologies: Array<Technologie> = []
   origines: Array<Origine> = []
   competences: Array<Competence> = []
@@ -170,7 +171,6 @@ export class FicheCandidatComponent implements OnInit {
       this.notifierService.notify("error", "Heure incorrect: l’heure doit être entre 09h et 18h")
 
     }
-    // else this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
   }
 
   entretienHeureFilter = (d: Date): boolean => {
@@ -362,7 +362,6 @@ export class FicheCandidatComponent implements OnInit {
       if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION) {
         //#region Save Or Update Entretien
         this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
-
         await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
           if (this.currentCandidat.entretien.id > 0)
             this.notifierService.notify("success", "Modifié!, Candidat modifié avec success !");

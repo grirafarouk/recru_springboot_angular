@@ -57,11 +57,13 @@ export class ReportingSourceurComponent implements OnInit {
 
       this.ListSourceur = data;
     })
-
+   
     this.reportingSourceur.findReportingSourceur().subscribe(data => {
       this.ListReporting = data;
-      for (let i = 0; i < this.ListReporting.length; i++) {
-        this.autresCv = this.autresCv + this.ListReporting[i].autre,
+
+      for( let i=0; i<this.ListReporting.length; i++)
+      {      
+          this.autresCv = this.autresCv + this.ListReporting[i].autre,
           this.totalCVDisponible = this.totalCVDisponible + this.ListReporting[i].nbrDsipo,
           this.totalCVhorsCible = this.totalCVhorsCible + this.ListReporting[i].nbrHors
       }
@@ -88,6 +90,7 @@ export class ReportingSourceurComponent implements OnInit {
         }
       }
     });
+    
     this.reportingSourceur.getNbrTotalCvParCandidat(sourceur, this.dateDebut, this.dateFin).subscribe(result => {
       this.chartOptions2 = {
         pieceLabel: {
@@ -108,7 +111,7 @@ export class ReportingSourceurComponent implements OnInit {
       }
       this.pieChart2Data = [this.autresCv, this.totalCVDisponible, this.totalCVhorsCible]
     })
-
+   
     this.reportingSourceur.recherchemapTechnologieParSourceur(this.sourceur, this.dateDebut, this.dateFin).subscribe(result => {
       this.pieChartData = Object.values(result);
       if (Object.keys(result).length > 0) {

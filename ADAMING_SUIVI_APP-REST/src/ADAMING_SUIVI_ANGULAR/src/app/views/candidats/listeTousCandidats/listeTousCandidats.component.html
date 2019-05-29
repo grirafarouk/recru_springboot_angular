@@ -35,7 +35,6 @@
                             <label class="form-col-form-label" for="email" style="font-weight:bold">Email:</label>
                             <input style="font-weight: bold;color: black;" type="text" class="form-control" name="email"
                                 [(ngModel)]="condidat.email" id="email">
-
                         </div>
                     </div>
 
@@ -46,7 +45,6 @@
                                 bindValue="libelle" bindLabel="libelle" [items]="technologies"
                                 [(ngModel)]="condidat.technologie" name="technologie">
                             </ng-select>
-
                         </div>
                     </div>
 
@@ -75,7 +73,6 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" style="font-weight:bold">Disponibilité:</label>
-
                             <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
                                 bindValue="libelle" bindLabel="libelle" [items]="disponibleListe"
                                 [compareWith]="helperService.compareFn" [(ngModel)]="condidat.disponibilite"
@@ -91,7 +88,6 @@
                                 [items]="region" (search)="codePostaleOnSearch($event)" [ngModel]="condidat.region"
                                 (ngModelChange)="condidat.region = $event" name="region">
                             </ng-select>
-
                         </div>
                     </div>
 
@@ -106,31 +102,23 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> Sourceur :</label>
-
-
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
                                  [compareWith]="helperService.compareFn"
                                 [(ngModel)]="condidat.sourceur" name="source">
                                 <ng-option *ngFor="let codeP of listSourceur " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
-
                             </ng-select>
-
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
-
-
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
                                  [compareWith]="helperService.compareFn"
                                 [(ngModel)]="condidat.chargeur" name="charge">
                                 <ng-option *ngFor="let codeP of listCarge " [value]="codeP">{{codeP.nom}}
                                     {{codeP.prenom}}</ng-option>
-
                             </ng-select>
-
                         </div>
                     </div>
                 </div>
@@ -139,7 +127,6 @@
                     <div class="col-sm-2">
                         <div class="form-group">
                             <label class="form-col-form-label" for="statut" style="font-weight:bold">Statut :</label>
-
                             <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
                                 bindValue="libelle" bindLabel="libelle" [items]="statuts"
                                 [compareWith]="helperService.compareFn" [(ngModel)]="condidat.statut" name="statut">
@@ -168,8 +155,8 @@
                 </div>
             </div>
         </div>
-        <custom-table [item]="condidat" [actions]="actions" [title]="titleTable" [parent]="this" #table
-            [columns]="columns"></custom-table>
+        <app-touscandidattable [reset]="verif"  [item2]="condidat2"  [item]="condidat" [actions]="actions" [title]="titleTable" [parent]="this" #table
+            [columns]="columns"></app-touscandidattable>
 
     </div>
 </div>

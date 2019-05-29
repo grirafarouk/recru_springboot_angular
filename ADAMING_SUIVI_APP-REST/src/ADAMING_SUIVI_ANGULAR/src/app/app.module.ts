@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
-import { NgxSelectModule } from 'ngx-select-ex';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -98,7 +97,6 @@ const notifierDefaultOptions: NotifierOptions = {
 };
 @NgModule({
   imports: [
-    NgxSelectModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -144,7 +142,6 @@ const notifierDefaultOptions: NotifierOptions = {
     multi: true
   } ,
   {provide: OWL_DATE_TIME_LOCALE, useValue: 'fr'},
-  AccueilService
 ],
   bootstrap: [ AppComponent ]
 })

@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fr.adaming.jsfapp.enums.CVSource;
 import com.fr.adaming.jsfapp.enums.MobiliteSurLille;
@@ -25,13 +24,13 @@ public class VListeCandidats implements java.io.Serializable {
 	private String prenom;
 	private String numeroTel;
 	private String email;
-	private Boolean mobilite;
+	private String mobilite;
 	private MobiliteSurLille mobiliteLille;
 	private Boolean poleEmploi;
 	private CVSource cvSource;
-	private Long noteTotale;
+	private String noteTotale;
 	private Date dateInscription;
-	private String  statut;
+	private String statut;
 	private String technologie;
 	private String region;
 	private String nomSourceur;
@@ -45,9 +44,9 @@ public class VListeCandidats implements java.io.Serializable {
 	private String nomCharge;
 	private String prenomCharge;
 	private String commentaire;
-    private String source;
-    private String charge;
-   
+	private String source;
+	private String charge;
+
 	public String getCharge() {
 		return charge;
 	}
@@ -57,12 +56,12 @@ public class VListeCandidats implements java.io.Serializable {
 	}
 
 	public String getSource() {
-	return source;
-}
+		return source;
+	}
 
-public void setSource(String source) {
-	this.source = source;
-}
+	public void setSource(String source) {
+		this.source = source;
+	}
 
 	@Id
 	@Column(name = "ID_CANDIDAT", nullable = false)
@@ -119,7 +118,6 @@ public void setSource(String source) {
 		this.mobiliteLille = mobiliteLille;
 	}
 
-	
 	@Column(name = "cv_Source", nullable = true)
 	public CVSource getCvSource() {
 		return cvSource;
@@ -130,11 +128,11 @@ public void setSource(String source) {
 	}
 
 	@Column(name = "MOBILITE", nullable = true)
-	public Boolean getMobilite() {
+	public String getMobilite() {
 		return mobilite;
 	}
 
-	public void setMobilite(Boolean mobilite) {
+	public void setMobilite(String mobilite) {
 		this.mobilite = mobilite;
 	}
 
@@ -155,6 +153,7 @@ public void setSource(String source) {
 	public void setDateInscription(Date dateInscription) {
 		this.dateInscription = dateInscription;
 	}
+
 	@Column(name = "REGION", nullable = true)
 	public String getRegion() {
 		return region;
@@ -192,11 +191,11 @@ public void setSource(String source) {
 	}
 
 	@Column(name = "NOTE_TOTALE", nullable = true)
-	public Long getNoteTotale() {
+	public String getNoteTotale() {
 		return noteTotale;
 	}
 
-	public void setNoteTotale(Long noteTotale) {
+	public void setNoteTotale(String noteTotale) {
 		this.noteTotale = noteTotale;
 	}
 

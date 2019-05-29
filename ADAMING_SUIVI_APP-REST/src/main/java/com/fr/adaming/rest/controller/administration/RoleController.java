@@ -44,7 +44,7 @@ public class RoleController {
 	@PostMapping("/add")
 	public RoleDto create(@RequestBody RoleDto roleDto) {
 		Role role = roleMapper.roleDtoToRole(roleDto);
-		role = roleService.merge(role);
+		role = roleService.create(role);
 		return roleMapper.roleToRoleDto(role);
 	}
 

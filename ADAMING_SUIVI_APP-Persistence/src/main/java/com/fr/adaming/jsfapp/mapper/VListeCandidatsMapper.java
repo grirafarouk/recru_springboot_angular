@@ -34,8 +34,7 @@ public interface VListeCandidatsMapper {
 			@Mapping(source = "prenomCharge", target = "prenomCharge"),
 			@Mapping(source = "commentaire", target = "commentaire"), @Mapping(source = "source", target = "source"),
 			@Mapping(source = "charge", target = "charge")
-
-	})
+			 })
 	VListeCandidatsDto vListeCandidatsToVListeCandidatsDto(VListeCandidats vListeCandidats);
 
 	@Mappings({ @Mapping(source = "id", target = "id"), @Mapping(source = "nom", target = "nom"),
@@ -58,7 +57,6 @@ public interface VListeCandidatsMapper {
 			@Mapping(source = "prenomCharge", target = "prenomCharge"),
 			@Mapping(source = "commentaire", target = "commentaire"), @Mapping(source = "source", target = "source"),
 			@Mapping(source = "charge", target = "charge")
-
 	})
 	VListeCandidats vListeCandidatsDtoToVListeCandidats(VListeCandidatsDto vListeCandidatsDto);
 

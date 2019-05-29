@@ -191,8 +191,11 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(this.currentFile.file);
   }
 
-  afficherPdf() {
-    this.candidate.nomCV = this.currentFile.name
+  afficherPdf() {   
+    this.candidate = new Candidate();
+    this.candidate.creePar.id = this.utilisateurService.getConnetedUserInfo().id
+      this.candidate.nomCV = this.currentFile.name
+
     var reader = new FileReader();
     reader.onload = (e) => {
       var fileBase64Value = reader.result + ''

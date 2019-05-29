@@ -1,3 +1,5 @@
+import { navItems } from './../../../_nav';
+import { Candidate } from './../../../models/Candidate';
 import { ChargeRelance } from './../../../models/ChargeRelance';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -16,6 +18,7 @@ import { UtilisateurService } from "../../../services/utilisateur.service";
 import * as _moment from 'moment';
 import { StatutService } from "../../../services/administrationService/StatutService";
 import { Utilisateur } from '../../../models/Utilisateur';
+import { SERVER_TRANSITION_PROVIDERS } from '@angular/platform-browser/src/browser/server-transition';
 
 
 @Component({
@@ -58,8 +61,9 @@ export class listeEntretienComponent implements OnInit {
   mask: any[] = [/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
   technologies = []
   origines = []
-
   condidat: CandidateDto = new CandidateDto();
+  condidat2: CandidateDto = new CandidateDto();
+  verif: number;
   CritereRecheche: [
     { value: '1', text: 'Moins 1 mois' },
     { value: '2', text: 'Entre 1 et 6 mois' },
@@ -134,7 +138,6 @@ export class listeEntretienComponent implements OnInit {
         else if (candidat.mobilite == false)
           return 'non'
       }
-
     },
 
 
@@ -169,6 +172,7 @@ export class listeEntretienComponent implements OnInit {
       visible: true
     }
   ];
+
   public loading = false;
   currentPage = 1;
   maxlenght = 0;
@@ -217,22 +221,31 @@ export class listeEntretienComponent implements OnInit {
     })
   }
   initTableFunction() {
+
     this.rechercheCandidat()
   }
 
   reset() {
+    this.verif = 1;
     this.condidat = new CandidateDto();
+    this.condidat2 = new CandidateDto();
     this.table.item = this.condidat;
-    this.rechercheCandidat2();
+    this.table.item2 = this.condidat2;
+    this.rechercheCandidat();
 
   }
 
 
   rechercheCandidat() {
-    
+
+    if (this.condidat.chargeur == null) {
+      this.condidat.chargeur = new Utilisateur();
+    }
+
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
-
+    if (this.condidat.nomCharge == null)
+      this.condidat.chargeur = null
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
@@ -251,30 +264,9 @@ export class listeEntretienComponent implements OnInit {
       }
 
     }
-  }
-  rechercheCandidat2() {
-
-
-    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
-      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
-    }
-    else {
-      if (!this.regex.test(this.condidat.nom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
-      }
-      else if (!this.regex.test(this.condidat.prenom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
-      }
-      else {
-        let callBack = (e) => {
-          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-        }
-        this.table.setPage(1, callBack);
-      }
-    }
 
   }
-
+  
 
   recherche(item, page, size, allValue) {
     return this.candidatsService.rechercheCandidatAvecEntretien(item, page, size, allValue)

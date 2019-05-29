@@ -6,12 +6,13 @@ export class CandidateDto {
     prenom: string;
     numeroTel: number;
     email: string;
+    pertinence:number;
     mobilite: string;
     mobiliteLille: string;
     poleEmploi: string;
     cvSource: string;
     noteTotale: string;
-    dateInscription: Date;
+    dateInscription:Date;
     statut: string;
     technologie: string;
     region: string;
@@ -29,9 +30,10 @@ export class CandidateDto {
     prenomCharge: string;
     commentaire: string;
     critereRecheche: string;
-    origine: string;
-    sourceur:Utilisateur;
-    chargeur:Utilisateur;
+    dateDemarrageFormation:Date;
+     origine: string;
+    sourceur:Utilisateur=new Utilisateur();
+    chargeur:Utilisateur=new Utilisateur();
     source:String;
     charge:String;
     

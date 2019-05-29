@@ -11,7 +11,7 @@ export class disponibiliteService {
   constructor(private httpClient: HttpClient) { }
 
   findAllDisponibilite(): Observable<any> {
-    return this.httpClient.get(BACK_END_URL + "/disponibilite");
+    return this.httpClient.get(BACK_END_URL + "/disponibilite/all");
   }
   findDisponibiliteByLibelle(libelle: String): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/disponibilite/libelle/" + libelle)

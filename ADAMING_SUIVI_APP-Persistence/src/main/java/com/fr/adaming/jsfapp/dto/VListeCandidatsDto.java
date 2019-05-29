@@ -26,12 +26,12 @@ public class VListeCandidatsDto implements Serializable {
 	private String prenom;
 	private String numeroTel;
 	private String email;
-	private Boolean mobilite;
+	private String mobilite;
 	private MobiliteSurLille mobiliteLille;
 	private Boolean poleEmploi;
 	private CVSource cvSource;
 
-	private Long noteTotale;
+	private String noteTotale;
 	private Date dateInscription;
 	private String statut;
 	private String technologie;
@@ -57,6 +57,8 @@ public class VListeCandidatsDto implements Serializable {
 	public String getCharge() {
 		return charge;
 	}
+ 
+	
 
 	public void setCharge(String charge) {
 		this.charge = charge;
@@ -117,11 +119,11 @@ public class VListeCandidatsDto implements Serializable {
 		this.email = email;
 	}
 
-	public Boolean getMobilite() {
+	public String getMobilite() {
 		return mobilite;
 	}
 
-	public void setMobilite(Boolean mobilite) {
+	public void setMobilite(String mobilite) {
 		this.mobilite = mobilite;
 	}
 
@@ -133,11 +135,11 @@ public class VListeCandidatsDto implements Serializable {
 	 this.poleEmploi = poleEmploi;
 	 }
 
-	public Long getNoteTotale() {
+	public String getNoteTotale() {
 		return noteTotale;
 	}
 
-	public void setNoteTotale(Long noteTotale) {
+	public void setNoteTotale(String noteTotale) {
 		this.noteTotale = noteTotale;
 	}
 

@@ -153,7 +153,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
       data: 'charge',
       title: 'charge',
       visible: true,
-      
+
     },
   ]
 
@@ -161,9 +161,10 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   technologies = []
   lieux = []
   statuts = []
-
+  verif: number;
+  condidat2: CandidateDto = new CandidateDto();
   mask: any[] = PHONE_MASK;
-  liste_tous_canndidat:Array<CandidateDto>=[]
+  liste_tous_canndidat: Array<CandidateDto> = []
   region: Array<Region> = [];
   refStatut = this.helperService.buildStatutArray();
   // refDisponibilite = this.helperService.buildDisponibiliteArray();
@@ -174,7 +175,6 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   verif_existance_code_region: boolean;
   tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];
-
 
   constructor(private router: Router, private candidatsService: CandidatsService, private routingState: RoutingState,
     private notifierService: NotifierService, private technologiesService: TechnologieService,
@@ -217,13 +217,24 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     this.helperService.listTousCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
+    if (this.condidat.sourceur == null) {
+
+      this.condidat.sourceur = new Utilisateur();
+    }
+    if (this.condidat.chargeur == null) {
+      this.condidat.chargeur = new Utilisateur();
+
+    }
 
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
-    
-    
+    if (this.condidat.nomCharge == null)
+      this.condidat.chargeur = null
+    if (this.condidat.nomSourceur == null)
+      this.condidat.sourceur = null
+
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }
@@ -235,7 +246,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
         this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
       }
       else {
-     
+
 
         let callBack = (e) => {
           this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
@@ -244,28 +255,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
       }
     }
   }
-  rechercheCandidat2() {
 
-    
-    
-    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
-      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
-    }
-    else {
-      if (!this.regex.test(this.condidat.nom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
-      }
-      else if (!this.regex.test(this.condidat.prenom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
-      }
-      else {
-        let callBack = (e) => {
-          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-        }
-        this.table.setPage(1, callBack);
-      }
-    }
-  }
   initTableFunction() {
     this.rechercheCandidat()
   }
@@ -279,11 +269,13 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   }
 
   reset() {
+    this.verif = 1;
+    this.condidat2 = new CandidateDto();
+    this.table.item2 = this.condidat2;
     this.condidat = new CandidateDto();
     this.table.item = this.condidat;
-    this.rechercheCandidat2();
-    this.condidat.chargeur=null;
-    this.condidat.sourceur=null;
+    this.rechercheCandidat();
+
   }
 
 
@@ -334,7 +326,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     else this.region = []
   }
 
-   updateDateRelance(date: Date) {
+  updateDateRelance(date: Date) {
     this.condidat.dateRelance = date
   }
 
@@ -344,7 +336,7 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
 
   public exportAsXLSX(): void {
     this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
-     
+
       this.excelService.exportAsExcelFile(data, this.titleTable, this.columns);
     })
   }

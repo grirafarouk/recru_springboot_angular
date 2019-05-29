@@ -66,6 +66,8 @@ export class ListeReportingComponent implements OnInit {
   technologies = []
   statuts = []
   origines = []
+  condidat2: CandidateDto = new CandidateDto();
+  verif: number;
   condidat: CandidateDto = new CandidateDto();
   CritereRecheche: [
     { value: '1', text: 'Moins 1 mois' },
@@ -143,7 +145,7 @@ export class ListeReportingComponent implements OnInit {
       visible: false
     },
     {
-      data: 'disponible',
+      data: 'disponibilite',
       title: 'Disponibilité',
       visible: false
     },
@@ -197,10 +199,10 @@ export class ListeReportingComponent implements OnInit {
   listSourceur = [];
   listCarge = [];
   verif_existance_code_region: boolean;
-  tester_perfermance: boolean;  
+  tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];
   constructor(private originesService: OriginesService, private technologiesService: TechnologieService,
-    private routingState: RoutingState,private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
+    private routingState: RoutingState, private sanitizer: DomSanitizer, private candidatsService: CandidatsService,
     private notifierService: NotifierService, private competencesService: CompetencesService,
     public helperService: HelperService, private regionService: RegionService, private statutservice: StatutService,
     private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
@@ -237,21 +239,24 @@ export class ListeReportingComponent implements OnInit {
     this.rechercheCandidat()
   }
   rechercheCandidat() {
-   
+    if (this.condidat.sourceur == null) {
+
+      this.condidat.sourceur = new Utilisateur();
+    }
+    if (this.condidat.chargeur == null) {
+      this.condidat.chargeur = new Utilisateur();
+
+    }
+
     this.condidat.nomSourceur = this.condidat.sourceur.nom;
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     this.condidat.nomCharge = this.condidat.chargeur.nom;
     this.condidat.prenomCharge = this.condidat.chargeur.prenom;
-    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
-   
-    let callBack = (e) => {
-      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-    }
-    this.table.setPage(1, callBack);
-  }
-  rechercheCandidat2() {
-    
-    this.condidat.source = this.condidat.nomSourceur + this.condidat.prenomSourceur;
+    if (this.condidat.nomCharge == null)
+      this.condidat.chargeur = null
+    if (this.condidat.nomSourceur == null)
+      this.condidat.sourceur = null
+
     let callBack = (e) => {
       this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
     }
@@ -268,11 +273,13 @@ export class ListeReportingComponent implements OnInit {
   }
 
   reset() {
+    this.verif = 1;
     this.condidat = new CandidateDto();
+    this.condidat2 = new CandidateDto();
+    this.table.item2 = this.condidat2;
     this.table.item = this.condidat;
-    this.rechercheCandidat2();
-    this.condidat.chargeur=null;
-    this.condidat.sourceur=null;
+    this.rechercheCandidat();
+
   }
 
 

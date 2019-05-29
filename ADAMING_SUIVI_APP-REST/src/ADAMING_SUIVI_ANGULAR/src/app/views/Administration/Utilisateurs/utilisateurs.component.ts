@@ -24,7 +24,7 @@ export class utilisateursComponent implements OnInit {
   refProfil : Array<Role> = [];
   pt:number;
   verif:boolean;
-
+  searchText;
 
 
   constructor(

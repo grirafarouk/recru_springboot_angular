@@ -36,10 +36,10 @@ public class VReportingCandidat implements java.io.Serializable {
 	private String nomCharge;
 	private String prenomCharge;
 	private Integer pertinence;
-	private String  disponible;
+	private String  disponibilite;
 	private String lieuEntretien;
 	private Date dateEntretien;
-	private Long noteTotale;
+	private String noteTotale;
 	private String formation;
 	private Date dateDemarrageFormation;
 	private Date dateDebut;
@@ -179,11 +179,11 @@ public class VReportingCandidat implements java.io.Serializable {
 	}
 
 	@Column(name = "NOTE_TOTALE", nullable = true)
-	public Long getNoteTotale() {
+	public String getNoteTotale() {
 		return noteTotale;
 	}
 
-	public void setNoteTotale(Long noteTotale) {
+	public void setNoteTotale(String noteTotale) {
 		this.noteTotale = noteTotale;
 	}
 
@@ -273,12 +273,12 @@ public class VReportingCandidat implements java.io.Serializable {
 		this.pertinence = pertinence;
 	}
 	@Column(name = "DISPONIBLE", nullable = true)
-	public String getDisponible() {
-		return disponible;
+	public String getDisponibilite() {
+		return disponibilite;
 	}
 
-	public void setDisponible(String  disponible) {
-		this.disponible = disponible;
+	public void setDisponibilite(String  disponibilite) {
+		this.disponibilite = disponibilite;
 	}
 	@Column(name = "DIPLOME", nullable = true)
 	public String getDiplome() {
