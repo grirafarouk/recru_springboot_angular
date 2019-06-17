@@ -379,10 +379,10 @@ export class CandidatsComponent implements OnInit, OnDestroy {
           this.loading = false;
           callback(data.id)
         } else {
-          this.notifierService.notify("error", "Erreur l'ors l'ajour")
+          this.notifierService.notify("error", "erreur lors de l'ajout")
         }
       }, error => {
-        this.notifierService.notify("error", "Erreur l'ors l'ajour")
+        this.notifierService.notify("error", "erreur lors de l'ajout")
       })
     }
     this.loading = false;

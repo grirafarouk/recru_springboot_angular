@@ -23,30 +23,7 @@ export class competenceComponent implements OnInit {
   ListCompetences = [];
   competence: Competence
 
-  columns = [
-    {
-      data: 'libelle',
-      title: 'Libellés'
-    }
-  ]
-  actions = [
-    {
-      icon: 'fa fa-edit',
-      class: 'btn btn-outline-success btn-sm',
-      tooltip: 'Edit',
-      action: (e) => {
-        this.showEditModal(e);
-      }
-    },
-    {
-      icon: 'fa fa-trash',
-      class: 'btn btn-outline-danger btn-sm',
-      tooltip: 'Delete',
-      action: (e) => {
-        this.showDeleteModal(e);
-      }
-    }
-  ]
+  pt: number;
 
 
   constructor(private competencesService: CompetencesService,private notifierService: NotifierService) { }
@@ -60,6 +37,23 @@ export class competenceComponent implements OnInit {
   showAddModal() {
     this.reset();
     this.competenceModal.show();
+  }
+    searchingcompetence(event){
+    let value=event.target.value;
+    if(value!="")
+   this.competencesService.searchingcompetence(value).subscribe(data=>{
+
+  this.ListCompetences=data
+
+
+
+   })
+
+else{
+
+
+  this.ngOnInit(); 
+}
   }
 
   showEditModal(competence: any) {

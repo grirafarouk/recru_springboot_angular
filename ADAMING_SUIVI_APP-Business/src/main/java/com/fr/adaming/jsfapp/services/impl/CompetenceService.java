@@ -46,4 +46,9 @@ public class CompetenceService extends ManagerService<Competence, Long> implemen
 		return competenceDao.findByLibelle(libelle);
 	}
 
+	@Override
+	public List<Competence> rechercheCompetence(String competence) {
+		return competenceDao.rechercheCompetence(competence);
+	}
+
 }

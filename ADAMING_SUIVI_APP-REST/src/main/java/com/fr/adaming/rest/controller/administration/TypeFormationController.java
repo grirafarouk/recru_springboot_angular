@@ -1,6 +1,7 @@
 package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.TypeFormationDto;
 import com.fr.adaming.jsfapp.mapper.TypeFormationMapper;
+import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.TypeFormation;
 import com.fr.adaming.jsfapp.services.ITypeFormationService;
 
@@ -74,4 +77,8 @@ public class TypeFormationController {
 		typeFormationService.deleteById(id);
 	}
 
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<TypeFormation> rechercherTypeFormation(@PathVariable String text) {
+		return typeFormationService.rechercherTypeFormation(text);
+	}
 }

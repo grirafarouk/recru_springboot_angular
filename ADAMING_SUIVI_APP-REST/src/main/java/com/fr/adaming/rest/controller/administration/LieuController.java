@@ -1,6 +1,7 @@
 package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.LieuDto;
 import com.fr.adaming.jsfapp.mapper.LieuMapper;
@@ -38,7 +40,7 @@ public class LieuController {
 		lieu = lieuService.createOrUpdate(lieu);
 		return lieuMapper.lieuToLieuDto(lieu);
 	}
-
+ 
 	@PostMapping(value = "/update")
 	public LieuDto update(@RequestBody LieuDto lieuDto) {
 		Lieu lieu = lieuMapper.lieuDtoToLieu(lieuDto);
@@ -73,7 +75,10 @@ public class LieuController {
 		Lieu lieu = lieuMapper.lieuDtoToLieu(lieuDto);
 		lieuService.delete(lieu);
 	}
-
+	@PostMapping("/recherche")
+	public List<Lieu> rechercherLieu(@RequestBody Lieu lieu) {
+		return lieuService.rechercherLieux(lieu);
+	}
 	@DeleteMapping(value = "/{id}")
 	public void deleteById(@PathVariable Long id) {
 		lieuService.deleteById(id);

@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.OrigineDto;
 import com.fr.adaming.jsfapp.mapper.OrigineMapper;
 import com.fr.adaming.jsfapp.model.Origine;
+import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.services.IOrigineService;
 
 @RestController
@@ -34,6 +36,12 @@ public class OrigineController {
 		return origineService.rechercherOrigineParLibelle(libelle);
 	}
 
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<Origine> rechercherOrigine(@PathVariable String text) {
+		return origineService.rechercherOrigine(text);
+	}
+
+	
 	public Origine merge(Origine entity) {
 		return origineService.merge(entity);
 	}

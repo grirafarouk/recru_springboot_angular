@@ -211,4 +211,14 @@ public class UtilisateurService extends ManagerService<Utilisateur, Long> implem
 		return utilisateurDao.rechercherReportingCVParTechnologieParSourceur(utilisateur, dateDebut, dateFin);
 	}
 
+	@Override
+	public List<Utilisateur> rechercheUser(String text) {
+		return utilisateurDao.rechercherUser(text);
+	}
+
+	@Override
+	public List<Utilisateur> rechercheListeutilisateurs(Utilisateur utilisateur) {
+		return utilisateurDao.rechercheListeutilisateurs(utilisateur);
+	}
+
 }

@@ -7,6 +7,6 @@ import com.fr.adaming.jsfapp.model.Origine;
 
 public interface IOrigineDao extends IManagerDao<Origine, Long>,Serializable {
 	Origine rechercherOrigineParLibelle(String libelle);
-
+	List<Origine> rechercherOrigine(String orgine);
 	List<Origine> findAllOrigines();
 }

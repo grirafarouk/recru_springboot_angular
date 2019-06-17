@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ICompetenceDao;
 import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Utilisateur;
 
 @Repository("competenceDao")
 public class CompetenceDao extends ManagerDao<Competence, Long> implements
@@ -61,4 +62,16 @@ public class CompetenceDao extends ManagerDao<Competence, Long> implements
 		return null;
 
 	}
+
+	@Override
+	public List<Competence> rechercheCompetence(String competence) {
+			String query = "SELECT * FROM competence where libelle LIKE '%" + competence + "%'" ;
+			@SuppressWarnings("unchecked")
+			SQLQuery st = getSession().createSQLQuery(query);
+			List<Competence> liste = (List<Competence>) st.addEntity(Competence.class).list();
+			return liste;
+
+		}
+
+	
 }

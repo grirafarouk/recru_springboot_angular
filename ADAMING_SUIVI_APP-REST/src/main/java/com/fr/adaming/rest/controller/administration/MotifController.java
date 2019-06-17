@@ -1,6 +1,7 @@
 package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.MotifDto;
 import com.fr.adaming.jsfapp.mapper.MotifMapper;
+import com.fr.adaming.jsfapp.model.ClientSession;
 import com.fr.adaming.jsfapp.model.Motif;
 import com.fr.adaming.jsfapp.services.IMotifService;
 
@@ -73,5 +76,8 @@ public class MotifController {
 	public void deleteById(@PathVariable Long id) {
 		motifService.deleteById(id);
 	}
-
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<Motif> rechercherMotif(@PathVariable String text) {
+		return motifService.rechercherMotif(text);
+	}
 }

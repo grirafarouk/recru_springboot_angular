@@ -16,6 +16,16 @@ export class RoleService {
   findRoleByLibelle(libelle: String): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/role/libelle/" + libelle)
   }
+  findRoleById(id: number): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/role/id/" + id)
+  }
+
+  searchingRoles(value):Observable<any>{
+
+    return this.httpClient.get(BACK_END_URL + "/role/recherche/"+value );
+
+  }
+
   save(typeformation): Observable<any> {
 
     const httpOptions = {

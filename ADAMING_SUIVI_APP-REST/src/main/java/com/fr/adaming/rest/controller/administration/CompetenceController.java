@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.CompetenceDto;
 import com.fr.adaming.jsfapp.mapper.CompetenceMapper;
 import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.services.ICompetenceService;
 
 import io.swagger.annotations.Api;
@@ -84,6 +86,11 @@ public class CompetenceController {
 	public void delete(@RequestBody CompetenceDto competenceDto) {
 		Competence competence = competenceMapper.competenceDtoToCandidat(competenceDto);
 		competenceService.delete(competence);
+	}
+	
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<Competence> rechercherCompetence(@PathVariable String text) {
+		return competenceService.rechercheCompetence(text);
 	}
 
 	@DeleteMapping(value = "/{id}")

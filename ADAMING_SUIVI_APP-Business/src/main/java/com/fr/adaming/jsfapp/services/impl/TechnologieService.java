@@ -51,4 +51,12 @@ public class TechnologieService extends ManagerService<Technologie, Long>
 	public List<TechnologieDto> findAllTechnologiesByLibelle() {
 		return technologieDao.findAllTechnologiesByLibelle();
 	}
+
+	@Override
+	public List<Technologie> rechercherTechnologie(String technologie) {
+		// TODO Auto-generated method stub
+		return technologieDao.rechercherTechnologie(technologie);
+	}
+
+	
 }

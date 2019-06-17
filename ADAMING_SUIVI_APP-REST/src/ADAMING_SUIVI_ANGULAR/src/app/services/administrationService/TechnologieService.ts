@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BACK_END_URL } from '../../helper/application.constant';
 
@@ -9,8 +9,8 @@ import { BACK_END_URL } from '../../helper/application.constant';
 export class TechnologieService {
 
   constructor(private httpClient: HttpClient) { }
-  getTechnologiesByLibelle () {
-    return this.httpClient.get<any>(BACK_END_URL+'/technologie/Libelle');
+  getTechnologiesByLibelle() {
+    return this.httpClient.get<any>(BACK_END_URL + '/technologie/Libelle');
   }
   findTechnologieByLibelle(libelle: String): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/technologie/libelle/" + libelle)
@@ -33,13 +33,18 @@ export class TechnologieService {
         'Content-Type': 'application/json'
       })
     };
-    return this.httpClient.post(BACK_END_URL + "/technologie/update" , technologie, httpOptions);
-}
+    return this.httpClient.post(BACK_END_URL + "/technologie/update", technologie, httpOptions);
+  }
 
-delete(item): Observable<any> {
-  return this.httpClient.delete(BACK_END_URL + "/technologie/" + item.id);
-}
+  searchingTechnologie(value): Observable<any> {
 
-  
+    return this.httpClient.get(BACK_END_URL + "/technologie/recherche/" + value);
+
+  }
+  delete(item): Observable<any> {
+    return this.httpClient.delete(BACK_END_URL + "/technologie/" + item.id);
+  }
+
+
 }
 

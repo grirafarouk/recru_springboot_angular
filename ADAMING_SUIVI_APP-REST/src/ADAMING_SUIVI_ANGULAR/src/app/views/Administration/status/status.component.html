@@ -5,7 +5,39 @@
         <label style="font-weight:bold;color:#546E7A;">statut</label>
       </div>
       <div class="card-body">
-        <custom-local-table [actions]="actions" [columns]="columns" [items]="Liststatut"></custom-local-table>     
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th style="text-align:center">Libelle
+
+                <div class="form-group">
+                  <input style="font-weight: bold;color: black;" type="text" class="form-control"
+                    (input)="searchingstatut($event)"></div>
+
+
+              </th>
+
+
+              <th style="text-align:right">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let statut of Liststatut  | paginate: { itemsPerPage:10, currentPage: pt, id: 'pt' }">
+              <td>{{statut.libelle}}</td>
+              <td style="text-align:right"><button class='btn btn-outline-success btn-sm'
+                  (click)="showEditModal(statut)">
+                  <i class="fa fa-edit" aria-hidden="true"></i></button>
+                <button style="margin:10px;" class='btn btn-outline-danger btn-sm' (click)="showDeleteModal(statut)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="panel-footer panel-default pager">
+          <pagination-controls (pageChange)="pt =$event" id="pt"></pagination-controls>
+        </div>
       </div>
       <div class="card-footer">
         <div class="col-2">
@@ -17,31 +49,32 @@
 </div>
 
 <div bsModal #statutModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-aria-hidden="true">
-<div class="modal-dialog modal-primary  modal-lg" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h4 class="modal-title">statut</h4>
-      <button type="button" class="close" (click)="statutModal.hide()" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body" style="padding: 52px">
-      <form class="form-horizontal">
-        <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="text-input">Libelle:</label>
-          <div class="col-md-8">
-            <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="statut.libelle" name="libelle" id="libelle" />
+  aria-hidden="true">
+  <div class="modal-dialog modal-primary  modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">statut</h4>
+        <button type="button" class="close" (click)="statutModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 52px">
+        <form class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Libelle:</label>
+            <div class="col-md-8">
+              <input class="form-control" style="font-weight: bold;color: black;" [(ngModel)]="statut.libelle"
+                name="libelle" id="libelle" />
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="statutModal.hide()">Annuler</button>
-      <button type="button" (click)="savelibelle()" class="btn btn-primary">Valider</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="statutModal.hide()">Annuler</button>
+        <button type="button" (click)="savelibelle()" class="btn btn-primary">Valider</button>
+      </div>
     </div>
   </div>
-</div>
 </div>
 
 <div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -55,8 +88,8 @@ aria-hidden="true">
         </button>
       </div>
       <div class="modal-body" style="padding: 52px">
-       Êtes-vous sûr de vouloir supprimer ?
-         
+        Êtes-vous sûr de vouloir supprimer ?
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="deleteModal.hide()">Annuler</button>

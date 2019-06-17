@@ -108,7 +108,7 @@
                 (input)="regionsearch()"></div>
           </th>
 
-          <th [ngStyle]="{'width': (columns[7].width!=undefined) ? columns[7].width :'' }"
+          <td [ngStyle]="{'width': (columns[7].width!=undefined) ? columns[7].width :'' }"
             [hidden]="!columns[7].visible">
             <div class="form-group">
 
@@ -119,18 +119,21 @@
                   {{codeP.prenom}}</ng-option>
               </ng-select>
             </div>
-          </th>
+          </td>
 
-          <th [ngStyle]="{'width': (columns[8].width!=undefined) ? columns[8].width :'' }"
+          <td [ngStyle]="{'width': (columns[8].width!=undefined) ? columns[8].width :'' }"
             [hidden]="!columns[8].visible">
             <div class="form-group">
 
               <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;" bindValue="libelle"
                 bindLabel="libelle" [items]="disponibles" [compareWith]="helperService.compareFn" name="disponible"
                 [ngModel]="item2.disponibilite" (ngModelChange)="searchingdisponible($event)">
+                <ng-template ng-option-tmp let-item="item">
+                    <div title="{{item.libelle}}">{{item.libelle}}</div>
+                    </ng-template>
               </ng-select>
             </div>
-          </th>
+          </td>
 
 
           <th [ngStyle]="{'width': (columns[9].width!=undefined) ? columns[9].width :'' }"
@@ -146,7 +149,7 @@
             </div>
           </th>
 
-          <th [ngStyle]="{'width': (columns[10].width!=undefined) ? columns[10].width :'' }"
+          <td [ngStyle]="{'width': (columns[10].width!=undefined) ? columns[10].width :'' }"
             [hidden]="!columns[10].visible">
             <div class="form-group">
               <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
@@ -156,7 +159,7 @@
                   {{codeP.prenom}}</ng-option>
               </ng-select>
             </div>
-          </th>
+          </td>
 
         </tr>
       </thead>

@@ -114,7 +114,7 @@
                                 id="lieuEntretien" name="lieuEntretien" [(ngModel)]="item2.lieuEntretien"
                                 (input)="search2()"></div>
                     </th>
-                    <th [ngStyle]="{'width': (columns[8].width!=undefined) ? columns[8].width :'' }"
+                    <td
                         [hidden]="!columns[8].visible">
                         <div class="form-group">
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
@@ -125,8 +125,8 @@
                                     {{codeP.prenom}}</ng-option>
                             </ng-select>
                         </div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[9].width!=undefined) ? columns[9].width :'' }"
+                    </td>
+                    <td
                         [hidden]="!columns[9].visible">
                         <div class="form-group">
 
@@ -136,8 +136,8 @@
                                 (ngModelChange)="mobilitesearching($event)">
                             </ng-select>
                         </div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[10].width!=undefined) ? columns[10].width :'' }"
+                    </td>
+                    <td
                         [hidden]="!columns[10].visible">
                         <div class="form-group">
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
@@ -149,7 +149,7 @@
 
 
                         </div>
-                    </th>
+                    </td>
                     <th [ngStyle]="{'width': (columns[11].width!=undefined) ? columns[11].width :'' }"
                         [hidden]="!columns[11].visible">
 

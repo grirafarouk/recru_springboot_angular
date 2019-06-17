@@ -22,13 +22,19 @@ export class CompetencesService {
     };
     return this.httpClient.post(BACK_END_URL + "/competence/add", competence, httpOptions);
   }
+
+  searchingcompetence(value):Observable<any>{
+
+    return this.httpClient.get(BACK_END_URL + "/competence/recherche/"+value );
+
+  }
   update(competence): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
-    };
-    return this.httpClient.post(BACK_END_URL + "/competence/update", competence, httpOptions);
+      };
+   return this.httpClient.post(BACK_END_URL + "/competence/update", competence, httpOptions);
   }
 
   delete(competence): Observable<any> {

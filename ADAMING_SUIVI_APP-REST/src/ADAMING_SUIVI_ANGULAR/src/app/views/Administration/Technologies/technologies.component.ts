@@ -19,6 +19,7 @@ export class technologiesComponent implements OnInit {
   @ViewChild("technologieModal")
   public technologieModal;
 
+  pt: number;
 
   ListTechnologies = [];
   technologie: Technologie
@@ -63,13 +64,44 @@ export class technologiesComponent implements OnInit {
     this.technologieService.findAllTechnologies().subscribe(data => {
       this.ListTechnologies = data;
     })
+    this.ListTechnologies.forEach(data=>{
+
+console.log(data.Reporting)
+
+
+
+    })
   }
 
+
+  
+  searchingtechnologie(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.technologieService.searchingTechnologie(value).subscribe(data => {
+
+        this.ListTechnologies  = data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
   showAddModal() {
     this.reset();
     this.technologieModal.show();
 
   }
+
+  transform(value) {
+    return value ? 'OUI' : 'NON';
+}
+
   showEditModal(technologie: any) {
     this.technologie = Object.assign({}, technologie);
     this.technologieModal.show();

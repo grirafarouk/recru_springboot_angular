@@ -13,4 +13,5 @@ public interface ILieuService extends IManagerService<Lieu, Long> {
 	Lieu rechercherLieuParAdresse(String libelle);
 	
 	List<Lieu> findAllLieux();
+	List<Lieu> rechercherLieux(Lieu lieu);
 }

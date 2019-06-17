@@ -25,10 +25,12 @@ import com.fr.adaming.jsfapp.dto.ReportingChargeRelanceDto;
 import com.fr.adaming.jsfapp.dto.ReportingListSourceurDto;
 import com.fr.adaming.jsfapp.dto.ReportingSourceurParDispoDto;
 import com.fr.adaming.jsfapp.dto.ReportingSourceurTechnologieDto;
+import com.fr.adaming.jsfapp.dto.VListeCandidatsDto;
 import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
+import com.fr.adaming.jsfapp.model.VListeCandidats;
 
 /**
  * 
@@ -643,6 +645,38 @@ public class UtilisateurDao extends ManagerDao<Utilisateur, Long> implements IUt
 		}
 
 		return reportingAll(queryCVTech);
+	}
+
+	@Override
+	public List<Utilisateur> rechercherUser(String text) {
+
+		String query = "SELECT * FROM utilisateur where login LIKE '%" + text + "%' OR profil LIKE '%" + text + "%'";
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
+		List<Utilisateur> liste = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
+		return liste;
+
+	}
+
+	@Override
+	public List<Utilisateur> rechercheListeutilisateurs(Utilisateur utilisateur) {
+		String query = "SELECT * FROM utilisateur where 1=1 ";
+		if (utilisateur != null) {
+
+			if (utilisateur.getLogin() != null && !utilisateur.getLogin().isEmpty()) {
+				query = query + " AND login LIKE '%" + utilisateur.getLogin() + "%' ";
+			}
+		}
+		if (utilisateur.getProfil().getLibelle()!= null) {
+
+			query = query + " AND profil = " + utilisateur.getProfil().getId() + " ";
+
+		}
+
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
+		List<Utilisateur> users = (List<Utilisateur>) st.addEntity(Utilisateur.class).list();
+		return users;
 	}
 
 }

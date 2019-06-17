@@ -41,4 +41,9 @@ public class DisponibiliteService extends ManagerService<Disponibilite, Long> im
 		return disponibiliteDao.findAllDisponibilite();
 	}
 
+	@Override
+	public List<Disponibilite> rechercheRole(String Disponibilite) {
+		return disponibiliteDao.rechercheDisponibilite(Disponibilite);
+	}
+
 }

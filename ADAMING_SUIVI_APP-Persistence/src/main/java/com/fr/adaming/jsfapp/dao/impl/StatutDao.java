@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.IStatutDao;
+import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Disponibilite;
 import com.fr.adaming.jsfapp.model.Statut;
 
 @Repository("statutDao")
@@ -39,6 +41,15 @@ public class StatutDao extends ManagerDao<Statut, Long> implements IStatutDao, S
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
+		List<Statut> liste = (List<Statut>) st.addEntity(Statut.class).list();
+		return liste;
+	}
+
+	@Override
+	public List<Statut> rechercherStatut(String statut) {
+		String query = "SELECT * FROM statut where libelle LIKE '%" + statut + "%'" ;
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
 		List<Statut> liste = (List<Statut>) st.addEntity(Statut.class).list();
 		return liste;
 	}

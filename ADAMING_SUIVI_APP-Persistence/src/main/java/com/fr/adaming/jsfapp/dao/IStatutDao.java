@@ -7,6 +7,6 @@ import com.fr.adaming.jsfapp.model.Statut;
 
 public interface IStatutDao extends IManagerDao<Statut, Long>, Serializable {
 	Statut rechercherStatusParLibelle(String libelle);
-
+    List<Statut>  rechercherStatut(String statut);
 	List<Statut> findAllStatus();
 }

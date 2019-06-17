@@ -25,6 +25,11 @@ export class TypeFormationService {
     };
     return this.httpClient.post(BACK_END_URL + "/typeformation/add", typeformation, httpOptions);
   }
+  searchingTypeFormation(value):Observable<any>{
+
+    return this.httpClient.get(BACK_END_URL + "/typeformation/recherche/"+value );
+
+  }
   update(typeformation): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({

@@ -41,4 +41,9 @@ public class TypeFormationService extends ManagerService<TypeFormation, Long>
 		return typeFormationDao.findAllTypesFormation();
 	}
 
+	@Override
+	public List<TypeFormation> rechercherTypeFormation(String typeFormation) {
+		return typeFormationDao.rechercherTypeFormation(typeFormation);
+	}
+
 }

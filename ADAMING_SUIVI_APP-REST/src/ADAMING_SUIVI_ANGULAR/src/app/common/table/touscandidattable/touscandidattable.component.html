@@ -58,12 +58,12 @@
             {{actions.title}}</th>
         </tr>
         <tr>
-          <th [ngStyle]="{'width': (columns[0].width!=undefined) ? columns[0].width :'' }"
+          <td [ngStyle]="{'width': (columns[0].width!=undefined) ? columns[0].width :'' }"
             [hidden]="!columns[0].visible">
             <div class="form-group">
               <input style="font-weight: bold;color: black;" type="text" class="form-control" id="nom" name="nom"
                 [(ngModel)]="item2.nom" (input)="search()"></div>
-          </th>
+          </td>
           <th [ngStyle]="{'width': (columns[1].width!=undefined) ? columns[1].width :'' }"
             [hidden]="!columns[1].visible">
             <div class="form-group">
@@ -123,17 +123,19 @@
                 (input)="regionsearch()"></div>
           </th>
 
-          <th [ngStyle]="{'width': (columns[10].width!=undefined) ? columns[10].width :'' }"
+          <td [ngStyle]="{'width': (columns[10].width!=undefined) ? columns[10].width :'' }"
             [hidden]="!columns[10].visible">
             <div class="form-group">
-              <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+              <ng-select class=".ng-dropdown-panel.ajustar {
+                width: auto !important;
+            }" placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
                 (ngModelChange)="search4($event)" [ngModel]="item2.source" name="source">
                 <ng-option *ngFor="let codeP of listesources " [value]="codeP.nom + ' ' + codeP.prenom">
                   {{codeP.nom}}
                   {{codeP.prenom}}</ng-option>
               </ng-select>
             </div>
-          </th>
+          </td>
 
 
           <th [ngStyle]="{'width': (columns[11].width!=undefined) ? columns[11].width :'' }"
@@ -159,18 +161,18 @@
                 class="form-control" (input)="searchingdisponible()">
             </div>
           </th>
-          <th [ngStyle]="{'width': (columns[14].width!=undefined) ? columns[14].width :'' }"
+          <td [ngStyle]="{'width': (columns[14].width!=undefined) ? columns[14].width :'' }"
             [hidden]="!columns[14].visible">
             <div class="form-group">
-              <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
+              <ng-select class="ajustar" placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
                 (ngModelChange)="searchcharge($event)" [ngModel]="item2.charge" name="charge">
-                <ng-option *ngFor="let codeP of listecharges " [value]="codeP.nom + ' '+ codeP.prenom">
+                <ng-option style="width:100%;"  *ngFor="let codeP of listecharges " [value]="codeP.nom + ' '+ codeP.prenom">
                   {{codeP.nom}}
                   {{codeP.prenom}}</ng-option>
               </ng-select>
 
             </div>
-          </th>
+          </td>
 
         </tr>
       </thead>

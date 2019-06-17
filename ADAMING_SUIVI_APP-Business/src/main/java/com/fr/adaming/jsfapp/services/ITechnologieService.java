@@ -12,4 +12,5 @@ public interface ITechnologieService extends IManagerService<Technologie, Long> 
 	List<Technologie> rechercherTechnologiePourReporting();
 	List<Technologie> findAllTechnologies();
 	 List<TechnologieDto> findAllTechnologiesByLibelle();
+	 List<Technologie> rechercherTechnologie(String technologie);
 }

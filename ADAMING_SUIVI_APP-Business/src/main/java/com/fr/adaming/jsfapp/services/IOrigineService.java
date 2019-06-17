@@ -7,6 +7,6 @@ import com.fr.adaming.jsfapp.model.Origine;
 public interface IOrigineService extends IManagerService<Origine, Long> {
 
 	Origine rechercherOrigineParLibelle(String libelle); 
-	
+	List<Origine> rechercherOrigine(String orgine);
 	List<Origine> findAllOrigines();
 }

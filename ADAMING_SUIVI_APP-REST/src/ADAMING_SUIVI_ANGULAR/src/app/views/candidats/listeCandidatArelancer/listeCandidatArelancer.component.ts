@@ -187,24 +187,13 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       this.condidat.chargeur = null
     if (this.condidat.nomSourceur == null)
       this.condidat.sourceur = null
-    if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
-      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
-    }
-    else {
-      if (!this.regex.test(this.condidat.nom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
-      }
-      else if (!this.regex.test(this.condidat.prenom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
-      }
-      else {
+   
 
         let callBack = (e) => {
           this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
         }
         this.table.setPage(1, callBack);
-      }
-    }
+  
   }
 
   initTableFunction() {

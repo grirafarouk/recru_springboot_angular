@@ -13,6 +13,13 @@ export class disponibiliteService {
   findAllDisponibilite(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/disponibilite/all");
   }
+
+  searchingDisponibilites(value):Observable<any>{
+
+    return this.httpClient.get(BACK_END_URL + "/disponibilite/recherche/"+value );
+
+  }
+
   findDisponibiliteByLibelle(libelle: String): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/disponibilite/libelle/" + libelle)
   }

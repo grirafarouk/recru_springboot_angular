@@ -13,6 +13,8 @@ import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ITechnologieDao;
 import com.fr.adaming.jsfapp.dto.TechnologieDto;
+import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Role;
 import com.fr.adaming.jsfapp.model.Technologie;
 
 @Repository("technologieDao")
@@ -74,5 +76,14 @@ public class TechnologieDao extends ManagerDao<Technologie, Long> implements
 		}
 		
 		return data;
+	}
+
+	@Override
+	public List<Technologie> rechercherTechnologie(String technologie) {
+		String query = "SELECT * FROM technologie where libelle LIKE '%" + technologie + "%'" ;
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
+		List<Technologie> liste = (List<Technologie>) st.addEntity(Technologie.class).list();
+		return liste;
 	}
 }

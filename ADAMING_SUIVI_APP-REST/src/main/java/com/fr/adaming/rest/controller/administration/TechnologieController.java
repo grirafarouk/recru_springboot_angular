@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.TechnologieDto;
 import com.fr.adaming.jsfapp.mapper.TechnologieMapper;
+import com.fr.adaming.jsfapp.model.Lieu;
+import com.fr.adaming.jsfapp.model.Role;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.services.ITechnologieService;
 
@@ -28,6 +31,11 @@ public class TechnologieController {
 	private ITechnologieService technologieService;
 
 	private TechnologieMapper technologieMapper = Mappers.getMapper(TechnologieMapper.class);
+
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<Technologie> rechercherTechnologie(@PathVariable String text) {
+		return technologieService.rechercherTechnologie(text);
+	}
 
 	@PostMapping("/add")
 	public TechnologieDto create(@RequestBody TechnologieDto technologieDto) {

@@ -37,4 +37,9 @@ public class OrigineService extends ManagerService<Origine, Long> implements IOr
 		return origineDao.findAllOrigines();
 	}
 
+	@Override
+	public List<Origine> rechercherOrigine(String orgine) {
+		return origineDao.rechercherOrigine(orgine);
+	}
+
 }

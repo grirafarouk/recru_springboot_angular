@@ -24,7 +24,10 @@ export class UtilisateurService {
     }
 
     public getUserByEmail(email): Observable<any> {
-        return this.httpClient.get(BACK_END_URL + "/utilisateurs/email/" + email+"/")
+        return this.httpClient.get(BACK_END_URL + "/utilisateurs/email/" + email + "/")
+    }
+    completeUser(query): Observable<any> {
+        return this.httpClient.get(BACK_END_URL + "/utilisateurs/recherche/" + query);
     }
 
     public getConnetedUserInfo(): Utilisateur {
@@ -36,6 +39,12 @@ export class UtilisateurService {
     public getAllUser(): Observable<any> {
         return this.httpClient.get(BACK_END_URL + "/utilisateurs/all")
     }
+
+    public searchingusers(utilisateur): Observable<any> {
+
+        return this.httpClient.post(BACK_END_URL + "/utilisateurs/listeusers", utilisateur, httpOptions);
+    }
+
 
     public save(utilisateur): Observable<any> {
         return this.httpClient.post(BACK_END_URL + "/utilisateurs/add", utilisateur, httpOptions);
@@ -52,5 +61,6 @@ export class UtilisateurService {
     public getAllChages(): Observable<any> {
         return this.httpClient.get(BACK_END_URL + "/utilisateurs/usercharge");
     }
+
 
 }

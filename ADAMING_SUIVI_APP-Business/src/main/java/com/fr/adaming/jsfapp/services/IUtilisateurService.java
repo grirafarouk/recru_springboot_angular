@@ -37,6 +37,10 @@ public interface IUtilisateurService extends IManagerService<Utilisateur, Long> 
 
 	List<Utilisateur> findAllCharges();
 
+	List<Utilisateur> rechercheUser(String text);
+
+	List<Utilisateur> rechercheListeutilisateurs(Utilisateur utilisateur);
+
 	List<Utilisateur> rechercherSourceurPourReporting();
 
 	Integer nbrCVParSourceurParRegion(Utilisateur utilisateur, Region region, Date dateDebut, Date dateFin);

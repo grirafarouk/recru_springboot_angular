@@ -15,4 +15,5 @@ public interface ITechnologieDao extends IManagerDao<Technologie, Long> ,Seriali
 	List<Technologie> findAllTechnologies();
 	
 	 List<TechnologieDto> findAllTechnologiesByLibelle();
+	 List<Technologie> rechercherTechnologie(String technologie);
 }

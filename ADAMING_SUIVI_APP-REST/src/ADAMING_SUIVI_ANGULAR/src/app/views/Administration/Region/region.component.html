@@ -6,8 +6,57 @@
         <label style="font-weight:bold;color:#546E7A;">Region</label>
       </div>
       <div class="card-body">
-        <custom-local-table [actions]="actions" [columns]="columns" [items]="Listregion"></custom-local-table>            
-      </div>
+          <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th style="text-align:center">Libellés
+    
+                    <div class="form-group">
+                      <input style="font-weight: bold;color: black;" type="text" class="form-control"
+                        (input)="searchingregion($event)"></div>
+    
+    
+                  </th>
+                  <th style="text-align:center">Actif
+    
+    
+                    </th>
+    
+                  <th style="text-align:center">Reporting
+    
+    
+                  </th>
+    
+                  <th style="text-align:right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let region of Listregion  | paginate: { itemsPerPage:10, currentPage: pt, id: 'pt' }">
+                  <td >{{region.code}}</td>
+                  <td style="text-align:center">
+                    
+                      {{region.actif && 'Oui' || 'Non'}}
+                  </td> 
+                  <td style="text-align:center">
+                    
+                      {{region.reporting && 'Oui' || 'Non'}}
+                  </td> 
+                  <td style="text-align:right"><button class='btn btn-outline-success btn-sm'
+                      (click)="showEditModal(region)">
+                      <i class="fa fa-edit" aria-hidden="true"></i></button>
+                    <button style="margin:10px;" class='btn btn-outline-danger btn-sm'
+                      (click)="showDeleteModal(region)">
+                      <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+    
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="panel-footer panel-default pager">
+              <pagination-controls (pageChange)="pt =$event" id="pt"></pagination-controls>
+            </div>      </div>
     </div>
   </div>
 </div>

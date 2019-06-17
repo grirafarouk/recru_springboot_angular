@@ -1,6 +1,7 @@
 package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.DisponibiliteDto;
 import com.fr.adaming.jsfapp.mapper.DisponibiliteMapper;
 import com.fr.adaming.jsfapp.model.Disponibilite;
+import com.fr.adaming.jsfapp.model.Role;
 import com.fr.adaming.jsfapp.services.IDisponibiliteService;
 
 @RestController
@@ -29,6 +32,11 @@ public class DisponibiliteController {
 	@GetMapping("/libelle/{libelle}")
 	public Disponibilite rechercherLibelleDisponibilite(@PathVariable String libelle) {
 		return disponibiliteService.rechercherDisponibiliteParLibelle(libelle);
+	}
+
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<Disponibilite> rechercherDisponibiliteRole(@PathVariable String text) {
+		return disponibiliteService.rechercheRole(text);
 	}
 
 	@PostMapping("")

@@ -1,9 +1,9 @@
+import { MotifService } from './../../../services/administrationService/motif.service';
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NotifierService } from "angular-notifier";
 import { HelperService } from "../../../helper/helper.service";
 import { Motif } from "../../../models/Motif";
-import { MotifService } from "../../../services/administrationService/motif.service";
 
 
 
@@ -18,9 +18,10 @@ export class motifHorsCibleComponent implements OnInit {
 
   @ViewChild("motifHorsCibleModal")
   public motifHorsCibleModal;
-  
-  ListmotifHorsCible=[];
-  motifHorsCible:Motif
+  pt: number;
+
+  ListmotifHorsCible = [];
+  motifHorsCible: Motif
 
 
   columns = [
@@ -48,22 +49,44 @@ export class motifHorsCibleComponent implements OnInit {
     }]
 
   constructor(
-   private motifHorsCibleService: MotifService,
-   private notifierService: NotifierService
-    ){}
+    private motifHorsCibleService: MotifService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
-    this.motifHorsCible= new Motif();
-    this.motifHorsCibleService.findAllMotifs().subscribe(data=>{
+    this.motifHorsCible = new Motif();
+    this.motifHorsCibleService.findAllMotifs().subscribe(data => {
       this.ListmotifHorsCible = data;
     })
   }
-  showAddModal(){
+
+
+
+  searchingmotif(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.motifHorsCibleService.searchingmotifs(value).subscribe(data => {
+
+        this.ListmotifHorsCible = data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
+
+
+  showAddModal() {
     this.reset();
     this.motifHorsCibleModal.show();
   }
-  showEditModal(motifHorsCible: any){
-    this.motifHorsCible= Object.assign({}, motifHorsCible);
+  showEditModal(motifHorsCible: any) {
+    this.motifHorsCible = Object.assign({}, motifHorsCible);
     this.motifHorsCibleModal.show();
   }
 
@@ -76,55 +99,53 @@ export class motifHorsCibleComponent implements OnInit {
       this.updateMotifHorsCible();
     else this.createMotifHorsCible();
   }
-  async createMotifHorsCible(){
+  async createMotifHorsCible() {
     var error = false;
     if (this.motifHorsCible.libelle == "" || this.motifHorsCible.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un motif valide")
-      error  = true;
+      error = true;
     }
     else {
       let mHC
       await this.motifHorsCibleService.findMotifHSByLibelle(this.motifHorsCible.libelle).toPromise().then(data => { mHC = data });
       if (mHC != null) {
         this.notifierService.notify("error", "Motif existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.motifHorsCibleService.save(this.motifHorsCible).toPromise().then((data: Motif) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Motif ajoutée avec succès !")
-      }
-    })
-  }
+    if (!error) {
+      this.motifHorsCibleService.save(this.motifHorsCible).toPromise().then((data: Motif) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Motif ajoutée avec succès !")
+        }
+      })
+    }
     this.motifHorsCibleModal.hide();
   }
 
-  async updateMotifHorsCible(){
+  async updateMotifHorsCible() {
     var error = false;
     if (this.motifHorsCible.libelle == "" || this.motifHorsCible.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un motif valide")
-      error  = true;
+      error = true;
     }
     else {
       let mHC
       await this.motifHorsCibleService.findMotifHSByLibelle(this.motifHorsCible.libelle).toPromise().then(data => { mHC = data });
       if (mHC != null) {
         this.notifierService.notify("error", "Motif existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.motifHorsCibleService.update(this.motifHorsCible).toPromise().then((data: Motif) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Motif  modifiée avec succès !")
-      }
-    })
-  }
+    if (!error) {
+      this.motifHorsCibleService.update(this.motifHorsCible).toPromise().then((data: Motif) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Motif  modifiée avec succès !")
+        }
+      })
+    }
     this.motifHorsCibleModal.hide();
   }
 
@@ -135,7 +156,7 @@ export class motifHorsCibleComponent implements OnInit {
     })
     this.deleteModal.hide();
   }
-  reset(){
+  reset() {
     this.motifHorsCible.libelle = null;
   }
 }

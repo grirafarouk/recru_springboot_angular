@@ -12,4 +12,5 @@ public interface ILieuDao extends IManagerDao<Lieu, Long>, Serializable{
 	Lieu rechercherLieu(Lieu lieu);
 	
 	List<Lieu> findAllLieux();
+	List<Lieu> rechercherLieux(Lieu  lieu);
 }

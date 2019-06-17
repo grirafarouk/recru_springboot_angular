@@ -2,6 +2,9 @@ package com.fr.adaming.jsfapp.services;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+
+import com.fr.adaming.jsfapp.model.Technologie;
 
 public interface IManagerService<T, K extends Serializable> extends Serializable {
 	T create(T entity);
@@ -19,5 +22,6 @@ public interface IManagerService<T, K extends Serializable> extends Serializable
 	void delete(T entity);
 
 	void deleteById(K id);
+
 
 }

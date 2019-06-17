@@ -16,6 +16,7 @@ export class RoleComponent implements OnInit {
 
   @ViewChild("deleteModal")
   public deleteModal;
+  pt: number;
 
   @ViewChild("roleModal")
   public roleModal;
@@ -52,8 +53,8 @@ export class RoleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-      this.role = new Role();
-      this.roleService.findAllRole().subscribe(data => {
+    this.role = new Role();
+    this.roleService.findAllRole().subscribe(data => {
       this.listRole = data;
     })
   }
@@ -63,7 +64,23 @@ export class RoleComponent implements OnInit {
     this.roleModal.show();
 
   }
+  searchingrole(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.roleService.searchingRoles(value).subscribe(data => {
 
+        this.listRole = data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
   showDeleteModal(role: any): any {
     this.role = Object.assign({}, role);
     this.deleteModal.show();
@@ -84,25 +101,24 @@ export class RoleComponent implements OnInit {
     var error = false;
     if (this.role.libelle == "" || this.role.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un Profil valide")
-      error  = true;
+      error = true;
     }
     else {
       let role
       await this.roleService.findRoleByLibelle(this.role.libelle).toPromise().then(data => { role = data });
       if (role != null) {
         this.notifierService.notify("error", "Profil existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.roleService.save(this.role).toPromise().then((data: Role) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Profil ajouté avec succés !")
-      }
-    })
-  }
+    if (!error) {
+      this.roleService.save(this.role).toPromise().then((data: Role) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Profil ajouté avec succés !")
+        }
+      })
+    }
     this.roleModal.hide();
   }
 
@@ -110,25 +126,24 @@ export class RoleComponent implements OnInit {
     var error = false;
     if (this.role.libelle == "" || this.role.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un Profil valide")
-      error  = true;
+      error = true;
     }
     else {
       let role
       await this.roleService.findRoleByLibelle(this.role.libelle).toPromise().then(data => { role = data });
       if (role != null) {
         this.notifierService.notify("error", "Profil existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.roleService.update(this.role).toPromise().then((data: Role) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Profil  modifié avec succés !")
-      }
-    })
-  }
+    if (!error) {
+      this.roleService.update(this.role).toPromise().then((data: Role) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Profil  modifié avec succés !")
+        }
+      })
+    }
     this.roleModal.hide();
   }
 

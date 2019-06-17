@@ -14,11 +14,16 @@ export class RegionService {
   findAllRegion(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/region");
   }
+  searchingRegion(value):Observable<any>{
+
+    return this.httpClient.get(BACK_END_URL + "/region/recherche/"+value );
+
+  }
 
   completeRegion(query): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/region/recherche/"+query);
   }
-
+        
 
   update(region): Observable<any> {
     const httpOptions = {

@@ -16,6 +16,7 @@ export class origineCVComponent implements OnInit {
 
   @ViewChild("origineDeleteModal")
   public origineDeleteModal;
+  pt: number;
 
   @ViewChild("origineModal")
   public origineModal;
@@ -65,13 +66,43 @@ export class origineCVComponent implements OnInit {
     this.origineModal.show();
   }
 
+
+  searchingcv(event) {
+    console.log(this.ListOrigines)
+    console.log(event.target.value)
+    let value = event.target.value;
+    if (value != '') {
+      this.originesService.searchingorigines(value).subscribe(data => {
+
+        this.ListOrigines = data
+
+
+      })
+
+
+
+
+
+
+    }
+
+
+else{
+
+
+  this.ngOnInit()
+}
+
+  }
+
+
   showEditModal(origine: any) {
-    this.origine = Object.assign({}, origine); 
+    this.origine = Object.assign({}, origine);
     this.origineModal.show();
   }
 
   showDeleteModal(origine: any): any {
-    this.origine =  Object.assign({}, origine); 
+    this.origine = Object.assign({}, origine);
     this.origineDeleteModal.show();
   }
 
@@ -85,25 +116,24 @@ export class origineCVComponent implements OnInit {
     var error = false;
     if (this.origine.libelle == "" || this.origine.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un origine cv valide")
-      error  = true;
+      error = true;
     }
     else {
       let org
       await this.originesService.findOrigineByLibelle(this.origine.libelle).toPromise().then(data => { org = data });
       if (org != null) {
         this.notifierService.notify("error", "Origine cv existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.originesService.save(this.origine).toPromise().then((data: Origine) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Origine CV ajouté avec succés !")
-      }
-    })
-  }
+    if (!error) {
+      this.originesService.save(this.origine).toPromise().then((data: Origine) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Origine CV ajouté avec succés !")
+        }
+      })
+    }
     this.origineModal.hide();
   }
 
@@ -111,25 +141,24 @@ export class origineCVComponent implements OnInit {
     var error = false;
     if (this.origine.libelle == "" || this.origine.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un origine cv valide")
-      error  = true;
+      error = true;
     }
     else {
       let org
       await this.originesService.findOrigineByLibelle(this.origine.libelle).toPromise().then(data => { org = data });
       if (org != null) {
         this.notifierService.notify("error", "Origine cv existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.originesService.update(this.origine).toPromise().then((data: Origine) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Origine CV modifié avec succés !")
-      }
-    })
-  }
+    if (!error) {
+      this.originesService.update(this.origine).toPromise().then((data: Origine) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Origine CV modifié avec succés !")
+        }
+      })
+    }
     this.origineModal.hide();
   }
 
@@ -144,6 +173,6 @@ export class origineCVComponent implements OnInit {
   }
 
   reset() {
-    this.origine= new Origine();
+    this.origine = new Origine();
   }
 }

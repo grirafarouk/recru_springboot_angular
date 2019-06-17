@@ -25,6 +25,14 @@ export class OriginesService {
     };
     return this.httpClient.post(BACK_END_URL + "/origine/add", origine, httpOptions);
   }
+
+
+  searchingorigines(value): Observable<any> {
+
+    return this.httpClient.get(BACK_END_URL + "/origine/recherche/" + value);
+
+  }
+
   update(origine): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -36,6 +44,6 @@ export class OriginesService {
 
   delete(origine): Observable<any> {
 
-    return this.httpClient.delete(BACK_END_URL + "/origine/"+origine.id );
+    return this.httpClient.delete(BACK_END_URL + "/origine/" + origine.id);
   }
 }

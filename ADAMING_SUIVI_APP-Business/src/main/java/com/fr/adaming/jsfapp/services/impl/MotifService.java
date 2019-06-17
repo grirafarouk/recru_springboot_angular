@@ -1,5 +1,7 @@
 package com.fr.adaming.jsfapp.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -33,6 +35,12 @@ public class MotifService extends ManagerService<Motif, Long> implements IMotifS
 	public Motif rechercheMotifParLibelle(String libelle) {
 		
 		return motifDao.rechercheMotifParLibelle(libelle);
+	}
+
+
+	@Override
+	public List<Motif> rechercherMotif(String motif) {
+	return  motifDao.rechercherMotif(motif);
 	}
 
 }

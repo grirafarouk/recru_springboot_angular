@@ -79,7 +79,7 @@ public class CandidatController {
 	private IUtilisateurService utilisateurService;
 
 	List<String> files = new ArrayList<>();
-
+    
 	@Autowired
 	private IvListeCandidatsService vListeCandidatsService;
 	private VListeCandidatsDto vListeCandidatsDto;
@@ -206,6 +206,7 @@ public class CandidatController {
 		response.flushBuffer();
 	}
 
+	
 	@PostMapping(path = "/ajoutCandidat")
 	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login,
 			@RequestParam String mime) {

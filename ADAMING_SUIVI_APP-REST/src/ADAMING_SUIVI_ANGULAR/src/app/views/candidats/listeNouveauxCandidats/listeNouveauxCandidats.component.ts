@@ -147,7 +147,8 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     this.helperService.listNouveauxCandidatRecherche = this.condidat;
   }
   rechercheCandidat() {
-   
+    console.log(this.condidat);
+    console.log(this.condidat.nom)
     if (this.condidat.sourceur == null) {
       this.condidat.sourceur = new Utilisateur();
     }
@@ -155,7 +156,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
     this.condidat.prenomSourceur = this.condidat.sourceur.prenom;
     if (this.condidat.nomSourceur == null)
       this.condidat.sourceur = null
-
+    
     if (!this.regex.test(this.condidat.nom) && !this.regex.test(this.condidat.prenom)) {
       this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
     }

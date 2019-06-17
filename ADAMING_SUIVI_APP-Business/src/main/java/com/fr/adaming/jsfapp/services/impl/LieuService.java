@@ -46,4 +46,9 @@ public class LieuService extends ManagerService<Lieu, Long> implements
 	public List<Lieu> findAllLieux() {
 		return lieuDao.findAllLieux();
 	}
+
+	@Override
+	public List<Lieu> rechercherLieux(Lieu lieu) {
+		return lieuDao.rechercherLieux(lieu);
+	}
 }

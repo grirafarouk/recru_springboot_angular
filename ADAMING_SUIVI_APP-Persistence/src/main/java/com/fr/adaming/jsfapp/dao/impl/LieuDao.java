@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ILieuDao;
+import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Lieu;
+import com.fr.adaming.jsfapp.model.Role;
 
 @Repository("lieuDao")
-public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao ,Serializable{
-
+public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao, Serializable {
 
 	private static final long serialVersionUID = -5552822211530723503L;
 
@@ -27,7 +28,7 @@ public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao ,Seriali
 		DaoUtils.addEqRestrictionIfNotNull(crit, "adresseAdaming", lieu.getAdresseAdaming());
 		return (Lieu) crit.uniqueResult();
 	}
-	
+
 	@Override
 	public Lieu rechercherLieuParLibelle(String libelle) {
 
@@ -38,7 +39,7 @@ public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao ,Seriali
 
 		return (Lieu) crit.uniqueResult();
 	}
-	
+
 	@Override
 	public Lieu rechercherLieuParAdresse(String libelle) {
 
@@ -49,7 +50,7 @@ public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao ,Seriali
 
 		return (Lieu) crit.uniqueResult();
 	}
-	
+
 	public List<Lieu> findAllLieux() {
 		String query = "SELECT * FROM lieu ";
 
@@ -57,6 +58,25 @@ public class LieuDao extends ManagerDao<Lieu, Long> implements ILieuDao ,Seriali
 		@SuppressWarnings("unchecked")
 		List<Lieu> liste = (List<Lieu>) st.addEntity(Lieu.class).list();
 
+		return liste;
+	}
+
+	@Override
+	public List<Lieu> rechercherLieux(Lieu lieu) {
+		String query = "SELECT * FROM lieu where 1=1";
+		if (lieu.getAdresseAdaming() != null) {
+			query = query + " AND ADRESSE_ADAMING like '%" + lieu.getAdresseAdaming() + "%'";
+
+		}
+		if (lieu.getLibelle() != null) {
+
+			query = query + " AND libelle like '%" + lieu.getLibelle() + "%'";
+
+		}
+
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
+		List<Lieu> liste = (List<Lieu>) st.addEntity(Lieu.class).list();
 		return liste;
 	}
 }

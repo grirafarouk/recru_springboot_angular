@@ -14,7 +14,7 @@ import com.fr.adaming.jsfapp.model.Region;
 import com.fr.adaming.jsfapp.model.Technologie;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 
-public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long>,Serializable {
+public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long>, Serializable {
 
 	/**
 	 * Récupérer un {@link Utilisateur} a partir de son Login et son Mot de Passe
@@ -69,6 +69,8 @@ public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long>,Serializ
 
 	List<Utilisateur> findAllCharges();
 
+	List<Utilisateur> rechercheListeutilisateurs(Utilisateur user);
+
 	Integer nbrCVParSourceurParRegion(Utilisateur utilisateur, Region region, Date dateDebut, Date dateFin);
 
 	Integer nbrCVParOrigineParTechnologie(Origine origine, Technologie technologie, Date dateDebut, Date dateFin);
@@ -107,6 +109,8 @@ public interface IUtilisateurDao extends IManagerDao<Utilisateur, Long>,Serializ
 			Date dateDebut, Date dateFin);
 
 	Map<String, Integer> reportingCVParTechnologieParSourceur();
+
+	List<Utilisateur> rechercherUser(String text);
 
 	List<ReportingSourceurParDispoDto> rechercherReportingSourceur();
 

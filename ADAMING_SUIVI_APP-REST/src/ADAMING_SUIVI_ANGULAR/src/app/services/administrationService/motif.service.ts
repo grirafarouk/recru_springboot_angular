@@ -25,6 +25,11 @@ export class MotifService {
     };
     return this.httpClient.post(BACK_END_URL + "/motifs/add", motif, httpOptions);
   }
+  searchingmotifs(value): Observable<any> {
+
+    return this.httpClient.get(BACK_END_URL + "/motifs/recherche/" + value);
+
+  }
 
   update(motif): Observable<any> {
     const httpOptions = {

@@ -19,6 +19,7 @@ export class StatusComponent implements OnInit {
 
   @ViewChild("statutModal")
   public statutModal;
+  pt: number;
 
 
   columns = [
@@ -63,7 +64,23 @@ export class StatusComponent implements OnInit {
     this.statutModal.show();
 
   }
+  searchingstatut(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.statutService.searchingStatuts(value).subscribe(data => {
 
+        this.Liststatut = data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
   showDeleteModal(statut: any): any {
     this.statut = Object.assign({}, statut);
     this.deleteModal.show();

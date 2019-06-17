@@ -18,6 +18,7 @@ export class clientSessionComponent implements OnInit {
   @ViewChild("clientSessionModal")
   public clientSessionModal;
   ListclientSession=[];
+  pt: number;
 
   clientSession:ClientSession
   columns = [
@@ -56,6 +57,23 @@ export class clientSessionComponent implements OnInit {
     })
   }
 
+  searchingsession(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.clientSessionService.searchingclientSession(value).subscribe(data => {
+
+        this.ListclientSession= data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
   showDeleteModal(clientSession: any): any {
     this.clientSession = Object.assign({}, clientSession);
     this.deleteModal.show();

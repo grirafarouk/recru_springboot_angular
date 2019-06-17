@@ -17,11 +17,12 @@ export class regionComponent implements OnInit {
   public regionAddModal;
   @ViewChild("regionEditModal")
   public regionEditModal;
-  Listregion=[];
-  region:Region
+  Listregion = [];
+  region: Region
+  pt: number;
 
-  
-  
+
+
   columns = [
     {
       data: 'code',
@@ -54,27 +55,48 @@ export class regionComponent implements OnInit {
   ]
 
   constructor(
-   private regionService: RegionService,
-   private notifierService: NotifierService
-    ){}
+    private regionService: RegionService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
-    this.region= new Region();
-    this.regionService.findAllRegion().subscribe(data=>{
+    this.region = new Region();
+    this.regionService.findAllRegion().subscribe(data => {
       this.Listregion = data;
     })
   }
-  showAddModal(){
+
+
+  searchingregion(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.regionService.searchingRegion(value).subscribe(data => {
+
+        this.Listregion = data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
+
+
+  showAddModal() {
     this.reset();
     this.regionAddModal.show();
   }
-  showEditModal(region: any){
-    this.region =Object.assign({}, region);
+  showEditModal(region: any) {
+    this.region = Object.assign({}, region);
     this.regionEditModal.show();
   }
- 
 
-  updateRegion(region){
+
+  updateRegion(region) {
     this.regionService.update(this.region).toPromise().then((data: Region) => {
       this.ngOnInit();
       if (data != null) {
@@ -83,8 +105,8 @@ export class regionComponent implements OnInit {
     })
     this.regionEditModal.hide();
   }
-  
-  reset(){
+
+  reset() {
     this.region.code = null;
   }
 }

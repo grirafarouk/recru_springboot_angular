@@ -17,8 +17,11 @@ export class lieuxComponent implements OnInit {
   public deleteModal;
   @ViewChild("lieuModal")
   public lieuModal;
-  ListLieux=[];
-  lieu:Lieu
+  ListLieux = [];
+  pt: number;
+
+  lieurecherche: Lieu = new Lieu();
+  lieu: Lieu
   columns = [
     {
       data: 'libelle',
@@ -48,23 +51,47 @@ export class lieuxComponent implements OnInit {
     }]
 
   constructor(
-   private lieuxService: LieuxService,
-   private notifierService: NotifierService
-    ){}
+    private lieuxService: LieuxService,
+    private notifierService: NotifierService
+  ) { }
 
   ngOnInit(): void {
-    this.lieu= new Lieu();
+    this.lieu = new Lieu();
 
-    this.lieuxService.findAllLieux().subscribe(data=>{
+    this.lieuxService.findAllLieux().subscribe(data => {
       this.ListLieux = data;
     })
   }
-  showAddModal(){
+  searchinglibelle() {
+    if (this.lieurecherche.libelle != null) {
+
+      this.lieuxService.searchingLieux(this.lieurecherche).subscribe(data => {
+
+        this.ListLieux = data;
+      })
+    }
+    else {
+      this.ngOnInit();
+    }
+  }
+  searchingadresses() {
+    if (this.lieurecherche.adresseAdaming != null) {
+
+      this.lieuxService.searchingLieux(this.lieurecherche).subscribe(data => {
+
+        this.ListLieux = data;
+      })
+    }
+    else {
+      this.ngOnInit();
+    }
+  }
+  showAddModal() {
     this.reset();
     this.lieuModal.show();
 
   }
-  showEditModal(lieu: any){
+  showEditModal(lieu: any) {
     this.lieu = Object.assign({}, lieu);
     this.lieuModal.show();
 
@@ -78,58 +105,56 @@ export class lieuxComponent implements OnInit {
       this.updateLieu();
     else this.createLieu();
   }
-  async createLieu(){
+  async createLieu() {
     var error = false;
     if (this.lieu.libelle == "" || this.lieu.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un lieu valide")
-      error  = true;
+      error = true;
     }
     else {
       let lieuu
       await this.lieuxService.findLieuByLibelle(this.lieu.libelle).toPromise().then(data => { lieuu = data });
       if (lieuu != null) {
         this.notifierService.notify("error", "lieu existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.lieuxService.save(this.lieu).toPromise().then((data: Lieu) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Lieu ajouté avec succès !")
-      }
-    })
-  }
+    if (!error) {
+      this.lieuxService.save(this.lieu).toPromise().then((data: Lieu) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Lieu ajouté avec succès !")
+        }
+      })
+    }
     this.lieuModal.hide();
   }
 
-  async updateLieu(){
+  async updateLieu() {
     var error = false;
     if (this.lieu.libelle == "" || this.lieu.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un lieu valide")
-      error  = true;
+      error = true;
     }
     else {
       let lieuu
       await this.lieuxService.findLieuByLibelle(this.lieu.libelle).toPromise().then(data => { lieuu = data });
       if (lieuu != null) {
         this.notifierService.notify("error", "lieu existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.lieuxService.update(this.lieu).toPromise().then((data: Lieu) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Lieu modifié avec succès !")
-      }
-    })
-  }
+    if (!error) {
+      this.lieuxService.update(this.lieu).toPromise().then((data: Lieu) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Lieu modifié avec succès !")
+        }
+      })
+    }
     this.lieuModal.hide();
   }
-  
+
   delete() {
     this.lieuxService.delete(this.lieu).toPromise().then((data) => {
       this.ngOnInit();
@@ -137,7 +162,7 @@ export class lieuxComponent implements OnInit {
     })
     this.deleteModal.hide();
   }
-  reset(){
+  reset() {
     this.lieu = new Lieu();
   }
 }

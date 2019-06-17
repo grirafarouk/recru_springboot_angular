@@ -1,10 +1,11 @@
+import { ficheCandidatSessionComponent } from './../../../views/dashboard/ficheCandidatSession/ficheCandidatSession.component';
+import { HelperService } from './../../../helper/helper.service';
 import { UtilisateurService } from './../../../services/utilisateur.service';
 import { OwlDateTimeModule } from 'ng-pick-datetime';
 import { Component, OnInit, Input } from '@angular/core';
 import { CandidateDto } from '../../../views/candidats/CandidateDto';
 import { NotifierService } from 'angular-notifier';
 import { StatutService } from '../../../services/administrationService/StatutService';
-import { HelperService } from '../../../helper/helper.service';
 import { TechnologieService } from '../../../services/administrationService/TechnologieService';
 import { CodegenComponentFactoryResolver } from '@angular/core/src/linker/component_factory_resolver';
 import { DatePipe } from '@angular/common';
@@ -205,8 +206,8 @@ export class NcandidattableComponent implements OnInit {
       this.ngOnInit();
       this.verifier_critere_de_recherche = false
     }
-  
-  
+
+
   }
 
   searchingDateInscription(event: Date) {

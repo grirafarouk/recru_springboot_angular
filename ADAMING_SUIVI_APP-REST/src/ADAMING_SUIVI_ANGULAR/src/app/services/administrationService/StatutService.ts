@@ -25,6 +25,8 @@ export class StatutService {
     };
     return this.httpClient.post(BACK_END_URL + "/statut/add", Statut, httpOptions);
   }
+  
+
   update(Statut): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -33,7 +35,11 @@ export class StatutService {
     };
     return this.httpClient.post(BACK_END_URL + "/statut/update", Statut, httpOptions);
   }
+  searchingStatuts(value):Observable<any>{
 
+    return this.httpClient.get(BACK_END_URL + "/statut/recherche/"+value );
+
+  }
   delete(item): Observable<any> {
     return this.httpClient.delete(BACK_END_URL + "/statut/" + item.id);
   }

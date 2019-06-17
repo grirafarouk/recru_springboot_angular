@@ -1,6 +1,7 @@
 package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import com.fr.adaming.jsfapp.dto.StatutDto;
 import com.fr.adaming.jsfapp.mapper.StatutMapper;
+import com.fr.adaming.jsfapp.model.Role;
 import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.services.IStatutService;
 
@@ -30,7 +33,10 @@ public class StatutController {
 	public Statut rechercherTypeProfil(@PathVariable String libelle) {
 		return statutService.rechercherStatutParLibelle(libelle);
 	}
-
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<Statut> rechercherStatut(@PathVariable String text) {
+		return statutService.rechercherStatut(text);
+	}
 	@PostMapping("")
 	public StatutDto createOrUpdate(@RequestBody StatutDto StatutDto) {
 		Statut statut = statutMapper.StatusDtoToStatus(StatutDto);

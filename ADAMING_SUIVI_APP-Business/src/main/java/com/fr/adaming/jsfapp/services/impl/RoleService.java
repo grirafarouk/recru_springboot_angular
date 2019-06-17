@@ -1,5 +1,7 @@
 package com.fr.adaming.jsfapp.services.impl;
 
+import java.util.List;
+
 import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,5 +28,10 @@ public class RoleService extends ManagerService<Role, Long> implements IRoleServ
 	@Override
 	public Role rechercherRoleParLibelle(String libelle) {
 		return roleDao.rechercherRoleParLibelle(libelle);
+	}
+
+	@Override
+	public List<Role> rechercheRole(String Role) {
+		return roleDao.rechercheRole(Role);
 	}
 }

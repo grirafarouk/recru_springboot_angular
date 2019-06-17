@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.ITypeFormationDao;
+import com.fr.adaming.jsfapp.model.Origine;
 import com.fr.adaming.jsfapp.model.TypeFormation;
 
 @Repository("typeFormationDao")
@@ -37,6 +38,15 @@ public class TypeFormationDao extends ManagerDao<TypeFormation, Long> implements
 		@SuppressWarnings("unchecked")
 		List<TypeFormation> liste = (List<TypeFormation>) st.addEntity(
 				TypeFormation.class).list();
+		return liste;
+	}
+
+	@Override
+	public List<TypeFormation> rechercherTypeFormation(String typeFormation) {
+		String query = "SELECT * FROM type_formation where libelle LIKE '%" + typeFormation + "%'" ;
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
+		List<TypeFormation> liste = (List<TypeFormation>) st.addEntity(TypeFormation.class).list();
 		return liste;
 	}
 }

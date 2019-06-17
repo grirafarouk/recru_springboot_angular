@@ -8,7 +8,9 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import com.fr.adaming.dao.tools.DaoUtils;
 import com.fr.adaming.jsfapp.dao.IDisponibiliteDao;
+import com.fr.adaming.jsfapp.model.Competence;
 import com.fr.adaming.jsfapp.model.Disponibilite;
+import com.fr.adaming.jsfapp.model.Role;
 
 @Repository("disponibiliteDao")
 public class DisponibiliteDao extends ManagerDao<Disponibilite, Long> implements IDisponibiliteDao, Serializable {
@@ -42,6 +44,15 @@ public class DisponibiliteDao extends ManagerDao<Disponibilite, Long> implements
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")
 		List<Disponibilite> liste = (List<Disponibilite>) st.addEntity(Disponibilite.class).list();
+		return liste;
+	}
+
+	@Override
+	public List<Disponibilite> rechercheDisponibilite(String disponibilite) {
+		String query = "SELECT * FROM disponibilite where libelle LIKE '%" + disponibilite + "%'" ;
+		@SuppressWarnings("unchecked")
+		SQLQuery st = getSession().createSQLQuery(query);
+		List<Disponibilite> liste = (List<Disponibilite>) st.addEntity(Competence.class).list();
 		return liste;
 	}
 }

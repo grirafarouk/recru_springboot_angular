@@ -39,4 +39,9 @@ public class StatutService extends ManagerService<Statut, Long> implements IStat
 		return statutDao.findAllStatus();
 	}
 
+	@Override
+	public List<Statut> rechercherStatut(String statut) {
+		return statutDao.rechercherStatut(statut);
+	}
+
 }

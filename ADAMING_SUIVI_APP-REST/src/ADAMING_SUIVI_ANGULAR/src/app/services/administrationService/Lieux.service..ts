@@ -14,9 +14,21 @@ export class LieuxService {
   findAllLieux(): Observable<any> {
     return this.httpClient.get(BACK_END_URL + "/lieu/all");
   }
+
+
+  searchingLieux(value): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.httpClient.post(BACK_END_URL + "/lieu/recherche", value, httpOptions)
+  }
+
   findLieuByLibelle(libelle: String): Observable<any> {
     return this.httpClient.get<any>(BACK_END_URL + "/lieu/libelle/" + libelle)
   }
+
   save(lieu): Observable<any> {
 
     const httpOptions = {

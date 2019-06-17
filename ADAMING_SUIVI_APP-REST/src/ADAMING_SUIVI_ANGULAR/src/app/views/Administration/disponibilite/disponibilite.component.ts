@@ -15,6 +15,7 @@ export class DisponibiliteComponent implements OnInit {
  
   @ViewChild("deleteModal")
   public deleteModal;
+  pt: number;
 
   @ViewChild("disponibiliteModal")
   public  disponibiliteModal;
@@ -64,7 +65,23 @@ export class DisponibiliteComponent implements OnInit {
     this.disponibiliteModal.show();
 
   }
+  searchingdisponibilite(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.disponibiliteService.searchingDisponibilites(value).subscribe(data => {
 
+        this.Listdisponibilite = data
+
+      
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
   showDeleteModal(disponibilite: any): any {
     this.disponibilite = Object.assign({}, disponibilite);
     this.deleteModal.show();

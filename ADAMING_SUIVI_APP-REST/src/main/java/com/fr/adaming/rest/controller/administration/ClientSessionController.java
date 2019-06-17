@@ -1,6 +1,7 @@
 package com.fr.adaming.rest.controller.administration;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fr.adaming.jsfapp.dto.ClientSessionDto;
 import com.fr.adaming.jsfapp.mapper.ClientSessionMapper;
 import com.fr.adaming.jsfapp.model.ClientSession;
-
+import com.fr.adaming.jsfapp.model.TypeFormation;
 import com.fr.adaming.jsfapp.services.IClientSessionService;
 
 @RestController
@@ -58,4 +59,9 @@ public class ClientSessionController {
 	public void delete(@PathVariable Long id) {
 		clientSessionService.deleteById(id);
 	}
+	@RequestMapping(value = "recherche/{text}", method = RequestMethod.GET)
+	public List<ClientSession> rechercherClientSession(@PathVariable String text) {
+		return clientSessionService.rechercherClientSession(text);
+	}
+	
 }

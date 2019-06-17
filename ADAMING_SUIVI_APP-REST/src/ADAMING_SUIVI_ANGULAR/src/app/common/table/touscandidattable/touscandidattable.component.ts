@@ -8,6 +8,7 @@ import { HelperService } from '../../../helper/helper.service';
 @Component({
   selector: 'app-touscandidattable',
   templateUrl: './touscandidattable.component.html',
+  styleUrls: ["touscandidats.component.css"],
 })
 export class TouscandidattableComponent implements OnInit {
   @Input()
@@ -221,6 +222,7 @@ export class TouscandidattableComponent implements OnInit {
 
     }
     else {
+      this.ngOnInit();
 
       this.verifier_critere_de_recherche = false
     }

@@ -17,6 +17,7 @@ export class typeFormationComponent implements OnInit {
   ListtTypeFormation = [];
   typeFormation: TypeFormation
 
+  pt: number;
 
   @ViewChild("deleteModal")
   public deleteModal;
@@ -70,7 +71,23 @@ export class typeFormationComponent implements OnInit {
     this.typeFormationModal.show();
 
   }
+  searchingFormation(event) {
+    let value = event.target.value;
+    if (value != "")
+      this.typeFormationService.searchingTypeFormation(value).subscribe(data => {
 
+        this.ListtTypeFormation = data
+
+
+
+      })
+
+    else {
+
+
+      this.ngOnInit();
+    }
+  }
   showDeleteModal(typeFormation: any): any {
     this.typeFormation = Object.assign({}, typeFormation);
     this.deleteModal.show();
@@ -92,25 +109,24 @@ export class typeFormationComponent implements OnInit {
     var error = false;
     if (this.typeFormation.libelle == "" || this.typeFormation.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un type formation valide")
-      error  = true;
+      error = true;
     }
     else {
       let typeF
       await this.typeFormationService.findTypeFormationByLibelle(this.typeFormation.libelle).toPromise().then(data => { typeF = data });
       if (typeF != null) {
         this.notifierService.notify("error", "Type Formation existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.typeFormationService.save(this.typeFormation).toPromise().then((data: TypeFormation) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Type Formation ajouté avec succés !")
-      }
-    })
-  }
+    if (!error) {
+      this.typeFormationService.save(this.typeFormation).toPromise().then((data: TypeFormation) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Type Formation ajouté avec succés !")
+        }
+      })
+    }
     this.typeFormationModal.hide();
   }
 
@@ -118,25 +134,24 @@ export class typeFormationComponent implements OnInit {
     var error = false;
     if (this.typeFormation.libelle == "" || this.typeFormation.libelle == undefined) {
       this.notifierService.notify("error", " Écrivez un type formation valide")
-      error  = true;
+      error = true;
     }
     else {
       let typeF
       await this.typeFormationService.findTypeFormationByLibelle(this.typeFormation.libelle).toPromise().then(data => { typeF = data });
       if (typeF != null) {
         this.notifierService.notify("error", "Type Formation existe déjà  !")
-        error  = true;
+        error = true;
       }
     }
-    if(!error)
-    {
-    this.typeFormationService.update(this.typeFormation).toPromise().then((data: TypeFormation) => {
-      this.ngOnInit();
-      if (data != null) {
-        this.notifierService.notify("success", "Type Formation  modifié avec succés !")
-      }
-    })
-  }
+    if (!error) {
+      this.typeFormationService.update(this.typeFormation).toPromise().then((data: TypeFormation) => {
+        this.ngOnInit();
+        if (data != null) {
+          this.notifierService.notify("success", "Type Formation  modifié avec succés !")
+        }
+      })
+    }
     this.typeFormationModal.hide();
   }
 

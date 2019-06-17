@@ -1,6 +1,7 @@
 package com.fr.adaming.jsfapp.services.impl;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Transient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class ClientSessionService extends ManagerService<ClientSession, Long>
 	public ClientSession rechercheClientSessionParLibelle(String libelle) {
 
 		return clientSessionDao.rechercheClientSessionParLibelle(libelle);
+	}
+
+	@Override
+	public List<ClientSession> rechercherClientSession(String clientSession) {
+		return clientSessionDao.rechercherClientSession(clientSession);
 	}
 
 }

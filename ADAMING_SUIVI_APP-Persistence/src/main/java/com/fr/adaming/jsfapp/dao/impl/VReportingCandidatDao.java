@@ -18,22 +18,7 @@ public class VReportingCandidatDao extends ManagerDao<VReportingCandidat, Long>
 	DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	private static final String LISTE_CANDIDAT_NOM = " AND V_RC.Nom_Candidat LIKE '%";
 	private static final String LISTE_CANDIDAT_PRENOM = " AND V_RC.Prenom_Candidat LIKE '%";
-	private static final String LISTE_CANDIDAT_DATE = " AND DATE(V_RC.DATE_ENTRETIEN) ='";
-	private static final String LISTE_CANDIDAT_LIEU = " AND V_RC.Lieu_Entretien LIKE '%";
-	private static final String LISTE_CANDIDAT_NOM_CHARGE = " AND V_RC.Nom_charge LIKE '%";
-	private static final String LISTE_CANDIDAT_PRENOM_CHARGE = " AND V_RC.Prenom_charge LIKE '%";
-	private static final String LISTE_CANDIDAT_STATUS = " AND V_RC.STATUT LIKE '%";
-	private static final String LIMIT_PAGINATION = " LIMIT :page, :size";
-	private static final String DATE_BETWEEN = " AND V_RC.DATE_INSCRIPTION BETWEEN'";
-	private static final String AND_REQ = "' AND '";
-	private static final String AND_DUP = " AND DATE(V_RC.DATE_INSCRIPTION) BETWEEN '";
-	private static final String HOUR_START = " 00:00:00' AND '";
-	private static final String HOUR_STOP = " 23:59:59'";
-	private static final String LISTE_CANDIDAT_PRE_SOUR = " AND V_RC.Prenom_Sourceur LIKE '%";
-	private static final String LISTE_CANDIDAT_NOM_SOUR = " AND V_RC.Nom_sourceur LIKE '%";
-	private static final String LISTE_CANDIDAT_REGION = " AND V_RC.REGION LIKE '%";
-	private static final String LISTE_CANDIDAT_TECH = " AND V_RC.TECHNOLOGIE = '";
-	private static final String LISTE_CANDIDAT_DATE_EQUAL = " AND DATE(V_RC.DATE_INSCRIPTION) ='";
+	
 	private static final String LISTE_CANDIDAT_EMAIL = " AND V_RC.Email_Candidat LIKE '%";
 	private static final String LISTE_CANDIDAT_NUM_TELL = " AND V_RC.NUMERO_TEL_Candidat LIKE '%";
 
