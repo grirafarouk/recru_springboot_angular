@@ -118,7 +118,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   verif_existance_code_region: boolean;
   tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];
-
+  dateaujourduit:Date;
 
   constructor(private router: Router,
     private technologiesService: TechnologieService,
@@ -141,7 +141,8 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
       this.utilisateurService.getAllSourceurs().subscribe(data => {
         this.listSourceur = data
       })
-
+      this.dateaujourduit=new Date();
+  console.log(this.dateaujourduit)
   }
   ngOnDestroy(): void {
     this.helperService.listNouveauxCandidatRecherche = this.condidat;

@@ -39,7 +39,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date
                                 Inscription:</label>
-                            <input style="font-weight: bold;color: black;" [disabled]="relance==false"
+                            <input style="font-weight: bold;color: black;" [min]="dateaujourduit" [disabled]="relance==false"
                                 [owlDateTimeTrigger]="dtinscri" [owlDateTime]="dtinscri" class="form-control"
                                 name="dateInscription" [(ngModel)]="condidat.dateInscription" id="dateInscription" >
                             <owl-date-time [pickerType]="'calendar'" #dtinscri></owl-date-time>

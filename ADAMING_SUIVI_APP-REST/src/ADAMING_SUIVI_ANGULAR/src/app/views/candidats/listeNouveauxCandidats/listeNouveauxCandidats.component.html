@@ -46,7 +46,7 @@
                         <div class="col-sm-2">
                                 <div class="form-group">
                                     <label class="form-col-form-label" for="dateInscription" style="font-weight:bold">Date Inscription:</label>
-                                        <input style="font-weight: bold;color: black;"
+                                        <input style="font-weight: bold;color: black;" [min]="dateaujourduit"
                                         [owlDateTimeTrigger]="dateInscription" [owlDateTime]="dateInscription" class="form-control"
                                         name="dateInscription" [(ngModel)]="condidat.dateInscription" id="dateInscription">
                                         <owl-date-time [pickerType]="'calendar'" #dateInscription></owl-date-time>

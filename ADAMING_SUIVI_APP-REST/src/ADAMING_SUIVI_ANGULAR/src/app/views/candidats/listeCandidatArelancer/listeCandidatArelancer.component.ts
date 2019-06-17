@@ -136,6 +136,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   verif_existance_code_region: boolean;
   tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];
+  dateaujourduit:Date;
   constructor(
     private router: Router,
     private candidatsService: CandidatsService,
@@ -164,7 +165,8 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.utilisateurService.getAllChages().subscribe(data => {
       this.listCarge = data
     })
-
+    this.dateaujourduit=new Date();
+    console.log(this.dateaujourduit)
   }
   ngOnDestroy(): void {
     this.helperService.listRelanceCandidatRecherche = this.condidat;
