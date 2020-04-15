@@ -208,6 +208,8 @@ export class ListeReportingComponent implements OnInit {
     private lieuxService: LieuxService, private router: Router, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
+    this.notifierService.getConfig().behaviour.autoHide=800;
+
     if (this.routingState.getPreviousUrl().indexOf('details') > -1)
       this.condidat = this.helperService.listeReportingCandidatrecherche;
 

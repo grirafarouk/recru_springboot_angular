@@ -21,7 +21,10 @@ public interface IvListeCandidatsService extends IManagerService<VListeCandidats
 			int size);
 	
 	List<VListeCandidats> rechercherNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto);
+	public List<VListeCandidats> rechercherVlisteAjoutCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
+			int size);
 
+	public Integer rechercherAjoutVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto);
 
 	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto vListeCandidatsDto, int page, int size);
 

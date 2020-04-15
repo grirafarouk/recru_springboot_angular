@@ -73,7 +73,7 @@
                 </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="source" style="font-weight:bold"> charge :</label>
+                            <label class="form-col-form-label" for="source" style="font-weight:bold"> chargé  :</label>
                             
                             
                             <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"   [compareWith]="helperService.compareFn" [(ngModel)]="condidat.chargeur" name="charge"  >
@@ -97,7 +97,7 @@
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">Region:</label>
+                            <label class="form-col-form-label" for="prenom" style="font-weight:bold">région :</label>
                             <ng-select style="font-weight: bold;color: black;" aria-required="" id="region"
                                 [items]="region" (search)="codePostaleOnSearch($event)" [ngModel]="condidat.region"
                                 (ngModelChange)="condidat.region = $event" name="region">
@@ -115,12 +115,12 @@
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="relance" [(ngModel)]="relance" type="radio"
                                         (change)="relanceHandleChange($event)" id="inline-checkbox5" [value]="true">
-                                    <label class="form-check-label" for="inline-checkbox5">PERIODE</label>
+                                    <label class="form-check-label" for="inline-checkbox5">Période </label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="relance" [(ngModel)]="relance" type="radio"
                                         (change)="relanceHandleChange($event)" id="inline-checkbox6" [value]="false">
-                                    <label class="form-check-label" for="inline-checkbox6">MOIS</label>
+                                    <label class="form-check-label" for="inline-checkbox6">Mois</label>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
 
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label for="dateDebut" style="font-weight:bold">Date debut</label>
+                            <label for="dateDebut" style="font-weight:bold"> date début </label>
                             <input style="font-weight: bold;color: black;" [disabled]="relance==false"
                                 [owlDateTimeTrigger]="dt" [owlDateTime]="dt" class="form-control" name="dateDebut"
                                 [(ngModel)]="condidat.dateDebut" id="dateDebut">

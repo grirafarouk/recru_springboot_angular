@@ -6,7 +6,7 @@ import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-status',
   templateUrl: './status.component.html',
-  styleUrls: ['./status.component.scss']
+  styleUrls: ['./status.component.css']
 })
 export class StatusComponent implements OnInit {
 

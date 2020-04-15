@@ -1,5 +1,5 @@
 import { Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, isEmpty } from 'rxjs/operators';
 import { Profil } from './../../../models/enum/Profil';
 import { disponibiliteService } from './../../../services/administrationService/disponibiliteService';
 import { StatutService } from './../../../services/administrationService/StatutService';
@@ -186,6 +186,8 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.notifierService.getConfig().behaviour.autoHide=800;
+
     if (this.routingState.getPreviousUrl().indexOf('details') > -1)
       this.condidat = this.helperService.listTousCandidatRecherche;
 
@@ -210,6 +212,8 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     this.utilisateurService.getAllChages().subscribe(data => {
       this.listCarge = data
     })
+    console.log(this.condidat)
+
   }
 
 
@@ -263,6 +267,8 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
     this.table.item2 = this.condidat2;
     this.condidat = new CandidateDto();
     this.table.item = this.condidat;
+    console.log(this.condidat)
+    console.log(this.condidat.dateRelance)
     this.rechercheCandidat();
 
   }
@@ -324,8 +330,15 @@ export class listeTousCandidatsComponent implements OnInit, OnDestroy {
   }
 
   public exportAsXLSX(): void {
-    this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
+    console.log(this.condidat)
+    if( (this.condidat) ){
+        console.log(' ok')
 
+    } else {
+      console.log('not')
+    }
+  
+    this.candidatsService.rechercheTouscandidats(this.table.item, 0, this.table.maxlenght).subscribe(data => {
       this.excelService.exportAsExcelFile(data, this.titleTable, this.columns);
     })
   }

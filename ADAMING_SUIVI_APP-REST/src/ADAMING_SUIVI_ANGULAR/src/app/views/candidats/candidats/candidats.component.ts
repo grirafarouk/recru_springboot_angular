@@ -1,3 +1,4 @@
+import { CandidateDto } from './../CandidateDto';
 import { DxTreeViewModule } from 'devextreme-angular';
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -16,10 +17,11 @@ import { UtilisateurService } from "../../../services/utilisateur.service";
 import { Router } from "@angular/router";
 import { Status } from "../../../models/enum/Status";
 import { HelperService } from "../../../helper/helper.service";
-import { NAVIGATION_RULES, PHONE_MASK } from "../../../helper/application.constant";
+import { NAVIGATION_RULES, PHONE_MASK, USER_ROLE, PHONE_MASK_LABEL, DATE_FORMAT } from "../../../helper/application.constant";
 import { TablesComponent } from "../../base/tables.component";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Statut } from "../../../models/Statut";
+import * as _moment from 'moment';
 
 
 @Component({
@@ -28,10 +30,60 @@ import { Statut } from "../../../models/Statut";
 })
 export class CandidatsComponent implements OnInit, OnDestroy {
 
+  @ViewChild("table")
+  table;
+  titleTable = "Liste des candidats  trouvées"
+  columns = [
+    {
+      data: 'nom',
+      title: 'Nom',
+      visible: true
+    },
+    {
+      data: 'prenom',
+      title: 'Prenom',
+      visible: true
+    },
+    {
+      data: 'numeroTel',
+      title: 'N° Téléphone',
+      visible: true,
+      mask: PHONE_MASK_LABEL
+    },
+    {
+      data: 'email',
+      title: 'Email',
+      visible: true
+    },
+    {
+      data: 'dateInscription',
+      title: 'Date inscription',
+      visible: true,
+      dateFormat: DATE_FORMAT
+    },
 
-  ngOnDestroy(): void {
+    {
+      data: 'statut',
+      title: 'Statut',
+      visible: true,
+    },
 
-    this.candidatsService.folders = this.folders;
+    {
+      data: 'technologie',
+      title: 'Type de profil',
+      visible: true
+    },
+
+    {
+      data: 'source',
+      title: 'sourceur',
+      visible: true
+    },
+  ]
+
+  ngOnDestroy() {
+    this.candidatsService.folders = this.folders
+    console.log(this.candidatsService.folders)
     //this.candidatsService.destroyTempoFolder(this.utilisateurService.getConnetedUserInfo().login).subscribe();
   }
   regex = new RegExp('^[a-zA-Z]+(([,. -][a-zA-Z ])?[a-zA-Z]*)*$');
@@ -39,6 +91,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   loading = false;
   civilites = ["M", "Mme"];
   candidate: Candidate;
+  farouk: boolean = false;
   codePostals: Array<CodePostal> = [];
   technologies: Array<Technologie> = [];
   origines: Array<Origine> = [];
@@ -47,16 +100,19 @@ export class CandidatsComponent implements OnInit, OnDestroy {
   candidateFound: boolean;
   pdfSrc;
   folders;
+  nbcandidat: any;
   currentFile: any;
   listNomCvs = []
   allFiles = []
   mask: any[] = PHONE_MASK;
-  verif:boolean;
-  verif_code:boolean
+  verif: boolean;
+  verif_code: boolean
+  condidat: CandidateDto = new CandidateDto();
 
   constructor(private router: Router, private utilisateurService: UtilisateurService, private codePostalService: CodePostalService, private originesService: OriginesService, private technologiesService: TechnologieService,
     private sanitizer: DomSanitizer, private candidatsService: CandidatsService, private helperService: HelperService,
-    private notifierService: NotifierService, private competencesService: CompetencesService, private formBuilder: FormBuilder) {
+    private notifierService: NotifierService, private competencesService: CompetencesService, private formBuilder: FormBuilder,
+    private userService: UtilisateurService) {
   }
 
   ngOnInit(): void {
@@ -72,42 +128,65 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     this.candidatsService.getListNomCvs().subscribe(data => {
       this.listNomCvs = data;
       this.folders = this.folders.filter(element => {
-        return this.listNomCvs.indexOf(element.name) == -1
+        let fileextensionchange: any
+        fileextensionchange = element.name
+        if (element.file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          fileextensionchange = element.name.replace(".docx", ".pdf")
+
+        }
+        if (element.file.type == "application/msword") {
+          fileextensionchange = element.name.replace(".doc", ".pdf")
+
+        }
+        return this.listNomCvs.indexOf(fileextensionchange) == -1
       });
     })
 
     this.candidate = new Candidate();
     this.candidateFound = false
     this.candidate.creePar.id = this.utilisateurService.getConnetedUserInfo().id
-    this.folders = this.candidatsService.folders;
+    
+      this.folders = this.candidatsService.folders;
+
     this.currentFile = {};
     this.pdfSrc = null;
-    if ((this.utilisateurService.getConnetedUserInfo().profil.libelle == "Sourceur") || (this.utilisateurService.getConnetedUserInfo().profil.libelle =="Profil spécial"))
-  this.verif=false;
-  else this.verif=true;
+    if ((this.utilisateurService.getConnetedUserInfo().profil.id == 2) || (this.utilisateurService.getConnetedUserInfo().profil.libelle == "Profil spécial"))
+      this.verif = false;
+    else this.verif = true;
   }
 
-  //#region Tree Setting
   selectItem(e) {
     if (e.itemData.type == "file")
       this.currentFile = e.itemData;
   }
+
   uploadFiles(event) {
     if (event.target.files && event.target.files.length) {
       this.allFiles = event.target.files
       this.createFilesStructure(event.target.files)
     }
   }
+
   createFilesStructure(files) {
     var structure = []
     var filteredfiles = []
     Array.from(files).forEach((element: any) => {
+      let fileextensionchange: any
+      fileextensionchange = element.name
+      if (element.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+        fileextensionchange = element.name.replace(".docx", ".pdf")
+
+      }
+      else if (element.type == "application/msword") {
+        fileextensionchange = element.name.replace(".doc", ".pdf")
+
+      }
       if ((element.type == "application/pdf" || element.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         || element.type == "application/msword"
-        || element.type == "application/octet-stream") && this.listNomCvs.indexOf(element.name) == -1)
-
+        || element.type == "application/octet-stream") && this.listNomCvs.indexOf(fileextensionchange) == -1)
         filteredfiles.push(element)
     });
+
 
     structure = this.generateParentFolder(filteredfiles);
 
@@ -126,6 +205,7 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     });
     this.folders = structure;
   }
+
   generateParentFolder(files) {
     var structure = []
     Array.from(files).forEach((element: any) => {
@@ -152,8 +232,6 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         structure.push(node)
       }
     });
-
-
     var tempAray = []
     structure.forEach(element => {
       var inTable = false;
@@ -166,13 +244,15 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     return tempAray;
 
   }
+
   onItemExpanded(e) {
     e.node.itemData.icon = "assets/img/tree/Icons_open.png"
   }
+
   onItemCollapsed(e) {
     e.node.itemData.icon = "assets/img/tree/iconfinder_folder.png"
   }
-  //#endregion
+
   deletefile() {
     this.candidate.nomCV = this.currentFile.name
     var reader = new FileReader();
@@ -191,10 +271,10 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     reader.readAsDataURL(this.currentFile.file);
   }
 
-  afficherPdf() {   
+  afficherPdf() {
     this.candidate = new Candidate();
     this.candidate.creePar.id = this.utilisateurService.getConnetedUserInfo().id
-      this.candidate.nomCV = this.currentFile.name
+    this.candidate.nomCV = this.currentFile.name
 
     var reader = new FileReader();
     reader.onload = (e) => {
@@ -211,55 +291,51 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     }
     reader.readAsDataURL(this.currentFile.file);
   }
+
   recherchecandidate() {
-    this.candidateFound = true;
-    if (!this.regex.test(this.candidate.nom) && !this.regex.test(this.candidate.prenom)) {
-      this.notifierService.notify("error", "Les champs de saisi «Nom» est «Prenom» sont invalides")
+   this.condidat.nom = this.candidate.nom,
+      this.condidat.prenom = this.candidate.prenom
+      this.condidat.email = this.candidate.email
+      this.condidat.numeroTel=this.candidate.numeroTel
+    if ((this.candidate.nom != null) && (this.candidate.prenom != null)) {
+      this.candidateFound = true
+     
+      this.farouk = true
+      let callBack = (e) => {
+        this.table.item = this.condidat
+        this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+      }
+
+      this.table.setPage(1, callBack);
     }
     else {
-      if (this.candidate.nom == "" || this.candidate.prenom == "" || this.candidate.nom == undefined || this.candidate.prenom == undefined) {
-        this.notifierService.notify("info", "Il faut remplir au moins Nom et Prénom")
-      }
-      else if (!this.regex.test(this.candidate.nom)) {
 
-        {
-          this.notifierService.notify("error", "Le champ de saisi « Nom » est invalide")
-        }
-      }
-      else if (!this.regex.test(this.candidate.prenom)) {
-        this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
-      }
-      else {
-        var candidateTemp = {
-          nom: this.candidate.nom,
-          prenom: this.candidate.prenom,
-          email: this.candidate.email,
-          numeroTel: this.candidate.numeroTel
-        }
-        this.candidatsService.rechercheAjoutNouveauxcandidats(candidateTemp, 0, 0).subscribe((data) => {
-          this.candidatsFound = data.results
-          this.notifierService.notify("info", "Nombre Candidat : " + data.total)
+      this.notifierService.notify("info", "il faut remplir au moins les champs Nom et Prenom")
 
-        })
-      }
-    }
+      this.farouk = false
+    } 
   }
 
+
+
+
+
+  recherche(item, page, size, allValue) {
+    return this.candidatsService.rechercheAjoutcandidats(item, page, size)
+  }
+
+  rechercheNbr(item, allValue) {
+    return this.candidatsService.rechercheAjoutcandidatsNbr(item)
+  }
   codePostaleOnSearch(value) {
     if (value != "")
       this.codePostalService.completeCodePostal(value).subscribe(data => {
         data.forEach(element => {
-          
-    
           this.codePostals = [element, ...  this.codePostals]
         });
       })
     else this.codePostals = []
-  
-  
   }
-
-
 
   async  onSubmit() {
 
@@ -270,9 +346,48 @@ export class CandidatsComponent implements OnInit, OnDestroy {
 
   }
 
+  reset() {
+    this.technologiesService.findAllTechnologies().subscribe(data => {
+      this.technologies = data;
+    })
+    this.originesService.findAllOrigines().subscribe(data => {
+      this.origines = data;
+    })
+    this.competencesService.findAllCompetences().subscribe(data => {
+      this.competences = data;
+    })
+    this.candidatsService.getListNomCvs().subscribe(data => {
+      this.listNomCvs = data;
+      this.folders = this.folders.filter(element => {
+        let fileextensionchange: any
+        fileextensionchange = element.name
+        if (element.file.type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+          fileextensionchange = element.name.replace(".docx", ".pdf")
+
+        }
+        if (element.file.type == "application/msword") {
+          fileextensionchange = element.name.replace(".doc", ".pdf")
+
+        }
+        return this.listNomCvs.indexOf(fileextensionchange) == -1
+      });
+    })
+
+    this.candidate = new Candidate();
+    this.candidateFound = false
+    this.candidate.creePar.id = this.utilisateurService.getConnetedUserInfo().id
+    this.pdfSrc = null;
+    this.condidat = new CandidateDto();
+    this.table.item = this.condidat;
+    this.table.pages=[];
+    
+   }
+
   annuler() {
-    this.router.navigateByUrl(NAVIGATION_RULES.dashboard.url, { skipLocationChange: true }).then(() =>
-      this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat]));
+    if (this.utilisateurService.getConnetedUserInfo().profil.libelle == "Sourceur") { this.reset(); }
+    else
+      this.router.navigateByUrl(NAVIGATION_RULES.dashboard.url, { skipLocationChange: true }).then(() =>
+        this.router.navigate([NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.newCancidat]));
   }
 
   async  submitAndRedirect() {
@@ -287,12 +402,10 @@ export class CandidatsComponent implements OnInit, OnDestroy {
     const validEmailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.loading = true;
     var error = false;
-    //#region get Competences
+    //const val = /^[/\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/]$/;
+
     this.helperService.generateComp(this.candidate, this.competences);
 
-    //#endregion
-
-    //#region  allert Message
     if (this.candidate.nom == "" || this.candidate.nom == undefined || !this.regex.test(this.candidate.nom)) {
       this.notifierService.notify("error", " Écrivez un nom valide");
       error = true;
@@ -308,15 +421,13 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       }
       else {
         let cand
-        await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => {
-          cand = data
-        });
+        await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data });
         if (cand != null) {
           this.notifierService.notify("error", "Email existe déjà  !")
           error = true;
         }
       }
-      if (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined) {
+      if (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined || this.candidate.numeroTel.indexOf("_") != -1) {
         this.notifierService.notify("error", " Écrivez un numero Tel valide")
         error = true;
       }
@@ -333,7 +444,8 @@ export class CandidatsComponent implements OnInit, OnDestroy {
       if ((this.candidate.email == "" || this.candidate.email == undefined) && (this.candidate.numeroTel == "" || this.candidate.numeroTel == undefined)) {
         this.notifierService.notify("error", " Écrivez un email  ou numero Tel  valide")
         error = true;
-      } else {
+      }
+      else {
         if (this.candidate.email != "" && this.candidate.email != undefined) {
           let cand
           await this.candidatsService.getCandidatByEmail(this.candidate.email).toPromise().then(data => { cand = data; });
@@ -352,30 +464,32 @@ export class CandidatsComponent implements OnInit, OnDestroy {
         }
       }
     }
+    if (this.candidate.candidatCompetence.toString() == "") {
+      this.notifierService.notify("error", "Veuillez choisir une compétence")
+      error = true;
+    }
     if (this.candidate.technologie.id == undefined) {
-      this.notifierService.notify("error", " Choisir un Profil")
+      this.notifierService.notify("error", " Veuillez choisir une technologie")
       error = true;
     }
     if (this.candidate.origine.id == undefined) {
-      this.notifierService.notify("error", " Choisir un Origine CV")
+      this.notifierService.notify("error", " Veuillez choisir l'origine du CV ")
       error = true;
     }
     if (this.candidate.codePostal == null || this.candidate.codePostal == undefined) {
       this.notifierService.notify("error", " Écrivez un Code Postal valide")
       error = true;
     }
-    //#endregion
-
     if (!error) {
       this.candidate.dateInscription = new Date();
       this.candidate.statut.libelle = "Vide"
       this.candidate.statut.id = 2
       this.candidate.entretien = null
       this.candidate.motif = null
+      this.deletefile();
       this.candidatsService.create(this.candidate, this.currentFile.file.type).toPromise().then((data: Candidate) => {
         if (data != null) {
           this.notifierService.notify("success", "Candidat ajouté avec succés !")
-          this.deletefile()
           this.loading = false;
           callback(data.id)
         } else {

@@ -4,7 +4,7 @@ export class CandidateDto {
     id: number;
     nom: string;
     prenom: string;
-    numeroTel: number;
+    numeroTel: string;
     email: string;
     pertinence:number;
     mobilite: string;

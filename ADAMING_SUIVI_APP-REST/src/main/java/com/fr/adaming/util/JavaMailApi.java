@@ -23,6 +23,7 @@ import org.springframework.stereotype.Component;
 
 @Component("javaMailApi")
 public class JavaMailApi implements IEMailApi {
+	private static final String CONTENT="Content-ID";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JavaMailApi.class);
 	ResourceBundle bundle = ResourceBundle.getBundle("properties.javamail");
@@ -83,47 +84,50 @@ public class JavaMailApi implements IEMailApi {
 				multiPartMsg.addBodyPart(mdp);
 			}
 		}
-		if (emailEntretien || emailEntretienHorsCible) {
+
+		if (emailEntretienHorsCible) {
 			content = new MimeBodyPart();
-			try {
 
-				DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
+		try {
 
-				content.setDataHandler(new DataHandler(fds));
-				content.setHeader("Content-ID", "<image>");
+			DataSource fds = new FileDataSource(new ClassPathResource("/images/imageADM.png").getFile());
 
-				// add image to the multipart
-				multiPartMsg.addBodyPart(content);
-				content = new MimeBodyPart();
-				DataSource fds1 = new FileDataSource(new ClassPathResource("/images/facebook-icon.png").getFile());
+			content.setDataHandler(new DataHandler(fds));
+			content.setHeader(CONTENT, "<image>");
 
-				content.setDataHandler(new DataHandler(fds1));
-				content.setHeader("Content-IDFacebook", "<imageFacebook>");
+			// add image to the multipart
+			multiPartMsg.addBodyPart(content);
+			content = new MimeBodyPart();
+			DataSource fds1 = new FileDataSource(new ClassPathResource("/images/facebook-icon.png").getFile());
 
-				// add image to the multipart
-				multiPartMsg.addBodyPart(content);
-				content = new MimeBodyPart();
-				DataSource fds2 = new FileDataSource(new ClassPathResource("/images/linkedin-icon.png").getFile());
+			content.setDataHandler(new DataHandler(fds1));
+			content.setHeader(CONTENT, "<imageFacebook>");
 
-				content.setDataHandler(new DataHandler(fds2));
-				content.setHeader("Content-IDLinkedin", "<imageLinkedin>");
+			// add image to the multipart
+			multiPartMsg.addBodyPart(content);
+			content = new MimeBodyPart();
+			DataSource fds2 = new FileDataSource(new ClassPathResource("/images/linkedin-icon.png").getFile());
 
-				// add image to the multipart
-				multiPartMsg.addBodyPart(content);
-				content = new MimeBodyPart();
-				DataSource fds3 = new FileDataSource(new ClassPathResource("/images/twitter-icon.png").getFile());
+			content.setDataHandler(new DataHandler(fds2));
+			content.setHeader(CONTENT, "<imageLinkedin>");
 
-				content.setDataHandler(new DataHandler(fds3));
-				content.setHeader("Content-IDtwitter", "<imagetwitter>");
+			// add image to the multipart
+			multiPartMsg.addBodyPart(content);
+			content = new MimeBodyPart();
+			DataSource fds3 = new FileDataSource(new ClassPathResource("/images/twitter-icon.png").getFile());
 
-				// add image to the multipart
-				multiPartMsg.addBodyPart(content);
-			} catch (IOException e) {
-				LOGGER.info("contextgetPjsMimeMultiPart", e);
-			}
+			content.setDataHandler(new DataHandler(fds3));
+			content.setHeader(CONTENT, "<imagetwitter>");
+
+			// add image to the multipart
+			multiPartMsg.addBodyPart(content);
+		} catch (IOException e) {
+			LOGGER.info("contextgetPjsMimeMultiPart",e);
 		}
-		return multiPartMsg;
-	}
+		}
+	return multiPartMsg;
+}
+	
 
 	private MimeBodyPart getMimeBodyPart(PieceJointe pj) {
 

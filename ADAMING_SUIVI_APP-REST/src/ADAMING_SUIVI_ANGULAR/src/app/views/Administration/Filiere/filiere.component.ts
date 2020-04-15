@@ -62,8 +62,14 @@ export class FiliereComponent implements OnInit {
       this.sessionFormationEnCourService.getSessionFormation(this.session).subscribe(data => {
         this.sessionFormations = data;
       });
-    }
+      console.log("la formation est")
+      console.log(this.formations)
+      console.log("les sessions de formations sont")
+      console.log(this.sessionFormations)
+      console.log("la session est ")
+      console.log(this.session)}
     );
+    
   }
 
   getListe() {
@@ -90,6 +96,7 @@ export class FiliereComponent implements OnInit {
     this.sessionFormationEnCoursService.getAllSessions().subscribe(data => {
       this.sessionFormations = data;
     });
+    
   }
 
   reset() {

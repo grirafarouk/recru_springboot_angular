@@ -38,8 +38,8 @@
                                 <div class="form-group">
                                     <label for="civilite">Civilité</label>
                                     <label style="color: firebrick">*</label>
-                                    <ng-select [items]="civilites"  required style="font-weight: bold;"
-                                         name="civilite" [(ngModel)]="candidate.civilite" id="civilite">
+                                    <ng-select [items]="civilites" required style="font-weight: bold;" name="civilite"
+                                        [(ngModel)]="candidate.civilite" id="civilite">
                                     </ng-select>
                                 </div>
 
@@ -48,7 +48,7 @@
                                 <div class="form-group">
                                     <label for="nom">Nom</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" name="nom"
+                                    <input type="text" class="form-control" name="nom" placeholder="Nom"
                                         style="font-weight: bold;color: black;" [(ngModel)]="candidate.nom" id="nom">
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                                     <label class="form-col-form-label" for="prenom">Prenom</label>
                                     <label style="color: firebrick">*</label>
                                     <input type="text" class="form-control" style="font-weight: bold;color: black;"
-                                        name="prenom" [(ngModel)]="candidate.prenom" id="prenom">
+                                        placeholder="Prenom" name="prenom" [(ngModel)]="candidate.prenom" id="prenom">
                                 </div>
                             </div>
                         </div>
@@ -66,15 +66,16 @@
                                 <div class="form-group">
                                     <label for="email">Email</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="email" class="form-control" style="font-weight: bold;color: black;" name="email" [(ngModel)]="candidate.email"
-                                        id="email">
+                                    <input type="email" class="form-control" style="font-weight: bold;color: black;"
+                                        name="email" [(ngModel)]="candidate.email" placeholder="Email" id="email">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <label for="telephone">Téléphone</label>
                                     <label style="color: firebrick">*</label>
-                                    <input type="text" class="form-control" style="font-weight: bold;color: black;" [textMask]="{mask: mask}" name="telephone"
+                                    <input type="text" class="form-control" style="font-weight: bold;color: black;"
+                                        [textMask]="{mask: mask}" name="telephone" placeholder="Téléphone"
                                         [(ngModel)]="candidate.numeroTel" id="telephone">
                                 </div>
                             </div>
@@ -92,7 +93,7 @@
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label for="profil">Profil </label>
+                                    <label for="profil">Technologie </label>
                                     <label style="color: firebrick">*</label>
                                     <ng-select placeholder="--Sélectionner--" style="font-weight: bold;" bindValue="id"
                                         bindLabel="libelle" [items]="technologies"
@@ -106,11 +107,12 @@
                                     <label for="codePostal">Code postal</label>
                                     <label style="color: firebrick">*</label>
                                     <ng-select aria-required="" style="font-weight: bold;"
-                                        [disabled]="candidateFound==false" id="codePostal" [items]="codePostals"
-                                        (search)="codePostaleOnSearch($event)" [ngModel]="candidate.codePostal"
-                                        (ngModelChange)="candidate.codePostal = $event" name="codePostal">
+                                        placeholder="Taper Code Postal" [disabled]="candidateFound==false"
+                                        id="codePostal" [items]="codePostals" (search)="codePostaleOnSearch($event)"
+                                        [ngModel]="candidate.codePostal" (ngModelChange)="candidate.codePostal = $event"
+                                        name="codePostal">
                                         <ng-option *ngFor="let codeP of codePostals" [value]="codeP">{{codeP.code}}
-                                        {{codeP.ville}}</ng-option>
+                                            {{codeP.ville}}</ng-option>
                                     </ng-select>
                                 </div>
                             </div>
@@ -135,14 +137,15 @@
                         </div>
                         <div class="form-group row competences">
                             <div class="col-md-2 col-form-label" *ngFor="let compt of competences; let i = index">
-                                    <div class="form-check form-check-inline mr-1">
-                                            <label class="label--checkbox">
-                                                <input   class="checkbox" type="checkbox" [name]="'cmp'+i" [(ngModel)]="competences[i].selected"
-                                                    id="inline-checkbox1" [value]="compt.id" [disabled]="candidateFound===false">
-                                            </label>
-                                            <label >{{compt.libelle}}</label>
-                                        </div>
-                                    </div>
+                                <div class="form-check form-check-inline mr-1">
+                                    <label class="label--checkbox">
+                                        <input class="checkbox" type="checkbox" [name]="'cmp'+i"
+                                            [(ngModel)]="competences[i].selected" id="inline-checkbox1"
+                                            [value]="compt.id" [disabled]="candidateFound===false">
+                                    </label>
+                                    <label>{{compt.libelle}}</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-10"></div>
@@ -177,7 +180,7 @@
                             </div>
 
                             <div style="padding-left: 10px">
-                                <div *ngIf="verif==true">
+                                <div>
                                     <button (click)="submitAndRedirect()" [disabled]="pdfSrc==undefined" type="button"
                                         class="btn btn-block btn-success">Planifier
                                         Rdv</button></div>
@@ -192,43 +195,15 @@
             </div>
         </div>
     </div>
-    <div class="row" *ngIf="candidatsFound.length>0">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Candidats Trouvés
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>N° Téléphone</th>
-                                <th>Email</th>
-                                <th>Date Inscription</th>
-                                <th>Statut</th>
-                                <th>Type de profil</th>
-                                <th>Sourceur</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let candidat of candidatsFound">
-                                <td>{{candidat.nom}}</td>
-                                <td>{{candidat.prenom}}</td>
-                                <td>{{candidat.numeroTel}}</td>
-                                <td>{{candidat.email}}</td>
-                                <td>{{candidat.dateInscription  | date :'dd/MM/yyyy'}}</td>
-                                <td>{{candidat.statut}}</td>
-                                <td>{{candidat.technologie}}</td>
-                                <td>{{candidat.nomSourceur }} {{candidat.prenomSourceur}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    <custom-table  [item]="condidat" [actions]="actions" [title]="titleTable" [parent]="this" #table [columns]="columns" >
+</custom-table>
 </div>
-<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px',fullScreenBackdrop:true }"></ngx-loading>
+<div >
+</div>
+
+
+
+
+
 

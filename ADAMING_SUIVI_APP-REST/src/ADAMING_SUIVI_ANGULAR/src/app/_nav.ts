@@ -40,7 +40,7 @@ export const navItems = [
         profils: [USER_ROLE.CHARGE, USER_ROLE.ADMINISTRATEUR, USER_ROLE.COMMERCIAL, USER_ROLE.DIRECTION],
       },
       {
-        name: 'Candidats A Relancer',
+        name: 'candidats à relancer',
         icon: 'fa fa-retweet',
         url: '/' + NAVIGATION_RULES.candidats.url + '/' + NAVIGATION_RULES.candidats.listeCandidatArelancer,
         profils: [USER_ROLE.CHARGE, USER_ROLE.ADMINISTRATEUR, USER_ROLE.COMMERCIAL, USER_ROLE.DIRECTION],
@@ -69,13 +69,13 @@ export const navItems = [
         name: 'Clôturée',
         icon:'fa fa-stop-circle-o',
         url: '/' + NAVIGATION_RULES.sessionsFormations.url + '/' + NAVIGATION_RULES.sessionsFormations.clotures,
-      }
+      } 
     ]
   },
   {
     name: 'Reporting',
     url: '/' + NAVIGATION_RULES.reporting.url + '/' + NAVIGATION_RULES.reporting.listeReporting,
-    icon: 'icon-graph',
+    icon: 'icon-graph', 
     profils: [USER_ROLE.CHARGE, USER_ROLE.ADMINISTRATEUR, USER_ROLE.COMMERCIAL, USER_ROLE.DIRECTION],
   },
   {

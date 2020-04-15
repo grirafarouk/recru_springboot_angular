@@ -32,7 +32,7 @@ import { Disponibilite } from '../../../models/Disponibilite';
 @Component({
   selector: 'app-fiche-candidat',
   templateUrl: './fiche-candidat.component.html',
-  styleUrls: ['./fiche-candidat.component.scss']
+  styleUrls: ['./fiche-candidat.component.css']
 
 })
 export class FicheCandidatComponent implements OnInit {
@@ -71,17 +71,16 @@ export class FicheCandidatComponent implements OnInit {
   autre_value;
   pieceJoitesTemp = []
   emailEntrtien = {
-    candidat: {
-      email: ""
-
-    },
+    candidat: {},
     distCopie: ["", ""],
     pieceJoites: [],
     msg: ""
 
   }
-  mask: any[] = PHONE_MASK;
 
+  mask: any[] = PHONE_MASK;
+  dispo: Disponibilite;
+  validateLieu = new RegExp('^[a-zA-Z]+(([,. -][a-zA-Z ])?[a-zA-Z]*)*$');
 
   constructor(private route: ActivatedRoute, private competencesService: CompetencesService,
     private codePostalService: CodePostalService, private originesService: OriginesService,
@@ -92,6 +91,7 @@ export class FicheCandidatComponent implements OnInit {
     private userService: UtilisateurService, public helperService: HelperService) { }
 
   ngOnInit() {
+    this.notifierService.getConfig().behaviour.autoHide = 3000;
 
     this.showDetailsButton = this.routingState.getPreviousUrl().indexOf(NAVIGATION_RULES.candidats.listeTousCandidats) > -1
     this.route.data
@@ -118,13 +118,14 @@ export class FicheCandidatComponent implements OnInit {
       this.origines = data;
     })
     this.disponibilitesService.findAllDisponibilite().subscribe(data => {
+      console.log(data)
+
       this.disponibles = data;
     })
 
     this.lieuxService.findAllLieux().subscribe(data => {
       this.lieux = data;
     })
-
     this.motifService.findAllMotifs().subscribe(data => this.motifs = data)
     this.competencesService.findAllCompetences().subscribe(data => {
       this.competences = data;
@@ -198,6 +199,18 @@ export class FicheCandidatComponent implements OnInit {
       this.notifierService.notify("error", " Écrivez un nom valide")
       error = true;
     }
+    let lieunull = true;
+    if ((this.currentCandidat.lieuNaissance == "") || (this.currentCandidat.lieuNaissance == null)) {
+      lieunull = false
+    }
+    if (!this.validateLieu.test(this.currentCandidat.lieuNaissance) && (lieunull == true)) {
+      this.notifierService.notify("error", " lieu de naissance est invalide")
+      error = true;
+
+
+    }
+
+
     if (this.currentCandidat.prenom == "" || this.currentCandidat.prenom == undefined) {
       this.notifierService.notify("error", " Écrivez un prenom valide")
       error = true;
@@ -263,7 +276,7 @@ export class FicheCandidatComponent implements OnInit {
       this.notifierService.notify("error", " Champ obligatoire,choisir la pertinence!")
       error = true;
     }
-    if (this.currentCandidat.entretien.disponible == undefined) {
+    if (this.currentCandidat.entretien.disponible.id == undefined || this.currentCandidat.entretien.disponible.id == null) {
       this.notifierService.notify("error", "Champ obligatoire,choisir la disponibilité!")
       error = true;
     }
@@ -275,8 +288,8 @@ export class FicheCandidatComponent implements OnInit {
 
     if (!(this.currentCandidat.entretien.pertinence == undefined)) {
 
-      var table = ["Préavis", "message vocal", "envoi de la plaquette", "en attente pour une prochaine formation", "mail envoyé"]
-      let dispoValue = this.currentCandidat.entretien.disponible.libelle;
+      var table = [2, 3, 5, 6, 7]
+      let dispoValue = this.currentCandidat.entretien.disponible.id;
       //#region Relance
       if (table.indexOf(dispoValue) >= 0 && this.currentCandidat.entretien.relance == undefined) {
         this.notifierService.notify("error", "Champs obligatoire, Relancer")
@@ -299,9 +312,9 @@ export class FicheCandidatComponent implements OnInit {
     if (!(this.currentCandidat.entretien.pertinence == undefined)) {
 
       //#region Entrtien
-      let dispoValue = this.currentCandidat.entretien.disponible.libelle;
+      let dispoValue = this.currentCandidat.entretien.disponible.id;
 
-      if (dispoValue == "Disponible") {
+      if (dispoValue == 0) {
         if (this.currentCandidat.entretien.date == undefined) {
           this.notifierService.notify("error", "Champs obligatoire, date entretien!")
           error = true;
@@ -331,7 +344,16 @@ export class FicheCandidatComponent implements OnInit {
   }
 
   private async sauvgarderFiche() {
+    await this.disponibilitesService.finddisponibiliteById(this.currentCandidat.entretien.disponible.id).subscribe(data => {
+      this.dispo = data
+      this.currentCandidat.entretien.disponible = data
 
+    }),
+      (error => {
+      }),
+      (complete => {
+        this.currentCandidat.entretien.disponible = complete
+      })
     //#region get Competences
     this.helperService.generateComp(this.currentCandidat, this.competences);
     //#endregion
@@ -343,14 +365,14 @@ export class FicheCandidatComponent implements OnInit {
       if (this.currentCandidat.entretien.date != undefined) this.currentCandidat.entretien.date.setHours(this.timeEntretien.getHours(), this.timeEntretien.getMinutes())
 
       //#region Hors Cible 
-      if (this.currentCandidat.entretien.disponible.libelle == "hors cible" && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {
+      if (this.currentCandidat.entretien.disponible.id == 8 && (this.currentCandidat.emailSourceurEnvoyer == false || this.currentCandidat.emailSourceurEnvoyer == null)) {
         this.emailModalHorCible.show()
         return;
       }
       //#endregion
       //#region envoiMail
       if (this.envoiMail) {
-        if (this.currentCandidat.entretien.disponible.libelle == "Disponible" && (this.currentCandidat.emailCandidatEnvoyer == null || this.currentCandidat.emailCandidatEnvoyer == false)) {
+        if (this.currentCandidat.entretien.disponible.id == 0 && (this.currentCandidat.emailCandidatEnvoyer == null || this.currentCandidat.emailCandidatEnvoyer == false)) {
           this.emailEntrtien.candidat = this.currentCandidat
           this.emailEntrtien.msg = this.buildEntretienMsg(this.currentCandidat)
           this.emailModalDispo.show()
@@ -359,7 +381,7 @@ export class FicheCandidatComponent implements OnInit {
       }
       //#endregion
       let userRole = this.userService.getConnetedUserInfo().profil.libelle;
-      if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION) {
+      if (userRole == USER_ROLE.ADMINISTRATEUR || userRole == USER_ROLE.CHARGE || userRole == USER_ROLE.DIRECTION || userRole == USER_ROLE.COMMERCIAL) {
         //#region Save Or Update Entretien
         this.currentCandidat.entretien.charge = this.userService.getConnetedUserInfo();
         await this.entretienService.createOrUpdate(this.currentCandidat.entretien).toPromise().then((data: Entretien) => {
@@ -369,17 +391,24 @@ export class FicheCandidatComponent implements OnInit {
 
           else
             this.notifierService.notify("success", "Ajout!, Candidat ajouté avec success !");
-          data.date = new Date(data.date)
-          this.currentCandidat.entretien = data;
-        })
 
-        //#endregion
-        //#region  Update Candidat
+          data.date = new Date(data.date)
+          let libelle = this.currentCandidat.entretien.disponible.libelle
+          this.currentCandidat.entretien = data;
+          if (this.currentCandidat.entretien.disponible.libelle = null)
+            this.currentCandidat.entretien.disponible.libelle = libelle
+          else
+            this.currentCandidat.entretien.disponible.libelle = libelle
+
+        },
+
+        )
         if (this.currentCandidat.entretien.date == undefined || this.currentCandidat.entretien.date == null) {
           this.currentCandidat.statut.libelle = "Vide";
           this.currentCandidat.statut.id = 2;
         }
-        if (this.currentCandidat.entretien.disponible.libelle == "Disponible") {
+        if (this.currentCandidat.entretien.disponible.id == 0) {
+          this.currentCandidat.entretien.dateRelance = null
           this.currentCandidat.statut.libelle = "En attente d’évaluation";
           this.currentCandidat.statut.id = 3;
         }
@@ -387,8 +416,6 @@ export class FicheCandidatComponent implements OnInit {
         await this.candidatsService.updateficheCandidat(this.currentCandidat).toPromise().then(data => {
           if (this.callback != null) this.callback(data.id)
         })
-
-        //#endregion
       }
     }
   }
@@ -396,8 +423,8 @@ export class FicheCandidatComponent implements OnInit {
   verifie() {
     let disponible_value = false;
     let autre_value = false;
-    let valueof = this.currentCandidat.entretien.disponible.libelle;
-    if (valueof == "Disponible") {
+    let valueof = this.currentCandidat.entretien.disponible.id;
+    if (valueof == 0) {
 
       disponible_value = true;
     }
@@ -408,13 +435,13 @@ export class FicheCandidatComponent implements OnInit {
   }
   verifie2() {
     let autre_value = false;
-    let valueof = this.currentCandidat.entretien.disponible.libelle;
+    let valueof = this.currentCandidat.entretien.disponible.id;
 
-    if (valueof === "Préavis"
-      || valueof === "message vocal"
-      || valueof === "envoi de la plaquette" ||
-      valueof === "en attente pour une prochaine formation"
-      || valueof === "mail envoyé") {
+    if (valueof == 2
+      || valueof == 3
+      || valueof == 5 ||
+      valueof == 6
+      || valueof == 7) {
       autre_value = true;
     }
     else {
@@ -447,7 +474,7 @@ export class FicheCandidatComponent implements OnInit {
       this.currentCandidat.emailCandidatEnvoyer = true;
       this.emailModalDispo.hide();
       this.emailEntrtien = {
-        candidat: { email: "" },
+        candidat: {},
         distCopie: ["", ""],
         pieceJoites: [],
         msg: ""

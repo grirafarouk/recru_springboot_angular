@@ -21,7 +21,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: '404',
+    path: '404', 
     component: P404Component,
     data: {
       title: 'Page 404'

@@ -6,6 +6,7 @@ import { BACK_END_URL } from '../../helper/application.constant';
 @Injectable({
   providedIn: 'root'
 })
+
 export class CompetencesService {
 
   constructor(private httpClient: HttpClient) { }

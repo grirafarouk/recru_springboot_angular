@@ -57,21 +57,19 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	@Override
 	public Candidat rechercherCandidatParEmail(String email) {
 
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		DaoUtils.addEqRestrictionIfNotNull(crit, "email", email);
-		crit.setMaxResults(1);
-		return (Candidat) crit.uniqueResult();
+		String query = "SELECT * FROM candidat WHERE 1=1 AND candidat.EMAIL = :email";
+		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("email", email);
+
+		return (Candidat) st.addEntity(Candidat.class).uniqueResult();
 	}
 
 	@Override
 	public Candidat rechercherCandidatParNumTel(String numero) {
 
-		Session hibernateSession = this.getSession();
-		Criteria crit = hibernateSession.createCriteria(Candidat.class);
-		DaoUtils.addEqRestrictionIfNotNull(crit, TEL, numero);
-		crit.setMaxResults(1);
-		return (Candidat) crit.uniqueResult();
+		String query = "SELECT * FROM candidat WHERE 1=1 AND candidat.NUMERO_TEL = :numero";
+		SQLQuery st = (SQLQuery) this.getSession().createSQLQuery(query).setParameter("numero", numero);
+
+		return (Candidat) st.addEntity(Candidat.class).uniqueResult();
 	}
 
 	public boolean testerNullAndEmpty(CandidatDto ob, String test) {
@@ -118,13 +116,12 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 			query = query + " AND this_.NUMERO_TEL = '" + candidatDto.getNumeroTel() + "'";
 		}
 		if (all) {
-			query = query
-					+ " AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
+			query = query + " AND en1_.DATE IS NOT NULL AND en1_.DATE <= CURRENT_DATE() ";
 		} else {
 			query = query
 					+ " AND en1_.DATE IS NOT NULL  AND en1_.DATE <= CURRENT_DATE() AND en1_.LIEU IS NOT NULL AND lieu7_.LIBELLE IS NOT NULL ";
 		}
-		
+
 		if (testerNullAndEmpty(candidatDto, candidatDto.getStatut().getLibelle())) {
 			query = query + " AND statut13_.LIBELLE LIKE '%" + candidatDto.getStatut().getLibelle() + "%'";
 		}
@@ -507,13 +504,12 @@ public class CandidatDao extends ManagerDao<Candidat, Long> implements ICandidat
 	public Map<String, Integer> nbrCVParTechnologie() {
 		Map<String, Integer> map = new HashMap<>();
 		String query = "select "
-				+" TECHNOLOGIE AS nom_techno,SUM(case when (TECHNOLOGIE = t.libelle) then 1 else 0 end ) as nombre "
-				+" FROM v_listecandidats c  join technologie t on t.libelle=c.TECHNOLOGIE "
-				+" WHERE c.DATE_ENTRETIEN is NULL and c.STATUT='Vide' AND c.DISPONIBILITE IS NULL  "
-				+" AND c.RELANCER IS NULL AND c.DATE_RELANCE IS NULL "
-				+" AND c.DATE_ENTRETIEN IS NULL  "
-				+" AND c.LIEU_ENTRETIEN IS NULL AND c.COMMENTAIRE IS NULL "
-				+" AND c.CONFIRMATION_RDV IS NULL  GROUP BY TECHNOLOGIE ORDER BY TECHNOLOGIE ";
+				+ " TECHNOLOGIE AS nom_techno,SUM(case when (TECHNOLOGIE = t.libelle) then 1 else 0 end ) as nombre "
+				+ " FROM V_ListeCandidats c  join technologie t on t.libelle=c.TECHNOLOGIE "
+				+ " WHERE c.DATE_ENTRETIEN is NULL and c.STATUT='Vide' AND c.DISPONIBILITE IS NULL  "
+				+ " AND c.RELANCER IS NULL AND c.DATE_RELANCE IS NULL " + " AND c.DATE_ENTRETIEN IS NULL  "
+				+ " AND c.LIEU_ENTRETIEN IS NULL AND c.COMMENTAIRE IS NULL "
+				+ " AND c.CONFIRMATION_RDV IS NULL  GROUP BY TECHNOLOGIE ORDER BY TECHNOLOGIE ";
 
 		SQLQuery st = getSession().createSQLQuery(query);
 		@SuppressWarnings("unchecked")

@@ -95,7 +95,7 @@
                         <div class="form-group">
                             <label class="form-col-form-label" for="prenom" style="font-weight:bold">Date
                                 Relance:</label>
-                            <month-year-picker (changed)="updateDateRelance($event)" [(ngModel)]="condidat.dateRelance">
+                            <month-year-picker (changed)="updateDateRelance($event)" [(ngModel)]="condidat.dateRelance" [innerValue]="condidat.dateRelance">
                             </month-year-picker>
                         </div>
                     </div>

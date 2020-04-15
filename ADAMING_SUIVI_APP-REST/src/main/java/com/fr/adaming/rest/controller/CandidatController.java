@@ -48,6 +48,7 @@ import com.fr.adaming.jsfapp.mapper.VListeCandidatsMapper;
 import com.fr.adaming.jsfapp.mapper.VReportingCandidatMapper;
 import com.fr.adaming.jsfapp.model.Candidat;
 import com.fr.adaming.jsfapp.model.Competence;
+import com.fr.adaming.jsfapp.model.Formation;
 import com.fr.adaming.jsfapp.model.Statut;
 import com.fr.adaming.jsfapp.model.Utilisateur;
 import com.fr.adaming.jsfapp.model.VListeCandidats;
@@ -79,7 +80,7 @@ public class CandidatController {
 	private IUtilisateurService utilisateurService;
 
 	List<String> files = new ArrayList<>();
-    
+
 	@Autowired
 	private IvListeCandidatsService vListeCandidatsService;
 	private VListeCandidatsDto vListeCandidatsDto;
@@ -122,7 +123,7 @@ public class CandidatController {
 	}
 
 	@PostMapping(path = "/RechercheNouveauxcandidatsNbr")
-	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {	
+	public Integer rechercheNouveauxcandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
 		return vListeCandidatsService.rechercherVlisteNouveauxCandidatsNbr(nouveauCandidat);
 	}
 
@@ -139,6 +140,21 @@ public class CandidatController {
 	@PostMapping(path = "/RechercheTouscandidatsNbr")
 	public Integer rechercheTouscandidatsNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
 		return vListeCandidatsService.rechercherVlisteCandidatsNbr(nouveauCandidat);
+	}
+
+	@PostMapping(path = "/RechercheCandidatsAjout")
+	public List<VListeCandidatsDto> rechercherCandidatsAjout(@RequestBody VListeCandidatsDto nouveauCandidat,
+
+			@RequestParam int page, @RequestParam int size) {
+		List<VListeCandidats> list = new ArrayList<>(
+				vListeCandidatsService.rechercherVlisteAjoutCandidats(nouveauCandidat, page, size));
+		return vListeCandidatsMapper.vListeCandidatsToVListeCandidatsDtos(list);
+
+	}
+
+	@PostMapping(path = "/RechercheCandidatsAjoutNbr")
+	public Integer rechercheCandidatsAjoutNbr(@RequestBody VListeCandidatsDto nouveauCandidat) {
+		return vListeCandidatsService.rechercherAjoutVlisteCandidatsNbr(nouveauCandidat);
 	}
 
 	@PostMapping(path = "/RechercheCandidatARelancer")
@@ -206,7 +222,6 @@ public class CandidatController {
 		response.flushBuffer();
 	}
 
-	
 	@PostMapping(path = "/ajoutCandidat")
 	public Candidat ajoutCandidat(@RequestBody CandidatDto candidatDto, @RequestParam String login,
 			@RequestParam String mime) {
@@ -214,10 +229,11 @@ public class CandidatController {
 		if (creerCv(candidat, login, mime)) {
 			candidat = candidatService.createOrUpdate(candidat);
 		}
-//		String realPath = File.separator + "opt" + File.separator + NAME + File.separator + REPORTING + File.separator
-//				+ login;
-//		File file = new File(realPath + File.separator + candidat.getNomCV());
-//		file.delete();
+		// String realPath = File.separator + "opt" + File.separator + NAME +
+		// File.separator + REPORTING + File.separator
+		// + login;
+		// File file = new File(realPath + File.separator + candidat.getNomCV());
+		// file.delete();
 
 		return candidat;
 	}
@@ -229,13 +245,13 @@ public class CandidatController {
 		try {
 			if (mime.equals("application/msword")) {
 				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".doc", ".pdf"));
-			candidat.setNomCV(candidat.getNomCV().replace(".doc", ".pdf"));	
+				candidat.setNomCV(candidat.getNomCV().replace(".doc", ".pdf"));
 			} else if (mime.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
 				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".docx", ".pdf"));
-				candidat.setNomCV(candidat.getNomCV().replace(".docx", ".pdf"));	
+				candidat.setNomCV(candidat.getNomCV().replace(".docx", ".pdf"));
 			} else {
 				fileInputStream = new FileInputStream(realPath + candidat.getNomCV().replace(".PDF", ".pdf"));
-				candidat.setNomCV(candidat.getNomCV().replace(".PDF", ".pdf"));	
+				candidat.setNomCV(candidat.getNomCV().replace(".PDF", ".pdf"));
 
 			}
 			Document cvAlfresco = AlfrescoOpenCmis.createCv(fileInputStream, genererNomPDF(candidat),
@@ -373,12 +389,12 @@ public class CandidatController {
 		}
 	}
 
-	@GetMapping("/getCandidatByEmail/{email}/")
+	@PostMapping("/getCandidatByEmail/{email}/")
 	public Candidat getCandidatByEmail(@PathVariable String email) {
 		return candidatService.rechercherCandidatParEmail(email);
 	}
 
-	@GetMapping("/getCandidatByNumTel/{numTe}")
+	@PostMapping("/getCandidatByNumTel/{numTe}")
 	public Candidat getCandidatByNumTel(@PathVariable String numTe) {
 		return candidatService.rechercherCandidatParNumTel(numTe);
 	}
@@ -407,12 +423,14 @@ public class CandidatController {
 		Utilisateur connectedUser = utilisateurService.findByLogin(login);
 		Candidat candidat = candidatMapper.candidatDtoToCandidat(candidatDto);
 		dst.add(candidat.getCreePar().getEmail());
+		String content;
 		String objet = "Candidat  Hors cible " + candidat.getNom() + " " + candidat.getPrenom();
-		String content = creeContentEmail(candidat, connectedUser, comMotif);
+		content = creeContentEmail(candidat, connectedUser, comMotif);
 		List<PieceJointe> pjList = new ArrayList<>();
 		eMailApi.setEmailEntretienHorsCible(true);
 		eMailApi.envoyerMail(objet, content, dst, connectedUser.getEmail(), "", "", pjList);
 		eMailApi.setEmailEntretienHorsCible(false);
+
 	}
 
 	@PutMapping(path = "/updateficheEntretien")
@@ -524,7 +542,7 @@ public class CandidatController {
 				+ "</b></span><b><span style=\"font-size: 9.0pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: black; mso-fareast-language: FR\"><br></span><span style=\"font-size: 9.0pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: #646464; mso-fareast-language: FR\"> Chargé de recrutement</span></b><span style=\"font-size: 9.0pt; font-family: &quot;Arial&quot;,&quot;sans-serif&quot;; color: black; mso-fareast-language: FR\"><br><br></span><span style=\"font-size: 9.0pt; color: #646464;\"><a href=\"mailto:"
 				+ connectedUser.getEmail() + "\" onclick=\"return rcmail.command('compose','" + connectedUser.getEmail()
 				+ "',this)\" rel=\"noreferrer\">" + connectedUser.getEmail()
-				+ "</a> - <a href=\"http://www.adaming.fr/\" target=\"_blank\" rel=\"noreferrer\"><span style=\"color: #646464\">www.adaming.fr</span></a><br></span></p><p><a href=\"https://www.facebook.com/Groupe-Adaming-665214133627038/\" target=\"_blank\" rel=\"noreferrer\"><b><span style=\"font-size: 9.0pt; color: blue;\"><img border=\"0\" width=\"22\" height=\"22\" id=\"Image_x0020_3\" src=\"cid:imageFacebook\"; ./?_task=mail&amp;_action=get&amp;></span></b></a><a href=\"https://www.linkedin.com/company/groupe-adaming?trk=company_logo\" target=\"_blank\" rel=\"noreferrer\"><b><span style=\"font-size: 9.0pt; color: blue;\"><img border=\"0\" width=\"22\" height=\"22\" id=\"Image_x0020_2\" src=\"cid:imageLinkedin\"; ./?_task=mail&amp;_action=get&amp;></span></b></a><a href=\"https://twitter.com/Adaming_ESN\" target=\"_blank\" rel=\"noreferrer\"><b><span style=\"font-size: 9.0pt; color: blue;\"><img border=\"0\" width=\"22\" height=\"22\" id=\"Image_x0020_4\" src=\"cid:imagetwitter\"; ./?_task=mail&amp;_action=get&amp;></span></b></a><span style=\"color: #1F497D\"></span></p></body></html>";
+				+ "</a> - <a href=\"http://www.adaming.fr/\" target=\"_blank\" rel=\"noreferrer\"><span style=\"color: #646464\">www.adaming.fr</span></a><br></span></p><p><a href=\"https://www.facebook.com/Groupe-Adaming-665214133627038/\" target=\"_blank\" rel=\"noreferrer\"><b><span style=\"font-size: 9.0pt; color: blue;\"><img border=\"0\" width=\"22\" height=\"22\" id=\"Image_x0020_3\" src=\"cid:imageFacebook\"; ./?_task=mail&amp;_action=get&amp;></span></b></a><a href=\"https://www.linkedin.com/company/groupe-adaming?trk=company_logo\" target=\"_blank\" rel=\"noreferrer\"><b><span style=\"font-size: 9.0pt; color: blue;\"><img border=\"0\" width=\"22\" height=\"22\" id=\"Image_x0020_2\" src=\"cid:imageLinkedin\"; ./?_task=mail&amp;_action=get&amp;></span></b></a><a href=\"https://twitter.com/Adaming_ESN\" target=\"_blank\" rel=\"noreferrer\"><b><span style=\"font-size: 9.0pt; color: blue;\"><img border=\"0\" width=\"22\" height=\"22\" id=\"Image_x0020_4\" src=\"cid:imagetwitter\"; ./?_task=mail&amp;_action=get&amp;></span></b></a><span style=\"color: #1F497D\"></span></p>";
 
 		final String OPEN_TABLE_ROW = "<tr>";
 		final String CLOSE_TABLE_ROW = "</tr>";
@@ -533,6 +551,7 @@ public class CandidatController {
 		final String HEADER_AND_OPEN_BODY_HTML = "<!DOCTYPE html><html><head><style>table {border-collapse: collapse;}table, td, th {border: none;}</style><title> </title></head><body>";
 		// append head html and open body
 		emailContent.append(HEADER_AND_OPEN_BODY_HTML);
+		final String CLOSE_MAIL = "</body></html>";
 
 		// ****table row closed ***//
 
@@ -670,6 +689,7 @@ public class CandidatController {
 		emailContent.append(CLOSE_TABLE);
 		emailContent.append("<br />Cordialement.<br />");
 		emailContent.append(CLOSE_BODY_AND_HTML);
+		emailContent.append(CLOSE_MAIL);
 		return emailContent.toString();
 	}
 

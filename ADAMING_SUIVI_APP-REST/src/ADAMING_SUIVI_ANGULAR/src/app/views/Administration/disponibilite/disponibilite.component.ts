@@ -6,7 +6,7 @@ import { NotifierService } from 'angular-notifier';
 @Component({
   selector: 'app-disponibilite',
   templateUrl: './disponibilite.component.html',
-  styleUrls: ['./disponibilite.component.scss']
+  styleUrls: ['./disponibilite.component.css']
 })
 export class DisponibiliteComponent implements OnInit {
 

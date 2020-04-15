@@ -1,3 +1,16 @@
+<div *ngIf="pages.length > 0">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Candidats Trouvés
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+
 <div class="card">
 
     <div class="card-header">
@@ -11,8 +24,8 @@
                     <div class="form-check form-check-inline mr-1">
                         <label style="margin:0 20px">Tous Candidats </label>
                         <label class="label--checkbox">
-                            <input (change)="parent.initTableFunction()" class="checkbox" type="checkbox"
-                                [(ngModel)]="allValue" name="allValue" id="allValue ">
+                            <input (change)="parent.initTableFunction()" class="checkbox" type="checkbox" [(ngModel)]="allValue"
+                                name="allValue" id="allValue ">
                         </label>
                     </div>
                 </div>
@@ -23,10 +36,9 @@
                         <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                             Colonnes <span class="caret"></span>
                         </button>
-                        <ul (click)="$event.stopPropagation()" class="light" *dropdownMenu class="dropdown-menu"
-                            role="menu">
-                            <li style="height: 30px" rolfe="menuitem" *ngFor="let col of columns"> <a
-                                    style="padding: 0px ;height: 35px" class="dropdown-item">
+                        <ul (click)="$event.stopPropagation()" class="light" *dropdownMenu class="dropdown-menu" role="menu">
+                            <li style="height: 30px" role="menuitem" *ngFor="let col of columns"> <a style="padding: 0px ;height: 35px"
+                                    class="dropdown-item">
                                     <label class="label--checkbox">
                                         <input class="checkbox" [(ngModel)]="col.visible" type="checkbox" />
                                     </label>
@@ -49,138 +61,23 @@
         <table class="table  table-striped">
             <thead>
                 <tr>
-                    <th [ngStyle]="{'width': (col.width!=undefined) ? col.width :'' }" [hidden]="!col.visible"
-                        *ngFor="let col of columns ;let index = index;trackBy:trackByIndex;">
-                        {{col.title }}
-
-                    </th>
+                    <th [ngStyle]="{'width': (col.width!=undefined) ? col.width :'' }" [hidden]="!col.visible" *ngFor="let col of columns">
+                        {{col.title }}</th>
                     <th [hidden]="actions==null ||!actions.visible" *ngIf="actions!=null && actions.items.length >0"
-                        [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">
-                        {{actions.title}}</th>
-                </tr>
-                <tr>
-                    <th [ngStyle]="{'width': (columns[0].width!=undefined) ? columns[0].width :'' }"
-                        [hidden]="!columns[0].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" type="text" class="form-control" id="nom"
-                                name="nom" [(ngModel)]="item2.nom" (input)="search()"></div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[1].width!=undefined) ? columns[1].width :'' }"
-                        [hidden]="!columns[1].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" type="text" class="form-control" id="prenom"
-                                name="prenom" [(ngModel)]="item2.prenom" (input)="search()"></div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[2].width!=undefined) ? columns[2].width :'' }"
-                        [hidden]="!columns[2].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" type="text" class="form-control" id="email"
-                                name="email" [(ngModel)]="item2.email" (input)="search3()"></div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[3].width!=undefined) ? columns[3].width :'' }"
-                        [hidden]="!columns[3].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dateInscription"
-                                [owlDateTime]="dateInscription" class="form-control" name="dateInscription"
-                                id="dateInscription" [ngModel]="item2.dateInscription"
-                                (ngModelChange)="searchingDateInscription($event)">
-                            <owl-date-time [pickerType]="'calendar'" #dateInscription></owl-date-time>
-                        </div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[4].width!=undefined) ? columns[4].width :'' }"
-                        [hidden]="!columns[4].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" type="text" class="form-control"
-                                id="numeroTel" name="numeroTel" [(ngModel)]="item2.numeroTel" (input)="search8()"></div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[5].width!=undefined) ? columns[5].width :'' }"
-                        [hidden]="!columns[5].visible">
-
-                    </th>
-                    <th [ngStyle]="{'width': (columns[6].width!=undefined) ? columns[6].width :'' }"
-                        [hidden]="!columns[6].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dateEntretien"
-                                [owlDateTime]="dateEntretien" class="form-control" name="dateEntretien"
-                                (ngModelChange)="searchingDateEntretien($event)" [ngModel]="item2.dateEntretien"
-                                id="dateEntretien">
-                            <owl-date-time [pickerType]="'calendar'" #dateEntretien></owl-date-time>
-                        </div>
-                    </th>
-                    <th [ngStyle]="{'width': (columns[7].width!=undefined) ? columns[7].width :'' }"
-                        [hidden]="!columns[7].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" type="text" class="form-control"
-                                id="lieuEntretien" name="lieuEntretien" [(ngModel)]="item2.lieuEntretien"
-                                (input)="search2()"></div>
-                    </th>
-                    <td
-                        [hidden]="!columns[8].visible">
-                        <div class="form-group">
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
-                                [compareWith]="helperService.compareFn" (ngModelChange)="search4($event)"
-                                [ngModel]="item2.charge" name="charge">
-                                <ng-option *ngFor="let codeP of listecharges " [value]="codeP.nom + ' '+ codeP.prenom">
-                                    {{codeP.nom}}
-                                    {{codeP.prenom}}</ng-option>
-                            </ng-select>
-                        </div>
-                    </td>
-                    <td
-                        [hidden]="!columns[9].visible">
-                        <div class="form-group">
-
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
-                                bindValue="libelle" bindLabel="libelle" [items]="listemobilite"
-                                [compareWith]="helperService.compareFn" name="mobilite" [ngModel]="item2.mobilite"
-                                (ngModelChange)="mobilitesearching($event)">
-                            </ng-select>
-                        </div>
-                    </td>
-                    <td
-                        [hidden]="!columns[10].visible">
-                        <div class="form-group">
-                            <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
-                                bindValue="libelle" bindLabel="libelle" [items]="statuts"
-                                [compareWith]="helperService.compareFn" name="statut" [ngModel]="item2.statut"
-                                (ngModelChange)="search5($event)">
-                            </ng-select>
-
-
-
-                        </div>
-                    </td>
-                    <th [ngStyle]="{'width': (columns[11].width!=undefined) ? columns[11].width :'' }"
-                        [hidden]="!columns[11].visible">
-
-                    </th>
-                    <th [ngStyle]="{'width': (columns[12].width!=undefined) ? columns[12].width :'' }"
-                        [hidden]="!columns[12].visible">
-                        <div class="form-group">
-                            <input style="font-weight: bold;color: black;" type="text" class="form-control"
-                                id="noteTotale" name="noteTotale" [(ngModel)]="item2.noteTotale" (input)="search10()">
-                        </div>
-                    </th>
-
+                        [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">{{actions.title}}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let c of items| paginate: { itemsPerPage:10, currentPage: p }">
                     <td [hidden]="!col.visible" *ngFor="let col of columns">
-
-                        <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered"
-                            [ngStyle]="{'text-align': (col.align!=undefined) ? col.align :'' }">
-
-                            <div *ngIf="col.boolean==null; else noBoolean">
-                                <div *ngIf="col.mask==undefined; else maskDiv">
-                                    <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
-                                        {{c[col.data] | date : col.dateFormat }}
-                                    </div>
-                                    <ng-template #noDateDiv> {{c[col.data] }}</ng-template>
+                        <div *ngIf="col.rendered==null || col.rendered==undefined; else rendered" [ngStyle]="{'text-align': (col.align!=undefined) ? col.align :'' }">
+                            <div *ngIf="col.mask==undefined; else maskDiv">
+                                <div *ngIf="col.dateFormat!=undefined; else noDateDiv">
+                                    {{c[col.data] | date : col.dateFormat }}
                                 </div>
-                                <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
+                                <ng-template #noDateDiv> {{c[col.data] }}</ng-template>
                             </div>
-                            <ng-template #noBoolean> {{c[col.data] | boolean}} </ng-template>
+                            <ng-template #maskDiv> {{c[col.data] | mask : col.mask }} </ng-template>
                         </div>
                         <ng-template #rendered>
                             <div *ngIf="col.html==true; else noHtml" [innerHTML]="col.rendered(c)"></div>
@@ -192,17 +89,14 @@
 
                     <td [hidden]="actions==null ||!actions.visible" *ngIf="actions!=null && actions.items.length >0"
                         [ngStyle]="{ 'width' :( actions.items.length>1)  ? (actions.items.length*45)+'px' : '70px'}">
-                        <button style="margin-left: 3px" placement="top"
-                            [tooltip]="action.tooltip==undefined ?'':action.tooltip"
-                            *ngFor="let action of actions.items" type="button" (click)="action.action(c)"
-                            [class]="action.class">
+                        <button style="margin-left: 3px" placement="top" [tooltip]="action.tooltip==undefined ?'':action.tooltip"
+                            *ngFor="let action of actions.items" type="button" (click)="action.action(c)" [class]="action.class">
                             <i [class]="action.icon"></i>
                         </button>
                     </td>
                 </tr>
             </tbody>
         </table>
-
         <div class="panel-footer panel-default pager">
             <ul class="pagination justify-content-center">
                 <li [class.disabled]="1==currentPage" class="page-item">
@@ -224,4 +118,5 @@
         </div>
     </div>
     <!--<ngx-loading [show]="loading" [config]=""></ngx-loading>-->
+</div>
 </div>

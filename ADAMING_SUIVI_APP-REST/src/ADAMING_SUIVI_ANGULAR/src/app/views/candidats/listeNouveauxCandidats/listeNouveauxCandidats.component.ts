@@ -133,6 +133,8 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.notifierService.getConfig().behaviour.autoHide=800;
+
     if (this.routingState.getPreviousUrl().indexOf('details') > -1)
       this.condidat = this.helperService.listNouveauxCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
@@ -169,7 +171,7 @@ export class listeNouveauxCandidatsComponent implements OnInit, OnDestroy {
         this.notifierService.notify("error", "Le champ de saisi « Prenom » est invalide")
       }
       else {
-        let callBack = (e) => {
+        let callBack =  (e) => {
           this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
         }
         this.table.setPage(1, callBack);

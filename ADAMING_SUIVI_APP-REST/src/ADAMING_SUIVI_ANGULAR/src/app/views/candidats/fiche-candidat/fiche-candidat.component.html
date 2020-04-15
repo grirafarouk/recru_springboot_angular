@@ -298,11 +298,10 @@
               <div class="row">
                 <div class="col-6">
                   <div class="form-group">
-                    <label for="disponiblite">Disponible</label>
+                    <label for="disponiblite">Disponibilité</label>
                     <label style="color: firebrick">*</label>
-                    <ng-select placeholder="--Sélectionner--" style="font-weight: bold;color: black;"
-                      bindLabel="libelle" [items]="disponibles" [(ngModel)]="currentCandidat.entretien.disponible"
-                      name="disponiblite" id="disponiblite">
+                    <ng-select  style="font-weight: bold;color: black;" placeholder="--Sélectionner--" bindLabel="libelle" bindValue="id" [items]="disponibles"
+                      [(ngModel)]="currentCandidat.entretien.disponible.id" name="disponiblite" id="disponiblite">
                     </ng-select>
                   </div>
                 </div>
@@ -315,12 +314,14 @@
                     <div class="col-7 col-form-label">
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="relance" (change)="relanceHandleChange($event)"
+                          [disabled]="currentCandidat.entretien.disponible.id==0"
                           [(ngModel)]="currentCandidat.entretien.relance" type="radio" id="inline-checkbox5"
                           [value]="true">
                         <label class="form-check-label" for="inline-checkbox5">Oui</label>
                       </div>
                       <div class="form-check form-check-inline">
                         <input class="form-check-input" name="relance" (change)="relanceHandleChange($event)"
+                          [disabled]="currentCandidat.entretien.disponible.id==0"
                           [(ngModel)]="currentCandidat.entretien.relance" type="radio" id="inline-checkbox6"
                           [value]="false">
                         <label class="form-check-label" for="inline-checkbox6">Non</label>
@@ -334,7 +335,8 @@
                   <div class="form-group">
                     <label for="entretienDate">Date entretien</label>
                     <label style="color: firebrick" *ngIf="verifie()">*</label>
-                    <input style="font-weight: bold;color: black;" [disabled]="currentCandidat.entretien.relance==true"
+                    <input style="font-weight: bold;color: black;"
+                      [disabled]="currentCandidat.entretien.relance==true || currentCandidat.entretien.disponible.id==2 || currentCandidat.entretien.disponible.id==3 || currentCandidat.entretien.disponible.id==5 || currentCandidat.entretien.disponible.id==6 || currentCandidat.entretien.disponible.id==7"
                       [min]="minRelance" [owlDateTimeTrigger]="dtentretienDate" [owlDateTime]="dtentretienDate"
                       class="form-control" name="entretienDate" [(ngModel)]="currentCandidat.entretien.date"
                       id="entretienDate">
@@ -347,9 +349,10 @@
                   <div class="form-group">
                     <label for="entretienDateRelance">Date Relance</label>
                     <label style="color: firebrick" *ngIf="verifie2()">*</label>
-                    <input [disabled]="currentCandidat.entretien.relance==false" [min]="minRelance"
-                      style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dt" [owlDateTime]="dt"
-                      class="form-control" name="entretienDateRelance"
+                    <input
+                      [disabled]="currentCandidat.entretien.relance==false || currentCandidat.entretien.disponible.id==0"
+                      [min]="minRelance" style="font-weight: bold;color: black;" [owlDateTimeTrigger]="dt"
+                      [owlDateTime]="dt" class="form-control" name="entretienDateRelance"
                       [(ngModel)]="currentCandidat.entretien.dateRelance" id="entretienDateRelance">
                     <owl-date-time [pickerType]="'calendar'" #dt></owl-date-time>
                   </div>
@@ -361,7 +364,8 @@
                     <label for="timeEntretien">Heure entretien</label>
 
                     <label style="color: firebrick" *ngIf="verifie()">*</label>
-                    <input style="font-weight: bold;color: black;" [disabled]="currentCandidat.entretien.relance==true"
+                    <input style="font-weight: bold;color: black;"
+                      [disabled]="currentCandidat.entretien.relance==true || currentCandidat.entretien.disponible.id==2 || currentCandidat.entretien.disponible.id==3 || currentCandidat.entretien.disponible.id==5 || currentCandidat.entretien.disponible.id==6 || currentCandidat.entretien.disponible.id==7"
                       [owlDateTimeFilter]="entretienHeureFilter" class="form-control" placeholder="Heure entretien"
                       [(ngModel)]="timeEntretien" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2">
                     <owl-date-time (afterPickerClosed)="afterHeurePickerClosed()" [pickerType]="'timer'" #dt2>
@@ -397,9 +401,9 @@
                     <label for="entretienLieu">Lieu entretien</label>
                     <label style="color: firebrick" *ngIf="verifie()">*</label>
                     <ng-select style="font-weight: bold;color: black;" placeholder="--Sélectionner--"
-                      [disabled]="currentCandidat.entretien.relance==true" bindLabel="libelle" [items]="lieux"
-                      [compareWith]="helperService.compareFn" [(ngModel)]="currentCandidat.entretien.lieu"
-                      name="entretienLieu" id="entretienLieu">
+                      [disabled]="currentCandidat.entretien.relance==true || currentCandidat.entretien.disponible.id==2 || currentCandidat.entretien.disponible.id==3 || currentCandidat.entretien.disponible.id==5 || currentCandidat.entretien.disponible.id==6 || currentCandidat.entretien.disponible.id==7"
+                      bindLabel="libelle" [items]="lieux" [compareWith]="helperService.compareFn"
+                      [(ngModel)]="currentCandidat.entretien.lieu" name="entretienLieu" id="entretienLieu">
                     </ng-select>
                   </div>
                 </div>
@@ -442,6 +446,7 @@
                 [disabled]="currentCandidat.entretien.date==null || currentCandidat.entretien.date > minRelance"
                 class="btn btn-block btn-success">Evaluer Candidat</button>
             </div>
+
             <div style="padding-left: 5px">
               <button type="button" (click)="sauvgarderFicheRedirtect()"
                 class="btn btn-block btn-success">Sauvegarder</button>

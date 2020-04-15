@@ -190,6 +190,8 @@ export class listeEntretienComponent implements OnInit {
     private lieuxService: LieuxService, private statutservice: StatutService, private utilisateurService: UtilisateurService) { }
 
   ngOnInit(): void {
+    this.notifierService.getConfig().behaviour.autoHide=800;
+
     this.technologiesService.findAllTechnologies().subscribe(data => {
       this.technologies = data;
     })

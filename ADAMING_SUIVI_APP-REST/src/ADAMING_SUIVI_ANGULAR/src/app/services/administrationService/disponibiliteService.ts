@@ -40,7 +40,9 @@ export class disponibiliteService {
     };
     return this.httpClient.post(BACK_END_URL + "/disponibilite/update", Disponibilite, httpOptions);
   }
-
+  finddisponibiliteById(id: number): Observable<any> {
+    return this.httpClient.get<any>(BACK_END_URL + "/disponibilite/id/" + id)
+  }
   delete(item): Observable<any> {
     return this.httpClient.delete(BACK_END_URL + "/disponibilite/" + item.id);
   }

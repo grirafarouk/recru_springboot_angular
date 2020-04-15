@@ -33,7 +33,7 @@ export class CandidatsService {
     private utilisateurService: UtilisateurService, private http: Http) {
   }
   folders = []
-  
+ 
 
 
   public create(candidate: Candidate, mime): Observable<any> {
@@ -78,7 +78,7 @@ export class CandidatsService {
       }
       return data;
     }))
-
+  
   }
   public deletewordfile(fileBase): Observable<any> {
     const httpOptions = {
@@ -125,7 +125,7 @@ export class CandidatsService {
   }
 
   public getCandidatByEmail(email): Observable<any> {
-    return this.httpClient.get(BACK_END_URL + "/getCandidatByEmail/" + email + "/")
+    return this.httpClient.post(BACK_END_URL + "/getCandidatByEmail/" + email + "/", httpOptions)
 
   }
 
@@ -157,8 +157,8 @@ export class CandidatsService {
     return this.httpClient.get(BACK_END_URL + "/getCandidatByEmail/" + email);
   }
 
-  public getCandidatByNumTel(numTel: String): Observable<Candidate> {
-    return this.httpClient.get<Candidate>(BACK_END_URL + "/getCandidatByNumTel/" + numTel)
+  public getCandidatByNumTel(numTel: String): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/getCandidatByNumTel/" + numTel, httpOptions)
   }
 
   public getListNomCvs(): Observable<any> {
@@ -188,7 +188,13 @@ export class CandidatsService {
     return this.httpClient.post(BACK_END_URL + "/RechercheNouveauxcandidatsNbr", candidat, httpOptions);
   }
 
+  public rechercheAjoutcandidats(candidat, page, size): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsAjout" + "?page=" + page + "&size=" + size, candidat, httpOptions);
+  }
 
+  public rechercheAjoutcandidatsNbr(candidat): Observable<any> {
+    return this.httpClient.post(BACK_END_URL + "/RechercheCandidatsAjoutNbr", candidat, httpOptions);
+  }
   public rechercheCandidatArelancerNbr(candidat): Observable<any> {
     return this.httpClient.post(BACK_END_URL + "/RechercheCandidatARelancerNbr", candidat, httpOptions);
   }

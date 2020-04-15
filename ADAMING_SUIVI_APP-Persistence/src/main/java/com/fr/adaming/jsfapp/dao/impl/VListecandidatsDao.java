@@ -56,7 +56,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 	@Override
 	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto vListeCandidatsDto, int page,
-			int size, Boolean all) {
+		int size, Boolean all) {
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
 		query = generateEntretienConditionQuery(vListeCandidatsDto, all, query);
 		query += " ORDER BY V_ListeCandidats.DATE_ENTRETIEN DESC  LIMIT :page ,:size";
@@ -97,18 +97,11 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		}
 
 		if ((vListeCandidatsDto.getDateEntretien() != null) && (vListeCandidatsDto != null)) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(vListeCandidatsDto.getDateEntretien());
-			c.add(Calendar.DATE, 1);
-			query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='" + sdf.format(c.getTime()) + "'";
+			query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='" + sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
+
 		}
 
-		if (vListeCandidatsDto.getDateInscription() != null && vListeCandidatsDto != null) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(vListeCandidatsDto.getDateInscription());
-			c.add(Calendar.DATE, 1);
-			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='" + sdf.format(c.getTime()) + "'";
-		}
+		
 
 		if (isNullOrEmptyString(vListeCandidatsDto.getLieuEntretien())) {
 			query = query + LISTE_CANDIDAT_LIEU + vListeCandidatsDto.getLieuEntretien() + "%'";
@@ -164,7 +157,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	@Override
 	public Integer rechercherVlisteCandidatsARelancerNbr(VListeCandidatsDto NCD) {
 		String query = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.RELANCER=1 ";
-		
+
 		query = generetaeARelancerConditionQuery(NCD, query);
 		SQLQuery st = getSession().createSQLQuery(query);
 		return ((BigInteger) st.uniqueResult()).intValue();
@@ -176,7 +169,8 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 		String query = "SELECT * FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		if (vListeCandidatsDto.getDateInscription() != null && vListeCandidatsDto != null) {
-			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+					+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
 		}
 		query = generateConditionQuery(vListeCandidatsDto, query);
 
@@ -221,7 +215,8 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	public Integer rechercherVlisteNouveauxCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
 		String query = "SELECT count(*) FROM V_ListeCandidats WHERE V_ListeCandidats.STATUT='Vide'  AND V_ListeCandidats.DISPONIBILITE IS NULL AND V_ListeCandidats.RELANCER IS NULL AND V_ListeCandidats.DATE_RELANCE IS NULL AND V_ListeCandidats.DATE_ENTRETIEN IS NULL AND V_ListeCandidats.LIEU_ENTRETIEN IS NULL AND V_ListeCandidats.COMMENTAIRE IS NULL AND V_ListeCandidats.CONFIRMATION_RDV IS NULL ";
 		if (vListeCandidatsDto.getDateInscription() != null && vListeCandidatsDto != null) {
-			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='" + sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
+					+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
 		}
 		query = generateConditionQuery(vListeCandidatsDto, query);
 
@@ -238,9 +233,10 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 					Calendar calendar = Calendar.getInstance();
 					calendar.add(Calendar.MONTH, -1);
 					Date date = calendar.getTime();
-					calendar.add(Calendar.MONTH, -6);
+					calendar.add(Calendar.MONTH, -5);
 					Date toDate = calendar.getTime();
-					query = query + AND_DUP + sdf.format(toDate) + AND_REQ + sdf.format(date) + "'";
+					query = query + " AND V_ListeCandidats.DATE_INSCRIPTION <='" + sdf.format(date)
+							+ "' AND V_ListeCandidats.DATE_INSCRIPTION >'" + sdf.format(toDate) + "'";
 
 				} else if (vListeCandidatsDto.getCritereRecheche().equals("3")) {
 					Calendar calendar = Calendar.getInstance();
@@ -314,7 +310,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 				Date date = calendar.getTime();
 				calendar.add(Calendar.MONTH, -6);
 				Date toDate = calendar.getTime();
-				query = query + AND_DUP + sdf.format(toDate) + AND_REQ + sdf.format(date) + "'";
+				query = query + AND_DUP + sdf.format(date) + AND_REQ + sdf.format(toDate) + "'";
 
 			} else if (vListeCandidatsDto.getCritereRecheche().equals("3")) {
 				Calendar calendar = Calendar.getInstance();
@@ -366,10 +362,8 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 	public Integer rechercherVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
 		String query = "SELECT count(*) FROM V_ListeCandidats WHERE 1=1 ";
 		if (vListeCandidatsDto.getDateInscription() != null && vListeCandidatsDto != null) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(vListeCandidatsDto.getDateInscription());
-			c.add(Calendar.DATE, 1);
-			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='" + sdf.format(c.getTime()) + "'";
+			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='" + sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
+
 		}
 		query = generateConditionQuery(vListeCandidatsDto, query);
 		SQLQuery st = getSession().createSQLQuery(query);
@@ -378,13 +372,10 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 	@Override
 	public List<VListeCandidats> rechercherVlisteCandidats(VListeCandidatsDto vListeCandidatsDto, int page, int size) {
-      
+
 		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1 ";
 		if (vListeCandidatsDto.getDateInscription() != null && vListeCandidatsDto != null) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(vListeCandidatsDto.getDateInscription());
-			c.add(Calendar.DATE, 1);
-			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='" + sdf.format(c.getTime()) + "'";
+			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='" + sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
 		}
 		query = generateConditionQuery(vListeCandidatsDto, query);
 		query += LIMIT_PAGINATION;
@@ -415,8 +406,7 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 		if (isNullOrEmptyString(vListeCandidatsDto.getStatut())) {
 			query = query + "AND V_ListeCandidats.STATUT LIKE '%" + vListeCandidatsDto.getStatut() + "%'";
-		}	
-		
+		}
 
 		if ((vListeCandidatsDto.getDateRelance() != null) && (vListeCandidatsDto != null)) {
 			query = query + " AND DATE(V_ListeCandidats.DATE_RELANCE) ='"
@@ -427,10 +417,9 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 		}
 
 		if ((vListeCandidatsDto.getDateEntretien() != null) && (vListeCandidatsDto != null)) {
-			Calendar c = Calendar.getInstance();
-			c.setTime(vListeCandidatsDto.getDateEntretien());
-			c.add(Calendar.DATE, 1);
-			query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='" + sdf.format(c.getTime()) + "'";
+			query = query + " AND DATE(V_ListeCandidats.DATE_ENTRETIEN) ='" + sdf.format(vListeCandidatsDto.getDateEntretien()) + "'";
+
+
 		}
 		if (isNullOrEmptyString(vListeCandidatsDto.getSource())) {
 			query = query + "AND V_ListeCandidats.SOURCE LIKE '%" + vListeCandidatsDto.getSource() + "%'";
@@ -522,8 +511,6 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 			query = query + " AND DATE(V_ListeCandidats.DATE_INSCRIPTION) ='"
 					+ sdf.format(vListeCandidatsDto.getDateInscription()) + "'";
 		}
-
-		
 
 		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getTechnologie())) {
 			query = query + "AND V_ListeCandidats.TECHNOLOGIE LIKE '%" + vListeCandidatsDto.getTechnologie() + "%'";
@@ -709,6 +696,59 @@ public class VListecandidatsDao extends ManagerDao<VListeCandidats, Long> implem
 
 	public boolean isNullOrEmptyBetweenDate(Date d1, Date d2) {
 		return d1 != null && d2 != null;
+	}
+
+	@Override
+	public List<VListeCandidats> rechercherVlisteAjoutCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
+			int size) {
+		String query = "SELECT * FROM V_ListeCandidats WHERE 1=1";
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNom())) {
+			query = query + " AND V_ListeCandidats.NOM_CANDIDAT = '" + vListeCandidatsDto.getNom() + "'";
+		}
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenom())) {
+			query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT = '" + vListeCandidatsDto.getPrenom() + "'";
+		}
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNumeroTel())) {
+			query = query + " OR V_ListeCandidats.NUMERO_TEL_CANDIDAT = '" + vListeCandidatsDto.getNumeroTel() + "'";
+		}
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getEmail())) {
+			query = query + " OR V_ListeCandidats.EMAIL_CANDIDAT = '" + vListeCandidatsDto.getEmail() + "'";
+		}
+		query += LIMIT_PAGINATION;
+		SQLQuery st = (SQLQuery) getSession().createSQLQuery(query).setParameter("page", page).setParameter("size",
+				size);
+		@SuppressWarnings("unchecked")
+		List<VListeCandidats> liste = (List<VListeCandidats>) st.addEntity(VListeCandidats.class).list();
+
+		return liste;
+	}
+
+	@Override
+	public Integer rechercherAjoutVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
+		// TODO Auto-generated method stub
+		String query = "SELECT count(*) FROM V_ListeCandidats WHERE 1=1 ";
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNom())) {
+			query = query + " AND V_ListeCandidats.NOM_CANDIDAT = '" + vListeCandidatsDto.getNom() + "'";
+		}
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getPrenom())) {
+			query = query + " AND V_ListeCandidats.PRENOM_CANDIDAT = '" + vListeCandidatsDto.getPrenom() + "'";
+		}
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getNumeroTel())) {
+			query = query + " OR V_ListeCandidats.NUMERO_TEL_CANDIDAT = '" + vListeCandidatsDto.getNumeroTel() + "'";
+		}
+
+		if (isNullOrEmptyStringForSearchCandidat(vListeCandidatsDto, vListeCandidatsDto.getEmail())) {
+			query = query + " OR V_ListeCandidats.EMAIL_CANDIDAT = '" + vListeCandidatsDto.getEmail() + "'";
+		}
+		SQLQuery st = getSession().createSQLQuery(query);
+		return ((BigInteger) st.uniqueResult()).intValue();
 	}
 
 }

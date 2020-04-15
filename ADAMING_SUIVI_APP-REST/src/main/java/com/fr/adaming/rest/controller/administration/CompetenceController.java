@@ -98,6 +98,7 @@ public class CompetenceController {
 		competenceService.deleteById(id);
 	}
 
+
 	@GetMapping(value = "/libelle/{libelle}")
 	public Competence findByLibelle(@PathVariable String libelle) {
 		return competenceService.findByLibelle(libelle);

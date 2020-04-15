@@ -9,11 +9,11 @@ import com.fr.adaming.jsfapp.model.VListeCandidats;
 
 public interface IvListeCandidatsDao extends IManagerDao<VListeCandidats, Long> {
 
-	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto vListeCandidatsDto, int page, int size,
-			Boolean all);
+	public List<VListeCandidats> rechercherCandidatAvecEntretien(VListeCandidatsDto vListeCandidatsDto, int page,
+			int size, Boolean all);
 
 	public Integer rechercherCandidatAvecEntretienNbr(VListeCandidatsDto vListeCandidatsDto, Boolean all);
-	
+
 	public List<VListeCandidats> rechercherVlisteCandidatsARelancer(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size);
 
@@ -23,8 +23,14 @@ public interface IvListeCandidatsDao extends IManagerDao<VListeCandidats, Long> 
 
 	public Integer rechercherVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto);
 
+	public List<VListeCandidats> rechercherVlisteAjoutCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
+			int size);
+
+	public Integer rechercherAjoutVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto);
+
 	public List<VListeCandidats> rechercherVlisteNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
 			int size);
+
 	List<VListeCandidats> rechercherNouveauxCandidats(VListeCandidatsDto vListeCandidatsDto);
 
 	public Integer rechercherVlisteNouveauxCandidatsNbr(VListeCandidatsDto vListeCandidatsDto);

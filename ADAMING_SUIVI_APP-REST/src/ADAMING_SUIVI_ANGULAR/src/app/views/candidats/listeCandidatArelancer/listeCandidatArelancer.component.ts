@@ -136,7 +136,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   verif_existance_code_region: boolean;
   tester_perfermance: boolean;
   valeur_des_region_en_retour: Array<string> = [];
-  dateaujourduit:Date;
+  dateaujourduit: Date;
   constructor(
     private router: Router,
     private candidatsService: CandidatsService,
@@ -150,6 +150,8 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.notifierService.getConfig().behaviour.autoHide=800;
+
     if (this.routingState.getPreviousUrl().indexOf('details') > -1)
       this.condidat = this.helperService.listRelanceCandidatRecherche;
     this.technologiesService.findAllTechnologies().subscribe(data => {
@@ -165,7 +167,7 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
     this.utilisateurService.getAllChages().subscribe(data => {
       this.listCarge = data
     })
-    this.dateaujourduit=new Date();
+    this.dateaujourduit = new Date();
     console.log(this.dateaujourduit)
   }
   ngOnDestroy(): void {
@@ -189,13 +191,13 @@ export class listeCandidatArelancerComponent implements OnInit, OnDestroy {
       this.condidat.chargeur = null
     if (this.condidat.nomSourceur == null)
       this.condidat.sourceur = null
-   
 
-        let callBack = (e) => {
-          this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
-        }
-        this.table.setPage(1, callBack);
-  
+
+    let callBack = (e) => {
+      this.notifierService.notify("info", "Nombre Candidat : " + this.table.maxlenght)
+    }
+    this.table.setPage(1, callBack);
+
   }
 
   initTableFunction() {

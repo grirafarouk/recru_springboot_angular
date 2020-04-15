@@ -79,6 +79,19 @@ public class VListeCandidatsService extends ManagerService<VListeCandidats, Long
 		return vListeCandidatsDao.rechercherCandidatAvecEntretienNbr(vListeCandidatsDto, all);
 	}
 
+	@Override
+	public List<VListeCandidats> rechercherVlisteAjoutCandidats(VListeCandidatsDto vListeCandidatsDto, int page,
+			int size) {
+		// TODO Auto-generated method stub
+		return  vListeCandidatsDao.rechercherVlisteAjoutCandidats(vListeCandidatsDto, page, size);
+	}
+
+	@Override
+	public Integer rechercherAjoutVlisteCandidatsNbr(VListeCandidatsDto vListeCandidatsDto) {
+		// TODO Auto-generated method stub
+		return  vListeCandidatsDao.rechercherAjoutVlisteCandidatsNbr(vListeCandidatsDto);
+	}
+
 	
 
 }

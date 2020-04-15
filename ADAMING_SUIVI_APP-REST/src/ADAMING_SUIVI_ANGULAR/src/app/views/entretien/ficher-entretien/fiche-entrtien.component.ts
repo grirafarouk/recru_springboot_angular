@@ -38,7 +38,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from
 @Component({
   selector: 'app-fiche-entrtien',
   templateUrl: './fiche-entrtien.component.html',
-  styleUrls: ['./fiche-entrtien.component.scss']
+  styleUrls: ['./fiche-entrtien.component.css']
 
 })
 export class FicheEntrtienComponent implements OnInit {
@@ -94,6 +94,7 @@ export class FicheEntrtienComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.notifierService.getConfig().behaviour.autoHide = 3000;
     let role = this.userService.getConnetedUserInfo().profil.libelle;
     this.enableSave = role == USER_ROLE.ADMINISTRATEUR || role == USER_ROLE.CHARGE || role == USER_ROLE.DIRECTION
 
@@ -145,6 +146,11 @@ export class FicheEntrtienComponent implements OnInit {
         element.dateFin = new Date(element.dateFin)
       });
       this.sessionFormations = data;
+      this.sessionFormations.filter(element=>{
+
+
+        return element.fActif==true
+      })
     })
 
     this.competencesService.findAllCompetences().subscribe(data => {

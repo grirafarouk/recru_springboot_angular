@@ -32,7 +32,7 @@ declare var jQuery: any;
 @Component({
   selector: 'app-fiche-reporting',
   templateUrl: './fiche-reporting.component.html',
-  styleUrls: ['./fiche-reporting.component.scss']
+  styleUrls: ['./fiche-reporting.component.css']
 
 })
 export class FicheReportingComponent implements OnInit {
